@@ -1,0 +1,6286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Athlete360 | Team Profile</title>
+
+    <style>
+        /* =========================================================
+           ATHLETE360
+           TEAM PROFILE
+           Dark / Grey / Light Blue / Green
+           ========================================================= */
+
+        :root {
+            --bg: #080b10;
+            --bg-soft: #0d1118;
+            --panel: #11161f;
+            --panel-2: #151b24;
+            --panel-3: #1a212c;
+
+            --border: rgba(255,255,255,0.08);
+            --border-strong: rgba(255,255,255,0.13);
+
+            --text: #f4f7fb;
+            --muted: #8d99aa;
+            --muted-2: #657183;
+
+            --blue: #55b8ff;
+            --blue-dark: #1674b8;
+            --green: #35d07f;
+            --green-dark: #15804b;
+            --orange: #ffb84d;
+            --red: #ff5f6d;
+            --purple: #a88cff;
+
+            --sidebar-width: 250px;
+            --topbar-height: 76px;
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+
+            --shadow: 0 18px 50px rgba(0,0,0,0.28);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(39, 137, 207, 0.08),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================================================
+           APP LAYOUT
+           ========================================================= */
+
+        .app {
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: var(--sidebar-width);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #0d1118 0%,
+                    #090c11 100%
+                );
+
+            border-right: 1px solid var(--border);
+
+            display: flex;
+            flex-direction: column;
+
+            z-index: 1000;
+        }
+
+        .brand {
+            height: var(--topbar-height);
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 22px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+            color: #071016;
+            font-weight: 900;
+
+            box-shadow:
+                0 8px 25px rgba(85,184,255,0.15);
+        }
+
+        .brand-text {
+            margin-left: 11px;
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-sub {
+            font-size: 10px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-top: 2px;
+        }
+
+        .nav {
+            flex: 1;
+            padding: 18px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 22px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: var(--muted-2);
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            min-height: 43px;
+
+            padding: 9px 12px;
+
+            margin-bottom: 4px;
+
+            border-radius: 9px;
+
+            color: #aab4c2;
+
+            transition:
+                background 0.18s ease,
+                color 0.18s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.045);
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(85,184,255,0.13),
+                    rgba(53,208,127,0.05)
+                );
+
+            color: var(--text);
+
+            border-left: 3px solid var(--blue);
+            padding-left: 9px;
+        }
+
+        .nav-icon {
+            width: 21px;
+            height: 21px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #8491a2;
+        }
+
+        .nav-link.active .nav-icon {
+            color: var(--blue);
+        }
+
+        .sidebar-footer {
+            padding: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .user-mini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 10px;
+
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.025);
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #263342,
+                    #18212c
+                );
+
+            border: 1px solid var(--border-strong);
+
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 12px;
+
+            flex-shrink: 0;
+        }
+
+        .user-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: 700;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .user-role {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .logout-btn {
+            border: 0;
+            background: transparent;
+            color: var(--muted);
+            padding: 6px;
+        }
+
+        .logout-btn:hover {
+            color: var(--red);
+        }
+
+        /* =========================================================
+           MAIN
+           ========================================================= */
+
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: var(--topbar-height);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 900;
+
+            background:
+                rgba(8,11,16,0.9);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .mobile-menu {
+            display: none;
+
+            width: 38px;
+            height: 38px;
+
+            border: 1px solid var(--border);
+            background: var(--panel);
+
+            color: var(--text);
+
+            border-radius: 9px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .breadcrumb-current {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .icon-btn {
+            width: 39px;
+            height: 39px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel);
+
+            color: var(--muted);
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        .page {
+            padding: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* =========================================================
+           BUTTONS
+           ========================================================= */
+
+        .btn {
+            min-height: 40px;
+
+            padding: 9px 15px;
+
+            border-radius: 9px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel-2);
+
+            color: var(--text);
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition:
+                transform 0.15s ease,
+                border-color 0.15s ease,
+                background 0.15s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--border-strong);
+            background: var(--panel-3);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-primary {
+            background:
+                linear-gradient(
+                    135deg,
+                    #1d83c4,
+                    #17669b
+                );
+
+            border-color: rgba(85,184,255,0.35);
+        }
+
+        .btn-primary:hover {
+            background:
+                linear-gradient(
+                    135deg,
+                    #258fce,
+                    #1b70a7
+                );
+        }
+
+        .btn-green {
+            background:
+                linear-gradient(
+                    135deg,
+                    #1c9b5c,
+                    #157945
+                );
+
+            border-color: rgba(53,208,127,0.3);
+        }
+
+        .btn-danger {
+            color: #ff7b86;
+        }
+
+        .btn-danger:hover {
+            background: rgba(255,95,109,0.08);
+            border-color: rgba(255,95,109,0.2);
+        }
+
+        /* =========================================================
+           TEAM HERO
+           ========================================================= */
+
+        .team-hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 25px;
+
+            margin-bottom: 24px;
+        }
+
+        .hero-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 17px;
+
+            min-width: 0;
+        }
+
+        .back-btn {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 10px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel);
+
+            color: var(--muted);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+        .back-btn:hover {
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        .team-logo {
+            width: 70px;
+            height: 70px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(85,184,255,0.18),
+                    rgba(53,208,127,0.1)
+                );
+
+            border: 1px solid rgba(85,184,255,0.18);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--blue);
+
+            font-size: 23px;
+            font-weight: 900;
+
+            flex-shrink: 0;
+        }
+
+        .team-heading {
+            min-width: 0;
+        }
+
+        .team-heading h1 {
+            font-size: clamp(25px, 3vw, 36px);
+            line-height: 1.1;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 8px;
+        }
+
+        .team-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        .meta-pill {
+            padding: 5px 9px;
+
+            border: 1px solid var(--border);
+
+            background: rgba(255,255,255,0.025);
+
+            border-radius: 7px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .status-active .status-dot {
+            background: var(--green);
+            box-shadow: 0 0 9px rgba(53,208,127,0.45);
+        }
+
+        .status-monitor .status-dot {
+            background: var(--orange);
+        }
+
+        .status-inactive .status-dot {
+            background: var(--red);
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* =========================================================
+           KPI GRID
+           ========================================================= */
+
+        .kpi-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.035),
+                    rgba(255,255,255,0.012)
+                );
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-lg);
+
+            padding: 18px;
+
+            min-height: 130px;
+
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            right: -35px;
+            bottom: -45px;
+
+            border-radius: 50%;
+
+            background: rgba(85,184,255,0.05);
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .kpi-icon {
+            width: 31px;
+            height: 31px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: rgba(85,184,255,0.08);
+
+            color: var(--blue);
+        }
+
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 850;
+            letter-spacing: -0.7px;
+        }
+
+        .kpi-sub {
+            margin-top: 5px;
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           CONTENT GRID
+           ========================================================= */
+
+        .content-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.5fr)
+                minmax(320px, 0.85fr);
+
+            gap: 18px;
+
+            margin-bottom: 18px;
+        }
+
+        .content-grid.equal {
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+        }
+
+        .panel {
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-lg);
+
+            overflow: hidden;
+
+            box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+        }
+
+        .panel-header {
+            padding: 17px 18px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 12px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .panel-subtitle {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .panel-body {
+            padding: 18px;
+        }
+
+        /* =========================================================
+           PERFORMANCE
+           ========================================================= */
+
+        .performance-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .performance-row {
+            display: grid;
+
+            grid-template-columns:
+                105px
+                1fr
+                45px;
+
+            gap: 12px;
+
+            align-items: center;
+        }
+
+        .performance-name {
+            font-size: 11px;
+            color: #c5ced9;
+        }
+
+        .bar-track {
+            height: 8px;
+
+            background: #202732;
+
+            border-radius: 99px;
+
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+
+            width: 0;
+
+            border-radius: 99px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+            transition: width 0.7s ease;
+        }
+
+        .performance-score {
+            text-align: right;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           TREND
+           ========================================================= */
+
+        .chart-container {
+            min-height: 245px;
+
+            position: relative;
+        }
+
+        .trend-svg {
+            width: 100%;
+            height: 230px;
+
+            display: block;
+        }
+
+        .chart-empty {
+            min-height: 220px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--muted);
+
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* =========================================================
+           ROSTER
+           ========================================================= */
+
+        .roster {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .roster-row {
+            display: grid;
+
+            grid-template-columns:
+                minmax(190px, 1.4fr)
+                90px
+                100px
+                90px
+                90px
+                35px;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 12px 18px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.045);
+        }
+
+        .roster-row:last-child {
+            border-bottom: 0;
+        }
+
+        .roster-row.header {
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            color: var(--muted-2);
+
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+
+            background: rgba(255,255,255,0.015);
+        }
+
+        .athlete-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            min-width: 0;
+        }
+
+        .athlete-avatar {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #273443,
+                    #18202b
+                );
+
+            border: 1px solid var(--border-strong);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--blue);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            flex-shrink: 0;
+        }
+
+        .athlete-name-wrap {
+            min-width: 0;
+        }
+
+        .athlete-name {
+            font-size: 12px;
+            font-weight: 750;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .athlete-position {
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .cell-text {
+            color: #aeb8c5;
+            font-size: 10px;
+        }
+
+        .score {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .score-good {
+            color: var(--green);
+        }
+
+        .score-mid {
+            color: var(--orange);
+        }
+
+        .score-low {
+            color: var(--red);
+        }
+
+        .readiness {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+
+            font-size: 10px;
+        }
+
+        .readiness-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .ready .readiness-dot {
+            background: var(--green);
+        }
+
+        .monitor .readiness-dot {
+            background: var(--orange);
+        }
+
+        .not-ready .readiness-dot {
+            background: var(--red);
+        }
+
+        .row-action {
+            width: 30px;
+            height: 30px;
+
+            border: 1px solid var(--border);
+
+            background: transparent;
+
+            color: var(--muted);
+
+            border-radius: 7px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .row-action:hover {
+            color: var(--blue);
+            border-color: rgba(85,184,255,0.25);
+        }
+
+        .empty-state {
+            padding: 45px 20px;
+
+            text-align: center;
+
+            color: var(--muted);
+        }
+
+        .empty-icon {
+            width: 55px;
+            height: 55px;
+
+            border-radius: 14px;
+
+            margin: 0 auto 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(85,184,255,0.07);
+
+            color: var(--blue);
+        }
+
+        .empty-title {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .empty-text {
+            font-size: 11px;
+            max-width: 360px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           ACTIVITY
+           ========================================================= */
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .activity-item {
+            display: grid;
+
+            grid-template-columns: 34px 1fr auto;
+
+            gap: 11px;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .activity-item:last-child {
+            border-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(85,184,255,0.07);
+
+            color: var(--blue);
+        }
+
+        .activity-title {
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .activity-detail {
+            margin-top: 3px;
+            font-size: 9px;
+            color: var(--muted);
+        }
+
+        .activity-date {
+            font-size: 9px;
+            color: var(--muted-2);
+            white-space: nowrap;
+        }
+
+        /* =========================================================
+           NOTES
+           ========================================================= */
+
+        .notes-box {
+            color: #b5bfcb;
+
+            font-size: 11px;
+
+            line-height: 1.75;
+
+            white-space: pre-wrap;
+        }
+
+        .team-info-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 10px;
+        }
+
+        .info-item {
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.025);
+
+            border: 1px solid rgba(255,255,255,0.045);
+        }
+
+        .info-label {
+            font-size: 9px;
+
+            color: var(--muted);
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =========================================================
+           QUICK ACTIONS
+           ========================================================= */
+
+        .quick-actions {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 9px;
+        }
+
+        .quick-action {
+            min-height: 65px;
+
+            border-radius: 10px;
+
+            border: 1px solid var(--border);
+
+            background: rgba(255,255,255,0.022);
+
+            padding: 11px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: var(--text);
+
+            text-align: left;
+        }
+
+        .quick-action:hover {
+            border-color: rgba(85,184,255,0.25);
+            background: rgba(85,184,255,0.04);
+        }
+
+        .quick-icon {
+            width: 32px;
+            height: 32px;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(85,184,255,0.07);
+
+            color: var(--blue);
+
+            flex-shrink: 0;
+        }
+
+        .quick-title {
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .quick-desc {
+            font-size: 8px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        /* =========================================================
+           MODAL
+           ========================================================= */
+
+        .modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.72);
+
+            backdrop-filter: blur(7px);
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 3000;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            width: min(650px, 100%);
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            background: #11161e;
+
+            border: 1px solid var(--border-strong);
+
+            border-radius: 16px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .modal.small {
+            width: min(430px, 100%);
+        }
+
+        .modal-header {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 18px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .modal-close {
+            width: 33px;
+            height: 33px;
+
+            border-radius: 8px;
+
+            border: 1px solid var(--border);
+
+            background: var(--panel-2);
+
+            color: var(--muted);
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-body {
+            padding: 18px;
+        }
+
+        .modal-footer {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            padding: 15px 18px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 13px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            font-size: 10px;
+
+            color: #aab5c3;
+
+            font-weight: 700;
+        }
+
+        .form-control {
+            width: 100%;
+
+            min-height: 42px;
+
+            border-radius: 9px;
+
+            border: 1px solid var(--border);
+
+            background: #0b0f15;
+
+            color: var(--text);
+
+            padding: 9px 11px;
+
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: rgba(85,184,255,0.4);
+
+            box-shadow:
+                0 0 0 3px rgba(85,184,255,0.07);
+        }
+
+        textarea.form-control {
+            min-height: 105px;
+            resize: vertical;
+        }
+
+        /* =========================================================
+           ROSTER MODAL
+           ========================================================= */
+
+        .roster-select-list {
+            display: flex;
+            flex-direction: column;
+
+            max-height: 430px;
+
+            overflow-y: auto;
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+        }
+
+        .roster-option {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 11px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+
+            cursor: pointer;
+        }
+
+        .roster-option:last-child {
+            border-bottom: 0;
+        }
+
+        .roster-option:hover {
+            background: rgba(255,255,255,0.025);
+        }
+
+        .roster-option input {
+            accent-color: var(--blue);
+        }
+
+        .option-avatar {
+            width: 31px;
+            height: 31px;
+
+            border-radius: 8px;
+
+            background: #202a35;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--blue);
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .option-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .option-name {
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .option-detail {
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           TOAST
+           ========================================================= */
+
+        .toast-container {
+            position: fixed;
+
+            right: 22px;
+            bottom: 22px;
+
+            z-index: 5000;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+        .toast {
+            min-width: 260px;
+
+            padding: 12px 14px;
+
+            background: #151c25;
+
+            border: 1px solid var(--border-strong);
+
+            border-radius: 10px;
+
+            box-shadow: var(--shadow);
+
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            font-size: 11px;
+
+            animation: toastIn 0.25s ease;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toast.success .toast-icon {
+            color: var(--green);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--red);
+        }
+
+        .toast-icon {
+            display: flex;
+        }
+
+        /* =========================================================
+           LOADING
+           ========================================================= */
+
+        .loading-screen {
+            position: fixed;
+
+            inset: 0;
+
+            background: var(--bg);
+
+            z-index: 10000;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            flex-direction: column;
+
+            gap: 13px;
+        }
+
+        .loading-logo {
+            width: 48px;
+            height: 48px;
+
+            border-radius: 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+            color: #061017;
+
+            font-weight: 900;
+        }
+
+        .loading-text {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1200px) {
+            .kpi-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid.equal {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.22s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .page {
+                padding: 20px;
+            }
+
+            .team-hero {
+                flex-direction: column;
+            }
+
+            .hero-actions {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-left {
+                flex-wrap: wrap;
+            }
+
+            .team-logo {
+                width: 58px;
+                height: 58px;
+            }
+
+            .team-heading h1 {
+                font-size: 25px;
+            }
+
+            .hero-actions .btn {
+                flex: 1;
+            }
+
+            .roster {
+                overflow-x: auto;
+            }
+
+            .roster-row {
+                min-width: 650px;
+            }
+
+            .panel-body {
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .team-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar-actions .icon-btn {
+                display: none;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .page {
+                padding: 14px;
+            }
+
+            .topbar {
+                padding: 0 14px;
+            }
+
+            .hero-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .toast-container {
+                left: 14px;
+                right: 14px;
+                bottom: 14px;
+            }
+
+            .toast {
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =============================================================
+     LOADING SCREEN
+     ============================================================= -->
+
+<div class="loading-screen" id="loadingScreen">
+    <div class="loading-logo">A</div>
+    <div class="loading-text">Loading team profile...</div>
+</div>
+
+
+<!-- =============================================================
+     SIDEBAR
+     ============================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-mark">
+            A
+        </div>
+
+        <div class="brand-text">
+            <div class="brand-name">
+                Athlete360
+            </div>
+
+            <div class="brand-sub">
+                Performance Platform
+            </div>
+        </div>
+
+    </div>
+
+
+    <nav class="nav">
+
+        <div class="nav-section">
+
+            <div class="nav-label">
+                Overview
+            </div>
+
+            <a href="dashboard.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/>
+                    </svg>
+                </span>
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-label">
+                Athletes
+            </div>
+
+            <a href="athletes.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M3.5 20c.7-3.5 2.6-5.2 5.5-5.2s4.8 1.7 5.5 5.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        <circle cx="17" cy="9" r="2.2" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M15 14.8c2.5.1 4.2 1.7 4.8 4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </span>
+
+                Athletes
+
+            </a>
+
+            <a href="testing.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 3v7a6 6 0 0 0 12 0V3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M4 3h4M16 3h4M12 16v5M9 21h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+
+                Testing
+
+            </a>
+
+            <a href="training.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 9v6M8 7v10M16 7v10M19 9v6M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </span>
+
+                Training
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-label">
+                Management
+            </div>
+
+            <a href="teams.html" class="nav-link active">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.7"/>
+                        <circle cx="17" cy="9" r="2.5" stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M2.8 20c.6-3.7 2.3-5.5 5.2-5.5s4.7 1.8 5.2 5.5M14 15c3.1 0 5 1.7 5.5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+
+                Teams
+
+            </a>
+
+            <a href="exercises.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 9h16M4 15h16M7 6v12M17 6v12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+
+                Exercises
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-label">
+                Insights
+            </div>
+
+            <a href="analytics.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 19V5M4 19h17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        <path d="M7 15l4-4 3 2 5-7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+
+                Analytics
+
+            </a>
+
+            <a href="reports.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 3h9l4 4v14H6z" stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M14 3v5h5M9 13h6M9 17h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+
+                Reports
+
+            </a>
+
+        </div>
+
+
+        <div class="nav-section">
+
+            <div class="nav-label">
+                System
+            </div>
+
+            <a href="ai-assistant.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3l1.4 4.1L17.5 9l-4.1 1.4L12 14.5l-1.4-4.1L6.5 9l4.1-1.9z" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M18 14l.7 2.3L21 17l-2.3.7L18 20l-.7-2.3L15 17l2.3-.7z" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                </span>
+
+                AI Assistant
+
+            </a>
+
+            <a href="settings.html" class="nav-link">
+
+                <span class="nav-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
+                        <path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3.9a7.5 7.5 0 0 0-2-1.2L14.3 3h-4.6l-.4 2.6a7.5 7.5 0 0 0-2 1.2L5 5.9l-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-.9a7.5 7.5 0 0 0 2 1.2l.4 2.6h4.6l.4-2.6a7.5 7.5 0 0 0 2-1.2l2.3.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z" stroke="currentColor" stroke-width="1.3"/>
+                    </svg>
+                </span>
+
+                Settings
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <div class="user-mini">
+
+            <div class="avatar" id="userAvatar">
+                MJ
+            </div>
+
+            <div class="user-info">
+
+                <div class="user-name" id="userName">
+                    Coach
+                </div>
+
+                <div class="user-role" id="userRole">
+                    Performance Coach
+                </div>
+
+            </div>
+
+            <button class="logout-btn" onclick="logout()" title="Log out">
+
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <path d="M10 5H5v14h5M15 8l4 4-4 4M19 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =============================================================
+     MAIN
+     ============================================================= -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <button
+                class="mobile-menu"
+                id="mobileMenu"
+                onclick="toggleSidebar()"
+                aria-label="Open menu"
+            >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <div class="breadcrumb">
+
+                <a href="teams.html">
+                    Teams
+                </a>
+
+                <span>›</span>
+
+                <span class="breadcrumb-current" id="breadcrumbTeam">
+                    Team Profile
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="topbar-actions">
+
+            <button
+                class="icon-btn"
+                onclick="goToNotifications()"
+                title="Notifications"
+            >
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+            </button>
+
+            <button
+                class="icon-btn"
+                onclick="window.location.href='settings.html'"
+                title="Settings"
+            >
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
+                    <path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3.9a7.5 7.5 0 0 0-2-1.2L14.3 3h-4.6l-.4 2.6a7.5 7.5 0 0 0-2 1.2L5 5.9l-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-.9a7.5 7.5 0 0 0 2 1.2l.4 2.6h4.6l.4-2.6a7.5 7.5 0 0 0 2-1.2l2.3.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z" stroke="currentColor" stroke-width="1.3"/>
+                </svg>
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <section class="page" id="pageContent">
+
+        <!-- =====================================================
+             TEAM HERO
+             ===================================================== -->
+
+        <div class="team-hero">
+
+            <div class="hero-left">
+
+                <button
+                    class="back-btn"
+                    onclick="goBackToTeams()"
+                    title="Back to teams"
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+
+                <div class="team-logo" id="teamLogo">
+                    TM
+                </div>
+
+
+                <div class="team-heading">
+
+                    <h1 id="teamName">
+                        Team Profile
+                    </h1>
+
+                    <div class="team-meta">
+
+                        <span class="meta-pill" id="teamSport">
+                            Sport
+                        </span>
+
+                        <span class="meta-pill" id="teamAge">
+                            Age Group
+                        </span>
+
+                        <span class="meta-pill" id="teamDivision">
+                            Division
+                        </span>
+
+                        <span
+                            class="meta-pill status-pill status-active"
+                            id="teamStatus"
+                        >
+                            <span class="status-dot"></span>
+                            <span>Active</span>
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-actions">
+
+                <button
+                    class="btn"
+                    onclick="openRosterModal()"
+                >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v6M22 11h-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                    Manage Roster
+                </button>
+
+                <button
+                    class="btn"
+                    onclick="openEditModal()"
+                >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Edit Team
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="goToTesting()"
+                >
+                    Test Team
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             KPI CARDS
+             ===================================================== -->
+
+        <div class="kpi-grid">
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <div class="kpi-label">
+                        Average Performance
+                    </div>
+
+                    <div class="kpi-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M4 19V5M4 19h17" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                            <path d="M7 15l4-4 3 2 5-7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+
+                </div>
+
+                <div class="kpi-value" id="avgPerformance">
+                    —
+                </div>
+
+                <div class="kpi-sub">
+                    Team performance score
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <div class="kpi-label">
+                        Readiness
+                    </div>
+
+                    <div class="kpi-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                </div>
+
+                <div class="kpi-value" id="readiness">
+                    —
+                </div>
+
+                <div class="kpi-sub">
+                    Athletes currently ready
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <div class="kpi-label">
+                        Training Load
+                    </div>
+
+                    <div class="kpi-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 9v6M8 7v10M16 7v10M19 9v6M8 12h8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                </div>
+
+                <div class="kpi-value" id="trainingLoad">
+                    —
+                </div>
+
+                <div class="kpi-sub">
+                    Recent team session load
+                </div>
+
+            </div>
+
+
+            <div class="kpi-card">
+
+                <div class="kpi-top">
+
+                    <div class="kpi-label">
+                        Tests Completed
+                    </div>
+
+                    <div class="kpi-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M6 3v7a6 6 0 0 0 12 0V3M4 3h4M16 3h4M12 16v5M9 21h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+
+                </div>
+
+                <div class="kpi-value" id="testsCompleted">
+                    —
+                </div>
+
+                <div class="kpi-sub">
+                    Recorded team assessments
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             PERFORMANCE + TEAM INFO
+             ===================================================== -->
+
+        <div class="content-grid">
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <div class="panel-title">
+                            Team Performance
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Performance profile across key categories
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div
+                        class="performance-list"
+                        id="performanceList"
+                    >
+                        <!-- Generated by JavaScript -->
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <div class="panel-title">
+                            Team Information
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Core team details
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="team-info-grid">
+
+                        <div class="info-item">
+
+                            <div class="info-label">
+                                Coach
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="infoCoach"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <div class="info-label">
+                                Season
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="infoSeason"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <div class="info-label">
+                                Sport
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="infoSport"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <div class="info-label">
+                                Age Group
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="infoAge"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <div class="info-label">
+                                Division
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="infoDivision"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+
+                        <div class="info-item">
+
+                            <div class="info-label">
+                                Athletes
+                            </div>
+
+                            <div
+                                class="info-value"
+                                id="infoAthletes"
+                            >
+                                —
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             TREND + QUICK ACTIONS
+             ===================================================== -->
+
+        <div class="content-grid">
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            Performance Trend
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Average team performance based on recorded tests
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div
+                        class="chart-container"
+                        id="trendContainer"
+                    >
+                        <!-- SVG generated -->
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            Team Actions
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Continue working with this squad
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div class="quick-actions">
+
+                        <button
+                            class="quick-action"
+                            onclick="openRosterModal()"
+                        >
+
+                            <span class="quick-icon">
+                                +
+                            </span>
+
+                            <span>
+                                <div class="quick-title">
+                                    Manage Roster
+                                </div>
+
+                                <div class="quick-desc">
+                                    Add or remove athletes
+                                </div>
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="goToTesting()"
+                        >
+
+                            <span class="quick-icon">
+                                ✓
+                            </span>
+
+                            <span>
+                                <div class="quick-title">
+                                    Testing
+                                </div>
+
+                                <div class="quick-desc">
+                                    Record performance tests
+                                </div>
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="goToTraining()"
+                        >
+
+                            <span class="quick-icon">
+                                ⚡
+                            </span>
+
+                            <span>
+                                <div class="quick-title">
+                                    Training
+                                </div>
+
+                                <div class="quick-desc">
+                                    Log team training
+                                </div>
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="goToAnalytics()"
+                        >
+
+                            <span class="quick-icon">
+                                ↗
+                            </span>
+
+                            <span>
+                                <div class="quick-title">
+                                    Analytics
+                                </div>
+
+                                <div class="quick-desc">
+                                    Analyse team performance
+                                </div>
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="goToReports()"
+                        >
+
+                            <span class="quick-icon">
+                                ▤
+                            </span>
+
+                            <span>
+                                <div class="quick-title">
+                                    Reports
+                                </div>
+
+                                <div class="quick-desc">
+                                    Generate team reports
+                                </div>
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="quick-action"
+                            onclick="addAthlete()"
+                        >
+
+                            <span class="quick-icon">
+                                +
+                            </span>
+
+                            <span>
+                                <div class="quick-title">
+                                    Add Athlete
+                                </div>
+
+                                <div class="quick-desc">
+                                    Create or manage athletes
+                                </div>
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             ROSTER
+             ===================================================== -->
+
+        <section class="panel" style="margin-bottom:18px;">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <div class="panel-title">
+                        Team Roster
+                    </div>
+
+                    <div class="panel-subtitle">
+                        Athletes currently assigned to this team
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="btn"
+                    onclick="openRosterModal()"
+                >
+                    Manage Roster
+                </button>
+
+            </div>
+
+
+            <div
+                class="roster"
+                id="rosterContainer"
+            >
+                <!-- Generated by JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             RECENT ACTIVITY
+             ===================================================== -->
+
+        <div class="content-grid equal">
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            Recent Testing
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Latest team assessment activity
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div
+                        class="activity-list"
+                        id="testingActivity"
+                    >
+                        <!-- Generated -->
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <div class="panel-title">
+                            Recent Training
+                        </div>
+
+                        <div class="panel-subtitle">
+                            Latest team training activity
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <div
+                        class="activity-list"
+                        id="trainingActivity"
+                    >
+                        <!-- Generated -->
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             NOTES
+             ===================================================== -->
+
+        <section class="panel" style="margin-top:18px;">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <div class="panel-title">
+                        Team Notes
+                    </div>
+
+                    <div class="panel-subtitle">
+                        Coach notes and important information
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="panel-body">
+
+                <div
+                    class="notes-box"
+                    id="teamNotes"
+                >
+                    No team notes have been added.
+                </div>
+
+            </div>
+
+        </section>
+
+    </section>
+
+</main>
+
+
+<!-- =============================================================
+     EDIT TEAM MODAL
+     ============================================================= -->
+
+<div
+    class="modal-overlay"
+    id="editModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+                Edit Team
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('editModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form id="editTeamForm">
+
+                <div class="form-grid">
+
+                    <div class="form-group full">
+
+                        <label class="form-label">
+                            Team Name
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="editName"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Sport
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="editSport"
+                        >
+                            <option>Rugby</option>
+                            <option>Netball</option>
+                            <option>Hockey</option>
+                            <option>Athletics</option>
+                            <option>Soccer</option>
+                            <option>Cricket</option>
+                            <option>Tennis</option>
+                            <option>Swimming</option>
+                            <option>Other</option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Age Group
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="editAge"
+                            placeholder="e.g. U15"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Division
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="editDivision"
+                            placeholder="e.g. A Team"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Coach
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="editCoach"
+                            placeholder="Coach name"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Season
+                        </label>
+
+                        <input
+                            class="form-control"
+                            id="editSeason"
+                            placeholder="e.g. 2026"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Status
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="editStatus"
+                        >
+                            <option value="Active">
+                                Active
+                            </option>
+
+                            <option value="Monitor">
+                                Monitor
+                            </option>
+
+                            <option value="Inactive">
+                                Inactive
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group full">
+
+                        <label class="form-label">
+                            Team Notes
+                        </label>
+
+                        <textarea
+                            class="form-control"
+                            id="editNotes"
+                            placeholder="Add coaching notes..."
+                        ></textarea>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="btn"
+                onclick="closeModal('editModal')"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="saveTeamChanges()"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     ROSTER MODAL
+     ============================================================= -->
+
+<div
+    class="modal-overlay"
+    id="rosterModal"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <div class="modal-title">
+                    Manage Roster
+                </div>
+
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('rosterModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div style="font-size:11px;color:var(--muted);margin-bottom:12px;">
+                Select the athletes who belong to this team.
+            </div>
+
+            <div
+                class="roster-select-list"
+                id="rosterSelectList"
+            >
+                <!-- Generated -->
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="btn"
+                onclick="closeModal('rosterModal')"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="btn btn-green"
+                onclick="saveRoster()"
+            >
+                Save Roster
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     DELETE MODAL
+     ============================================================= -->
+
+<div
+    class="modal-overlay"
+    id="deleteModal"
+>
+
+    <div class="modal small">
+
+        <div class="modal-header">
+
+            <div class="modal-title">
+                Delete Team
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closeModal('deleteModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <p style="font-size:12px;color:#aeb8c5;line-height:1.7;">
+                Are you sure you want to delete
+                <strong id="deleteTeamName" style="color:#fff;">
+                    this team
+                </strong>?
+                This will remove the team from Athlete360 but will not
+                delete the athletes themselves.
+            </p>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="btn"
+                onclick="closeModal('deleteModal')"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="btn btn-danger"
+                onclick="deleteTeam()"
+            >
+                Delete Team
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =============================================================
+     TOASTS
+     ============================================================= -->
+
+<div
+    class="toast-container"
+    id="toastContainer"
+></div>
+
+
+<script>
+/* ================================================================
+   ATHLETE360 TEAM PROFILE
+   ================================================================ */
+
+
+/* ================================================================
+   GLOBAL DATA
+   ================================================================ */
+
+let teams = [];
+let athletes = [];
+let testingHistory = [];
+let trainingSessions = [];
+
+let currentTeam = null;
+
+
+/* ================================================================
+   STORAGE HELPERS
+   ================================================================ */
+
+function readStorage(key, fallback = []) {
+
+    try {
+
+        const value = localStorage.getItem(key);
+
+        if (!value) {
+            return fallback;
+        }
+
+        const parsed = JSON.parse(value);
+
+        return parsed;
+
+    } catch (error) {
+
+        console.error(
+            "Athlete360 storage error:",
+            key,
+            error
+        );
+
+        return fallback;
+    }
+}
+
+
+function saveStorage(key, value) {
+
+    try {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Could not save:",
+            key,
+            error
+        );
+
+        showToast(
+            "Could not save your changes.",
+            "error"
+        );
+
+        return false;
+    }
+}
+
+
+/* ================================================================
+   LOAD DATA
+   ================================================================ */
+
+function loadData() {
+
+    teams = readStorage(
+        "athlete360_teams",
+        []
+    );
+
+    athletes = readStorage(
+        "athlete360_athletes",
+        []
+    );
+
+    testingHistory = readStorage(
+        "athlete360_testing_history",
+        []
+    );
+
+    trainingSessions = readStorage(
+        "athlete360_training_sessions",
+        []
+    );
+
+}
+
+
+/* ================================================================
+   GET TEAM ID
+   ================================================================ */
+
+function getTeamId() {
+
+    const params = new URLSearchParams(
+        window.location.search
+    );
+
+    const urlId = params.get("id");
+
+    if (urlId) {
+        return urlId;
+    }
+
+
+    const selectedTeam =
+        localStorage.getItem(
+            "athlete360_selected_team"
+        );
+
+    if (selectedTeam) {
+
+        try {
+
+            const parsed =
+                JSON.parse(selectedTeam);
+
+            if (typeof parsed === "object" && parsed?.id) {
+                return parsed.id;
+            }
+
+        } catch (error) {
+
+            return selectedTeam;
+
+        }
+    }
+
+    return null;
+}
+
+
+/* ================================================================
+   FIND TEAM
+   ================================================================ */
+
+function findTeam() {
+
+    const teamId = getTeamId();
+
+    if (!teamId) {
+        return null;
+    }
+
+
+    return teams.find(
+        team =>
+            String(team.id) === String(teamId)
+    ) || null;
+}
+
+
+/* ================================================================
+   INITIALISE
+   ================================================================ */
+
+function initialise() {
+
+    loadData();
+
+    currentTeam = findTeam();
+
+
+    if (!currentTeam) {
+
+        hideLoading();
+
+        showNoTeamMessage();
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "athlete360_selected_team",
+        JSON.stringify(currentTeam)
+    );
+
+
+    renderUser();
+
+    renderTeamHero();
+
+    renderKPIs();
+
+    renderPerformance();
+
+    renderTeamInfo();
+
+    renderTrend();
+
+    renderRoster();
+
+    renderTestingActivity();
+
+    renderTrainingActivity();
+
+    renderNotes();
+
+
+    hideLoading();
+}
+
+
+/* ================================================================
+   USER
+   ================================================================ */
+
+function renderUser() {
+
+    let user = null;
+
+    try {
+
+        const stored =
+            localStorage.getItem(
+                "athlete360_user"
+            );
+
+        if (stored) {
+            user = JSON.parse(stored);
+        }
+
+    } catch (error) {
+
+        user = null;
+
+    }
+
+
+    if (!user) {
+        return;
+    }
+
+
+    const name =
+        user.name ||
+        user.fullName ||
+        user.username ||
+        "Coach";
+
+
+    const role =
+        user.role ||
+        "Performance Coach";
+
+
+    const initials =
+        getInitials(name);
+
+
+    document.getElementById(
+        "userName"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "userRole"
+    ).textContent = role;
+
+
+    document.getElementById(
+        "userAvatar"
+    ).textContent = initials;
+}
+
+
+/* ================================================================
+   TEAM HERO
+   ================================================================ */
+
+function renderTeamHero() {
+
+    const name =
+        currentTeam.name ||
+        "Unnamed Team";
+
+
+    document.getElementById(
+        "teamName"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "breadcrumbTeam"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "teamSport"
+    ).textContent =
+        currentTeam.sport ||
+        "Sport";
+
+
+    document.getElementById(
+        "teamAge"
+    ).textContent =
+        currentTeam.ageGroup ||
+        "Age Group";
+
+
+    document.getElementById(
+        "teamDivision"
+    ).textContent =
+        currentTeam.division ||
+        "Division";
+
+
+    const logo =
+        getTeamInitials(name);
+
+
+    document.getElementById(
+        "teamLogo"
+    ).textContent = logo;
+
+
+    const statusElement =
+        document.getElementById(
+            "teamStatus"
+        );
+
+
+    const status =
+        currentTeam.status ||
+        "Active";
+
+
+    statusElement.className =
+        "meta-pill status-pill " +
+        getStatusClass(status);
+
+
+    statusElement.innerHTML = `
+        <span class="status-dot"></span>
+        <span>${escapeHTML(status)}</span>
+    `;
+}
+
+
+/* ================================================================
+   TEAM ATHLETES
+   ================================================================ */
+
+function getTeamAthletes() {
+
+    if (!currentTeam) {
+        return [];
+    }
+
+
+    const ids =
+        Array.isArray(currentTeam.athleteIds)
+            ? currentTeam.athleteIds
+            : [];
+
+
+    return athletes.filter(athlete => {
+
+        const athleteId =
+            athlete.id ??
+            athlete.athleteId ??
+            athlete.athleteID;
+
+
+        if (
+            ids.some(
+                id =>
+                    String(id) ===
+                    String(athleteId)
+            )
+        ) {
+            return true;
+        }
+
+
+        const athleteName =
+            String(
+                athlete.name ||
+                athlete.fullName ||
+                ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+        return ids.some(
+            id =>
+                String(id)
+                    .trim()
+                    .toLowerCase() ===
+                athleteName
+        );
+
+    });
+}
+
+
+/* ================================================================
+   PERFORMANCE VALUE
+   ================================================================ */
+
+function getPerformance(athlete) {
+
+    const possible = [
+        athlete.performance,
+        athlete.performanceScore,
+        athlete.score,
+        athlete.overallPerformance,
+        athlete.overallScore,
+        athlete.rating
+    ];
+
+
+    for (const value of possible) {
+
+        const number =
+            parseFloat(value);
+
+        if (
+            Number.isFinite(number)
+        ) {
+            return number;
+        }
+    }
+
+
+    return 0;
+}
+
+
+/* ================================================================
+   READINESS
+   ================================================================ */
+
+function getReadinessStatus(athlete) {
+
+    const value =
+        String(
+            athlete.readiness ||
+            athlete.status ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+
+    if (
+        value.includes("ready") &&
+        !value.includes("not")
+    ) {
+        return "Ready";
+    }
+
+
+    if (
+        value.includes("monitor") ||
+        value.includes("watch")
+    ) {
+        return "Monitor";
+    }
+
+
+    if (
+        value.includes("not") ||
+        value.includes("risk")
+    ) {
+        return "Not Ready";
+    }
+
+
+    const performance =
+        getPerformance(athlete);
+
+
+    if (performance >= 80) {
+        return "Ready";
+    }
+
+
+    if (performance >= 65) {
+        return "Monitor";
+    }
+
+
+    return "Not Ready";
+}
+
+
+/* ================================================================
+   KPIs
+   ================================================================ */
+
+function renderKPIs() {
+
+    const roster =
+        getTeamAthletes();
+
+
+    const performanceValues =
+        roster
+            .map(getPerformance)
+            .filter(
+                value =>
+                    Number.isFinite(value) &&
+                    value > 0
+            );
+
+
+    const average =
+        performanceValues.length
+            ? performanceValues.reduce(
+                (sum, value) =>
+                    sum + value,
+                0
+            ) / performanceValues.length
+            : 0;
+
+
+    document.getElementById(
+        "avgPerformance"
+    ).textContent =
+        average
+            ? Math.round(average)
+            : "—";
+
+
+    const readyCount =
+        roster.filter(
+            athlete =>
+                getReadinessStatus(
+                    athlete
+                ) === "Ready"
+        ).length;
+
+
+    const readiness =
+        roster.length
+            ? Math.round(
+                (readyCount / roster.length) *
+                100
+            )
+            : 0;
+
+
+    document.getElementById(
+        "readiness"
+    ).textContent =
+        roster.length
+            ? readiness + "%"
+            : "—";
+
+
+    const rosterIds =
+        roster.map(
+            athlete =>
+                String(
+                    athlete.id ??
+                    athlete.athleteId ??
+                    athlete.athleteID ??
+                    athlete.name
+                )
+        );
+
+
+    const teamSessions =
+        trainingSessions.filter(
+            session => {
+
+                const sessionId =
+                    session.athleteId ??
+                    session.athleteID ??
+                    session.athlete_id;
+
+
+                const sessionName =
+                    String(
+                        session.athleteName ||
+                        session.name ||
+                        session.athlete ||
+                        ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                if (sessionId != null) {
+
+                    return rosterIds.includes(
+                        String(sessionId)
+                    );
+                }
+
+
+                return roster.some(
+                    athlete =>
+                        String(
+                            athlete.name ||
+                            athlete.fullName ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase() ===
+                        sessionName
+                );
+
+            }
+        );
+
+
+    const recentSessions =
+        teamSessions
+            .slice()
+            .sort(
+                (
+                    a,
+                    b
+                ) =>
+                    getTimestamp(b) -
+                    getTimestamp(a)
+            )
+            .slice(0, 20);
+
+
+    const totalLoad =
+        recentSessions.reduce(
+            (
+                sum,
+                session
+            ) =>
+                sum +
+                getTrainingLoad(session),
+            0
+        );
+
+
+    document.getElementById(
+        "trainingLoad"
+    ).textContent =
+        totalLoad
+            ? formatNumber(totalLoad)
+            : "0";
+
+
+    const teamTests =
+        getTeamTesting();
+
+
+    document.getElementById(
+        "testsCompleted"
+    ).textContent =
+        teamTests.length;
+}
+
+
+/* ================================================================
+   TEAM TESTING
+   ================================================================ */
+
+function getTeamTesting() {
+
+    const roster =
+        getTeamAthletes();
+
+
+    const names =
+        roster.map(
+            athlete =>
+                String(
+                    athlete.name ||
+                    athlete.fullName ||
+                    ""
+                )
+                .trim()
+                .toLowerCase()
+        );
+
+
+    const ids =
+        roster.map(
+            athlete =>
+                String(
+                    athlete.id ??
+                    athlete.athleteId ??
+                    athlete.athleteID ??
+                    ""
+                )
+        );
+
+
+    return testingHistory.filter(
+        record => {
+
+            const id =
+                record.athleteId ??
+                record.athleteID ??
+                record.athlete_id;
+
+
+            const name =
+                String(
+                    record.athleteName ||
+                    record.name ||
+                    record.athlete ||
+                    ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            if (
+                id != null &&
+                ids.includes(
+                    String(id)
+                )
+            ) {
+                return true;
+            }
+
+
+            return names.includes(name);
+        }
+    );
+}
+
+
+/* ================================================================
+   TEAM INFO
+   ================================================================ */
+
+function renderTeamInfo() {
+
+    document.getElementById(
+        "infoCoach"
+    ).textContent =
+        currentTeam.coach ||
+        "Not assigned";
+
+
+    document.getElementById(
+        "infoSeason"
+    ).textContent =
+        currentTeam.season ||
+        "—";
+
+
+    document.getElementById(
+        "infoSport"
+    ).textContent =
+        currentTeam.sport ||
+        "—";
+
+
+    document.getElementById(
+        "infoAge"
+    ).textContent =
+        currentTeam.ageGroup ||
+        "—";
+
+
+    document.getElementById(
+        "infoDivision"
+    ).textContent =
+        currentTeam.division ||
+        "—";
+
+
+    document.getElementById(
+        "infoAthletes"
+    ).textContent =
+        getTeamAthletes().length;
+}
+
+
+/* ================================================================
+   PERFORMANCE BREAKDOWN
+   ================================================================ */
+
+function renderPerformance() {
+
+    const roster =
+        getTeamAthletes();
+
+
+    const categories = [
+        {
+            name: "Speed",
+            key: "speed"
+        },
+        {
+            name: "Strength",
+            key: "strength"
+        },
+        {
+            name: "Power",
+            key: "power"
+        },
+        {
+            name: "Agility",
+            key: "agility"
+        },
+        {
+            name: "Conditioning",
+            key: "conditioning"
+        }
+    ];
+
+
+    const container =
+        document.getElementById(
+            "performanceList"
+        );
+
+
+    if (!roster.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-title">
+                    No athletes assigned
+                </div>
+
+                <div class="empty-text">
+                    Add athletes to this team to build
+                    a performance profile.
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        categories.map(
+            category => {
+
+                const values =
+                    roster
+                        .map(
+                            athlete =>
+                                getCategoryValue(
+                                    athlete,
+                                    category.key
+                                )
+                        )
+                        .filter(
+                            value =>
+                                value > 0
+                        );
+
+
+                let score;
+
+
+                if (values.length) {
+
+                    score =
+                        Math.round(
+                            values.reduce(
+                                (
+                                    a,
+                                    b
+                                ) =>
+                                    a + b,
+                                0
+                            ) /
+                            values.length
+                        );
+
+                } else {
+
+                    score =
+                        estimateCategory(
+                            roster,
+                            category.key
+                        );
+                }
+
+
+                score =
+                    clamp(
+                        score,
+                        0,
+                        100
+                    );
+
+
+                return `
+                    <div class="performance-row">
+
+                        <div class="performance-name">
+                            ${category.name}
+                        </div>
+
+                        <div class="bar-track">
+                            <div
+                                class="bar-fill"
+                                style="width:${score}%"
+                            ></div>
+                        </div>
+
+                        <div class="performance-score">
+                            ${score}
+                        </div>
+
+                    </div>
+                `;
+
+            }
+        ).join("");
+}
+
+
+/* ================================================================
+   CATEGORY VALUE
+   ================================================================ */
+
+function getCategoryValue(
+    athlete,
+    category
+) {
+
+    const sources = [
+        athlete.performanceCategories,
+        athlete.performanceBreakdown,
+        athlete.metrics,
+        athlete.categories,
+        athlete.scores
+    ];
+
+
+    for (const source of sources) {
+
+        if (
+            source &&
+            typeof source === "object"
+        ) {
+
+            const value =
+                parseFloat(
+                    source[category]
+                );
+
+
+            if (
+                Number.isFinite(value)
+            ) {
+                return value;
+            }
+        }
+    }
+
+
+    const direct =
+        parseFloat(
+            athlete[category]
+        );
+
+
+    if (
+        Number.isFinite(direct)
+    ) {
+        return direct;
+    }
+
+
+    return 0;
+}
+
+
+/* ================================================================
+   CATEGORY ESTIMATE
+   ================================================================ */
+
+function estimateCategory(
+    roster,
+    category
+) {
+
+    if (!roster.length) {
+        return 0;
+    }
+
+
+    const average =
+        roster.reduce(
+            (
+                sum,
+                athlete
+            ) =>
+                sum +
+                getPerformance(athlete),
+            0
+        ) /
+        roster.length;
+
+
+    const adjustments = {
+        speed: 2,
+        strength: 0,
+        power: -1,
+        agility: 1,
+        conditioning: -2
+    };
+
+
+    return Math.round(
+        clamp(
+            average +
+            (
+                adjustments[category] ||
+                0
+            ),
+            0,
+            100
+        )
+    );
+}
+
+
+/* ================================================================
+   TREND CHART
+   ================================================================ */
+
+function renderTrend() {
+
+    const container =
+        document.getElementById(
+            "trendContainer"
+        );
+
+
+    const tests =
+        getTeamTesting()
+            .slice()
+            .sort(
+                (
+                    a,
+                    b
+                ) =>
+                    getTimestamp(a) -
+                    getTimestamp(b)
+            );
+
+
+    if (!tests.length) {
+
+        container.innerHTML = `
+            <div class="chart-empty">
+                <div>
+                    No testing data is available yet.<br>
+                    Record team assessments to see the trend.
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const groups = {};
+
+
+    tests.forEach(
+        test => {
+
+            const date =
+                getDateObject(test);
+
+
+            if (!date) {
+                return;
+            }
+
+
+            const key =
+                formatShortDate(date);
+
+
+            if (!groups[key]) {
+                groups[key] = [];
+            }
+
+
+            const score =
+                parseFloat(
+                    test.score ??
+                    test.performanceScore ??
+                    test.rating
+                );
+
+
+            if (
+                Number.isFinite(score)
+            ) {
+                groups[key].push(score);
+            }
+
+        }
+    );
+
+
+    const labels =
+        Object.keys(groups);
+
+
+    const values =
+        labels.map(
+            label => {
+
+                const arr =
+                    groups[label];
+
+
+                return arr.length
+                    ? Math.round(
+                        arr.reduce(
+                            (
+                                a,
+                                b
+                            ) =>
+                                a + b,
+                            0
+                        ) /
+                        arr.length
+                    )
+                    : 0;
+
+            }
+        );
+
+
+    if (!values.length) {
+
+        container.innerHTML = `
+            <div class="chart-empty">
+                No scored tests available.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const width = 760;
+    const height = 230;
+
+    const left = 42;
+    const right = 18;
+    const top = 15;
+    const bottom = 35;
+
+
+    const chartWidth =
+        width -
+        left -
+        right;
+
+
+    const chartHeight =
+        height -
+        top -
+        bottom;
+
+
+    const minValue = 0;
+    const maxValue = 100;
+
+
+    const xStep =
+        values.length > 1
+            ? chartWidth /
+              (values.length - 1)
+            : chartWidth;
+
+
+    const points =
+        values.map(
+            (
+                value,
+                index
+            ) => {
+
+                const x =
+                    left +
+                    (
+                        values.length === 1
+                            ? chartWidth / 2
+                            : index * xStep
+                    );
+
+
+                const y =
+                    top +
+                    chartHeight -
+                    (
+                        (
+                            value -
+                            minValue
+                        ) /
+                        (
+                            maxValue -
+                            minValue
+                        )
+                    ) *
+                    chartHeight;
+
+
+                return {
+                    x,
+                    y
+                };
+
+            }
+        );
+
+
+    const polyline =
+        points
+            .map(
+                point =>
+                    `${point.x},${point.y}`
+            )
+            .join(" ");
+
+
+    const areaPoints =
+        [
+            `${points[0].x},${top + chartHeight}`,
+            ...points.map(
+                point =>
+                    `${point.x},${point.y}`
+            ),
+            `${points[points.length - 1].x},${top + chartHeight}`
+        ].join(" ");
+
+
+    const gridLines =
+        [0, 25, 50, 75, 100]
+            .map(
+                value => {
+
+                    const y =
+                        top +
+                        chartHeight -
+                        (
+                            value / 100
+                        ) *
+                        chartHeight;
+
+
+                    return `
+                        <line
+                            x1="${left}"
+                            x2="${width - right}"
+                            y1="${y}"
+                            y2="${y}"
+                            stroke="rgba(255,255,255,0.06)"
+                            stroke-width="1"
+                        />
+
+                        <text
+                            x="${left - 9}"
+                            y="${y + 3}"
+                            text-anchor="end"
+                            fill="#657183"
+                            font-size="9"
+                        >
+                            ${value}
+                        </text>
+                    `;
+                }
+            )
+            .join("");
+
+
+    const dots =
+        points.map(
+            (
+                point,
+                index
+            ) => `
+                <circle
+                    cx="${point.x}"
+                    cy="${point.y}"
+                    r="4"
+                    fill="#55b8ff"
+                />
+
+                <circle
+                    cx="${point.x}"
+                    cy="${point.y}"
+                    r="8"
+                    fill="rgba(85,184,255,0.08)"
+                />
+
+                <text
+                    x="${point.x}"
+                    y="${point.y - 11}"
+                    text-anchor="middle"
+                    fill="#dfe8f1"
+                    font-size="9"
+                    font-weight="700"
+                >
+                    ${values[index]}
+                </text>
+
+                <text
+                    x="${point.x}"
+                    y="${height - 10}"
+                    text-anchor="middle"
+                    fill="#657183"
+                    font-size="8"
+                >
+                    ${escapeHTML(labels[index])}
+                </text>
+            `
+        ).join("");
+
+
+    container.innerHTML = `
+        <svg
+            class="trend-svg"
+            viewBox="0 0 ${width} ${height}"
+            preserveAspectRatio="none"
+        >
+
+            ${gridLines}
+
+            <polygon
+                points="${areaPoints}"
+                fill="rgba(85,184,255,0.055)"
+            ></polygon>
+
+            <polyline
+                points="${polyline}"
+                fill="none"
+                stroke="#55b8ff"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            ></polyline>
+
+            ${dots}
+
+        </svg>
+    `;
+}
+
+
+/* ================================================================
+   ROSTER
+   ================================================================ */
+
+function renderRoster() {
+
+    const container =
+        document.getElementById(
+            "rosterContainer"
+        );
+
+
+    const roster =
+        getTeamAthletes();
+
+
+    if (!roster.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    +
+                </div>
+
+                <div class="empty-title">
+                    No athletes in this roster
+                </div>
+
+                <div class="empty-text">
+                    Add athletes to start tracking this team.
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:15px;"
+                    onclick="openRosterModal()"
+                >
+                    Manage Roster
+                </button>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const rows =
+        roster.map(
+            athlete => {
+
+                const name =
+                    athlete.name ||
+                    athlete.fullName ||
+                    "Unnamed Athlete";
+
+
+                const position =
+                    athlete.position ||
+                    athlete.role ||
+                    athlete.speciality ||
+                    athlete.specialty ||
+                    "Athlete";
+
+
+                const sport =
+                    athlete.sport ||
+                    currentTeam.sport ||
+                    "—";
+
+
+                const performance =
+                    Math.round(
+                        getPerformance(
+                            athlete
+                        )
+                    );
+
+
+                const readiness =
+                    getReadinessStatus(
+                        athlete
+                    );
+
+
+                const readinessClass =
+                    readiness === "Ready"
+                        ? "ready"
+                        : readiness === "Monitor"
+                            ? "monitor"
+                            : "not-ready";
+
+
+                const scoreClass =
+                    performance >= 80
+                        ? "score-good"
+                        : performance >= 65
+                            ? "score-mid"
+                            : "score-low";
+
+
+                const athleteId =
+                    athlete.id ??
+                    athlete.athleteId ??
+                    athlete.athleteID ??
+                    "";
+
+
+                return `
+                    <div class="roster-row">
+
+                        <div class="athlete-cell">
+
+                            <div class="athlete-avatar">
+                                ${getInitials(name)}
+                            </div>
+
+                            <div class="athlete-name-wrap">
+
+                                <div class="athlete-name">
+                                    ${escapeHTML(name)}
+                                </div>
+
+                                <div class="athlete-position">
+                                    ${escapeHTML(position)}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="cell-text">
+                            ${escapeHTML(sport)}
+                        </div>
+
+
+                        <div class="score ${scoreClass}">
+                            ${performance || "—"}
+                        </div>
+
+
+                        <div class="readiness ${readinessClass}">
+
+                            <span class="readiness-dot"></span>
+
+                            ${readiness}
+
+                        </div>
+
+
+                        <div class="cell-text">
+                            ${escapeHTML(
+                                athlete.ageGroup ||
+                                athlete.age ||
+                                currentTeam.ageGroup ||
+                                "—"
+                            )}
+                        </div>
+
+
+                        <button
+                            class="row-action"
+                            title="View athlete"
+                            onclick="viewAthlete('${escapeAttribute(athleteId)}')"
+                        >
+                            →
+                        </button>
+
+                    </div>
+                `;
+            }
+        ).join("");
+
+
+    container.innerHTML = `
+
+        <div class="roster-row header">
+
+            <div>
+                Athlete
+            </div>
+
+            <div>
+                Sport
+            </div>
+
+            <div>
+                Performance
+            </div>
+
+            <div>
+                Readiness
+            </div>
+
+            <div>
+                Age
+            </div>
+
+            <div></div>
+
+        </div>
+
+        ${rows}
+
+    `;
+}
+
+
+/* ================================================================
+   TESTING ACTIVITY
+   ================================================================ */
+
+function renderTestingActivity() {
+
+    const container =
+        document.getElementById(
+            "testingActivity"
+        );
+
+
+    const tests =
+        getTeamTesting()
+            .slice()
+            .sort(
+                (
+                    a,
+                    b
+                ) =>
+                    getTimestamp(b) -
+                    getTimestamp(a)
+            )
+            .slice(0, 6);
+
+
+    if (!tests.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-title">
+                    No testing activity
+                </div>
+
+                <div class="empty-text">
+                    Team testing will appear here once
+                    assessments are recorded.
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        tests.map(
+            test => {
+
+                const athleteName =
+                    test.athleteName ||
+                    test.name ||
+                    test.athlete ||
+                    "Athlete";
+
+
+                const testName =
+                    test.testName ||
+                    test.test ||
+                    test.exercise ||
+                    test.category ||
+                    "Performance Test";
+
+
+                const value =
+                    test.value ??
+                    test.result ??
+                    test.score ??
+                    "—";
+
+
+                const date =
+                    getDateObject(test);
+
+
+                return `
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <div class="activity-title">
+                                ${escapeHTML(testName)}
+                            </div>
+
+                            <div class="activity-detail">
+                                ${escapeHTML(athleteName)}
+                                · Result: ${escapeHTML(String(value))}
+                            </div>
+
+                        </div>
+
+                        <div class="activity-date">
+                            ${date ? formatShortDate(date) : "—"}
+                        </div>
+
+                    </div>
+                `;
+
+            }
+        ).join("");
+}
+
+
+/* ================================================================
+   TRAINING ACTIVITY
+   ================================================================ */
+
+function renderTrainingActivity() {
+
+    const container =
+        document.getElementById(
+            "trainingActivity"
+        );
+
+
+    const roster =
+        getTeamAthletes();
+
+
+    const names =
+        roster.map(
+            athlete =>
+                String(
+                    athlete.name ||
+                    athlete.fullName ||
+                    ""
+                )
+                .trim()
+                .toLowerCase()
+        );
+
+
+    const ids =
+        roster.map(
+            athlete =>
+                String(
+                    athlete.id ??
+                    athlete.athleteId ??
+                    athlete.athleteID ??
+                    ""
+                )
+        );
+
+
+    const sessions =
+        trainingSessions
+            .filter(
+                session => {
+
+                    const id =
+                        session.athleteId ??
+                        session.athleteID ??
+                        session.athlete_id;
+
+
+                    const name =
+                        String(
+                            session.athleteName ||
+                            session.name ||
+                            session.athlete ||
+                            ""
+                        )
+                        .trim()
+                        .toLowerCase();
+
+
+                    if (
+                        id != null &&
+                        ids.includes(
+                            String(id)
+                        )
+                    ) {
+                        return true;
+                    }
+
+
+                    return names.includes(name);
+                }
+            )
+            .sort(
+                (
+                    a,
+                    b
+                ) =>
+                    getTimestamp(b) -
+                    getTimestamp(a)
+            )
+            .slice(0, 6);
+
+
+    if (!sessions.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-title">
+                    No training activity
+                </div>
+
+                <div class="empty-text">
+                    Training sessions linked to this team's
+                    athletes will appear here.
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        sessions.map(
+            session => {
+
+                const athleteName =
+                    session.athleteName ||
+                    session.name ||
+                    session.athlete ||
+                    "Athlete";
+
+
+                const type =
+                    session.type ||
+                    session.category ||
+                    session.sessionType ||
+                    "Training";
+
+
+                const duration =
+                    session.duration ||
+                    session.minutes ||
+                    "—";
+
+
+                const load =
+                    getTrainingLoad(
+                        session
+                    );
+
+
+                const date =
+                    getDateObject(session);
+
+
+                return `
+                    <div class="activity-item">
+
+                        <div class="activity-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+
+                            <div class="activity-title">
+                                ${escapeHTML(type)}
+                            </div>
+
+                            <div class="activity-detail">
+                                ${escapeHTML(athleteName)}
+                                · ${escapeHTML(String(duration))} min
+                                · Load ${formatNumber(load)}
+                            </div>
+
+                        </div>
+
+                        <div class="activity-date">
+                            ${date ? formatShortDate(date) : "—"}
+                        </div>
+
+                    </div>
+                `;
+
+            }
+        ).join("");
+}
+
+
+/* ================================================================
+   NOTES
+   ================================================================ */
+
+function renderNotes() {
+
+    const notes =
+        currentTeam.notes ||
+        currentTeam.description ||
+        currentTeam.comments ||
+        "";
+
+
+    document.getElementById(
+        "teamNotes"
+    ).textContent =
+        notes.trim()
+            ? notes
+            : "No team notes have been added.";
+}
+
+
+/* ================================================================
+   EDIT MODAL
+   ================================================================ */
+
+function openEditModal() {
+
+    if (!currentTeam) {
+        return;
+    }
+
+
+    document.getElementById(
+        "editName"
+    ).value =
+        currentTeam.name || "";
+
+
+    document.getElementById(
+        "editSport"
+    ).value =
+        currentTeam.sport || "Rugby";
+
+
+    document.getElementById(
+        "editAge"
+    ).value =
+        currentTeam.ageGroup || "";
+
+
+    document.getElementById(
+        "editDivision"
+    ).value =
+        currentTeam.division || "";
+
+
+    document.getElementById(
+        "editCoach"
+    ).value =
+        currentTeam.coach || "";
+
+
+    document.getElementById(
+        "editSeason"
+    ).value =
+        currentTeam.season || "";
+
+
+    document.getElementById(
+        "editStatus"
+    ).value =
+        currentTeam.status || "Active";
+
+
+    document.getElementById(
+        "editNotes"
+    ).value =
+        currentTeam.notes || "";
+
+
+    openModal("editModal");
+}
+
+
+/* ================================================================
+   SAVE TEAM
+   ================================================================ */
+
+function saveTeamChanges() {
+
+    if (!currentTeam) {
+        return;
+    }
+
+
+    const name =
+        document.getElementById(
+            "editName"
+        ).value.trim();
+
+
+    if (!name) {
+
+        showToast(
+            "Please enter a team name.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    currentTeam.name =
+        name;
+
+
+    currentTeam.sport =
+        document.getElementById(
+            "editSport"
+        ).value;
+
+
+    currentTeam.ageGroup =
+        document.getElementById(
+            "editAge"
+        ).value.trim();
+
+
+    currentTeam.division =
+        document.getElementById(
+            "editDivision"
+        ).value.trim();
+
+
+    currentTeam.coach =
+        document.getElementById(
+            "editCoach"
+        ).value.trim();
+
+
+    currentTeam.season =
+        document.getElementById(
+            "editSeason"
+        ).value.trim();
+
+
+    currentTeam.status =
+        document.getElementById(
+            "editStatus"
+        ).value;
+
+
+    currentTeam.notes =
+        document.getElementById(
+            "editNotes"
+        ).value.trim();
+
+
+    const index =
+        teams.findIndex(
+            team =>
+                String(team.id) ===
+                String(currentTeam.id)
+        );
+
+
+    if (index !== -1) {
+
+        teams[index] =
+            currentTeam;
+
+        saveStorage(
+            "athlete360_teams",
+            teams
+        );
+
+        localStorage.setItem(
+            "athlete360_selected_team",
+            JSON.stringify(
+                currentTeam
+            )
+        );
+    }
+
+
+    closeModal("editModal");
+
+    renderTeamHero();
+
+    renderTeamInfo();
+
+    renderNotes();
+
+    showToast(
+        "Team details updated.",
+        "success"
+    );
+}
+
+
+/* ================================================================
+   ROSTER MODAL
+   ================================================================ */
+
+function openRosterModal() {
+
+    const container =
+        document.getElementById(
+            "rosterSelectList"
+        );
+
+
+    if (!athletes.length) {
+
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-title">
+                    No athletes found
+                </div>
+
+                <div class="empty-text">
+                    Create athletes first before building a roster.
+                </div>
+            </div>
+        `;
+
+        openModal("rosterModal");
+
+        return;
+    }
+
+
+    const currentIds =
+        Array.isArray(
+            currentTeam.athleteIds
+        )
+            ? currentTeam.athleteIds.map(
+                id =>
+                    String(id)
+            )
+            : [];
+
+
+    const sortedAthletes =
+        athletes
+            .slice()
+            .sort(
+                (
+                    a,
+                    b
+                ) =>
+                    String(
+                        a.name ||
+                        a.fullName ||
+                        ""
+                    ).localeCompare(
+                        String(
+                            b.name ||
+                            b.fullName ||
+                            ""
+                        )
+                    )
+            );
+
+
+    container.innerHTML =
+        sortedAthletes.map(
+            athlete => {
+
+                const id =
+                    athlete.id ??
+                    athlete.athleteId ??
+                    athlete.athleteID ??
+                    athlete.name;
+
+
+                const name =
+                    athlete.name ||
+                    athlete.fullName ||
+                    "Unnamed Athlete";
+
+
+                const sport =
+                    athlete.sport ||
+                    "Sport";
+
+
+                const age =
+                    athlete.ageGroup ||
+                    athlete.age ||
+                    "";
+
+
+                const position =
+                    athlete.position ||
+                    athlete.role ||
+                    athlete.speciality ||
+                    athlete.specialty ||
+                    "";
+
+
+                const checked =
+                    currentIds.includes(
+                        String(id)
+                    ) ||
+                    currentIds.includes(
+                        String(name)
+                    );
+
+
+                return `
+                    <label class="roster-option">
+
+                        <input
+                            type="checkbox"
+                            class="roster-checkbox"
+                            value="${escapeAttribute(id)}"
+                            ${checked ? "checked" : ""}
+                        >
+
+                        <span class="option-avatar">
+                            ${getInitials(name)}
+                        </span>
+
+                        <span class="option-main">
+
+                            <span class="option-name">
+                                ${escapeHTML(name)}
+                            </span>
+
+                            <span class="option-detail">
+                                ${escapeHTML(sport)}
+                                ${age ? " · " + escapeHTML(String(age)) : ""}
+                                ${position ? " · " + escapeHTML(position) : ""}
+                            </span>
+
+                        </span>
+
+                    </label>
+                `;
+            }
+        ).join("");
+
+
+    openModal("rosterModal");
+}
+
+
+/* ================================================================
+   SAVE ROSTER
+   ================================================================ */
+
+function saveRoster() {
+
+    if (!currentTeam) {
+        return;
+    }
+
+
+    const selected =
+        Array.from(
+            document.querySelectorAll(
+                ".roster-checkbox:checked"
+            )
+        )
+        .map(
+            checkbox =>
+                checkbox.value
+        );
+
+
+    currentTeam.athleteIds =
+        selected;
+
+
+    const index =
+        teams.findIndex(
+            team =>
+                String(team.id) ===
+                String(currentTeam.id)
+        );
+
+
+    if (index !== -1) {
+
+        teams[index] =
+            currentTeam;
+
+
+        saveStorage(
+            "athlete360_teams",
+            teams
+        );
+
+
+        localStorage.setItem(
+            "athlete360_selected_team",
+            JSON.stringify(
+                currentTeam
+            )
+        );
+    }
+
+
+    closeModal("rosterModal");
+
+
+    renderKPIs();
+
+    renderPerformance();
+
+    renderTeamInfo();
+
+    renderTrend();
+
+    renderRoster();
+
+    renderTestingActivity();
+
+    renderTrainingActivity();
+
+
+    showToast(
+        "Team roster updated.",
+        "success"
+    );
+}
+
+
+/* ================================================================
+   VIEW ATHLETE
+   ================================================================ */
+
+function viewAthlete(id) {
+
+    if (!id) {
+        return;
+    }
+
+
+    const athlete =
+        athletes.find(
+            item =>
+                String(
+                    item.id ??
+                    item.athleteId ??
+                    item.athleteID
+                ) ===
+                String(id)
+        );
+
+
+    if (athlete) {
+
+        localStorage.setItem(
+            "athlete360_selected_athlete",
+            JSON.stringify(
+                athlete
+            )
+        );
+    }
+
+
+    window.location.href =
+        "athlete-profile.html?id=" +
+        encodeURIComponent(id);
+}
+
+
+/* ================================================================
+   NAVIGATION
+   ================================================================ */
+
+function goBackToTeams() {
+
+    window.location.href =
+        "teams.html";
+}
+
+
+function goToTesting() {
+
+    window.location.href =
+        "testing.html";
+}
+
+
+function goToTraining() {
+
+    window.location.href =
+        "training.html";
+}
+
+
+function goToAnalytics() {
+
+    window.location.href =
+        "analytics.html";
+}
+
+
+function goToReports() {
+
+    window.location.href =
+        "reports.html";
+}
+
+
+function addAthlete() {
+
+    window.location.href =
+        "athletes.html";
+}
+
+
+function goToNotifications() {
+
+    window.location.href =
+        "notifications.html";
+}
+
+
+/* ================================================================
+   SIDEBAR
+   ================================================================ */
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+
+    sidebar.classList.toggle(
+        "open"
+    );
+}
+
+
+document.addEventListener(
+    "click",
+    event => {
+
+        const sidebar =
+            document.getElementById(
+                "sidebar"
+            );
+
+
+        const mobileMenu =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+
+        if (
+            window.innerWidth <= 900 &&
+            sidebar.classList.contains("open") &&
+            !sidebar.contains(event.target) &&
+            !mobileMenu.contains(event.target)
+        ) {
+
+            sidebar.classList.remove(
+                "open"
+            );
+        }
+
+    }
+);
+
+
+/* ================================================================
+   MODALS
+   ================================================================ */
+
+function openModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+
+    if (modal) {
+
+        modal.classList.add(
+            "open"
+        );
+    }
+}
+
+
+function closeModal(id) {
+
+    const modal =
+        document.getElementById(id);
+
+
+    if (modal) {
+
+        modal.classList.remove(
+            "open"
+        );
+    }
+}
+
+
+document.querySelectorAll(
+    ".modal-overlay"
+).forEach(
+    overlay => {
+
+        overlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    overlay
+                ) {
+
+                    overlay.classList.remove(
+                        "open"
+                    );
+                }
+
+            }
+        );
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            document
+                .querySelectorAll(
+                    ".modal-overlay.open"
+                )
+                .forEach(
+                    modal =>
+                        modal.classList.remove(
+                            "open"
+                        )
+                );
+        }
+
+    }
+);
+
+
+/* ================================================================
+   DELETE TEAM
+   ================================================================ */
+
+function requestDeleteTeam() {
+
+    if (!currentTeam) {
+        return;
+    }
+
+
+    document.getElementById(
+        "deleteTeamName"
+    ).textContent =
+        currentTeam.name ||
+        "this team";
+
+
+    openModal(
+        "deleteModal"
+    );
+}
+
+
+function deleteTeam() {
+
+    if (!currentTeam) {
+        return;
+    }
+
+
+    teams =
+        teams.filter(
+            team =>
+                String(team.id) !==
+                String(currentTeam.id)
+        );
+
+
+    saveStorage(
+        "athlete360_teams",
+        teams
+    );
+
+
+    localStorage.removeItem(
+        "athlete360_selected_team"
+    );
+
+
+    closeModal(
+        "deleteModal"
+    );
+
+
+    showToast(
+        "Team deleted.",
+        "success"
+    );
+
+
+    setTimeout(
+        () => {
+
+            window.location.href =
+                "teams.html";
+
+        },
+        650
+    );
+}
+
+
+/* ================================================================
+   DATE HELPERS
+   ================================================================ */
+
+function getDateObject(item) {
+
+    if (!item) {
+        return null;
+    }
+
+
+    const possible = [
+        item.date,
+        item.testDate,
+        item.sessionDate,
+        item.createdAt,
+        item.timestamp,
+        item.completedAt
+    ];
+
+
+    for (const value of possible) {
+
+        if (!value) {
+            continue;
+        }
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            !Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return date;
+        }
+    }
+
+
+    return null;
+}
+
+
+function getTimestamp(item) {
+
+    const date =
+        getDateObject(item);
+
+
+    return date
+        ? date.getTime()
+        : 0;
+}
+
+
+function formatShortDate(date) {
+
+    if (!date) {
+        return "—";
+    }
+
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            day: "2-digit",
+            month: "short"
+        }
+    );
+}
+
+
+/* ================================================================
+   TRAINING LOAD
+   ================================================================ */
+
+function getTrainingLoad(session) {
+
+    const directValues = [
+        session.load,
+        session.trainingLoad,
+        session.sessionLoad
+    ];
+
+
+    for (
+        const value of
+        directValues
+    ) {
+
+        const number =
+            parseFloat(value);
+
+
+        if (
+            Number.isFinite(number)
+        ) {
+            return number;
+        }
+    }
+
+
+    const duration =
+        parseFloat(
+            session.duration ??
+            session.minutes ??
+            0
+        );
+
+
+    const rpe =
+        parseFloat(
+            session.rpe ??
+            session.RPE ??
+            session.intensity ??
+            0
+        );
+
+
+    if (
+        Number.isFinite(duration) &&
+        Number.isFinite(rpe)
+    ) {
+
+        return duration * rpe;
+    }
+
+
+    return 0;
+}
+
+
+/* ================================================================
+   FORMATTERS
+   ================================================================ */
+
+function formatNumber(value) {
+
+    const number =
+        Number(value);
+
+
+    if (
+        !Number.isFinite(number)
+    ) {
+        return "0";
+    }
+
+
+    return number.toLocaleString(
+        undefined,
+        {
+            maximumFractionDigits: 0
+        }
+    );
+}
+
+
+function clamp(
+    value,
+    min,
+    max
+) {
+
+    return Math.min(
+        Math.max(
+            value,
+            min
+        ),
+        max
+    );
+}
+
+
+function getInitials(name) {
+
+    const words =
+        String(name || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+
+    if (!words.length) {
+        return "A";
+    }
+
+
+    if (words.length === 1) {
+
+        return words[0]
+            .substring(0, 2)
+            .toUpperCase();
+    }
+
+
+    return (
+        words[0][0] +
+        words[words.length - 1][0]
+    ).toUpperCase();
+}
+
+
+function getTeamInitials(name) {
+
+    const words =
+        String(name || "")
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+
+    if (!words.length) {
+        return "TM";
+    }
+
+
+    if (words.length === 1) {
+
+        return words[0]
+            .substring(0, 2)
+            .toUpperCase();
+    }
+
+
+    return (
+        words[0][0] +
+        words[1][0]
+    ).toUpperCase();
+}
+
+
+function getStatusClass(status) {
+
+    const value =
+        String(status || "")
+            .toLowerCase();
+
+
+    if (
+        value.includes("monitor")
+    ) {
+        return "status-monitor";
+    }
+
+
+    if (
+        value.includes("inactive")
+    ) {
+        return "status-inactive";
+    }
+
+
+    return "status-active";
+}
+
+
+/* ================================================================
+   SECURITY HELPERS
+   ================================================================ */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+function escapeAttribute(value) {
+
+    return String(value ?? "")
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        );
+}
+
+
+/* ================================================================
+   TOAST
+   ================================================================ */
+
+function showToast(
+    message,
+    type = "success"
+) {
+
+    const container =
+        document.getElementById(
+            "toastContainer"
+        );
+
+
+    const toast =
+        document.createElement(
+            "div"
+        );
+
+
+    toast.className =
+        "toast " +
+        type;
+
+
+    toast.innerHTML = `
+
+        <span class="toast-icon">
+
+            ${
+                type === "error"
+                    ? "!"
+                    : "✓"
+            }
+
+        </span>
+
+        <span>
+            ${escapeHTML(message)}
+        </span>
+
+    `;
+
+
+    container.appendChild(
+        toast
+    );
+
+
+    setTimeout(
+        () => {
+
+            toast.style.opacity =
+                "0";
+
+            toast.style.transform =
+                "translateY(8px)";
+
+            setTimeout(
+                () =>
+                    toast.remove(),
+                220
+            );
+
+        },
+        3000
+    );
+}
+
+
+/* ================================================================
+   NO TEAM MESSAGE
+   ================================================================ */
+
+function showNoTeamMessage() {
+
+    const page =
+        document.getElementById(
+            "pageContent"
+        );
+
+
+    page.innerHTML = `
+
+        <div
+            class="panel"
+            style="margin-top:30px;"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    !
+                </div>
+
+                <div class="empty-title">
+                    Team not found
+                </div>
+
+                <div class="empty-text">
+                    We could not find the team you are trying
+                    to view. Go back to Teams and select a team.
+                </div>
+
+                <button
+                    class="btn btn-primary"
+                    style="margin-top:17px;"
+                    onclick="goBackToTeams()"
+                >
+                    Back to Teams
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+/* ================================================================
+   LOGOUT
+   ================================================================ */
+
+function logout() {
+
+    localStorage.removeItem(
+        "athlete360_user"
+    );
+
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* ================================================================
+   HIDE LOADING
+   ================================================================ */
+
+function hideLoading() {
+
+    const loading =
+        document.getElementById(
+            "loadingScreen"
+        );
+
+
+    if (!loading) {
+        return;
+    }
+
+
+    loading.style.opacity =
+        "0";
+
+
+    loading.style.pointerEvents =
+        "none";
+
+
+    setTimeout(
+        () => {
+
+            loading.remove();
+
+        },
+        220
+    );
+}
+
+
+/* ================================================================
+   START
+   ================================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        setTimeout(
+            initialise,
+            120
+        );
+
+    }
+);
+
+
+/* ================================================================
+   DEBUG HELPERS
+   ================================================================ */
+
+window.Athlete360TeamProfile = {
+
+    getTeam: () =>
+        currentTeam,
+
+    getTeamAthletes: () =>
+        getTeamAthletes(),
+
+    reload: () =>
+        initialise(),
+
+    teams: () =>
+        teams,
+
+    athletes: () =>
+        athletes,
+
+    testing: () =>
+        testingHistory,
+
+    training: () =>
+        trainingSessions
+
+};
+
+</script>
+
+</body>
+</html>
+

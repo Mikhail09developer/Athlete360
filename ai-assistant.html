@@ -1,0 +1,4854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Athlete360 | AI Assistant</title>
+
+    <style>
+        /* =========================================================
+           ATHLETE360 AI ASSISTANT
+           Complete standalone page
+           ========================================================= */
+
+        :root {
+            --bg: #080b10;
+            --bg-soft: #0c1117;
+            --panel: #10161d;
+            --panel-2: #141b23;
+            --panel-3: #18212b;
+
+            --border: #25313c;
+            --border-light: #2e3c48;
+
+            --text: #edf4f8;
+            --text-soft: #b8c4ce;
+            --muted: #7f8c98;
+
+            --blue: #54b9ff;
+            --blue-strong: #299be8;
+            --blue-soft: rgba(84, 185, 255, 0.12);
+
+            --green: #23d18b;
+            --green-strong: #18a96e;
+            --green-soft: rgba(35, 209, 139, 0.12);
+
+            --orange: #f3a847;
+            --orange-soft: rgba(243, 168, 71, 0.12);
+
+            --red: #ff6262;
+            --red-soft: rgba(255, 98, 98, 0.12);
+
+            --sidebar-width: 250px;
+            --topbar-height: 72px;
+
+            --radius-sm: 8px;
+            --radius: 12px;
+            --radius-lg: 16px;
+
+            --shadow: 0 14px 40px rgba(0, 0, 0, 0.22);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 80% 0%,
+                    rgba(84, 185, 255, 0.055),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 10% 100%,
+                    rgba(35, 209, 139, 0.035),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ::selection {
+            background: rgba(84, 185, 255, 0.28);
+            color: #fff;
+        }
+
+        /* =========================================================
+           SIDEBAR
+           ========================================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: var(--sidebar-width);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #0b1016 0%,
+                    #090d12 100%
+                );
+
+            border-right: 1px solid var(--border);
+
+            z-index: 1000;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand {
+            height: var(--topbar-height);
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 20px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(84, 185, 255, 0.22),
+                    rgba(35, 209, 139, 0.12)
+                );
+
+            border: 1px solid rgba(84, 185, 255, 0.25);
+
+            display: grid;
+            place-items: center;
+
+            margin-right: 11px;
+
+            color: var(--blue);
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .brand-title {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+        }
+
+        .nav {
+            padding: 18px 12px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .nav-section {
+            color: #586572;
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+
+            padding: 0 11px;
+            margin: 7px 0 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            min-height: 42px;
+
+            padding: 9px 11px;
+            margin-bottom: 3px;
+
+            border-radius: 9px;
+
+            color: #9ba8b3;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition:
+                background 0.18s ease,
+                color 0.18s ease,
+                border-color 0.18s ease;
+
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.035);
+            color: #e7edf1;
+        }
+
+        .nav-item.active {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(84, 185, 255, 0.13),
+                    rgba(35, 209, 139, 0.045)
+                );
+
+            border-color: rgba(84, 185, 255, 0.15);
+
+            color: #f1f7fa;
+        }
+
+        .nav-icon {
+            width: 21px;
+            min-width: 21px;
+
+            display: grid;
+            place-items: center;
+
+            color: #71808d;
+        }
+
+        .nav-item.active .nav-icon {
+            color: var(--blue);
+        }
+
+        .sidebar-bottom {
+            padding: 13px;
+
+            border-top: 1px solid var(--border);
+        }
+
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 10px;
+
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid var(--border);
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+
+            min-width: 34px;
+
+            border-radius: 9px;
+
+            display: grid;
+            place-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(84, 185, 255, 0.2),
+                    rgba(35, 209, 139, 0.13)
+                );
+
+            border: 1px solid rgba(84, 185, 255, 0.2);
+
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .user-details {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 12px;
+            font-weight: 700;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-role {
+            font-size: 10px;
+            color: var(--muted);
+
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           MAIN
+           ========================================================= */
+
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: var(--topbar-height);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 26px;
+
+            background:
+                rgba(8, 11, 16, 0.9);
+
+            border-bottom: 1px solid var(--border);
+
+            backdrop-filter: blur(14px);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .mobile-menu {
+            display: none;
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 9px;
+
+            background: var(--panel);
+            border: 1px solid var(--border);
+
+            color: var(--text);
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        .breadcrumb strong {
+            color: var(--text-soft);
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .top-icon {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 9px;
+
+            background: var(--panel);
+            border: 1px solid var(--border);
+
+            color: var(--text-soft);
+
+            transition:
+                background 0.18s ease,
+                color 0.18s ease;
+        }
+
+        .top-icon:hover {
+            background: var(--panel-2);
+            color: var(--blue);
+        }
+
+        .page {
+            padding: 28px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* =========================================================
+           PAGE HEADER
+           ========================================================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .page-title-row {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-bottom: 7px;
+        }
+
+        .ai-title-icon {
+            width: 46px;
+            height: 46px;
+
+            border-radius: 13px;
+
+            display: grid;
+            place-items: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(84, 185, 255, 0.17),
+                    rgba(35, 209, 139, 0.08)
+                );
+
+            border: 1px solid rgba(84, 185, 255, 0.22);
+
+            color: var(--blue);
+        }
+
+        .page-title {
+            font-size: 28px;
+            line-height: 1.1;
+            font-weight: 800;
+
+            letter-spacing: -0.7px;
+        }
+
+        .page-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 720px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            background: var(--green-soft);
+            border: 1px solid rgba(35, 209, 139, 0.2);
+
+            color: #74e6b5;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+
+            box-shadow: 0 0 0 4px rgba(35, 209, 139, 0.08);
+        }
+
+        /* =========================================================
+           LAYOUT
+           ========================================================= */
+
+        .assistant-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                330px;
+
+            gap: 20px;
+
+            align-items: start;
+        }
+
+        .left-column {
+            min-width: 0;
+        }
+
+        .right-column {
+            min-width: 0;
+            position: sticky;
+            top: 92px;
+        }
+
+        /* =========================================================
+           PANEL
+           ========================================================= */
+
+        .panel {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(20, 27, 35, 0.96),
+                    rgba(13, 18, 24, 0.96)
+                );
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius-lg);
+
+            box-shadow: var(--shadow);
+        }
+
+        .panel-header {
+            padding: 17px 18px;
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .panel-subtitle {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        /* =========================================================
+           CHAT
+           ========================================================= */
+
+        .chat-panel {
+            min-height: 720px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 17px 18px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .assistant-identity {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .assistant-avatar {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 12px;
+
+            display: grid;
+            place-items: center;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(84, 185, 255, 0.19),
+                    rgba(35, 209, 139, 0.12)
+                );
+
+            border: 1px solid rgba(84, 185, 255, 0.22);
+
+            color: var(--blue);
+        }
+
+        .assistant-name {
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .assistant-status {
+            color: #6edfae;
+            font-size: 10px;
+            margin-top: 3px;
+
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .mini-dot {
+            width: 6px;
+            height: 6px;
+
+            background: var(--green);
+
+            border-radius: 50%;
+        }
+
+        .clear-chat {
+            border: 1px solid var(--border);
+            background: transparent;
+
+            color: var(--muted);
+
+            border-radius: 8px;
+
+            padding: 7px 10px;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .clear-chat:hover {
+            color: var(--red);
+            border-color: rgba(255, 98, 98, 0.2);
+        }
+
+        .chat-messages {
+            flex: 1;
+
+            padding: 20px;
+
+            overflow-y: auto;
+
+            max-height: 570px;
+            min-height: 570px;
+
+            background:
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(84, 185, 255, 0.035),
+                    transparent 45%
+                );
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+
+            margin-bottom: 18px;
+
+            max-width: 85%;
+        }
+
+        .message.user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .message-icon {
+            width: 32px;
+            height: 32px;
+
+            min-width: 32px;
+
+            border-radius: 9px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--panel-3);
+            border: 1px solid var(--border);
+
+            color: var(--blue);
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .message.user .message-icon {
+            color: var(--green);
+        }
+
+        .message-body {
+            min-width: 0;
+        }
+
+        .message-author {
+            color: var(--muted);
+            font-size: 9px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+
+            margin-bottom: 5px;
+        }
+
+        .message-bubble {
+            padding: 12px 14px;
+
+            background: #131a22;
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            color: #dce6ec;
+
+            font-size: 12px;
+            line-height: 1.65;
+        }
+
+        .message.user .message-bubble {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(84, 185, 255, 0.12),
+                    rgba(84, 185, 255, 0.055)
+                );
+
+            border-color: rgba(84, 185, 255, 0.2);
+        }
+
+        .message-bubble strong {
+            color: #f0f6f9;
+        }
+
+        .message-bubble .positive {
+            color: #63dfa9;
+        }
+
+        .message-bubble .warning {
+            color: #f3bd72;
+        }
+
+        .message-bubble .danger {
+            color: #ff8585;
+        }
+
+        .message-bubble ul {
+            padding-left: 17px;
+            margin-top: 8px;
+        }
+
+        .message-bubble li {
+            margin-bottom: 5px;
+        }
+
+        .chat-composer {
+            padding: 15px;
+
+            border-top: 1px solid var(--border);
+
+            background: rgba(8, 11, 16, 0.45);
+        }
+
+        .composer-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 9px;
+        }
+
+        .composer-input {
+            flex: 1;
+
+            min-height: 46px;
+            max-height: 110px;
+
+            resize: vertical;
+
+            padding: 12px 13px;
+
+            border-radius: 10px;
+
+            background: #0b1016;
+
+            border: 1px solid var(--border);
+
+            color: var(--text);
+
+            outline: none;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .composer-input::placeholder {
+            color: #596773;
+        }
+
+        .composer-input:focus {
+            border-color: rgba(84, 185, 255, 0.42);
+
+            box-shadow:
+                0 0 0 3px rgba(84, 185, 255, 0.07);
+        }
+
+        .send-button {
+            width: 46px;
+            height: 46px;
+
+            border-radius: 10px;
+
+            border: 1px solid rgba(84, 185, 255, 0.3);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #299be8,
+                    #247fbb
+                );
+
+            color: #fff;
+
+            display: grid;
+            place-items: center;
+
+            transition:
+                transform 0.15s ease,
+                filter 0.15s ease;
+        }
+
+        .send-button:hover {
+            filter: brightness(1.08);
+        }
+
+        .send-button:active {
+            transform: scale(0.96);
+        }
+
+        .composer-hint {
+            color: #596673;
+            font-size: 9px;
+
+            margin-top: 7px;
+        }
+
+        /* =========================================================
+           QUICK ACTIONS
+           ========================================================= */
+
+        .quick-actions {
+            padding: 17px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 9px;
+
+            margin-top: 13px;
+        }
+
+        .quick-button {
+            text-align: left;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: #10171f;
+
+            border: 1px solid var(--border);
+
+            color: var(--text-soft);
+
+            transition:
+                border-color 0.18s ease,
+                background 0.18s ease,
+                color 0.18s ease;
+        }
+
+        .quick-button:hover {
+            background: #151e27;
+            border-color: rgba(84, 185, 255, 0.28);
+            color: var(--text);
+        }
+
+        .quick-button-icon {
+            width: 28px;
+            height: 28px;
+
+            border-radius: 8px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--blue-soft);
+
+            color: var(--blue);
+
+            margin-bottom: 8px;
+        }
+
+        .quick-button.green .quick-button-icon {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .quick-button.orange .quick-button-icon {
+            background: var(--orange-soft);
+            color: var(--orange);
+        }
+
+        .quick-button.red .quick-button-icon {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .quick-button-title {
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .quick-button-text {
+            font-size: 9px;
+            color: var(--muted);
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+
+        /* =========================================================
+           ATHLETE CONTEXT
+           ========================================================= */
+
+        .context-panel {
+            margin-top: 15px;
+        }
+
+        .context-body {
+            padding: 16px;
+        }
+
+        .select-label {
+            color: var(--muted);
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            margin-bottom: 7px;
+        }
+
+        .select {
+            width: 100%;
+
+            height: 40px;
+
+            padding: 0 11px;
+
+            border-radius: 9px;
+
+            border: 1px solid var(--border);
+
+            background: #0b1016;
+
+            color: var(--text);
+
+            outline: none;
+
+            font-size: 11px;
+        }
+
+        .select:focus {
+            border-color: rgba(84, 185, 255, 0.4);
+        }
+
+        .context-athlete {
+            margin-top: 14px;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: rgba(84, 185, 255, 0.045);
+
+            border: 1px solid rgba(84, 185, 255, 0.12);
+        }
+
+        .context-athlete-name {
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .context-athlete-meta {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-top: 4px;
+        }
+
+        .context-stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 7px;
+
+            margin-top: 12px;
+        }
+
+        .context-stat {
+            padding: 8px;
+
+            background: rgba(255, 255, 255, 0.025);
+
+            border: 1px solid var(--border);
+
+            border-radius: 8px;
+        }
+
+        .context-stat-value {
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .context-stat-label {
+            color: var(--muted);
+            font-size: 8px;
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           AI CAPABILITIES
+           ========================================================= */
+
+        .capabilities {
+            margin-top: 15px;
+        }
+
+        .capability-list {
+            padding: 7px 16px 15px;
+        }
+
+        .capability {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+
+            padding: 10px 0;
+
+            border-bottom: 1px solid rgba(37, 49, 60, 0.7);
+        }
+
+        .capability:last-child {
+            border-bottom: none;
+        }
+
+        .capability-icon {
+            width: 27px;
+            height: 27px;
+
+            min-width: 27px;
+
+            border-radius: 8px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--panel-3);
+
+            color: var(--blue);
+
+            border: 1px solid var(--border);
+        }
+
+        .capability-title {
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .capability-text {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.4;
+
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           INSIGHT CARD
+           ========================================================= */
+
+        .insight-card {
+            margin-top: 15px;
+
+            padding: 16px;
+
+            border-radius: var(--radius-lg);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(35, 209, 139, 0.075),
+                    rgba(84, 185, 255, 0.04)
+                );
+
+            border: 1px solid rgba(35, 209, 139, 0.14);
+        }
+
+        .insight-top {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .insight-icon {
+            width: 30px;
+            height: 30px;
+
+            border-radius: 8px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--green-soft);
+
+            color: var(--green);
+        }
+
+        .insight-title {
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .insight-text {
+            color: var(--text-soft);
+
+            font-size: 10px;
+            line-height: 1.55;
+
+            margin-top: 10px;
+        }
+
+        /* =========================================================
+           DATA STATUS
+           ========================================================= */
+
+        .data-status {
+            margin-top: 15px;
+
+            padding: 14px 16px;
+
+            border-radius: var(--radius);
+
+            background: #0e141b;
+
+            border: 1px solid var(--border);
+        }
+
+        .data-status-title {
+            font-size: 10px;
+            font-weight: 800;
+
+            margin-bottom: 9px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 6px 0;
+
+            border-bottom: 1px solid rgba(37, 49, 60, 0.6);
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-name {
+            color: var(--muted);
+            font-size: 9px;
+        }
+
+        .data-value {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--blue);
+        }
+
+        /* =========================================================
+           TOAST
+           ========================================================= */
+
+        .toast-container {
+            position: fixed;
+
+            right: 22px;
+            bottom: 22px;
+
+            z-index: 3000;
+
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+
+            pointer-events: none;
+        }
+
+        .toast {
+            min-width: 240px;
+            max-width: 340px;
+
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            background: #151d26;
+
+            border: 1px solid var(--border);
+
+            box-shadow: var(--shadow);
+
+            color: var(--text);
+
+            font-size: 11px;
+            line-height: 1.45;
+
+            animation:
+                toastIn 0.2s ease,
+                toastOut 0.2s ease 3.8s forwards;
+        }
+
+        .toast.success {
+            border-color: rgba(35, 209, 139, 0.28);
+        }
+
+        .toast.info {
+            border-color: rgba(84, 185, 255, 0.28);
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes toastOut {
+            to {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+        }
+
+        /* =========================================================
+           LOADING
+           ========================================================= */
+
+        .typing {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .typing span {
+            width: 5px;
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: var(--blue);
+
+            animation: typing 1.1s infinite ease-in-out;
+        }
+
+        .typing span:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+
+        .typing span:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes typing {
+            0%,
+            60%,
+            100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateY(-3px);
+            }
+        }
+
+        /* =========================================================
+           SCROLLBAR
+           ========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 7px;
+            height: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #090d12;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #263440;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334554;
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1200px) {
+            .assistant-layout {
+                grid-template-columns: minmax(0, 1fr) 290px;
+            }
+
+            .page {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.22s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .assistant-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .right-column {
+                position: static;
+            }
+
+            .chat-panel {
+                min-height: 680px;
+            }
+
+            .chat-messages {
+                max-height: 510px;
+                min-height: 510px;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .topbar {
+                padding: 0 14px;
+            }
+
+            .breadcrumb span {
+                display: none;
+            }
+
+            .page {
+                padding: 17px 13px 30px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .ai-title-icon {
+                width: 41px;
+                height: 41px;
+            }
+
+            .chat-panel {
+                min-height: 650px;
+            }
+
+            .chat-messages {
+                min-height: 470px;
+                max-height: 470px;
+
+                padding: 15px;
+            }
+
+            .message {
+                max-width: 94%;
+            }
+
+            .quick-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .context-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 430px) {
+            .topbar-actions {
+                gap: 5px;
+            }
+
+            .top-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .status-pill {
+                font-size: 9px;
+            }
+
+            .quick-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chat-composer {
+                padding: 11px;
+            }
+
+            .composer-row {
+                align-items: stretch;
+            }
+
+            .send-button {
+                width: 42px;
+                height: 42px;
+            }
+
+            .composer-input {
+                min-height: 42px;
+            }
+        }
+
+        /* =========================================================
+           NO ROTATIONS / NO SKEWS
+           ========================================================= */
+
+        *,
+        *::before,
+        *::after {
+            transform-origin: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         SIDEBAR
+         ========================================================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">A3</div>
+
+            <div class="brand-text">
+                <div class="brand-title">Athlete360</div>
+                <div class="brand-subtitle">Performance OS</div>
+            </div>
+        </div>
+
+        <nav class="nav">
+
+            <div class="nav-section">Overview</div>
+
+            <a class="nav-item" href="dashboard.html">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <div class="nav-section">Athletes</div>
+
+            <a class="nav-item" href="athletes.html">
+                <span class="nav-icon">♙</span>
+                <span>Athletes</span>
+            </a>
+
+            <a class="nav-item" href="teams.html">
+                <span class="nav-icon">♟</span>
+                <span>Teams</span>
+            </a>
+
+            <div class="nav-section">Performance</div>
+
+            <a class="nav-item" href="testing.html">
+                <span class="nav-icon">◈</span>
+                <span>Testing</span>
+            </a>
+
+            <a class="nav-item" href="training.html">
+                <span class="nav-icon">⌁</span>
+                <span>Training</span>
+            </a>
+
+            <a class="nav-item" href="analytics.html">
+                <span class="nav-icon">▥</span>
+                <span>Analytics</span>
+            </a>
+
+            <a class="nav-item" href="exercises.html">
+                <span class="nav-icon">◉</span>
+                <span>Exercises</span>
+            </a>
+
+            <div class="nav-section">Reports</div>
+
+            <a class="nav-item" href="reports.html">
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+            </a>
+
+            <a class="nav-item" href="notifications.html">
+                <span class="nav-icon">♢</span>
+                <span>Notifications</span>
+            </a>
+
+            <div class="nav-section">Athlete360</div>
+
+            <a class="nav-item active" href="ai-assistant.html">
+                <span class="nav-icon">✦</span>
+                <span>AI Assistant</span>
+            </a>
+
+            <a class="nav-item" href="settings.html">
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="user-card">
+
+                <div class="avatar" id="sidebarAvatar">
+                    MJ
+                </div>
+
+                <div class="user-details">
+                    <div class="user-name" id="sidebarUserName">
+                        Coach
+                    </div>
+
+                    <div class="user-role" id="sidebarUserRole">
+                        Performance Coach
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================================
+         MAIN
+         ========================================================= -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    aria-label="Open navigation"
+                >
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    <span>Athlete360</span>
+                    <span>/</span>
+                    <strong>AI Assistant</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-actions">
+
+                <button
+                    class="top-icon"
+                    title="Notifications"
+                    onclick="window.location.href='notifications.html'"
+                >
+                    ♢
+                </button>
+
+                <button
+                    class="top-icon"
+                    title="Settings"
+                    onclick="window.location.href='settings.html'"
+                >
+                    ⚙
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- PAGE -->
+
+        <div class="page">
+
+            <!-- PAGE HEADER -->
+
+            <section class="page-header">
+
+                <div>
+
+                    <div class="page-title-row">
+
+                        <div class="ai-title-icon">
+                            ✦
+                        </div>
+
+                        <h1 class="page-title">
+                            AI Performance Assistant
+                        </h1>
+
+                    </div>
+
+                    <p class="page-subtitle">
+                        Your Athlete360 coaching intelligence centre. Analyse
+                        athlete performance, testing, training and readiness
+                        using the data already stored in your system.
+                    </p>
+
+                </div>
+
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    Local Intelligence Active
+                </div>
+
+            </section>
+
+
+            <!-- MAIN GRID -->
+
+            <section class="assistant-layout">
+
+                <!-- =================================================
+                     LEFT COLUMN
+                     ================================================= -->
+
+                <div class="left-column">
+
+                    <div class="panel chat-panel">
+
+                        <!-- CHAT HEADER -->
+
+                        <div class="chat-header">
+
+                            <div class="assistant-identity">
+
+                                <div class="assistant-avatar">
+                                    ✦
+                                </div>
+
+                                <div>
+
+                                    <div class="assistant-name">
+                                        Athlete360 Coach AI
+                                    </div>
+
+                                    <div class="assistant-status">
+                                        <span class="mini-dot"></span>
+                                        Ready to analyse your data
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <button
+                                class="clear-chat"
+                                id="clearChat"
+                            >
+                                Clear Chat
+                            </button>
+
+                        </div>
+
+
+                        <!-- CHAT MESSAGES -->
+
+                        <div
+                            class="chat-messages"
+                            id="chatMessages"
+                        >
+                        </div>
+
+
+                        <!-- COMPOSER -->
+
+                        <div class="chat-composer">
+
+                            <div class="composer-row">
+
+                                <textarea
+                                    class="composer-input"
+                                    id="chatInput"
+                                    rows="1"
+                                    placeholder="Ask Athlete360 about an athlete, team, training or performance..."
+                                ></textarea>
+
+                                <button
+                                    class="send-button"
+                                    id="sendButton"
+                                    aria-label="Send message"
+                                >
+                                    ➤
+                                </button>
+
+                            </div>
+
+                            <div class="composer-hint">
+                                Press Enter to send • Shift + Enter for a new line
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     RIGHT COLUMN
+                     ================================================= -->
+
+                <aside class="right-column">
+
+                    <!-- QUICK ACTIONS -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <div class="panel-title">
+                                    Quick AI Actions
+                                </div>
+
+                                <div class="panel-subtitle">
+                                    Start an analysis instantly
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="quick-actions">
+
+                            <div class="quick-grid">
+
+                                <button
+                                    class="quick-button"
+                                    data-action="performance"
+                                >
+
+                                    <div class="quick-button-icon">
+                                        📈
+                                    </div>
+
+                                    <div class="quick-button-title">
+                                        Performance
+                                    </div>
+
+                                    <div class="quick-button-text">
+                                        Analyse overall performance
+                                    </div>
+
+                                </button>
+
+
+                                <button
+                                    class="quick-button green"
+                                    data-action="readiness"
+                                >
+
+                                    <div class="quick-button-icon">
+                                        ✓
+                                    </div>
+
+                                    <div class="quick-button-title">
+                                        Readiness
+                                    </div>
+
+                                    <div class="quick-button-text">
+                                        Find athletes needing attention
+                                    </div>
+
+                                </button>
+
+
+                                <button
+                                    class="quick-button orange"
+                                    data-action="training"
+                                >
+
+                                    <div class="quick-button-icon">
+                                        ⚡
+                                    </div>
+
+                                    <div class="quick-button-title">
+                                        Training
+                                    </div>
+
+                                    <div class="quick-button-text">
+                                        Review training load
+                                    </div>
+
+                                </button>
+
+
+                                <button
+                                    class="quick-button"
+                                    data-action="testing"
+                                >
+
+                                    <div class="quick-button-icon">
+                                        ◈
+                                    </div>
+
+                                    <div class="quick-button-title">
+                                        Testing
+                                    </div>
+
+                                    <div class="quick-button-text">
+                                        Analyse recent tests
+                                    </div>
+
+                                </button>
+
+
+                                <button
+                                    class="quick-button green"
+                                    data-action="recommendation"
+                                >
+
+                                    <div class="quick-button-icon">
+                                        ✦
+                                    </div>
+
+                                    <div class="quick-button-title">
+                                        Recommend
+                                    </div>
+
+                                    <div class="quick-button-text">
+                                        Suggest training priorities
+                                    </div>
+
+                                </button>
+
+
+                                <button
+                                    class="quick-button red"
+                                    data-action="team"
+                                >
+
+                                    <div class="quick-button-icon">
+                                        ♟
+                                    </div>
+
+                                    <div class="quick-button-title">
+                                        Team Analysis
+                                    </div>
+
+                                    <div class="quick-button-text">
+                                        Review your squad
+                                    </div>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ATHLETE CONTEXT -->
+
+                    <div class="panel context-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <div class="panel-title">
+                                    Athlete Context
+                                </div>
+
+                                <div class="panel-subtitle">
+                                    Select an athlete for personalised analysis
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="context-body">
+
+                            <div class="select-label">
+                                Athlete
+                            </div>
+
+                            <select
+                                class="select"
+                                id="athleteSelect"
+                            >
+                                <option value="">
+                                    All athletes
+                                </option>
+                            </select>
+
+
+                            <div
+                                class="context-athlete"
+                                id="contextAthlete"
+                            >
+
+                                <div class="context-athlete-name">
+                                    All Athletes
+                                </div>
+
+                                <div class="context-athlete-meta">
+                                    Athlete360 squad overview
+                                </div>
+
+                                <div class="context-stats">
+
+                                    <div class="context-stat">
+
+                                        <div
+                                            class="context-stat-value"
+                                            id="contextPerformance"
+                                        >
+                                            —
+                                        </div>
+
+                                        <div class="context-stat-label">
+                                            Performance
+                                        </div>
+
+                                    </div>
+
+                                    <div class="context-stat">
+
+                                        <div
+                                            class="context-stat-value"
+                                            id="contextTests"
+                                        >
+                                            —
+                                        </div>
+
+                                        <div class="context-stat-label">
+                                            Tests
+                                        </div>
+
+                                    </div>
+
+                                    <div class="context-stat">
+
+                                        <div
+                                            class="context-stat-value"
+                                            id="contextSessions"
+                                        >
+                                            —
+                                        </div>
+
+                                        <div class="context-stat-label">
+                                            Sessions
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CAPABILITIES -->
+
+                    <div class="panel capabilities">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <div class="panel-title">
+                                    AI Capabilities
+                                </div>
+
+                                <div class="panel-subtitle">
+                                    Built for performance coaching
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="capability-list">
+
+                            <div class="capability">
+
+                                <div class="capability-icon">
+                                    📊
+                                </div>
+
+                                <div>
+                                    <div class="capability-title">
+                                        Performance Analysis
+                                    </div>
+
+                                    <div class="capability-text">
+                                        Identify strengths, weaknesses and trends.
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="capability">
+
+                                <div class="capability-icon">
+                                    ⚡
+                                </div>
+
+                                <div>
+                                    <div class="capability-title">
+                                        Training Intelligence
+                                    </div>
+
+                                    <div class="capability-text">
+                                        Review session load, duration and RPE.
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="capability">
+
+                                <div class="capability-icon">
+                                    ◈
+                                </div>
+
+                                <div>
+                                    <div class="capability-title">
+                                        Testing Analysis
+                                    </div>
+
+                                    <div class="capability-text">
+                                        Analyse testing results and personal bests.
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="capability">
+
+                                <div class="capability-icon">
+                                    ✓
+                                </div>
+
+                                <div>
+                                    <div class="capability-title">
+                                        Readiness Monitoring
+                                    </div>
+
+                                    <div class="capability-text">
+                                        Highlight athletes that may need attention.
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="capability">
+
+                                <div class="capability-icon">
+                                    ♟
+                                </div>
+
+                                <div>
+                                    <div class="capability-title">
+                                        Team Intelligence
+                                    </div>
+
+                                    <div class="capability-text">
+                                        Compare squad performance and workload.
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- INSIGHT -->
+
+                    <div class="insight-card">
+
+                        <div class="insight-top">
+
+                            <div class="insight-icon">
+                                ✦
+                            </div>
+
+                            <div class="insight-title">
+                                Athlete360 Intelligence
+                            </div>
+
+                        </div>
+
+                        <div
+                            class="insight-text"
+                            id="insightText"
+                        >
+                            Select an athlete or use one of the quick actions
+                            to generate a personalised performance insight.
+                        </div>
+
+                    </div>
+
+
+                    <!-- DATA STATUS -->
+
+                    <div class="data-status">
+
+                        <div class="data-status-title">
+                            Connected Athlete360 Data
+                        </div>
+
+                        <div class="data-row">
+
+                            <span class="data-name">
+                                Athletes
+                            </span>
+
+                            <span
+                                class="data-value"
+                                id="dataAthletes"
+                            >
+                                0
+                            </span>
+
+                        </div>
+
+                        <div class="data-row">
+
+                            <span class="data-name">
+                                Teams
+                            </span>
+
+                            <span
+                                class="data-value"
+                                id="dataTeams"
+                            >
+                                0
+                            </span>
+
+                        </div>
+
+                        <div class="data-row">
+
+                            <span class="data-name">
+                                Testing records
+                            </span>
+
+                            <span
+                                class="data-value"
+                                id="dataTests"
+                            >
+                                0
+                            </span>
+
+                        </div>
+
+                        <div class="data-row">
+
+                            <span class="data-name">
+                                Training sessions
+                            </span>
+
+                            <span
+                                class="data-value"
+                                id="dataSessions"
+                            >
+                                0
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast-container"
+        id="toastContainer"
+    ></div>
+
+
+    <script>
+        /* =========================================================
+           ATHLETE360 AI ASSISTANT JAVASCRIPT
+           ========================================================= */
+
+        const STORAGE = {
+            athletes: "athlete360_athletes",
+            tests: "athlete360_testing_history",
+            sessions: "athlete360_training_sessions",
+            teams: "athlete360_teams",
+            user: "athlete360_user",
+            chat: "athlete360_ai_chat"
+        };
+
+
+        /* =========================================================
+           GENERAL HELPERS
+           ========================================================= */
+
+        function readArray(key) {
+
+            try {
+
+                const raw = localStorage.getItem(key);
+
+                if (!raw) {
+                    return [];
+                }
+
+                const parsed = JSON.parse(raw);
+
+                return Array.isArray(parsed) ? parsed : [];
+
+            } catch (error) {
+
+                console.warn("Could not read:", key, error);
+
+                return [];
+            }
+        }
+
+
+        function readObject(key) {
+
+            try {
+
+                const raw = localStorage.getItem(key);
+
+                if (!raw) {
+                    return {};
+                }
+
+                const parsed = JSON.parse(raw);
+
+                return parsed && typeof parsed === "object"
+                    ? parsed
+                    : {};
+
+            } catch (error) {
+
+                return {};
+            }
+        }
+
+
+        function number(value, fallback = 0) {
+
+            const n = Number(value);
+
+            return Number.isFinite(n)
+                ? n
+                : fallback;
+        }
+
+
+        function escapeHTML(value) {
+
+            return String(value ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+
+        function normalise(value) {
+
+            return String(value ?? "")
+                .trim()
+                .toLowerCase();
+        }
+
+
+        function getAthleteId(record) {
+
+            if (!record) {
+                return "";
+            }
+
+            return (
+                record.athleteId ||
+                record.athleteID ||
+                record.athlete_id ||
+                record.playerId ||
+                record.playerID ||
+                ""
+            );
+        }
+
+
+        function getAthleteName(record) {
+
+            if (!record) {
+                return "";
+            }
+
+            return (
+                record.athleteName ||
+                record.playerName ||
+                record.athlete ||
+                record.player ||
+                record.name ||
+                ""
+            );
+        }
+
+
+        function getRecordDate(record) {
+
+            if (!record) {
+                return null;
+            }
+
+            const value =
+                record.date ||
+                record.testDate ||
+                record.sessionDate ||
+                record.createdAt ||
+                record.timestamp;
+
+            if (!value) {
+                return null;
+            }
+
+            const date = new Date(value);
+
+            return Number.isNaN(date.getTime())
+                ? null
+                : date;
+        }
+
+
+        function formatDate(value) {
+
+            const date =
+                value instanceof Date
+                    ? value
+                    : new Date(value);
+
+            if (Number.isNaN(date.getTime())) {
+                return "Unknown date";
+            }
+
+            return date.toLocaleDateString(
+                "en-ZA",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+        }
+
+
+        function getPerformance(athlete) {
+
+            if (!athlete) {
+                return 0;
+            }
+
+            return number(
+                athlete.performance ??
+                athlete.performanceScore ??
+                athlete.score ??
+                athlete.rating ??
+                0
+            );
+        }
+
+
+        function getAthleteStatus(athlete) {
+
+            if (!athlete) {
+                return "Unknown";
+            }
+
+            const explicit =
+                athlete.status ||
+                athlete.readiness ||
+                athlete.readinessStatus;
+
+            if (explicit) {
+                return String(explicit);
+            }
+
+            const performance = getPerformance(athlete);
+
+            if (performance >= 80) {
+                return "Ready";
+            }
+
+            if (performance >= 65) {
+                return "Monitor";
+            }
+
+            return "At Risk";
+        }
+
+
+        function getRPE(session) {
+
+            return number(
+                session?.rpe ??
+                session?.RPE ??
+                session?.rating ??
+                0
+            );
+        }
+
+
+        function getDuration(session) {
+
+            return number(
+                session?.duration ??
+                session?.durationMinutes ??
+                session?.minutes ??
+                0
+            );
+        }
+
+
+        function getTrainingLoad(session) {
+
+            const stored =
+                session?.load ??
+                session?.trainingLoad ??
+                session?.sessionLoad;
+
+            if (stored !== undefined) {
+                return number(stored);
+            }
+
+            return getDuration(session) * getRPE(session);
+        }
+
+
+        function findAthlete(idOrName) {
+
+            const athletes = readArray(STORAGE.athletes);
+
+            const key = normalise(idOrName);
+
+            return athletes.find(
+                athlete =>
+                    normalise(athlete.id) === key
+            ) ||
+            athletes.find(
+                athlete =>
+                    normalise(athlete.name) === key
+            ) ||
+            null;
+        }
+
+
+        function resolveAthlete(record) {
+
+            const id = getAthleteId(record);
+            const name = getAthleteName(record);
+
+            if (id) {
+
+                const byId = findAthlete(id);
+
+                if (byId) {
+                    return byId;
+                }
+            }
+
+            if (name) {
+
+                const byName = findAthlete(name);
+
+                if (byName) {
+                    return byName;
+                }
+            }
+
+            return null;
+        }
+
+
+        function getTestsForAthlete(athlete) {
+
+            if (!athlete) {
+                return [];
+            }
+
+            const tests = readArray(STORAGE.tests);
+
+            return tests.filter(test => {
+
+                const resolved = resolveAthlete(test);
+
+                if (resolved && athlete.id) {
+                    return String(resolved.id) === String(athlete.id);
+                }
+
+                return normalise(getAthleteName(test)) ===
+                    normalise(athlete.name);
+
+            });
+        }
+
+
+        function getSessionsForAthlete(athlete) {
+
+            if (!athlete) {
+                return [];
+            }
+
+            const sessions = readArray(STORAGE.sessions);
+
+            return sessions.filter(session => {
+
+                const resolved = resolveAthlete(session);
+
+                if (resolved && athlete.id) {
+                    return String(resolved.id) === String(athlete.id);
+                }
+
+                return normalise(getAthleteName(session)) ===
+                    normalise(athlete.name);
+
+            });
+        }
+
+
+        function getAverage(values) {
+
+            const valid = values
+                .map(Number)
+                .filter(Number.isFinite);
+
+            if (!valid.length) {
+                return 0;
+            }
+
+            return valid.reduce(
+                (sum, value) => sum + value,
+                0
+            ) / valid.length;
+        }
+
+
+        function getLatest(items) {
+
+            if (!items.length) {
+                return null;
+            }
+
+            return [...items]
+                .sort((a, b) => {
+
+                    const da =
+                        getRecordDate(a)?.getTime() || 0;
+
+                    const db =
+                        getRecordDate(b)?.getTime() || 0;
+
+                    return db - da;
+                })[0];
+        }
+
+
+        function getTestScore(test) {
+
+            return number(
+                test?.score ??
+                test?.rating ??
+                test?.performanceScore ??
+                0
+            );
+        }
+
+
+        /* =========================================================
+           USER
+           ========================================================= */
+
+        function loadUser() {
+
+            const user = readObject(STORAGE.user);
+
+            const name =
+                user.name ||
+                user.fullName ||
+                user.displayName ||
+                "Coach";
+
+            const role =
+                user.role ||
+                user.position ||
+                "Performance Coach";
+
+            document.getElementById(
+                "sidebarUserName"
+            ).textContent = name;
+
+            document.getElementById(
+                "sidebarUserRole"
+            ).textContent = role;
+
+            const initials = name
+                .split(/\s+/)
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(part => part[0])
+                .join("")
+                .toUpperCase();
+
+            document.getElementById(
+                "sidebarAvatar"
+            ).textContent = initials || "CO";
+        }
+
+
+        /* =========================================================
+           DATA
+           ========================================================= */
+
+        let athletes = [];
+        let tests = [];
+        let sessions = [];
+        let teams = [];
+
+
+        function loadData() {
+
+            athletes = readArray(STORAGE.athletes);
+            tests = readArray(STORAGE.tests);
+            sessions = readArray(STORAGE.sessions);
+            teams = readArray(STORAGE.teams);
+
+            document.getElementById(
+                "dataAthletes"
+            ).textContent = athletes.length;
+
+            document.getElementById(
+                "dataTeams"
+            ).textContent = teams.length;
+
+            document.getElementById(
+                "dataTests"
+            ).textContent = tests.length;
+
+            document.getElementById(
+                "dataSessions"
+            ).textContent = sessions.length;
+
+            populateAthleteSelect();
+
+            updateContext();
+        }
+
+
+        /* =========================================================
+           ATHLETE SELECT
+           ========================================================= */
+
+        function populateAthleteSelect() {
+
+            const select =
+                document.getElementById("athleteSelect");
+
+            select.innerHTML = `
+                <option value="">
+                    All athletes
+                </option>
+            `;
+
+            [...athletes]
+                .sort(
+                    (a, b) =>
+                        String(a.name || "")
+                            .localeCompare(
+                                String(b.name || "")
+                            )
+                )
+                .forEach(athlete => {
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value =
+                        athlete.id ||
+                        athlete.name;
+
+                    option.textContent =
+                        athlete.name ||
+                        "Unnamed Athlete";
+
+                    select.appendChild(option);
+                });
+        }
+
+
+        function getSelectedAthlete() {
+
+            const value =
+                document.getElementById(
+                    "athleteSelect"
+                ).value;
+
+            if (!value) {
+                return null;
+            }
+
+            return findAthlete(value);
+        }
+
+
+        function updateContext() {
+
+            const athlete =
+                getSelectedAthlete();
+
+            const nameEl =
+                document.querySelector(
+                    ".context-athlete-name"
+                );
+
+            const metaEl =
+                document.querySelector(
+                    ".context-athlete-meta"
+                );
+
+            const performanceEl =
+                document.getElementById(
+                    "contextPerformance"
+                );
+
+            const testsEl =
+                document.getElementById(
+                    "contextTests"
+                );
+
+            const sessionsEl =
+                document.getElementById(
+                    "contextSessions"
+                );
+
+            if (!athlete) {
+
+                nameEl.textContent =
+                    "All Athletes";
+
+                metaEl.textContent =
+                    `${athletes.length} athletes in your Athlete360 system`;
+
+                performanceEl.textContent =
+                    athletes.length
+                        ? Math.round(
+                            getAverage(
+                                athletes.map(
+                                    getPerformance
+                                )
+                            )
+                        )
+                        : "—";
+
+                testsEl.textContent =
+                    tests.length;
+
+                sessionsEl.textContent =
+                    sessions.length;
+
+                return;
+            }
+
+            const athleteTests =
+                getTestsForAthlete(athlete);
+
+            const athleteSessions =
+                getSessionsForAthlete(athlete);
+
+            nameEl.textContent =
+                athlete.name || "Athlete";
+
+            const sport =
+                athlete.sport ||
+                "Multi-Sport";
+
+            const age =
+                athlete.ageGroup ||
+                athlete.age ||
+                "";
+
+            metaEl.textContent =
+                `${sport}${age ? " • " + age : ""}`;
+
+            performanceEl.textContent =
+                Math.round(
+                    getPerformance(athlete)
+                );
+
+            testsEl.textContent =
+                athleteTests.length;
+
+            sessionsEl.textContent =
+                athleteSessions.length;
+
+            updateInsight(athlete);
+        }
+
+
+        /* =========================================================
+           INSIGHT
+           ========================================================= */
+
+        function updateInsight(athlete) {
+
+            const insight =
+                document.getElementById(
+                    "insightText"
+                );
+
+            if (!athlete) {
+
+                if (!athletes.length) {
+
+                    insight.textContent =
+                        "No athlete data is currently available. Add athletes through the Athletes page first.";
+
+                    return;
+                }
+
+                const average =
+                    getAverage(
+                        athletes.map(
+                            getPerformance
+                        )
+                    );
+
+                const ready =
+                    athletes.filter(
+                        athlete =>
+                            normalise(
+                                getAthleteStatus(athlete)
+                            ) === "ready"
+                    ).length;
+
+                insight.innerHTML =
+                    `Your current squad average performance is <strong>${Math.round(average)}</strong>. ` +
+                    `<span class="positive">${ready}</span> athlete${ready === 1 ? "" : "s"} ` +
+                    `are currently marked as ready.`;
+
+                return;
+            }
+
+            const performance =
+                getPerformance(athlete);
+
+            const status =
+                getAthleteStatus(athlete);
+
+            const athleteTests =
+                getTestsForAthlete(athlete);
+
+            const athleteSessions =
+                getSessionsForAthlete(athlete);
+
+            let message =
+                `<strong>${escapeHTML(athlete.name)}</strong> currently has a performance score of <strong>${Math.round(performance)}</strong>. `;
+
+            if (
+                normalise(status) === "ready"
+            ) {
+
+                message +=
+                    `<span class="positive">Current readiness looks positive.</span> `;
+
+            } else if (
+                normalise(status) === "monitor"
+            ) {
+
+                message +=
+                    `<span class="warning">This athlete should be monitored.</span> `;
+
+            } else {
+
+                message +=
+                    `<span class="danger">This athlete may need additional attention.</span> `;
+            }
+
+            message +=
+                `${athleteTests.length} testing record${athleteTests.length === 1 ? "" : "s"} and ` +
+                `${athleteSessions.length} training session${athleteSessions.length === 1 ? "" : "s"} are available for analysis.`;
+
+            insight.innerHTML = message;
+        }
+
+
+        /* =========================================================
+           CHAT STORAGE
+           ========================================================= */
+
+        function loadChat() {
+
+            try {
+
+                const raw =
+                    localStorage.getItem(
+                        STORAGE.chat
+                    );
+
+                if (!raw) {
+                    return [];
+                }
+
+                const parsed =
+                    JSON.parse(raw);
+
+                return Array.isArray(parsed)
+                    ? parsed
+                    : [];
+
+            } catch (error) {
+
+                return [];
+            }
+        }
+
+
+        function saveChat(messages) {
+
+            try {
+
+                localStorage.setItem(
+                    STORAGE.chat,
+                    JSON.stringify(messages)
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "Could not save AI chat",
+                    error
+                );
+            }
+        }
+
+
+        function addMessage(
+            sender,
+            content,
+            save = true
+        ) {
+
+            const container =
+                document.getElementById(
+                    "chatMessages"
+                );
+
+            const message =
+                document.createElement("div");
+
+            message.className =
+                `message ${sender}`;
+
+            const isUser =
+                sender === "user";
+
+            message.innerHTML = `
+
+                <div class="message-icon">
+                    ${isUser ? "MJ" : "✦"}
+                </div>
+
+                <div class="message-body">
+
+                    <div class="message-author">
+                        ${isUser ? "You" : "Athlete360 AI"}
+                    </div>
+
+                    <div class="message-bubble">
+                        ${content}
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(message);
+
+            container.scrollTop =
+                container.scrollHeight;
+
+            if (save) {
+
+                const messages =
+                    loadChat();
+
+                messages.push({
+                    sender,
+                    content,
+                    timestamp:
+                        new Date().toISOString()
+                });
+
+                saveChat(
+                    messages.slice(-50)
+                );
+            }
+        }
+
+
+        function renderChat() {
+
+            const container =
+                document.getElementById(
+                    "chatMessages"
+                );
+
+            container.innerHTML = "";
+
+            const messages =
+                loadChat();
+
+            if (!messages.length) {
+
+                addWelcomeMessage();
+
+                return;
+            }
+
+            messages.forEach(message => {
+
+                addMessage(
+                    message.sender,
+                    message.content,
+                    false
+                );
+            });
+        }
+
+
+        function addWelcomeMessage() {
+
+            const performance =
+                athletes.length
+                    ? Math.round(
+                        getAverage(
+                            athletes.map(
+                                getPerformance
+                            )
+                        )
+                    )
+                    : 0;
+
+            const ready =
+                athletes.filter(
+                    athlete =>
+                        normalise(
+                            getAthleteStatus(
+                                athlete
+                            )
+                        ) === "ready"
+                ).length;
+
+            let html = `
+                <strong>Welcome to Athlete360 AI.</strong><br><br>
+
+                I can help you interpret the performance data
+                currently stored in your Athlete360 system.
+
+                <ul>
+                    <li>Analyse athlete performance</li>
+                    <li>Review testing results</li>
+                    <li>Analyse training workload</li>
+                    <li>Identify readiness concerns</li>
+                    <li>Suggest training priorities</li>
+                    <li>Review team performance</li>
+                </ul>
+            `;
+
+            if (athletes.length) {
+
+                html += `
+                    <br>
+                    Your system currently contains
+                    <strong>${athletes.length}</strong> athletes,
+                    with an average performance score of
+                    <strong>${performance}</strong>.
+                    <br><br>
+                    <span class="positive">
+                        ${ready} athlete${ready === 1 ? "" : "s"}
+                        are currently marked Ready.
+                    </span>
+                `;
+            }
+
+            addMessage(
+                "assistant",
+                html,
+                false
+            );
+        }
+
+
+        /* =========================================================
+           AI RESPONSE ENGINE
+           ========================================================= */
+
+        function generateResponse(question) {
+
+            const q =
+                normalise(question);
+
+            const athlete =
+                getSelectedAthlete();
+
+            if (
+                q.includes("performance") ||
+                q.includes("performing") ||
+                q.includes("score")
+            ) {
+
+                return performanceAnalysis(
+                    athlete
+                );
+            }
+
+
+            if (
+                q.includes("ready") ||
+                q.includes("readiness") ||
+                q.includes("attention") ||
+                q.includes("risk")
+            ) {
+
+                return readinessAnalysis(
+                    athlete
+                );
+            }
+
+
+            if (
+                q.includes("training") ||
+                q.includes("load") ||
+                q.includes("workload") ||
+                q.includes("rpe")
+            ) {
+
+                return trainingAnalysis(
+                    athlete
+                );
+            }
+
+
+            if (
+                q.includes("test") ||
+                q.includes("testing") ||
+                q.includes("personal best") ||
+                q.includes("pb")
+            ) {
+
+                return testingAnalysis(
+                    athlete
+                );
+            }
+
+
+            if (
+                q.includes("recommend") ||
+                q.includes("improve") ||
+                q.includes("should i train") ||
+                q.includes("what should")
+            ) {
+
+                return recommendationAnalysis(
+                    athlete
+                );
+            }
+
+
+            if (
+                q.includes("team") ||
+                q.includes("squad")
+            ) {
+
+                return teamAnalysis();
+            }
+
+
+            if (
+                q.includes("hello") ||
+                q.includes("hi") ||
+                q.includes("hey")
+            ) {
+
+                return `
+                    <strong>Hello Coach.</strong><br><br>
+
+                    I'm ready to help you analyse your
+                    Athlete360 performance data.
+
+                    Try asking:
+                    <ul>
+                        <li>"How is Charl performing?"</li>
+                        <li>"Who needs attention?"</li>
+                        <li>"Analyse our training load."</li>
+                        <li>"Show me our testing trends."</li>
+                        <li>"What should we focus on?"</li>
+                    </ul>
+                `;
+            }
+
+
+            return generalAnalysis(
+                athlete
+            );
+        }
+
+
+        /* =========================================================
+           PERFORMANCE
+           ========================================================= */
+
+        function performanceAnalysis(
+            athlete
+        ) {
+
+            if (athlete) {
+
+                const performance =
+                    getPerformance(athlete);
+
+                const status =
+                    getAthleteStatus(athlete);
+
+                const tests =
+                    getTestsForAthlete(athlete);
+
+                const sessions =
+                    getSessionsForAthlete(athlete);
+
+                const scores =
+                    tests
+                        .map(getTestScore)
+                        .filter(score => score > 0);
+
+                const averageTest =
+                    getAverage(scores);
+
+                const sport =
+                    athlete.sport ||
+                    "multi-sport";
+
+                let level =
+                    "developing";
+
+                if (performance >= 90) {
+                    level = "excellent";
+                } else if (performance >= 80) {
+                    level = "strong";
+                } else if (performance >= 70) {
+                    level = "developing";
+                } else {
+                    level = "needs improvement";
+                }
+
+                return `
+                    <strong>${escapeHTML(
+                        athlete.name
+                    )} — Performance Analysis</strong>
+
+                    <br><br>
+
+                    Current performance score:
+                    <strong>${Math.round(
+                        performance
+                    )}</strong>/100.
+
+                    <br><br>
+
+                    The athlete is currently operating at a
+                    <span class="positive">
+                        ${level}
+                    </span>
+                    performance level in
+                    ${escapeHTML(sport)}.
+
+                    <ul>
+                        <li>
+                            Readiness:
+                            <strong>${escapeHTML(
+                                status
+                            )}</strong>
+                        </li>
+
+                        <li>
+                            Testing records:
+                            <strong>${tests.length}</strong>
+                        </li>
+
+                        <li>
+                            Training sessions:
+                            <strong>${sessions.length}</strong>
+                        </li>
+
+                        ${
+                            averageTest
+                                ? `
+                                    <li>
+                                        Average recorded test score:
+                                        <strong>${Math.round(
+                                            averageTest
+                                        )}</strong>
+                                    </li>
+                                `
+                                : ""
+                        }
+                    </ul>
+
+                    ${
+                        performance >= 85
+                            ? `
+                                <span class="positive">
+                                    Recommendation:
+                                </span>
+                                Maintain the athlete's current
+                                performance base while targeting
+                                specific areas for further gains.
+                            `
+                            : `
+                                <span class="warning">
+                                    Recommendation:
+                                </span>
+                                Use recent testing results to identify
+                                the lowest-performing physical quality
+                                and make that a priority in the next
+                                training block.
+                            `
+                    }
+                `;
+            }
+
+
+            if (!athletes.length) {
+
+                return `
+                    There are currently no athlete records
+                    available for performance analysis.
+                    Add athletes first, then return here.
+                `;
+            }
+
+
+            const sorted =
+                [...athletes]
+                    .sort(
+                        (a, b) =>
+                            getPerformance(b) -
+                            getPerformance(a)
+                    );
+
+            const average =
+                getAverage(
+                    athletes.map(
+                        getPerformance
+                    )
+                );
+
+            const top =
+                sorted[0];
+
+            const bottom =
+                sorted[sorted.length - 1];
+
+            return `
+                <strong>Squad Performance Analysis</strong>
+
+                <br><br>
+
+                Your current squad average performance is
+                <strong>${Math.round(
+                    average
+                )}/100</strong>.
+
+                <ul>
+                    <li>
+                        Top performer:
+                        <strong>${escapeHTML(
+                            top?.name || "N/A"
+                        )}</strong>
+                        (${Math.round(
+                            getPerformance(top)
+                        )})
+                    </li>
+
+                    <li>
+                        Athlete requiring the most development:
+                        <strong>${escapeHTML(
+                            bottom?.name || "N/A"
+                        )}</strong>
+                        (${Math.round(
+                            getPerformance(bottom)
+                        )})
+                    </li>
+
+                    <li>
+                        Athletes analysed:
+                        <strong>${athletes.length}</strong>
+                    </li>
+                </ul>
+
+                The strongest approach is to avoid training
+                everyone identically. Use the performance gaps
+                between athletes to create individual priorities.
+            `;
+        }
+
+
+        /* =========================================================
+           READINESS
+           ========================================================= */
+
+        function readinessAnalysis(
+            athlete
+        ) {
+
+            if (athlete) {
+
+                const status =
+                    getAthleteStatus(
+                        athlete
+                    );
+
+                const performance =
+                    getPerformance(
+                        athlete
+                    );
+
+                const sessions =
+                    getSessionsForAthlete(
+                        athlete
+                    );
+
+                const recentSessions =
+                    sessions
+                        .filter(session => {
+
+                            const date =
+                                getRecordDate(
+                                    session
+                                );
+
+                            if (!date) {
+                                return true;
+                            }
+
+                            const days =
+                                (
+                                    Date.now() -
+                                    date.getTime()
+                                ) /
+                                86400000;
+
+                            return days <= 14;
+
+                        });
+
+                let advice = "";
+
+                if (
+                    normalise(status) ===
+                    "ready"
+                ) {
+
+                    advice =
+                        `
+                        <span class="positive">
+                            Readiness currently looks positive.
+                        </span>
+                        Continue monitoring workload and
+                        testing trends rather than dramatically
+                        changing the programme.
+                        `;
+
+                } else if (
+                    normalise(status) ===
+                    "monitor"
+                ) {
+
+                    advice =
+                        `
+                        <span class="warning">
+                            This athlete should be monitored.
+                        </span>
+                        Review recent workload, recovery and
+                        testing performance before increasing
+                        training intensity.
+                        `;
+
+                } else {
+
+                    advice =
+                        `
+                        <span class="danger">
+                            This athlete requires attention.
+                        </span>
+                        Consider reducing unnecessary load and
+                        reviewing the athlete's recent testing
+                        and recovery indicators.
+                        `;
+                }
+
+                return `
+                    <strong>${escapeHTML(
+                        athlete.name
+                    )} — Readiness</strong>
+
+                    <br><br>
+
+                    Current status:
+                    <strong>${escapeHTML(
+                        status
+                    )}</strong>
+
+                    <br><br>
+
+                    ${advice}
+
+                    <ul>
+                        <li>
+                            Performance:
+                            <strong>${Math.round(
+                                performance
+                            )}</strong>
+                        </li>
+
+                        <li>
+                            Recent sessions:
+                            <strong>${recentSessions.length}</strong>
+                        </li>
+
+                        <li>
+                            Total recorded sessions:
+                            <strong>${sessions.length}</strong>
+                        </li>
+                    </ul>
+                `;
+            }
+
+
+            if (!athletes.length) {
+
+                return `
+                    No athletes are currently available
+                    for readiness analysis.
+                `;
+            }
+
+
+            const ready =
+                athletes.filter(
+                    athlete =>
+                        normalise(
+                            getAthleteStatus(
+                                athlete
+                            )
+                        ) === "ready"
+                );
+
+            const monitor =
+                athletes.filter(
+                    athlete =>
+                        normalise(
+                            getAthleteStatus(
+                                athlete
+                            )
+                        ) === "monitor"
+                );
+
+            const atRisk =
+                athletes.filter(
+                    athlete =>
+                        [
+                            "at risk",
+                            "risk",
+                            "injured"
+                        ].includes(
+                            normalise(
+                                getAthleteStatus(
+                                    athlete
+                                )
+                            )
+                        )
+                );
+
+
+            let attention =
+                monitor.length +
+                atRisk.length;
+
+            return `
+                <strong>Squad Readiness Analysis</strong>
+
+                <br><br>
+
+                <span class="positive">
+                    ${ready.length}
+                    Ready
+                </span>
+                •
+                <span class="warning">
+                    ${monitor.length}
+                    Monitor
+                </span>
+                •
+                <span class="danger">
+                    ${atRisk.length}
+                    At Risk
+                </span>
+
+                <br><br>
+
+                ${
+                    attention
+                        ? `
+                            <strong>
+                                ${attention}
+                                athlete${attention === 1 ? "" : "s"}
+                            </strong>
+                            may require additional attention.
+                        `
+                        : `
+                            <span class="positive">
+                                No athletes are currently flagged
+                                for additional attention.
+                            </span>
+                        `
+                }
+
+                <br><br>
+
+                Readiness should always be interpreted alongside
+                training load, testing results and recovery
+                information rather than as a single number.
+            `;
+        }
+
+
+        /* =========================================================
+           TRAINING
+           ========================================================= */
+
+        function trainingAnalysis(
+            athlete
+        ) {
+
+            const relevant =
+                athlete
+                    ? getSessionsForAthlete(
+                        athlete
+                    )
+                    : sessions;
+
+            if (!relevant.length) {
+
+                return `
+                    There are no training sessions available
+                    for the selected context.
+                `;
+            }
+
+            const loads =
+                relevant.map(
+                    getTrainingLoad
+                );
+
+            const totalLoad =
+                loads.reduce(
+                    (sum, value) =>
+                        sum + value,
+                    0
+                );
+
+            const averageLoad =
+                getAverage(loads);
+
+            const averageRPE =
+                getAverage(
+                    relevant.map(
+                        getRPE
+                    )
+                );
+
+            const averageDuration =
+                getAverage(
+                    relevant.map(
+                        getDuration
+                    )
+                );
+
+            const highest =
+                [...relevant]
+                    .sort(
+                        (a, b) =>
+                            getTrainingLoad(b) -
+                            getTrainingLoad(a)
+                    )[0];
+
+            const label =
+                athlete
+                    ? escapeHTML(
+                        athlete.name
+                    )
+                    : "the squad";
+
+
+            let interpretation =
+                "";
+
+            if (averageRPE >= 8) {
+
+                interpretation =
+                    `
+                    <span class="warning">
+                        Average RPE is high.
+                    </span>
+                    Monitor recovery carefully before adding
+                    additional high-intensity work.
+                    `;
+
+            } else if (averageRPE >= 6) {
+
+                interpretation =
+                    `
+                    Training intensity appears
+                    <span class="positive">
+                        moderate-to-high
+                    </span>.
+                    Maintain progression while monitoring
+                    fatigue.
+                    `;
+
+            } else {
+
+                interpretation =
+                    `
+                    Recorded training intensity is relatively
+                    low. If appropriate for the current phase,
+                    there may be room for progressive overload.
+                    `;
+            }
+
+
+            return `
+                <strong>Training Analysis — ${label}</strong>
+
+                <br><br>
+
+                <ul>
+                    <li>
+                        Sessions:
+                        <strong>${relevant.length}</strong>
+                    </li>
+
+                    <li>
+                        Total training load:
+                        <strong>${Math.round(
+                            totalLoad
+                        )}</strong>
+                    </li>
+
+                    <li>
+                        Average session load:
+                        <strong>${Math.round(
+                            averageLoad
+                        )}</strong>
+                    </li>
+
+                    <li>
+                        Average RPE:
+                        <strong>${averageRPE.toFixed(
+                            1
+                        )}</strong>/10
+                    </li>
+
+                    <li>
+                        Average duration:
+                        <strong>${Math.round(
+                            averageDuration
+                        )}</strong> minutes
+                    </li>
+                </ul>
+
+                ${interpretation}
+
+                <br><br>
+
+                Highest recorded session load:
+                <strong>${Math.round(
+                    getTrainingLoad(
+                        highest
+                    )
+                )}</strong>.
+            `;
+        }
+
+
+        /* =========================================================
+           TESTING
+           ========================================================= */
+
+        function testingAnalysis(
+            athlete
+        ) {
+
+            const relevant =
+                athlete
+                    ? getTestsForAthlete(
+                        athlete
+                    )
+                    : tests;
+
+            if (!relevant.length) {
+
+                return `
+                    There are no testing records available
+                    for the selected context.
+                `;
+            }
+
+            const scores =
+                relevant
+                    .map(getTestScore)
+                    .filter(
+                        score => score > 0
+                    );
+
+            const average =
+                getAverage(scores);
+
+            const latest =
+                getLatest(
+                    relevant
+                );
+
+            const personalBests =
+                relevant.filter(
+                    test =>
+                        test.personalBest === true ||
+                        test.pb === true ||
+                        normalise(
+                            test.status
+                        ) === "pb"
+                ).length;
+
+
+            const label =
+                athlete
+                    ? escapeHTML(
+                        athlete.name
+                    )
+                    : "the squad";
+
+
+            return `
+                <strong>Testing Analysis — ${label}</strong>
+
+                <br><br>
+
+                <ul>
+                    <li>
+                        Testing records:
+                        <strong>${relevant.length}</strong>
+                    </li>
+
+                    <li>
+                        Average test score:
+                        <strong>${Math.round(
+                            average
+                        )}</strong>
+                    </li>
+
+                    <li>
+                        Personal best records:
+                        <strong>${personalBests}</strong>
+                    </li>
+
+                    <li>
+                        Latest test:
+                        <strong>${
+                            latest
+                                ? escapeHTML(
+                                    latest.test ||
+                                    latest.testName ||
+                                    latest.name ||
+                                    "Test"
+                                )
+                                : "None"
+                        }</strong>
+                    </li>
+                </ul>
+
+                ${
+                    latest
+                        ? `
+                            Most recent recorded result:
+                            <strong>${escapeHTML(
+                                latest.result ??
+                                latest.value ??
+                                latest.score ??
+                                "Recorded"
+                            )}</strong>
+                            ${
+                                getRecordDate(
+                                    latest
+                                )
+                                    ? `
+                                        on
+                                        ${formatDate(
+                                            getRecordDate(
+                                                latest
+                                            )
+                                        )}
+                                    `
+                                    : ""
+                            }.
+                        `
+                        : ""
+                }
+
+                <br><br>
+
+                The next useful step is to compare these results
+                against the athlete's previous results and identify
+                which physical qualities are improving fastest.
+            `;
+        }
+
+
+        /* =========================================================
+           RECOMMENDATIONS
+           ========================================================= */
+
+        function recommendationAnalysis(
+            athlete
+        ) {
+
+            if (!athlete) {
+
+                const average =
+                    getAverage(
+                        athletes.map(
+                            getPerformance
+                        )
+                    );
+
+                return `
+                    <strong>Squad Training Recommendation</strong>
+
+                    <br><br>
+
+                    Your squad average performance is currently
+                    <strong>${Math.round(
+                        average
+                    )}</strong>.
+
+                    <br><br>
+
+                    I would structure the next training block around
+                    three layers:
+
+                    <ol style="padding-left:18px;margin-top:8px;">
+                        <li>
+                            Individual weakness development based on
+                            testing results.
+                        </li>
+
+                        <li>
+                            Sport-specific speed, strength, power or
+                            conditioning work.
+                        </li>
+
+                        <li>
+                            Recovery and workload management to avoid
+                            unnecessary fatigue.
+                        </li>
+                    </ol>
+
+                    <br>
+
+                    Select a specific athlete above if you want
+                    a more personalised recommendation.
+                `;
+            }
+
+
+            const tests =
+                getTestsForAthlete(
+                    athlete
+                );
+
+            const sessions =
+                getSessionsForAthlete(
+                    athlete
+                );
+
+            const performance =
+                getPerformance(
+                    athlete
+                );
+
+            const latestTests =
+                [...tests]
+                    .sort(
+                        (a, b) =>
+                            (
+                                getRecordDate(b)?.getTime() ||
+                                0
+                            ) -
+                            (
+                                getRecordDate(a)?.getTime() ||
+                                0
+                            )
+                    )
+                    .slice(0, 4);
+
+            const weakTest =
+                latestTests
+                    .filter(
+                        test =>
+                            getTestScore(test) > 0
+                    )
+                    .sort(
+                        (a, b) =>
+                            getTestScore(a) -
+                            getTestScore(b)
+                    )[0];
+
+
+            let priority =
+                "general athletic development";
+
+            if (weakTest) {
+
+                priority =
+                    weakTest.test ||
+                    weakTest.testName ||
+                    weakTest.category ||
+                    priority;
+            }
+
+            return `
+                <strong>Training Recommendation — ${escapeHTML(
+                    athlete.name
+                )}</strong>
+
+                <br><br>
+
+                Based on the available Athlete360 data,
+                I would prioritise:
+
+                <ol style="padding-left:18px;margin-top:8px;">
+                    <li>
+                        <strong>${escapeHTML(
+                            String(priority)
+                        )}</strong>
+                        as a development focus.
+                    </li>
+
+                    <li>
+                        Continue sport-specific training while
+                        maintaining the athlete's current strengths.
+                    </li>
+
+                    <li>
+                        Re-test the priority quality after an
+                        appropriate training block.
+                    </li>
+                </ol>
+
+                <br>
+
+                Current performance:
+                <strong>${Math.round(
+                    performance
+                )}</strong>/100.
+
+                <br>
+
+                Recorded sessions:
+                <strong>${sessions.length}</strong>.
+
+                <br><br>
+
+                <span class="warning">
+                    This is a coaching-data recommendation,
+                    not a medical or injury diagnosis.
+                </span>
+            `;
+        }
+
+
+        /* =========================================================
+           TEAM
+           ========================================================= */
+
+        function teamAnalysis() {
+
+            if (!teams.length) {
+
+                return `
+                    There are currently no teams stored in
+                    Athlete360.
+
+                    Create a team on the Teams page and I can
+                    analyse its squad structure and performance.
+                `;
+            }
+
+
+            const teamResults =
+                teams.map(team => {
+
+                    const rosterIds =
+                        Array.isArray(
+                            team.athleteIds
+                        )
+                            ? team.athleteIds
+                            : [];
+
+                    const roster =
+                        athletes.filter(
+                            athlete =>
+                                rosterIds.some(
+                                    id =>
+                                        String(id) ===
+                                        String(athlete.id)
+                                ) ||
+                                rosterIds.some(
+                                    id =>
+                                        normalise(id) ===
+                                        normalise(
+                                            athlete.name
+                                        )
+                                )
+                        );
+
+                    return {
+                        team,
+                        roster,
+                        average:
+                            getAverage(
+                                roster.map(
+                                    getPerformance
+                                )
+                            )
+                    };
+
+                });
+
+
+            const strongest =
+                [...teamResults]
+                    .sort(
+                        (a, b) =>
+                            b.average -
+                            a.average
+                    )[0];
+
+
+            return `
+                <strong>Team Performance Analysis</strong>
+
+                <br><br>
+
+                Athlete360 currently contains
+                <strong>${teams.length}</strong>
+                team${teams.length === 1 ? "" : "s"}.
+
+                <br><br>
+
+                ${
+                    strongest?.roster?.length
+                        ? `
+                            Highest average recorded team:
+                            <strong>${escapeHTML(
+                                strongest.team.name
+                            )}</strong>
+                            with an average performance score of
+                            <strong>${Math.round(
+                                strongest.average
+                            )}</strong>.
+                        `
+                        : `
+                            Team rosters do not contain enough
+                            linked athletes for a performance
+                            comparison yet.
+                        `
+                }
+
+                <br><br>
+
+                For team development, compare squad averages
+                with individual athlete performance so that
+                strong performers do not hide development gaps
+                elsewhere in the squad.
+            `;
+        }
+
+
+        /* =========================================================
+           GENERAL
+           ========================================================= */
+
+        function generalAnalysis(
+            athlete
+        ) {
+
+            if (athlete) {
+
+                return `
+                    I can analyse
+                    <strong>${escapeHTML(
+                        athlete.name
+                    )}</strong>
+                    using the data currently stored in Athlete360.
+
+                    <br><br>
+
+                    Try asking me about:
+
+                    <ul>
+                        <li>
+                            Performance
+                        </li>
+
+                        <li>
+                            Readiness
+                        </li>
+
+                        <li>
+                            Training load
+                        </li>
+
+                        <li>
+                            Testing
+                        </li>
+
+                        <li>
+                            Recommendations
+                        </li>
+                    </ul>
+
+                    For example:
+                    <strong>
+                        "What should I focus on with this athlete?"
+                    </strong>
+                `;
+            }
+
+            return `
+                I can help you analyse your Athlete360 data.
+
+                <br><br>
+
+                Try one of these:
+
+                <ul>
+                    <li>
+                        "Analyse squad performance."
+                    </li>
+
+                    <li>
+                        "Who needs attention?"
+                    </li>
+
+                    <li>
+                        "Analyse training load."
+                    </li>
+
+                    <li>
+                        "Show me the testing picture."
+                    </li>
+
+                    <li>
+                        "Give me training recommendations."
+                    </li>
+
+                    <li>
+                        "Analyse the teams."
+                    </li>
+                </ul>
+            `;
+        }
+
+
+        /* =========================================================
+           SEND MESSAGE
+           ========================================================= */
+
+        function sendMessage() {
+
+            const input =
+                document.getElementById(
+                    "chatInput"
+                );
+
+            const question =
+                input.value.trim();
+
+            if (!question) {
+                return;
+            }
+
+            addMessage(
+                "user",
+                escapeHTML(question)
+            );
+
+            input.value = "";
+
+            showTyping();
+
+            setTimeout(
+                () => {
+
+                    removeTyping();
+
+                    const response =
+                        generateResponse(
+                            question
+                        );
+
+                    addMessage(
+                        "assistant",
+                        response
+                    );
+
+                },
+                550
+            );
+        }
+
+
+        /* =========================================================
+           TYPING
+           ========================================================= */
+
+        function showTyping() {
+
+            const container =
+                document.getElementById(
+                    "chatMessages"
+                );
+
+            const typing =
+                document.createElement(
+                    "div"
+                );
+
+            typing.className =
+                "message";
+
+            typing.id =
+                "typingMessage";
+
+            typing.innerHTML = `
+
+                <div class="message-icon">
+                    ✦
+                </div>
+
+                <div class="message-body">
+
+                    <div class="message-author">
+                        Athlete360 AI
+                    </div>
+
+                    <div class="message-bubble">
+
+                        <div class="typing">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
+
+            container.appendChild(
+                typing
+            );
+
+            container.scrollTop =
+                container.scrollHeight;
+        }
+
+
+        function removeTyping() {
+
+            const typing =
+                document.getElementById(
+                    "typingMessage"
+                );
+
+            if (typing) {
+                typing.remove();
+            }
+        }
+
+
+        /* =========================================================
+           QUICK ACTION HANDLER
+           ========================================================= */
+
+        function runQuickAction(
+            action
+        ) {
+
+            const athlete =
+                getSelectedAthlete();
+
+            let question =
+                "";
+
+            switch (action) {
+
+                case "performance":
+
+                    question =
+                        athlete
+                            ? `Analyse ${athlete.name}'s performance.`
+                            : "Analyse squad performance.";
+
+                    break;
+
+                case "readiness":
+
+                    question =
+                        athlete
+                            ? `Analyse ${athlete.name}'s readiness.`
+                            : "Who needs attention?";
+
+                    break;
+
+                case "training":
+
+                    question =
+                        athlete
+                            ? `Analyse ${athlete.name}'s training load.`
+                            : "Analyse our training load.";
+
+                    break;
+
+                case "testing":
+
+                    question =
+                        athlete
+                            ? `Analyse ${athlete.name}'s testing results.`
+                            : "Analyse our testing results.";
+
+                    break;
+
+                case "recommendation":
+
+                    question =
+                        athlete
+                            ? `What should I focus on with ${athlete.name}?`
+                            : "Give me training recommendations.";
+
+                    break;
+
+                case "team":
+
+                    question =
+                        "Analyse our teams.";
+
+                    break;
+
+                default:
+                    return;
+            }
+
+            document.getElementById(
+                "chatInput"
+            ).value = question;
+
+            sendMessage();
+        }
+
+
+        /* =========================================================
+           CLEAR CHAT
+           ========================================================= */
+
+        function clearChat() {
+
+            const confirmed =
+                confirm(
+                    "Clear the Athlete360 AI conversation?"
+                );
+
+            if (!confirmed) {
+                return;
+            }
+
+            localStorage.removeItem(
+                STORAGE.chat
+            );
+
+            renderChat();
+
+            showToast(
+                "AI conversation cleared.",
+                "success"
+            );
+        }
+
+
+        /* =========================================================
+           TOAST
+           ========================================================= */
+
+        function showToast(
+            message,
+            type = "info"
+        ) {
+
+            const container =
+                document.getElementById(
+                    "toastContainer"
+                );
+
+            const toast =
+                document.createElement(
+                    "div"
+                );
+
+            toast.className =
+                `toast ${type}`;
+
+            toast.textContent =
+                message;
+
+            container.appendChild(
+                toast
+            );
+
+            setTimeout(
+                () => toast.remove(),
+                4200
+            );
+        }
+
+
+        /* =========================================================
+           MOBILE SIDEBAR
+           ========================================================= */
+
+        function setupMobileMenu() {
+
+            const button =
+                document.getElementById(
+                    "mobileMenu"
+                );
+
+            const sidebar =
+                document.getElementById(
+                    "sidebar"
+                );
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    sidebar.classList.toggle(
+                        "open"
+                    );
+
+                }
+            );
+
+
+            document
+                .querySelectorAll(
+                    ".nav-item"
+                )
+                .forEach(item => {
+
+                    item.addEventListener(
+                        "click",
+                        () => {
+
+                            sidebar.classList.remove(
+                                "open"
+                            );
+
+                        }
+                    );
+
+                });
+        }
+
+
+        /* =========================================================
+           KEYBOARD
+           ========================================================= */
+
+        function setupKeyboard() {
+
+            const input =
+                document.getElementById(
+                    "chatInput"
+                );
+
+            input.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter" &&
+                        !event.shiftKey
+                    ) {
+
+                        event.preventDefault();
+
+                        sendMessage();
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =========================================================
+           INITIALISE
+           ========================================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                loadUser();
+
+                loadData();
+
+                renderChat();
+
+                setupMobileMenu();
+
+                setupKeyboard();
+
+
+                document
+                    .getElementById(
+                        "athleteSelect"
+                    )
+                    .addEventListener(
+                        "change",
+                        () => {
+
+                            updateContext();
+
+                            const athlete =
+                                getSelectedAthlete();
+
+                            if (athlete) {
+
+                                updateInsight(
+                                    athlete
+                                );
+
+                            }
+
+                        }
+                    );
+
+
+                document
+                    .getElementById(
+                        "sendButton"
+                    )
+                    .addEventListener(
+                        "click",
+                        sendMessage
+                    );
+
+
+                document
+                    .getElementById(
+                        "clearChat"
+                    )
+                    .addEventListener(
+                        "click",
+                        clearChat
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        "[data-action]"
+                    )
+                    .forEach(button => {
+
+                        button.addEventListener(
+                            "click",
+                            () => {
+
+                                runQuickAction(
+                                    button.dataset.action
+                                );
+
+                            }
+                        );
+
+                    });
+
+
+                updateInsight(
+                    getSelectedAthlete()
+                );
+
+            }
+        );
+    </script>
+
+</body>
+</html>
+

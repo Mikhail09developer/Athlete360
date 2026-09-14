@@ -1,0 +1,2751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Athlete360 | Train. Test. Track. Perform.</title>
+
+  <style>
+    :root {
+      --black: #070a0d;
+      --black-2: #0b0f13;
+      --dark: #10151a;
+      --dark-2: #151b21;
+      --dark-3: #1b2229;
+      --grey: #242c34;
+      --grey-light: #303a43;
+
+      --blue: #38bdf8;
+      --blue-light: #7dd3fc;
+      --blue-dark: #0284c7;
+
+      --green: #22c55e;
+      --green-light: #86efac;
+      --green-dark: #16a34a;
+
+      --white: #ffffff;
+      --text: #f1f5f9;
+      --text-secondary: #b6c1cb;
+      --text-muted: #7d8994;
+      --text-dark: #111827;
+
+      --border: #29323b;
+      --border-light: #202830;
+
+      --danger: #ef4444;
+      --orange: #f59e0b;
+
+      --container: 1180px;
+
+      --shadow-sm: 0 8px 25px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 16px 40px rgba(0, 0, 0, 0.28);
+      --shadow-lg: 0 25px 70px rgba(0, 0, 0, 0.38);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background: var(--black);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .container {
+      width: min(var(--container), 92%);
+      margin: 0 auto;
+    }
+
+    /* =========================================================
+       NAVIGATION
+    ========================================================= */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+
+      background: rgba(7, 10, 13, 0.94);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      min-height: 76px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 25px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 9px;
+
+      font-size: 1.2rem;
+      font-weight: 900;
+
+      letter-spacing: -0.8px;
+
+      color: white;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 9px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue-dark),
+          var(--blue)
+        );
+
+      box-shadow:
+        0 8px 22px rgba(56, 189, 248, 0.18);
+
+      font-size: 0.76rem;
+      font-weight: 950;
+    }
+
+    .logo span:last-child {
+      color: var(--blue);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+
+      gap: 34px;
+
+      color: var(--text-secondary);
+
+      font-size: 0.86rem;
+      font-weight: 700;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-links a::after {
+      content: "";
+
+      position: absolute;
+      left: 0;
+      bottom: -9px;
+
+      width: 0;
+      height: 2px;
+
+      background: var(--blue);
+
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* =========================================================
+       BUTTONS
+    ========================================================= */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      gap: 8px;
+
+      min-height: 45px;
+
+      padding: 11px 19px;
+
+      border-radius: 8px;
+
+      border: 1px solid transparent;
+
+      font-size: 0.83rem;
+      font-weight: 800;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .btn-primary {
+      color: #031018;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue-light)
+        );
+
+      box-shadow:
+        0 8px 25px rgba(56, 189, 248, 0.16);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 13px 30px rgba(56, 189, 248, 0.24);
+    }
+
+    .btn-outline {
+      color: var(--text);
+
+      background: var(--dark-2);
+
+      border-color: var(--border);
+    }
+
+    .btn-outline:hover {
+      color: var(--blue);
+
+      border-color: var(--blue-dark);
+
+      background: var(--dark-3);
+
+      transform: translateY(-2px);
+    }
+
+    .menu-btn {
+      display: none;
+
+      border: 0;
+
+      background: transparent;
+
+      color: white;
+
+      font-size: 1.45rem;
+
+      padding: 5px;
+    }
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      background:
+        radial-gradient(
+          circle at 80% 15%,
+          rgba(56, 189, 248, 0.12),
+          transparent 28%
+        ),
+
+        radial-gradient(
+          circle at 10% 90%,
+          rgba(34, 197, 94, 0.06),
+          transparent 25%
+        ),
+
+        linear-gradient(
+          180deg,
+          #090d11 0%,
+          #0d1217 100%
+        );
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 500px;
+      height: 500px;
+
+      right: -240px;
+      top: 80px;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(56, 189, 248, 0.08);
+
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      min-height: 690px;
+
+      display: grid;
+
+      grid-template-columns: 1.02fr 0.98fr;
+
+      align-items: center;
+
+      gap: 65px;
+
+      padding: 85px 0;
+
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-content {
+      max-width: 650px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+
+      gap: 9px;
+
+      margin-bottom: 22px;
+
+      color: var(--blue);
+
+      font-size: 0.7rem;
+      font-weight: 900;
+
+      letter-spacing: 1.8px;
+
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+
+      width: 27px;
+      height: 3px;
+
+      border-radius: 20px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--blue),
+          var(--green)
+        );
+    }
+
+    .hero h1 {
+      max-width: 690px;
+
+      margin-bottom: 27px;
+
+      color: white;
+
+      font-size: clamp(3rem, 6vw, 5.4rem);
+
+      line-height: 0.98;
+
+      letter-spacing: -4px;
+
+      font-weight: 950;
+    }
+
+    .hero h1 span {
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue),
+          var(--blue-light),
+          var(--green)
+        );
+
+      -webkit-background-clip: text;
+      background-clip: text;
+
+      color: transparent;
+    }
+
+    .hero-description {
+      max-width: 570px;
+
+      margin-bottom: 32px;
+
+      color: var(--text-secondary);
+
+      font-size: 1rem;
+
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 12px;
+    }
+
+    .hero-note {
+      display: flex;
+      align-items: center;
+
+      gap: 9px;
+
+      margin-top: 25px;
+
+      color: var(--text-muted);
+
+      font-size: 0.77rem;
+    }
+
+    .hero-note-dot {
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 0 5px rgba(34, 197, 94, 0.09);
+    }
+
+    .hero-note strong {
+      color: var(--text-secondary);
+    }
+
+    /* =========================================================
+       PERFORMANCE DASHBOARD
+       IMPORTANT: STRAIGHT / NO ROTATION
+    ========================================================= */
+
+    .preview-wrapper {
+      position: relative;
+    }
+
+    .preview-glow {
+      position: absolute;
+
+      width: 280px;
+      height: 280px;
+
+      right: -40px;
+      top: -50px;
+
+      border-radius: 50%;
+
+      background:
+        rgba(56, 189, 248, 0.12);
+
+      filter: blur(60px);
+
+      pointer-events: none;
+    }
+
+    .dashboard-preview {
+      position: relative;
+
+      width: 100%;
+
+      background: #11171d;
+
+      border: 1px solid #303b45;
+
+      border-radius: 14px;
+
+      padding: 20px;
+
+      box-shadow: var(--shadow-lg);
+
+      /* IMPORTANT:
+         NO ROTATION
+         NO SKEW
+      */
+      transform: none;
+
+      transform-origin: center;
+    }
+
+    .dashboard-preview::before {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      right: 0;
+      top: 0;
+
+      height: 3px;
+
+      border-radius: 14px 14px 0 0;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--blue-dark),
+          var(--blue),
+          var(--green)
+        );
+    }
+
+    .preview-top {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
+
+      margin-bottom: 18px;
+    }
+
+    .preview-title {
+      color: white;
+
+      font-size: 0.88rem;
+
+      font-weight: 900;
+    }
+
+    .preview-date {
+      margin-top: 2px;
+
+      color: var(--text-muted);
+
+      font-size: 0.65rem;
+    }
+
+    .status-badge {
+      padding: 6px 10px;
+
+      border-radius: 20px;
+
+      color: var(--green-light);
+
+      background: rgba(34, 197, 94, 0.09);
+
+      border: 1px solid rgba(34, 197, 94, 0.2);
+
+      font-size: 0.6rem;
+
+      font-weight: 900;
+    }
+
+    /* Athlete */
+
+    .preview-athlete {
+      display: flex;
+
+      align-items: center;
+
+      gap: 13px;
+
+      padding: 16px;
+
+      margin-bottom: 14px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: #171e25;
+    }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+
+      flex-shrink: 0;
+
+      display: grid;
+      place-items: center;
+
+      border-radius: 10px;
+
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--blue-dark),
+          var(--blue)
+        );
+
+      font-size: 1.15rem;
+
+      box-shadow:
+        0 8px 18px rgba(56, 189, 248, 0.12);
+    }
+
+    .athlete-name {
+      color: white;
+
+      font-size: 0.86rem;
+
+      font-weight: 900;
+    }
+
+    .athlete-sport {
+      color: var(--text-muted);
+
+      font-size: 0.67rem;
+    }
+
+    .score-box {
+      margin-left: auto;
+
+      text-align: right;
+    }
+
+    .score-box strong {
+      display: block;
+
+      color: var(--green);
+
+      font-size: 1.5rem;
+
+      line-height: 1;
+
+      font-weight: 950;
+    }
+
+    .score-box small {
+      display: block;
+
+      margin-top: 4px;
+
+      color: var(--text-muted);
+
+      font-size: 0.53rem;
+
+      font-weight: 800;
+    }
+
+    /* Dashboard Tabs */
+
+    .dashboard-tabs {
+      display: flex;
+
+      gap: 6px;
+
+      margin-bottom: 14px;
+
+      padding: 5px;
+
+      border-radius: 8px;
+
+      background: #0b1014;
+
+      border: 1px solid var(--border);
+    }
+
+    .dashboard-tab {
+      flex: 1;
+
+      padding: 8px 6px;
+
+      border: 0;
+
+      border-radius: 6px;
+
+      color: var(--text-muted);
+
+      background: transparent;
+
+      font-size: 0.62rem;
+
+      font-weight: 800;
+    }
+
+    .dashboard-tab.active {
+      color: #071017;
+
+      background: var(--blue);
+    }
+
+    /* Chart */
+
+    .preview-chart {
+      padding: 16px;
+
+      margin-bottom: 14px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 10px;
+
+      background: #171e25;
+    }
+
+    .chart-heading {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      margin-bottom: 13px;
+    }
+
+    .chart-heading strong {
+      color: white;
+
+      font-size: 0.75rem;
+
+      font-weight: 850;
+    }
+
+    .chart-heading span {
+      color: var(--green);
+
+      font-size: 0.63rem;
+
+      font-weight: 900;
+    }
+
+    .chart {
+      height: 145px;
+
+      display: flex;
+
+      align-items: end;
+
+      justify-content: space-between;
+
+      gap: 8px;
+
+      padding: 10px 5px 0;
+
+      border-bottom: 1px solid var(--grey-light);
+
+      position: relative;
+    }
+
+    .chart::before,
+    .chart::after {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      right: 0;
+
+      border-top: 1px dashed #2a343d;
+    }
+
+    .chart::before {
+      top: 33%;
+    }
+
+    .chart::after {
+      top: 66%;
+    }
+
+    .bar {
+      position: relative;
+      z-index: 1;
+
+      flex: 1;
+
+      max-width: 35px;
+
+      border-radius: 4px 4px 0 0;
+
+      background:
+        linear-gradient(
+          180deg,
+          #3a4b59,
+          #29343e
+        );
+    }
+
+    .bar.active {
+      background:
+        linear-gradient(
+          180deg,
+          var(--blue),
+          var(--blue-dark)
+        );
+
+      box-shadow:
+        0 0 18px rgba(56, 189, 248, 0.16);
+    }
+
+    .bar:nth-child(1) {
+      height: 45%;
+    }
+
+    .bar:nth-child(2) {
+      height: 55%;
+    }
+
+    .bar:nth-child(3) {
+      height: 62%;
+    }
+
+    .bar:nth-child(4) {
+      height: 72%;
+    }
+
+    .bar:nth-child(5) {
+      height: 82%;
+    }
+
+    .bar:nth-child(6) {
+      height: 94%;
+    }
+
+    .chart-labels {
+      display: flex;
+
+      justify-content: space-between;
+
+      margin-top: 8px;
+
+      color: var(--text-muted);
+
+      font-size: 0.53rem;
+
+      font-weight: 800;
+    }
+
+    /* Dashboard Stats */
+
+    .preview-stats {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 9px;
+    }
+
+    .mini-stat {
+      padding: 13px 11px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 9px;
+
+      background: #171e25;
+    }
+
+    .mini-stat span {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color: var(--text-muted);
+
+      font-size: 0.54rem;
+
+      font-weight: 800;
+    }
+
+    .mini-stat strong {
+      color: white;
+
+      font-size: 0.98rem;
+
+      font-weight: 900;
+    }
+
+    .mini-stat small {
+      display: block;
+
+      margin-top: 2px;
+
+      color: var(--green);
+
+      font-size: 0.57rem;
+
+      font-weight: 800;
+    }
+
+    /* =========================================================
+       TRUST STRIP
+    ========================================================= */
+
+    .trust-strip {
+      border-top: 1px solid var(--border);
+
+      border-bottom: 1px solid var(--border);
+
+      background: #0d1217;
+
+      padding: 24px 0;
+    }
+
+    .trust-inner {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 30px;
+
+      flex-wrap: wrap;
+    }
+
+    .trust-label {
+      color: var(--text-muted);
+
+      font-size: 0.67rem;
+
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.2px;
+    }
+
+    .sports-list {
+      display: flex;
+
+      align-items: center;
+
+      gap: 27px;
+
+      flex-wrap: wrap;
+
+      color: var(--text-secondary);
+
+      font-size: 0.72rem;
+
+      font-weight: 850;
+    }
+
+    /* =========================================================
+       GENERAL SECTIONS
+    ========================================================= */
+
+    .section {
+      padding: 100px 0;
+    }
+
+    .section-light {
+      background: #0d1217;
+    }
+
+    .section-dark {
+      background: #090d11;
+    }
+
+    .section-header {
+      display: flex;
+
+      align-items: end;
+      justify-content: space-between;
+
+      gap: 30px;
+
+      margin-bottom: 45px;
+    }
+
+    .section-label {
+      margin-bottom: 12px;
+
+      color: var(--blue);
+
+      font-size: 0.67rem;
+
+      font-weight: 900;
+
+      text-transform: uppercase;
+
+      letter-spacing: 1.8px;
+    }
+
+    .section h2 {
+      color: white;
+
+      font-size: clamp(2rem, 4vw, 3.35rem);
+
+      line-height: 1.05;
+
+      letter-spacing: -2.5px;
+
+      font-weight: 950;
+    }
+
+    .section-description {
+      max-width: 450px;
+
+      color: var(--text-secondary);
+
+      font-size: 0.9rem;
+
+      line-height: 1.75;
+    }
+
+    /* =========================================================
+       SPORTS
+    ========================================================= */
+
+    .sports-grid {
+      display: grid;
+
+      grid-template-columns: repeat(5, 1fr);
+
+      gap: 13px;
+    }
+
+    .sport-card {
+      position: relative;
+
+      min-height: 185px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: flex-end;
+
+      padding: 20px;
+
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: #13191f;
+
+      box-shadow: var(--shadow-sm);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .sport-card:hover {
+      transform: translateY(-5px);
+
+      border-color: #36505e;
+
+      box-shadow: var(--shadow-md);
+    }
+
+    .sport-card::before {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      top: 0;
+
+      width: 100%;
+      height: 3px;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--blue),
+          var(--green)
+        );
+
+      opacity: 0;
+
+      transition: 0.25s ease;
+    }
+
+    .sport-card:hover::before {
+      opacity: 1;
+    }
+
+    .sport-icon {
+      width: 50px;
+      height: 50px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: auto;
+
+      border-radius: 11px;
+
+      background: #1b252d;
+
+      border: 1px solid var(--border);
+
+      font-size: 1.6rem;
+    }
+
+    .sport-card h3 {
+      margin-bottom: 4px;
+
+      color: white;
+
+      font-size: 0.92rem;
+
+      font-weight: 900;
+    }
+
+    .sport-card p {
+      color: var(--text-muted);
+
+      font-size: 0.69rem;
+    }
+
+    /* =========================================================
+       FEATURES
+    ========================================================= */
+
+    .features-section {
+      background:
+        radial-gradient(
+          circle at 85% 10%,
+          rgba(56, 189, 248, 0.06),
+          transparent 25%
+        ),
+
+        #10161b;
+
+      border-top: 1px solid var(--border);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .features-grid {
+      display: grid;
+
+      grid-template-columns: repeat(3, 1fr);
+
+      gap: 15px;
+    }
+
+    .feature-card {
+      position: relative;
+
+      padding: 29px;
+
+      overflow: hidden;
+
+      border: 1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: #151c22;
+
+      box-shadow: var(--shadow-sm);
+
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+
+      border-color: #36505e;
+
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-number {
+      margin-bottom: 26px;
+
+      color: #5f6c77;
+
+      font-size: 0.67rem;
+
+      font-weight: 900;
+    }
+
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: 19px;
+
+      border-radius: 11px;
+
+      color: var(--blue);
+
+      background: rgba(56, 189, 248, 0.08);
+
+      border: 1px solid rgba(56, 189, 248, 0.16);
+
+      font-size: 1.3rem;
+    }
+
+    .feature-card:nth-child(2) .feature-icon,
+    .feature-card:nth-child(5) .feature-icon {
+      color: var(--green);
+
+      background: rgba(34, 197, 94, 0.08);
+
+      border-color: rgba(34, 197, 94, 0.16);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 9px;
+
+      color: white;
+
+      font-size: 1.02rem;
+
+      font-weight: 900;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+
+      font-size: 0.8rem;
+
+      line-height: 1.7;
+    }
+
+    /* =========================================================
+       PERFORMANCE
+    ========================================================= */
+
+    .performance-section {
+      background: #0d1217;
+    }
+
+    .performance-grid {
+      display: grid;
+
+      grid-template-columns: repeat(5, 1fr);
+
+      gap: 13px;
+    }
+
+    .performance-card {
+      padding: 23px 19px;
+
+      border: 1px solid var(--border);
+
+      border-radius: 11px;
+
+      background: #151c22;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    }
+
+    .performance-card:hover {
+      transform: translateY(-4px);
+
+      border-color: #36505e;
+
+      box-shadow: var(--shadow-sm);
+    }
+
+    .performance-icon {
+      width: 44px;
+      height: 44px;
+
+      display: grid;
+      place-items: center;
+
+      margin-bottom: 23px;
+
+      border-radius: 10px;
+
+      color: var(--blue);
+
+      background: rgba(56, 189, 248, 0.08);
+
+      border: 1px solid rgba(56, 189, 248, 0.16);
+
+      font-size: 1.2rem;
+    }
+
+    .performance-card:nth-child(even) .performance-icon {
+      color: var(--green);
+
+      background: rgba(34, 197, 94, 0.08);
+
+      border-color: rgba(34, 197, 94, 0.16);
+    }
+
+    .performance-card h3 {
+      margin-bottom: 5px;
+
+      color: white;
+
+      font-size: 0.92rem;
+
+      font-weight: 900;
+    }
+
+    .performance-card p {
+      color: var(--text-muted);
+
+      font-size: 0.68rem;
+    }
+
+    /* =========================================================
+       PROCESS
+    ========================================================= */
+
+    .process-section {
+      padding: 75px 0;
+
+      background: #070a0d;
+
+      color: white;
+
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .process-heading {
+      max-width: 650px;
+
+      margin-bottom: 45px;
+    }
+
+    .process-heading .section-label {
+      color: var(--blue);
+    }
+
+    .process-heading h2 {
+      color: white;
+    }
+
+    .process-grid {
+      display: grid;
+
+      grid-template-columns: repeat(5, 1fr);
+
+      gap: 0;
+    }
+
+    .process-item {
+      position: relative;
+
+      padding: 10px 25px 10px 0;
+    }
+
+    .process-item:not(:last-child)::after {
+      content: "→";
+
+      position: absolute;
+
+      right: 18px;
+      top: 18px;
+
+      color: #43515d;
+
+      font-size: 1.1rem;
+    }
+
+    .process-number {
+      margin-bottom: 10px;
+
+      color: var(--blue);
+
+      font-size: 0.66rem;
+
+      font-weight: 900;
+
+      letter-spacing: 1px;
+    }
+
+    .process-item h3 {
+      margin-bottom: 5px;
+
+      color: white;
+
+      font-size: 0.9rem;
+    }
+
+    .process-item p {
+      color: #83909b;
+
+      font-size: 0.69rem;
+
+      line-height: 1.55;
+    }
+
+    /* =========================================================
+       CTA
+    ========================================================= */
+
+    .cta-section {
+      padding: 100px 0;
+
+      background: #0d1217;
+    }
+
+    .cta-box {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: 78px 30px;
+
+      text-align: center;
+
+      border: 1px solid #304653;
+
+      border-radius: 15px;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(56, 189, 248, 0.13),
+          transparent 45%
+        ),
+
+        #151c22;
+
+      box-shadow: var(--shadow-lg);
+    }
+
+    .cta-box::before {
+      content: "360";
+
+      position: absolute;
+
+      right: -35px;
+      bottom: -95px;
+
+      color: rgba(56, 189, 248, 0.025);
+
+      font-size: 14rem;
+
+      line-height: 1;
+
+      font-weight: 950;
+
+      pointer-events: none;
+    }
+
+    .cta-box > * {
+      position: relative;
+
+      z-index: 1;
+    }
+
+    .cta-box h2 {
+      margin-bottom: 18px;
+
+      color: white;
+
+      font-size: clamp(2rem, 5vw, 4rem);
+
+      line-height: 1.02;
+
+      letter-spacing: -2.8px;
+
+      font-weight: 950;
+    }
+
+    .cta-box h2 span {
+      color: var(--blue);
+    }
+
+    .cta-box p {
+      max-width: 500px;
+
+      margin: 0 auto 29px;
+
+      color: var(--text-secondary);
+
+      font-size: 0.9rem;
+    }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    footer {
+      padding: 30px 0;
+
+      color: #73808c;
+
+      background: #050709;
+
+      border-top: 1px solid var(--border);
+
+      font-size: 0.72rem;
+    }
+
+    .footer-inner {
+      display: flex;
+
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 20px;
+
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      color: white;
+
+      font-size: 0.9rem;
+
+      font-weight: 900;
+    }
+
+    .footer-logo span {
+      color: var(--blue);
+    }
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    .mobile-menu {
+      display: none;
+
+      padding: 0 4%;
+
+      background: #0b0f13;
+
+      border-top: 1px solid var(--border);
+
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-menu a {
+      display: block;
+
+      padding: 14px 0;
+
+      color: var(--text-secondary);
+
+      font-size: 0.88rem;
+
+      font-weight: 700;
+
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .mobile-menu a:last-child {
+      border-bottom: 0;
+    }
+
+    .mobile-menu.open {
+      display: block;
+    }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+
+    @media (max-width: 1000px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+
+        gap: 55px;
+      }
+
+      .hero-content {
+        max-width: 760px;
+      }
+
+      .dashboard-preview {
+        max-width: 680px;
+
+        margin: 0 auto;
+      }
+
+      .sports-grid,
+      .performance-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(3, 1fr);
+
+        gap: 25px;
+      }
+
+      .process-item:not(:last-child)::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .nav-links,
+      .nav-actions {
+        display: none;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-header {
+        display: block;
+
+        align-items: start;
+      }
+
+      .section-description {
+        margin-top: 18px;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        width: min(94%, var(--container));
+      }
+
+      .nav-inner {
+        min-height: 68px;
+      }
+
+      .hero-grid {
+        padding: 65px 0;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.8rem, 13vw, 4rem);
+
+        letter-spacing: -2.5px;
+      }
+
+      .hero-description {
+        font-size: 0.9rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      /* Dashboard stays STRAIGHT on mobile too */
+
+      .dashboard-preview {
+        padding: 14px;
+
+        transform: none;
+      }
+
+      .preview-athlete {
+        padding: 13px;
+      }
+
+      .preview-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .sports-grid,
+      .performance-grid,
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sport-card {
+        min-height: 155px;
+      }
+
+      .performance-card {
+        min-height: 140px;
+      }
+
+      .section {
+        padding: 75px 0;
+      }
+
+      .process-section {
+        padding: 70px 0;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr;
+
+        gap: 22px;
+      }
+
+      .process-item {
+        padding: 0;
+      }
+
+      .cta-section {
+        padding: 70px 0;
+      }
+
+      .cta-box {
+        padding: 55px 20px;
+      }
+
+      .trust-inner {
+        display: block;
+      }
+
+      .sports-list {
+        margin-top: 18px;
+
+        gap: 14px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =======================================================
+       NAVIGATION
+  ======================================================== -->
+
+  <header class="navbar">
+
+    <div class="container nav-inner">
+
+      <a href="#" class="logo">
+        <span class="logo-mark">360</span>
+        ATHLETE<span>360</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#sports">Sports</a>
+        <a href="#features">Features</a>
+        <a href="#performance">Performance</a>
+      </nav>
+
+      <div class="nav-actions">
+
+        <a href="login.html" class="btn btn-outline">
+          Log in
+        </a>
+
+        <a href="login.html" class="btn btn-primary">
+          Get started →
+        </a>
+
+      </div>
+
+      <button
+        class="menu-btn"
+        id="menuButton"
+        aria-label="Open menu"
+        type="button"
+      >
+        ☰
+      </button>
+
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+
+      <a href="#sports">Sports</a>
+      <a href="#features">Features</a>
+      <a href="#performance">Performance</a>
+      <a href="login.html">Log in</a>
+      <a href="login.html">Get started</a>
+
+    </div>
+
+  </header>
+
+
+  <!-- =======================================================
+       MAIN
+  ======================================================== -->
+
+  <main>
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="container hero-grid">
+
+        <div class="hero-content">
+
+          <div class="eyebrow">
+            Athlete performance platform
+          </div>
+
+          <h1>
+            Train smarter.<br />
+            <span>Perform better.</span>
+          </h1>
+
+          <p class="hero-description">
+            Your complete athlete performance platform.
+            Build training programmes, track fitness and
+            conditioning, measure progress and develop
+            better athletes across every sport.
+          </p>
+
+          <div class="hero-buttons">
+
+            <a href="login.html" class="btn btn-primary">
+              Start your journey →
+            </a>
+
+            <a href="#features" class="btn btn-outline">
+              Explore features
+            </a>
+
+          </div>
+
+          <div class="hero-note">
+
+            <span class="hero-note-dot"></span>
+
+            <strong>Built for athletes.</strong>
+            Designed for coaches.
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             STRAIGHT PERFORMANCE DASHBOARD
+        ================================================== -->
+
+        <div class="preview-wrapper">
+
+          <div class="preview-glow"></div>
+
+          <div class="dashboard-preview">
+
+            <div class="preview-top">
+
+              <div>
+
+                <div class="preview-title">
+                  Performance Dashboard
+                </div>
+
+                <div class="preview-date">
+                  Athlete360 / Overview
+                </div>
+
+              </div>
+
+              <div class="status-badge">
+                ● LIVE
+              </div>
+
+            </div>
+
+
+            <div class="preview-athlete">
+
+              <div class="avatar">
+                🏃
+              </div>
+
+              <div>
+
+                <div class="athlete-name">
+                  Athlete Profile
+                </div>
+
+                <div class="athlete-sport">
+                  Rugby • Performance athlete
+                </div>
+
+              </div>
+
+              <div class="score-box">
+
+                <strong>84</strong>
+
+                <small>
+                  PERFORMANCE SCORE
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <!-- Dashboard tabs -->
+
+            <div class="dashboard-tabs">
+
+              <button class="dashboard-tab active">
+                Overview
+              </button>
+
+              <button class="dashboard-tab">
+                Testing
+              </button>
+
+              <button class="dashboard-tab">
+                Training
+              </button>
+
+              <button class="dashboard-tab">
+                Progress
+              </button>
+
+            </div>
+
+
+            <!-- Performance chart -->
+
+            <div class="preview-chart">
+
+              <div class="chart-heading">
+
+                <strong>
+                  Performance progress
+                </strong>
+
+                <span>
+                  +12.4% ↗
+                </span>
+
+              </div>
+
+              <div class="chart">
+
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar active"></div>
+
+              </div>
+
+              <div class="chart-labels">
+
+                <span>JAN</span>
+                <span>FEB</span>
+                <span>MAR</span>
+                <span>APR</span>
+                <span>MAY</span>
+                <span>JUN</span>
+
+              </div>
+
+            </div>
+
+
+            <!-- Performance stats -->
+
+            <div class="preview-stats">
+
+              <div class="mini-stat">
+
+                <span>
+                  20M SPRINT
+                </span>
+
+                <strong>
+                  3.01s
+                </strong>
+
+                <small>
+                  ↓ 0.17s
+                </small>
+
+              </div>
+
+
+              <div class="mini-stat">
+
+                <span>
+                  VERTICAL JUMP
+                </span>
+
+                <strong>
+                  61cm
+                </strong>
+
+                <small>
+                  ↑ 7cm
+                </small>
+
+              </div>
+
+
+              <div class="mini-stat">
+
+                <span>
+                  STRENGTH
+                </span>
+
+                <strong>
+                  125kg
+                </strong>
+
+                <small>
+                  ↑ 15kg
+                </small>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SPORTS TRUST STRIP
+    ====================================================== -->
+
+    <section class="trust-strip">
+
+      <div class="container trust-inner">
+
+        <div class="trust-label">
+          Built for every sport
+        </div>
+
+        <div class="sports-list">
+
+          <span>🏉 RUGBY</span>
+          <span>🏐 NETBALL</span>
+          <span>🏑 HOCKEY</span>
+          <span>🏃 ATHLETICS</span>
+          <span>⚽ SOCCER</span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SPORTS
+    ====================================================== -->
+
+    <section class="section section-light" id="sports">
+
+      <div class="container">
+
+        <div class="section-header">
+
+          <div>
+
+            <div class="section-label">
+              One platform. Every sport.
+            </div>
+
+            <h2>
+              Built around<br />
+              your performance.
+            </h2>
+
+          </div>
+
+          <p class="section-description">
+            Whether you're sprinting, jumping, lifting or
+            competing, Athlete360 helps you develop the
+            physical qualities that matter most.
+          </p>
+
+        </div>
+
+
+        <div class="sports-grid">
+
+          <div class="sport-card">
+
+            <div class="sport-icon">
+              🏉
+            </div>
+
+            <h3>Rugby</h3>
+
+            <p>
+              Speed, strength & power
+            </p>
+
+          </div>
+
+
+          <div class="sport-card">
+
+            <div class="sport-icon">
+              🏐
+            </div>
+
+            <h3>Netball</h3>
+
+            <p>
+              Agility & conditioning
+            </p>
+
+          </div>
+
+
+          <div class="sport-card">
+
+            <div class="sport-icon">
+              🏑
+            </div>
+
+            <h3>Hockey</h3>
+
+            <p>
+              Acceleration & endurance
+            </p>
+
+          </div>
+
+
+          <div class="sport-card">
+
+            <div class="sport-icon">
+              🏃
+            </div>
+
+            <h3>Athletics</h3>
+
+            <p>
+              Speed & event performance
+            </p>
+
+          </div>
+
+
+          <div class="sport-card">
+
+            <div class="sport-icon">
+              ⚽
+            </div>
+
+            <h3>Soccer</h3>
+
+            <p>
+              Fitness & movement
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FEATURES
+    ====================================================== -->
+
+    <section
+      class="section features-section"
+      id="features"
+    >
+
+      <div class="container">
+
+        <div class="section-header">
+
+          <div>
+
+            <div class="section-label">
+              Everything in one place
+            </div>
+
+            <h2>
+              More than<br />
+              a workout app.
+            </h2>
+
+          </div>
+
+          <p class="section-description">
+            A complete system for planning training,
+            measuring results, managing athletes and
+            helping performance improve.
+          </p>
+
+        </div>
+
+
+        <div class="features-grid">
+
+          <div class="feature-card">
+
+            <div class="feature-number">
+              01 / 06
+            </div>
+
+            <div class="feature-icon">
+              🏋️
+            </div>
+
+            <h3>
+              Training programmes
+            </h3>
+
+            <p>
+              Create structured workouts and assign
+              them to individual athletes or entire teams.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-number">
+              02 / 06
+            </div>
+
+            <div class="feature-icon">
+              📊
+            </div>
+
+            <h3>
+              Performance tracking
+            </h3>
+
+            <p>
+              Record speed, strength, power, agility
+              and conditioning results over time.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-number">
+              03 / 06
+            </div>
+
+            <div class="feature-icon">
+              📈
+            </div>
+
+            <h3>
+              Progress analytics
+            </h3>
+
+            <p>
+              Visualise improvement with graphs,
+              personal records and athlete comparisons.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-number">
+              04 / 06
+            </div>
+
+            <div class="feature-icon">
+              🧍
+            </div>
+
+            <h3>
+              3D exercise library
+            </h3>
+
+            <p>
+              Explore interactive exercise demonstrations
+              with technique and movement guidance.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-number">
+              05 / 06
+            </div>
+
+            <div class="feature-icon">
+              🏆
+            </div>
+
+            <h3>
+              Teams & academies
+            </h3>
+
+            <p>
+              Manage athletes, teams and development
+              programmes from one central dashboard.
+            </p>
+
+          </div>
+
+
+          <div class="feature-card">
+
+            <div class="feature-number">
+              06 / 06
+            </div>
+
+            <div class="feature-icon">
+              🤖
+            </div>
+
+            <h3>
+              AI performance assistant
+            </h3>
+
+            <p>
+              Get intelligent training insights and
+              recommendations based on athlete data.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PERFORMANCE
+    ====================================================== -->
+
+    <section
+      class="section performance-section"
+      id="performance"
+    >
+
+      <div class="container">
+
+        <div class="section-header">
+
+          <div>
+
+            <div class="section-label">
+              Measure what matters
+            </div>
+
+            <h2>
+              From training<br />
+              to results.
+            </h2>
+
+          </div>
+
+          <p class="section-description">
+            Every session and every test contributes to
+            a clearer picture of athlete development.
+          </p>
+
+        </div>
+
+
+        <div class="performance-grid">
+
+          <div class="performance-card">
+
+            <div class="performance-icon">
+              ⚡
+            </div>
+
+            <h3>
+              Speed
+            </h3>
+
+            <p>
+              Track sprint times
+            </p>
+
+          </div>
+
+
+          <div class="performance-card">
+
+            <div class="performance-icon">
+              💪
+            </div>
+
+            <h3>
+              Strength
+            </h3>
+
+            <p>
+              Monitor lifting progress
+            </p>
+
+          </div>
+
+
+          <div class="performance-card">
+
+            <div class="performance-icon">
+              🚀
+            </div>
+
+            <h3>
+              Power
+            </h3>
+
+            <p>
+              Measure explosive ability
+            </p>
+
+          </div>
+
+
+          <div class="performance-card">
+
+            <div class="performance-icon">
+              🎯
+            </div>
+
+            <h3>
+              Agility
+            </h3>
+
+            <p>
+              Improve movement quality
+            </p>
+
+          </div>
+
+
+          <div class="performance-card">
+
+            <div class="performance-icon">
+              🔥
+            </div>
+
+            <h3>
+              Conditioning
+            </h3>
+
+            <p>
+              Build match fitness
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROCESS
+    ====================================================== -->
+
+    <section class="process-section">
+
+      <div class="container">
+
+        <div class="process-heading">
+
+          <div class="section-label">
+            The Athlete360 system
+          </div>
+
+          <h2>
+            A complete performance cycle.
+          </h2>
+
+        </div>
+
+
+        <div class="process-grid">
+
+          <div class="process-item">
+
+            <div class="process-number">
+              01
+            </div>
+
+            <h3>
+              Assess
+            </h3>
+
+            <p>
+              Test the athlete and establish a
+              performance baseline.
+            </p>
+
+          </div>
+
+
+          <div class="process-item">
+
+            <div class="process-number">
+              02
+            </div>
+
+            <h3>
+              Plan
+            </h3>
+
+            <p>
+              Build training around the athlete's needs.
+            </p>
+
+          </div>
+
+
+          <div class="process-item">
+
+            <div class="process-number">
+              03
+            </div>
+
+            <h3>
+              Train
+            </h3>
+
+            <p>
+              Deliver structured sessions and
+              development work.
+            </p>
+
+          </div>
+
+
+          <div class="process-item">
+
+            <div class="process-number">
+              04
+            </div>
+
+            <h3>
+              Track
+            </h3>
+
+            <p>
+              Record performance and monitor development.
+            </p>
+
+          </div>
+
+
+          <div class="process-item">
+
+            <div class="process-number">
+              05
+            </div>
+
+            <h3>
+              Improve
+            </h3>
+
+            <p>
+              Use the data to make smarter
+              performance decisions.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CTA
+    ====================================================== -->
+
+    <section class="cta-section">
+
+      <div class="container">
+
+        <div class="cta-box">
+
+          <div class="section-label">
+            The next generation of training
+          </div>
+
+          <h2>
+            Your performance.<br />
+            <span>Your future.</span>
+          </h2>
+
+          <p>
+            Start building a stronger, faster and more
+            complete athlete with Athlete360.
+          </p>
+
+          <a
+            href="login.html"
+            class="btn btn-primary"
+          >
+            Get started →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       FOOTER
+  ======================================================== -->
+
+  <footer>
+
+    <div class="container footer-inner">
+
+      <div class="footer-logo">
+        ATHLETE<span>360</span>
+      </div>
+
+      <div>
+        Train. Test. Track. Perform.
+      </div>
+
+      <div>
+        © 2026 Athlete360
+      </div>
+
+    </div>
+
+  </footer>
+
+
+  <!-- =======================================================
+       MOBILE MENU SCRIPT
+  ======================================================== -->
+
+  <script>
+
+    const menuButton =
+      document.getElementById("menuButton");
+
+    const mobileMenu =
+      document.getElementById("mobileMenu");
+
+
+    if (menuButton && mobileMenu) {
+
+      menuButton.addEventListener(
+        "click",
+        function () {
+
+          mobileMenu.classList.toggle("open");
+
+        }
+      );
+
+
+      mobileMenu
+        .querySelectorAll("a")
+        .forEach(function (link) {
+
+          link.addEventListener(
+            "click",
+            function () {
+
+              mobileMenu.classList.remove("open");
+
+            }
+          );
+
+        });
+
+    }
+
+
+    /* =====================================================
+       DASHBOARD TAB INTERACTION
+    ===================================================== */
+
+    const dashboardTabs =
+      document.querySelectorAll(".dashboard-tab");
+
+
+    dashboardTabs.forEach(function (tab) {
+
+      tab.addEventListener(
+        "click",
+        function () {
+
+          dashboardTabs.forEach(function (item) {
+
+            item.classList.remove("active");
+
+          });
+
+          this.classList.add("active");
+
+        }
+      );
+
+    });
+
+  </script>
+
+</body>
+</html>

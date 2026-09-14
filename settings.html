@@ -1,0 +1,4817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Athlete360 | Settings</title>
+
+    <style>
+
+        /* =========================================================
+           ATHLETE360 SETTINGS
+           ========================================================= */
+
+        :root {
+            --bg: #080b10;
+            --bg-soft: #0c1117;
+            --panel: #10161d;
+            --panel-2: #141c24;
+            --panel-3: #18222b;
+
+            --border: #24303a;
+            --border-soft: #1b252e;
+
+            --text: #edf4f8;
+            --text-soft: #c2ccd5;
+            --muted: #84919d;
+
+            --blue: #54b9ff;
+            --blue-dark: #2d9fe9;
+
+            --green: #23d18b;
+            --green-dark: #168b60;
+
+            --orange: #ffb84d;
+            --red: #ff5f6d;
+            --purple: #9c8cff;
+
+            --sidebar-width: 250px;
+            --topbar-height: 74px;
+
+            --radius: 14px;
+            --radius-small: 9px;
+
+            --shadow:
+                0 15px 40px rgba(0, 0, 0, 0.28);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: var(--bg);
+            color: var(--text);
+
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================================================
+           SCROLLBAR
+           ========================================================= */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #090d12;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #293640;
+            border-radius: 20px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b4c59;
+        }
+
+        /* =========================================================
+           SIDEBAR
+           ========================================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: var(--sidebar-width);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #0c1117 0%,
+                    #090d12 100%
+                );
+
+            border-right: 1px solid var(--border);
+
+            display: flex;
+            flex-direction: column;
+
+            z-index: 1000;
+        }
+
+        .sidebar-logo {
+            height: var(--topbar-height);
+
+            padding: 0 22px;
+
+            display: flex;
+            align-items: center;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #071016;
+
+            font-weight: 900;
+            font-size: 17px;
+
+            box-shadow:
+                0 7px 22px
+                rgba(84, 185, 255, 0.15);
+        }
+
+        .brand-text strong {
+            display: block;
+
+            font-size: 16px;
+            letter-spacing: 0.2px;
+        }
+
+        .brand-text span {
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            letter-spacing: 1px;
+
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+
+            padding: 18px 12px;
+
+            overflow-y: auto;
+        }
+
+        .nav-label {
+            padding: 8px 12px 9px;
+
+            color: #5f6b75;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.3px;
+        }
+
+        .nav-item {
+            min-height: 44px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 4px;
+
+            padding: 10px 12px;
+
+            border-radius: 9px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.18s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--text);
+
+            background: #121a22;
+        }
+
+        .nav-item.active {
+            color: var(--blue);
+
+            background:
+                rgba(84, 185, 255, 0.10);
+
+            border:
+                1px solid
+                rgba(84, 185, 255, 0.14);
+        }
+
+        .nav-icon {
+            width: 21px;
+            height: 21px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            font-size: 16px;
+        }
+
+        .sidebar-bottom {
+            padding: 14px;
+
+            border-top:
+                1px solid var(--border);
+        }
+
+        .user-mini {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 10px;
+
+            background: #0e151c;
+
+            border:
+                1px solid
+                var(--border-soft);
+
+            border-radius: 10px;
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+            color: #06100d;
+
+            font-size: 12px;
+
+            font-weight: 900;
+        }
+
+        .user-mini-text {
+            min-width: 0;
+        }
+
+        .user-mini-text strong {
+            display: block;
+
+            overflow: hidden;
+
+            white-space: nowrap;
+
+            text-overflow: ellipsis;
+
+            font-size: 12px;
+        }
+
+        .user-mini-text span {
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+        /* =========================================================
+           MAIN
+           ========================================================= */
+
+        .main {
+            min-height: 100vh;
+
+            margin-left: var(--sidebar-width);
+        }
+
+        .topbar {
+            position: sticky;
+
+            top: 0;
+
+            z-index: 500;
+
+            height: var(--topbar-height);
+
+            padding: 0 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background:
+                rgba(8, 11, 16, 0.92);
+
+            backdrop-filter: blur(16px);
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        .breadcrumb strong {
+            color: var(--text);
+        }
+
+        .mobile-menu {
+            display: none;
+
+            width: 38px;
+            height: 38px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            background: var(--panel);
+
+            color: var(--text);
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+
+            gap: 8px;
+        }
+
+        .top-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            background: var(--panel);
+
+            color: var(--muted);
+
+            transition: 0.18s ease;
+        }
+
+        .top-icon:hover {
+            color: var(--text);
+
+            border-color: #394a57;
+        }
+
+        /* =========================================================
+           CONTENT
+           ========================================================= */
+
+        .content {
+            max-width: 1500px;
+
+            margin: 0 auto;
+
+            padding: 30px;
+        }
+
+        .page-header {
+            display: flex;
+
+            align-items: flex-start;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            margin-bottom: 8px;
+
+            font-size: 29px;
+
+            line-height: 1.1;
+
+            letter-spacing: -0.8px;
+        }
+
+        .page-title p {
+            max-width: 700px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           SETTINGS LAYOUT
+           ========================================================= */
+
+        .settings-layout {
+            display: grid;
+
+            grid-template-columns:
+                220px
+                minmax(0, 1fr);
+
+            gap: 18px;
+
+            align-items: start;
+        }
+
+        .settings-menu {
+            position: sticky;
+
+            top: 94px;
+
+            background: var(--panel);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 9px;
+
+            box-shadow: var(--shadow);
+        }
+
+        .settings-menu-title {
+            padding: 10px 11px 8px;
+
+            color: #65737e;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+        }
+
+        .settings-tab {
+            width: 100%;
+
+            min-height: 40px;
+
+            margin-bottom: 3px;
+
+            padding: 9px 10px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            border: 0;
+
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-align: left;
+
+            transition: 0.18s ease;
+        }
+
+        .settings-tab:hover {
+            color: var(--text);
+
+            background: #151d25;
+        }
+
+        .settings-tab.active {
+            color: var(--blue);
+
+            background:
+                rgba(84, 185, 255, 0.09);
+        }
+
+        .settings-tab-icon {
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        /* =========================================================
+           SETTINGS PANELS
+           ========================================================= */
+
+        .settings-content {
+            min-width: 0;
+        }
+
+        .settings-panel {
+            display: none;
+        }
+
+        .settings-panel.active {
+            display: block;
+        }
+
+        .settings-section {
+            margin-bottom: 18px;
+
+            overflow: hidden;
+
+            background: var(--panel);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            padding: 18px 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+        .section-header h2 {
+            margin-bottom: 4px;
+
+            font-size: 15px;
+        }
+
+        .section-header p {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+        .section-body {
+            padding: 20px;
+        }
+
+        /* =========================================================
+           PROFILE
+           ========================================================= */
+
+        .profile-header {
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+
+            margin-bottom: 22px;
+
+            padding-bottom: 20px;
+
+            border-bottom:
+                1px solid var(--border-soft);
+        }
+
+        .large-avatar {
+            width: 76px;
+            height: 76px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+            color: #071016;
+
+            font-size: 23px;
+
+            font-weight: 900;
+
+            box-shadow:
+                0 10px 28px
+                rgba(84, 185, 255, 0.13);
+        }
+
+        .profile-info h3 {
+            margin-bottom: 5px;
+
+            font-size: 17px;
+        }
+
+        .profile-info p {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .profile-badge {
+            display: inline-flex;
+
+            margin-top: 8px;
+
+            padding: 5px 8px;
+
+            border:
+                1px solid
+                rgba(35, 209, 139, 0.15);
+
+            border-radius: 20px;
+
+            background:
+                rgba(35, 209, 139, 0.07);
+
+            color: var(--green);
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           FORM
+           ========================================================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 14px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            outline: none;
+
+            background: #0a1016;
+
+            color: var(--text);
+
+            font-size: 12px;
+
+            transition: 0.18s ease;
+        }
+
+        .form-input,
+        .form-select {
+            height: 42px;
+
+            padding: 0 12px;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+
+            padding: 11px 12px;
+
+            resize: vertical;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color:
+                rgba(84, 185, 255, 0.55);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(84, 185, 255, 0.07);
+        }
+
+        .form-help {
+            margin-top: 6px;
+
+            color: #667580;
+
+            font-size: 9px;
+
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           ROW SETTINGS
+           ========================================================= */
+
+        .setting-list {
+            display: grid;
+        }
+
+        .setting-row {
+            min-height: 66px;
+
+            padding: 14px 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            border-bottom:
+                1px solid var(--border-soft);
+        }
+
+        .setting-row:first-child {
+            padding-top: 0;
+        }
+
+        .setting-row:last-child {
+            padding-bottom: 0;
+
+            border-bottom: none;
+        }
+
+        .setting-info {
+            min-width: 0;
+        }
+
+        .setting-info strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: var(--text);
+
+            font-size: 12px;
+        }
+
+        .setting-info span {
+            display: block;
+
+            max-width: 650px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+        }
+
+        /* =========================================================
+           TOGGLE
+           ========================================================= */
+
+        .toggle {
+            position: relative;
+
+            width: 45px;
+            height: 24px;
+
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            opacity: 0;
+
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+
+            inset: 0;
+
+            cursor: pointer;
+
+            background: #202b34;
+
+            border:
+                1px solid
+                #33414d;
+
+            border-radius: 30px;
+
+            transition: 0.2s ease;
+        }
+
+        .toggle-slider::before {
+            content: "";
+
+            position: absolute;
+
+            width: 17px;
+            height: 17px;
+
+            left: 3px;
+            top: 2px;
+
+            border-radius: 50%;
+
+            background: #8b98a2;
+
+            transition: 0.2s ease;
+        }
+
+        .toggle input:checked +
+        .toggle-slider {
+            background:
+                rgba(35, 209, 139, 0.24);
+
+            border-color:
+                rgba(35, 209, 139, 0.55);
+        }
+
+        .toggle input:checked +
+        .toggle-slider::before {
+            transform: translateX(20px);
+
+            background: var(--green);
+        }
+
+        /* =========================================================
+           SELECT SETTING
+           ========================================================= */
+
+        .setting-control {
+            flex-shrink: 0;
+
+            width: 180px;
+        }
+
+        .setting-control select {
+            width: 100%;
+
+            height: 38px;
+
+            padding: 0 10px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+
+            background: #0a1016;
+
+            color: var(--text);
+
+            font-size: 10px;
+
+            outline: none;
+        }
+
+        /* =========================================================
+           BUTTONS
+           ========================================================= */
+
+        .button-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+
+            margin-top: 20px;
+        }
+
+        .btn {
+            min-height: 40px;
+
+            padding: 0 14px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            background: var(--panel-2);
+
+            color: var(--text-soft);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            transition: 0.18s ease;
+        }
+
+        .btn:hover {
+            color: var(--text);
+
+            border-color: #3a4b58;
+
+            background: var(--panel-3);
+        }
+
+        .btn-primary {
+            background: var(--blue);
+
+            border-color: var(--blue);
+
+            color: #061018;
+        }
+
+        .btn-primary:hover {
+            background: #70c5ff;
+
+            border-color: #70c5ff;
+
+            color: #061018;
+        }
+
+        .btn-green {
+            background: var(--green);
+
+            border-color: var(--green);
+
+            color: #06120d;
+        }
+
+        .btn-danger {
+            color: var(--red);
+
+            border-color:
+                rgba(255, 95, 109, 0.22);
+
+            background:
+                rgba(255, 95, 109, 0.05);
+        }
+
+        .btn-danger:hover {
+            border-color:
+                rgba(255, 95, 109, 0.45);
+
+            background:
+                rgba(255, 95, 109, 0.09);
+        }
+
+        /* =========================================================
+           DATA MANAGEMENT
+           ========================================================= */
+
+        .data-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+        .data-card {
+            padding: 16px;
+
+            background: #0d141b;
+
+            border:
+                1px solid var(--border-soft);
+
+            border-radius: 10px;
+        }
+
+        .data-card-icon {
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 12px;
+
+            border-radius: 9px;
+
+            background:
+                rgba(84, 185, 255, 0.08);
+
+            color: var(--blue);
+
+            font-size: 16px;
+        }
+
+        .data-card h3 {
+            margin-bottom: 5px;
+
+            font-size: 12px;
+        }
+
+        .data-card p {
+            min-height: 32px;
+
+            margin-bottom: 13px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+        }
+
+        .data-card .btn {
+            width: 100%;
+        }
+
+        /* =========================================================
+           DANGER ZONE
+           ========================================================= */
+
+        .danger-zone {
+            border-color:
+                rgba(255, 95, 109, 0.18);
+        }
+
+        .danger-zone .section-header {
+            border-bottom-color:
+                rgba(255, 95, 109, 0.14);
+        }
+
+        .danger-title {
+            color: var(--red) !important;
+        }
+
+        /* =========================================================
+           VERSION
+           ========================================================= */
+
+        .version-box {
+            padding: 16px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            background: #0d141b;
+
+            border:
+                1px solid var(--border-soft);
+
+            border-radius: 10px;
+        }
+
+        .version-info strong {
+            display: block;
+
+            margin-bottom: 4px;
+
+            font-size: 12px;
+        }
+
+        .version-info span {
+            color: var(--muted);
+
+            font-size: 9px;
+        }
+
+        .version-number {
+            color: var(--blue);
+
+            font-size: 12px;
+
+            font-weight: 900;
+        }
+
+        /* =========================================================
+           TOAST
+           ========================================================= */
+
+        .toast {
+            position: fixed;
+
+            right: 24px;
+            bottom: 24px;
+
+            z-index: 3000;
+
+            min-width: 240px;
+
+            padding: 13px 15px;
+
+            background: #101820;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 10px;
+
+            box-shadow: var(--shadow);
+
+            color: var(--text);
+
+            font-size: 11px;
+
+            transform: translateY(20px);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition: 0.2s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            border-color:
+                rgba(35, 209, 139, 0.35);
+        }
+
+        .toast.error {
+            border-color:
+                rgba(255, 95, 109, 0.35);
+        }
+
+        /* =========================================================
+           MODAL
+           ========================================================= */
+
+        .modal {
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 2500;
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(0, 0, 0, 0.72);
+
+            backdrop-filter: blur(6px);
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: min(480px, 100%);
+
+            background: #10171e;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 25px 80px
+                rgba(0, 0, 0, 0.55);
+
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 18px 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+        .modal-header h2 {
+            font-size: 15px;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 8px;
+
+            background: var(--panel-2);
+
+            color: var(--muted);
+        }
+
+        .modal-body {
+            padding: 20px;
+
+            color: var(--text-soft);
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+
+            display: flex;
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            border-top:
+                1px solid var(--border);
+        }
+
+        /* =========================================================
+           OVERLAY
+           ========================================================= */
+
+        .sidebar-overlay {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 900;
+
+            background:
+                rgba(0, 0, 0, 0.55);
+        }
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1050px) {
+
+            .settings-layout {
+                grid-template-columns: 190px minmax(0, 1fr);
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+
+                transition:
+                    transform 0.22s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .settings-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-menu {
+                position: static;
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+                gap: 4px;
+            }
+
+            .settings-menu-title {
+                display: none;
+            }
+
+            .settings-tab {
+                justify-content: center;
+
+                text-align: center;
+            }
+
+            .settings-tab-icon {
+                display: none;
+            }
+
+            .content {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                height: 64px;
+
+                padding: 0 16px;
+            }
+
+            .breadcrumb {
+                display: none;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .page-header {
+                flex-direction: column;
+            }
+
+            .page-title h1 {
+                font-size: 24px;
+            }
+
+            .settings-menu {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .profile-header {
+                align-items: flex-start;
+            }
+
+            .setting-row {
+                align-items: flex-start;
+            }
+
+            .setting-control {
+                width: 130px;
+            }
+
+            .section-header {
+                padding: 16px;
+            }
+
+            .section-body {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 440px) {
+
+            .settings-menu {
+                grid-template-columns: 1fr;
+            }
+
+            .setting-row {
+                flex-direction: column;
+            }
+
+            .setting-control {
+                width: 100%;
+            }
+
+            .toggle {
+                align-self: flex-start;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .button-row .btn {
+                width: 100%;
+            }
+
+            .profile-header {
+                flex-direction: column;
+            }
+
+            .version-box {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================================================
+         SIDEBAR
+         ========================================================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-logo">
+
+            <a href="dashboard.html" class="brand">
+
+                <div class="brand-mark">
+                    A3
+                </div>
+
+                <div class="brand-text">
+                    <strong>Athlete360</strong>
+                    <span>Performance Platform</span>
+                </div>
+
+            </a>
+
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <div class="nav-label">
+                Main
+            </div>
+
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon">⌂</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="athletes.html" class="nav-item">
+                <span class="nav-icon">♙</span>
+                <span>Athletes</span>
+            </a>
+
+            <a href="teams.html" class="nav-item">
+                <span class="nav-icon">♟</span>
+                <span>Teams</span>
+            </a>
+
+            <div class="nav-label">
+                Performance
+            </div>
+
+            <a href="testing.html" class="nav-item">
+                <span class="nav-icon">◈</span>
+                <span>Testing</span>
+            </a>
+
+            <a href="training.html" class="nav-item">
+                <span class="nav-icon">⚡</span>
+                <span>Training</span>
+            </a>
+
+            <a href="analytics.html" class="nav-item">
+                <span class="nav-icon">▥</span>
+                <span>Analytics</span>
+            </a>
+
+            <a href="exercises.html" class="nav-item">
+                <span class="nav-icon">◎</span>
+                <span>Exercises</span>
+            </a>
+
+            <a href="reports.html" class="nav-item">
+                <span class="nav-icon">▤</span>
+                <span>Reports</span>
+            </a>
+
+            <div class="nav-label">
+                System
+            </div>
+
+            <a href="settings.html" class="nav-item active">
+                <span class="nav-icon">⚙</span>
+                <span>Settings</span>
+            </a>
+
+            <a href="ai-assistant.html" class="nav-item">
+                <span class="nav-icon">✦</span>
+                <span>AI Assistant</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="user-mini">
+
+                <div
+                    class="user-avatar"
+                    id="sidebarAvatar"
+                >
+                    MJ
+                </div>
+
+                <div class="user-mini-text">
+
+                    <strong id="sidebarUserName">
+                        Coach
+                    </strong>
+
+                    <span>
+                        Performance Staff
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+    <div
+        class="sidebar-overlay"
+        id="sidebarOverlay"
+    ></div>
+
+    <!-- =========================================================
+         MAIN
+         ========================================================= -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    type="button"
+                >
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+
+                    <span>
+                        Athlete360
+                    </span>
+
+                    <span>
+                        ›
+                    </span>
+
+                    <strong>
+                        Settings
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="topbar-actions">
+
+                <button
+                    class="top-icon"
+                    type="button"
+                    onclick="window.location.href='notifications.html'"
+                >
+                    ♢
+                </button>
+
+                <button
+                    class="top-icon"
+                    type="button"
+                    onclick="window.location.href='dashboard.html'"
+                >
+                    ⌂
+                </button>
+
+            </div>
+
+        </header>
+
+        <section class="content">
+
+            <!-- =================================================
+                 HEADER
+                 ================================================= -->
+
+            <div class="page-header">
+
+                <div class="page-title">
+
+                    <h1>
+                        Settings
+                    </h1>
+
+                    <p>
+                        Manage your Athlete360 profile,
+                        performance preferences, notifications,
+                        data and application settings.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- =================================================
+                 SETTINGS LAYOUT
+                 ================================================= -->
+
+            <div class="settings-layout">
+
+                <!-- =================================================
+                     SETTINGS MENU
+                     ================================================= -->
+
+                <aside class="settings-menu">
+
+                    <div class="settings-menu-title">
+                        Settings
+                    </div>
+
+                    <button
+                        class="settings-tab active"
+                        data-tab="profile"
+                        type="button"
+                    >
+
+                        <span class="settings-tab-icon">
+                            ♙
+                        </span>
+
+                        <span>
+                            Profile
+                        </span>
+
+                    </button>
+
+                    <button
+                        class="settings-tab"
+                        data-tab="preferences"
+                        type="button"
+                    >
+
+                        <span class="settings-tab-icon">
+                            ◈
+                        </span>
+
+                        <span>
+                            Preferences
+                        </span>
+
+                    </button>
+
+                    <button
+                        class="settings-tab"
+                        data-tab="notifications"
+                        type="button"
+                    >
+
+                        <span class="settings-tab-icon">
+                            ♢
+                        </span>
+
+                        <span>
+                            Notifications
+                        </span>
+
+                    </button>
+
+                    <button
+                        class="settings-tab"
+                        data-tab="performance"
+                        type="button"
+                    >
+
+                        <span class="settings-tab-icon">
+                            ↗
+                        </span>
+
+                        <span>
+                            Performance
+                        </span>
+
+                    </button>
+
+                    <button
+                        class="settings-tab"
+                        data-tab="data"
+                        type="button"
+                    >
+
+                        <span class="settings-tab-icon">
+                            ▣
+                        </span>
+
+                        <span>
+                            Data
+                        </span>
+
+                    </button>
+
+                    <button
+                        class="settings-tab"
+                        data-tab="about"
+                        type="button"
+                    >
+
+                        <span class="settings-tab-icon">
+                            ⓘ
+                        </span>
+
+                        <span>
+                            About
+                        </span>
+
+                    </button>
+
+                </aside>
+
+                <!-- =================================================
+                     SETTINGS CONTENT
+                     ================================================= -->
+
+                <div class="settings-content">
+
+                    <!-- =================================================
+                         PROFILE
+                         ================================================= -->
+
+                    <div
+                        class="settings-panel active"
+                        id="panel-profile"
+                    >
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Coach Profile
+                                    </h2>
+
+                                    <p>
+                                        Manage the profile information
+                                        displayed throughout Athlete360.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="profile-header">
+
+                                    <div
+                                        class="large-avatar"
+                                        id="profileAvatar"
+                                    >
+                                        MJ
+                                    </div>
+
+                                    <div class="profile-info">
+
+                                        <h3
+                                            id="profileDisplayName"
+                                        >
+                                            Coach
+                                        </h3>
+
+                                        <p
+                                            id="profileDisplayEmail"
+                                        >
+                                            coach@athlete360.local
+                                        </p>
+
+                                        <span class="profile-badge">
+                                            Performance Staff
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-grid">
+
+                                    <div class="form-group">
+
+                                        <label
+                                            class="form-label"
+                                            for="profileName"
+                                        >
+                                            Full Name
+                                        </label>
+
+                                        <input
+                                            class="form-input"
+                                            id="profileName"
+                                            type="text"
+                                            placeholder="Enter your name"
+                                        >
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label
+                                            class="form-label"
+                                            for="profileEmail"
+                                        >
+                                            Email
+                                        </label>
+
+                                        <input
+                                            class="form-input"
+                                            id="profileEmail"
+                                            type="email"
+                                            placeholder="coach@example.com"
+                                        >
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label
+                                            class="form-label"
+                                            for="profileRole"
+                                        >
+                                            Role
+                                        </label>
+
+                                        <select
+                                            class="form-select"
+                                            id="profileRole"
+                                        >
+
+                                            <option>
+                                                Head Coach
+                                            </option>
+
+                                            <option>
+                                                Assistant Coach
+                                            </option>
+
+                                            <option>
+                                                Fitness & Conditioning Coach
+                                            </option>
+
+                                            <option>
+                                                Performance Coach
+                                            </option>
+
+                                            <option>
+                                                Sports Scientist
+                                            </option>
+
+                                            <option>
+                                                Academy Manager
+                                            </option>
+
+                                            <option>
+                                                Teacher
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label
+                                            class="form-label"
+                                            for="profileSport"
+                                        >
+                                            Primary Sport
+                                        </label>
+
+                                        <select
+                                            class="form-select"
+                                            id="profileSport"
+                                        >
+
+                                            <option value="">
+                                                Select Sport
+                                            </option>
+
+                                            <option>
+                                                Rugby
+                                            </option>
+
+                                            <option>
+                                                Netball
+                                            </option>
+
+                                            <option>
+                                                Hockey
+                                            </option>
+
+                                            <option>
+                                                Athletics
+                                            </option>
+
+                                            <option>
+                                                Soccer
+                                            </option>
+
+                                            <option>
+                                                Cricket
+                                            </option>
+
+                                            <option>
+                                                Multi-Sport
+                                            </option>
+
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group full">
+
+                                        <label
+                                            class="form-label"
+                                            for="profileOrganisation"
+                                        >
+                                            Organisation
+                                        </label>
+
+                                        <input
+                                            class="form-input"
+                                            id="profileOrganisation"
+                                            type="text"
+                                            placeholder="School, academy or club"
+                                        >
+
+                                        <div class="form-help">
+                                            This can be your school,
+                                            academy, club or performance
+                                            organisation.
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="button-row">
+
+                                    <button
+                                        class="btn btn-primary"
+                                        type="button"
+                                        onclick="saveProfile()"
+                                    >
+                                        Save Profile
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                    <!-- =================================================
+                         PREFERENCES
+                         ================================================= -->
+
+                    <div
+                        class="settings-panel"
+                        id="panel-preferences"
+                    >
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Application Preferences
+                                    </h2>
+
+                                    <p>
+                                        Control how Athlete360 behaves
+                                        and displays information.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="setting-list">
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Compact dashboard
+                                            </strong>
+
+                                            <span>
+                                                Reduce spacing on dashboards
+                                                to display more information
+                                                at once.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="compactDashboard"
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Show performance scores
+                                            </strong>
+
+                                            <span>
+                                                Display overall performance
+                                                scores across athlete and
+                                                team screens.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="showScores"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Automatic report generation
+                                            </strong>
+
+                                            <span>
+                                                Automatically refresh reports
+                                                when filters or data change.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="autoReports"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Remember last athlete
+                                            </strong>
+
+                                            <span>
+                                                Reopen the last athlete you
+                                                viewed when returning to
+                                                Athlete360.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="rememberAthlete"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Display
+                                    </h2>
+
+                                    <p>
+                                        Choose how information is presented.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="setting-list">
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Performance dashboard
+                                            </strong>
+
+                                            <span>
+                                                Choose the default page
+                                                displayed after login.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="setting-control">
+
+                                            <select
+                                                id="defaultPage"
+                                            >
+
+                                                <option value="dashboard.html">
+                                                    Dashboard
+                                                </option>
+
+                                                <option value="athletes.html">
+                                                    Athletes
+                                                </option>
+
+                                                <option value="analytics.html">
+                                                    Analytics
+                                                </option>
+
+                                                <option value="reports.html">
+                                                    Reports
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Default report range
+                                            </strong>
+
+                                            <span>
+                                                Set the default time period
+                                                used by reports.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="setting-control">
+
+                                            <select
+                                                id="defaultReportRange"
+                                            >
+
+                                                <option value="7">
+                                                    Last 7 Days
+                                                </option>
+
+                                                <option value="30">
+                                                    Last 30 Days
+                                                </option>
+
+                                                <option value="90">
+                                                    Last 90 Days
+                                                </option>
+
+                                                <option value="365">
+                                                    Last 12 Months
+                                                </option>
+
+                                                <option value="all">
+                                                    All Data
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="button-row">
+
+                                    <button
+                                        class="btn btn-primary"
+                                        type="button"
+                                        onclick="savePreferences()"
+                                    >
+                                        Save Preferences
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                    <!-- =================================================
+                         NOTIFICATIONS
+                         ================================================= -->
+
+                    <div
+                        class="settings-panel"
+                        id="panel-notifications"
+                    >
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Notifications
+                                    </h2>
+
+                                    <p>
+                                        Decide which Athlete360 alerts
+                                        you want to receive.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="setting-list">
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Athlete readiness alerts
+                                            </strong>
+
+                                            <span>
+                                                Notify you when an athlete
+                                                moves into the Monitor or
+                                                At Risk category.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="notifyReadiness"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Personal best alerts
+                                            </strong>
+
+                                            <span>
+                                                Highlight new personal best
+                                                performances after testing.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="notifyPB"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Training reminders
+                                            </strong>
+
+                                            <span>
+                                                Remind coaches to record
+                                                completed training sessions.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="notifyTraining"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Testing reminders
+                                            </strong>
+
+                                            <span>
+                                                Receive reminders when an
+                                                athlete has not been tested
+                                                recently.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="notifyTesting"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Weekly performance summary
+                                            </strong>
+
+                                            <span>
+                                                Generate a weekly overview
+                                                of performance and workload.
+                                            </span>
+
+                                        </div>
+
+                                        <label class="toggle">
+
+                                            <input
+                                                type="checkbox"
+                                                id="notifyWeekly"
+                                                checked
+                                            >
+
+                                            <span
+                                                class="toggle-slider"
+                                            ></span>
+
+                                        </label>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="button-row">
+
+                                    <button
+                                        class="btn btn-primary"
+                                        type="button"
+                                        onclick="saveNotifications()"
+                                    >
+                                        Save Notifications
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                    <!-- =================================================
+                         PERFORMANCE
+                         ================================================= -->
+
+                    <div
+                        class="settings-panel"
+                        id="panel-performance"
+                    >
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Performance Settings
+                                    </h2>
+
+                                    <p>
+                                        Configure how Athlete360
+                                        interprets performance data.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="setting-list">
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Performance scale
+                                            </strong>
+
+                                            <span>
+                                                Athlete360 currently uses
+                                                a 0–100 performance scale.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="setting-control">
+
+                                            <select
+                                                id="performanceScale"
+                                            >
+
+                                                <option value="100">
+                                                    0–100
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Ready threshold
+                                            </strong>
+
+                                            <span>
+                                                Minimum performance score
+                                                used for the Ready category.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="setting-control">
+
+                                            <select
+                                                id="readyThreshold"
+                                            >
+
+                                                <option value="80">
+                                                    80+
+                                                </option>
+
+                                                <option value="75">
+                                                    75+
+                                                </option>
+
+                                                <option value="85">
+                                                    85+
+                                                </option>
+
+                                                <option value="90">
+                                                    90+
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Monitor threshold
+                                            </strong>
+
+                                            <span>
+                                                Minimum performance score
+                                                before an athlete is placed
+                                                in the Monitor category.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="setting-control">
+
+                                            <select
+                                                id="monitorThreshold"
+                                            >
+
+                                                <option value="65">
+                                                    65+
+                                                </option>
+
+                                                <option value="60">
+                                                    60+
+                                                </option>
+
+                                                <option value="70">
+                                                    70+
+                                                </option>
+
+                                                <option value="75">
+                                                    75+
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Training load calculation
+                                            </strong>
+
+                                            <span>
+                                                Formula used when a session
+                                                does not already contain a
+                                                stored training load.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="setting-control">
+
+                                            <select
+                                                id="loadFormula"
+                                            >
+
+                                                <option value="duration-rpe">
+                                                    Duration × RPE
+                                                </option>
+
+                                            </select>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="button-row">
+
+                                    <button
+                                        class="btn btn-primary"
+                                        type="button"
+                                        onclick="savePerformanceSettings()"
+                                    >
+                                        Save Performance Settings
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Data Information
+                                    </h2>
+
+                                    <p>
+                                        Current Athlete360 local data
+                                        available in this browser.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="data-grid">
+
+                                    <div class="data-card">
+
+                                        <div class="data-card-icon">
+                                            ♙
+                                        </div>
+
+                                        <h3>
+                                            Athletes
+                                        </h3>
+
+                                        <p>
+                                            Number of athletes currently
+                                            stored in Athlete360.
+                                        </p>
+
+                                        <strong id="countAthletes">
+                                            0 athletes
+                                        </strong>
+
+                                    </div>
+
+                                    <div class="data-card">
+
+                                        <div class="data-card-icon">
+                                            ♟
+                                        </div>
+
+                                        <h3>
+                                            Teams
+                                        </h3>
+
+                                        <p>
+                                            Teams and squads currently
+                                            stored in the application.
+                                        </p>
+
+                                        <strong id="countTeams">
+                                            0 teams
+                                        </strong>
+
+                                    </div>
+
+                                    <div class="data-card">
+
+                                        <div class="data-card-icon">
+                                            ◈
+                                        </div>
+
+                                        <h3>
+                                            Testing Records
+                                        </h3>
+
+                                        <p>
+                                            Completed performance tests
+                                            stored locally.
+                                        </p>
+
+                                        <strong id="countTests">
+                                            0 tests
+                                        </strong>
+
+                                    </div>
+
+                                    <div class="data-card">
+
+                                        <div class="data-card-icon">
+                                            ⚡
+                                        </div>
+
+                                        <h3>
+                                            Training Sessions
+                                        </h3>
+
+                                        <p>
+                                            Training sessions recorded
+                                            inside Athlete360.
+                                        </p>
+
+                                        <strong id="countTraining">
+                                            0 sessions
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                    <!-- =================================================
+                         DATA
+                         ================================================= -->
+
+                    <div
+                        class="settings-panel"
+                        id="panel-data"
+                    >
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Data Management
+                                    </h2>
+
+                                    <p>
+                                        Backup, restore and manage your
+                                        Athlete360 browser data.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="data-grid">
+
+                                    <div class="data-card">
+
+                                        <div class="data-card-icon">
+                                            ⇩
+                                        </div>
+
+                                        <h3>
+                                            Export Athlete360 Data
+                                        </h3>
+
+                                        <p>
+                                            Download a JSON backup of your
+                                            athletes, teams, tests, training
+                                            and settings.
+                                        </p>
+
+                                        <button
+                                            class="btn btn-primary"
+                                            type="button"
+                                            onclick="exportData()"
+                                        >
+                                            Export Backup
+                                        </button>
+
+                                    </div>
+
+                                    <div class="data-card">
+
+                                        <div class="data-card-icon">
+                                            ⇧
+                                        </div>
+
+                                        <h3>
+                                            Import Athlete360 Data
+                                        </h3>
+
+                                        <p>
+                                            Restore a previously exported
+                                            Athlete360 JSON backup.
+                                        </p>
+
+                                        <button
+                                            class="btn"
+                                            type="button"
+                                            onclick="document.getElementById('importFile').click()"
+                                        >
+                                            Import Backup
+                                        </button>
+
+                                        <input
+                                            id="importFile"
+                                            type="file"
+                                            accept=".json,application/json"
+                                            hidden
+                                        >
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Browser Storage
+                                    </h2>
+
+                                    <p>
+                                        Athlete360 currently stores
+                                        prototype data locally in your
+                                        browser.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="setting-list">
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Storage mode
+                                            </strong>
+
+                                            <span>
+                                                Local browser storage is
+                                                currently being used.
+                                                A cloud database can be
+                                                connected later.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Local Storage
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Automatic local saving
+                                            </strong>
+
+                                            <span>
+                                                Athlete360 pages save changes
+                                                directly to browser storage.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Enabled
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                        <section
+                            class="settings-section danger-zone"
+                        >
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2 class="danger-title">
+                                        Danger Zone
+                                    </h2>
+
+                                    <p>
+                                        These actions can permanently
+                                        remove local Athlete360 data.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="setting-row">
+
+                                    <div class="setting-info">
+
+                                        <strong>
+                                            Clear Athlete360 data
+                                        </strong>
+
+                                        <span>
+                                            Remove athletes, teams,
+                                            testing records and training
+                                            sessions from this browser.
+                                            This cannot be undone unless
+                                            you have a backup.
+                                        </span>
+
+                                    </div>
+
+                                    <button
+                                        class="btn btn-danger"
+                                        type="button"
+                                        onclick="openClearModal()"
+                                    >
+                                        Clear Data
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                    <!-- =================================================
+                         ABOUT
+                         ================================================= -->
+
+                    <div
+                        class="settings-panel"
+                        id="panel-about"
+                    >
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        About Athlete360
+                                    </h2>
+
+                                    <p>
+                                        Multi-sport athlete performance
+                                        and fitness management platform.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="version-box">
+
+                                    <div class="version-info">
+
+                                        <strong>
+                                            Athlete360 Performance Platform
+                                        </strong>
+
+                                        <span>
+                                            Train • Test • Track • Perform
+                                        </span>
+
+                                    </div>
+
+                                    <div class="version-number">
+                                        v1.0 Prototype
+                                    </div>
+
+                                </div>
+
+                                <div
+                                    style="
+                                        margin-top:18px;
+                                        color:#84919d;
+                                        font-size:11px;
+                                        line-height:1.7;
+                                    "
+                                >
+
+                                    Athlete360 is being designed as a
+                                    multi-sport performance platform for
+                                    coaches, schools, academies and athletes.
+
+                                    <br><br>
+
+                                    The platform is intended to support
+                                    athlete management, performance testing,
+                                    training load tracking, analytics,
+                                    reporting, team management and
+                                    performance development.
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                        <section class="settings-section">
+
+                            <div class="section-header">
+
+                                <div>
+
+                                    <h2>
+                                        Development Roadmap
+                                    </h2>
+
+                                    <p>
+                                        Features planned for the next
+                                        stages of Athlete360.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="section-body">
+
+                                <div class="setting-list">
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                ✓ Athlete Management
+                                            </strong>
+
+                                            <span>
+                                                Athlete profiles, squads and
+                                                performance information.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Complete
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                ✓ Testing
+                                            </strong>
+
+                                            <span>
+                                                Speed, strength, power,
+                                                agility and conditioning
+                                                testing.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Complete
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                ✓ Training
+                                            </strong>
+
+                                            <span>
+                                                Training sessions, RPE and
+                                                workload tracking.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Complete
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                ✓ Analytics & Reports
+                                            </strong>
+
+                                            <span>
+                                                Performance analytics,
+                                                rankings and professional
+                                                reports.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Complete
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                Database & Cloud Sync
+                                            </strong>
+
+                                            <span>
+                                                Secure cloud database,
+                                                accounts and multi-device
+                                                synchronisation.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Planned
+                                        </div>
+
+                                    </div>
+
+                                    <div class="setting-row">
+
+                                        <div class="setting-info">
+
+                                            <strong>
+                                                AI Performance Assistant
+                                            </strong>
+
+                                            <span>
+                                                AI-supported athlete insights,
+                                                training recommendations and
+                                                performance analysis.
+                                            </span>
+
+                                        </div>
+
+                                        <div class="profile-badge">
+                                            Planned
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<!-- =============================================================
+     CLEAR DATA MODAL
+     ============================================================= -->
+
+<div
+    class="modal"
+    id="clearModal"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                Clear Athlete360 Data?
+            </h2>
+
+            <button
+                class="modal-close"
+                type="button"
+                onclick="closeClearModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div class="modal-body">
+
+            <strong style="color:#ff5f6d;">
+                Warning:
+            </strong>
+
+            <br><br>
+
+            This will remove the following local data:
+
+            <br><br>
+
+            • Athletes
+            <br>
+            • Teams
+            <br>
+            • Testing history
+            <br>
+            • Training sessions
+            <br>
+            • Selected athlete/team data
+
+            <br><br>
+
+            Make sure you have exported a backup first if you want
+            to keep the information.
+
+        </div>
+
+        <div class="modal-footer">
+
+            <button
+                class="btn"
+                type="button"
+                onclick="closeClearModal()"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="btn btn-danger"
+                type="button"
+                onclick="clearAllData()"
+            >
+                Yes, Clear Data
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =============================================================
+     TOAST
+     ============================================================= -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+<script>
+
+    /* =========================================================
+       ATHLETE360 SETTINGS JAVASCRIPT
+       ========================================================= */
+
+    const STORAGE = {
+
+        athletes:
+            "athlete360_athletes",
+
+        teams:
+            "athlete360_teams",
+
+        tests:
+            "athlete360_testing_history",
+
+        training:
+            "athlete360_training_sessions",
+
+        selectedAthlete:
+            "athlete360_selected_athlete",
+
+        selectedTeam:
+            "athlete360_selected_team",
+
+        user:
+            "athlete360_user",
+
+        settings:
+            "athlete360_settings"
+
+    };
+
+    let toastTimer = null;
+
+
+    /* =========================================================
+       HELPERS
+       ========================================================= */
+
+    function readJSON(key, fallback = null) {
+
+        try {
+
+            const value =
+                localStorage.getItem(key);
+
+            if (!value) {
+                return fallback;
+            }
+
+            return JSON.parse(value);
+
+        } catch (error) {
+
+            console.error(
+                "Storage error:",
+                error
+            );
+
+            return fallback;
+
+        }
+
+    }
+
+
+    function writeJSON(key, value) {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+    }
+
+
+    function readArray(key) {
+
+        const value =
+            readJSON(key, []);
+
+        return Array.isArray(value)
+            ? value
+            : [];
+
+    }
+
+
+    function initials(name) {
+
+        const parts =
+            String(name || "Coach")
+                .trim()
+                .split(/\s+/)
+                .filter(Boolean);
+
+        if (!parts.length) {
+            return "CO";
+        }
+
+        if (parts.length === 1) {
+
+            return parts[0]
+                .substring(0, 2)
+                .toUpperCase();
+
+        }
+
+        return (
+            parts[0][0] +
+            parts[parts.length - 1][0]
+        ).toUpperCase();
+
+    }
+
+
+    /* =========================================================
+       USER
+       ========================================================= */
+
+    function getUser() {
+
+        return readJSON(
+            STORAGE.user,
+            {}
+        ) || {};
+
+    }
+
+
+    function updateUserDisplay() {
+
+        const user =
+            getUser();
+
+        const name =
+            user.name ||
+            user.fullName ||
+            user.displayName ||
+            "Coach";
+
+        const email =
+            user.email ||
+            "coach@athlete360.local";
+
+        const avatar =
+            initials(name);
+
+        document.getElementById(
+            "sidebarUserName"
+        ).textContent = name;
+
+        document.getElementById(
+            "sidebarAvatar"
+        ).textContent = avatar;
+
+        document.getElementById(
+            "profileAvatar"
+        ).textContent = avatar;
+
+        document.getElementById(
+            "profileDisplayName"
+        ).textContent = name;
+
+        document.getElementById(
+            "profileDisplayEmail"
+        ).textContent = email;
+
+        document.getElementById(
+            "profileName"
+        ).value = name;
+
+        document.getElementById(
+            "profileEmail"
+        ).value = email;
+
+        document.getElementById(
+            "profileRole"
+        ).value =
+            user.role ||
+            "Head Coach";
+
+        document.getElementById(
+            "profileSport"
+        ).value =
+            user.sport ||
+            "";
+
+        document.getElementById(
+            "profileOrganisation"
+        ).value =
+            user.organisation ||
+            user.organization ||
+            "";
+
+    }
+
+
+    /* =========================================================
+       SETTINGS
+       ========================================================= */
+
+    function defaultSettings() {
+
+        return {
+
+            compactDashboard: false,
+
+            showScores: true,
+
+            autoReports: true,
+
+            rememberAthlete: true,
+
+            defaultPage:
+                "dashboard.html",
+
+            defaultReportRange:
+                "30",
+
+            notifyReadiness: true,
+
+            notifyPB: true,
+
+            notifyTraining: true,
+
+            notifyTesting: true,
+
+            notifyWeekly: true,
+
+            performanceScale:
+                "100",
+
+            readyThreshold:
+                "80",
+
+            monitorThreshold:
+                "65",
+
+            loadFormula:
+                "duration-rpe"
+
+        };
+
+    }
+
+
+    function getSettings() {
+
+        return {
+            ...defaultSettings(),
+            ...(readJSON(
+                STORAGE.settings,
+                {}
+            ) || {})
+        };
+
+    }
+
+
+    function loadSettings() {
+
+        const settings =
+            getSettings();
+
+
+        document.getElementById(
+            "compactDashboard"
+        ).checked =
+            Boolean(
+                settings.compactDashboard
+            );
+
+
+        document.getElementById(
+            "showScores"
+        ).checked =
+            Boolean(
+                settings.showScores
+            );
+
+
+        document.getElementById(
+            "autoReports"
+        ).checked =
+            Boolean(
+                settings.autoReports
+            );
+
+
+        document.getElementById(
+            "rememberAthlete"
+        ).checked =
+            Boolean(
+                settings.rememberAthlete
+            );
+
+
+        document.getElementById(
+            "defaultPage"
+        ).value =
+            settings.defaultPage;
+
+
+        document.getElementById(
+            "defaultReportRange"
+        ).value =
+            settings.defaultReportRange;
+
+
+        document.getElementById(
+            "notifyReadiness"
+        ).checked =
+            Boolean(
+                settings.notifyReadiness
+            );
+
+
+        document.getElementById(
+            "notifyPB"
+        ).checked =
+            Boolean(
+                settings.notifyPB
+            );
+
+
+        document.getElementById(
+            "notifyTraining"
+        ).checked =
+            Boolean(
+                settings.notifyTraining
+            );
+
+
+        document.getElementById(
+            "notifyTesting"
+        ).checked =
+            Boolean(
+                settings.notifyTesting
+            );
+
+
+        document.getElementById(
+            "notifyWeekly"
+        ).checked =
+            Boolean(
+                settings.notifyWeekly
+            );
+
+
+        document.getElementById(
+            "performanceScale"
+        ).value =
+            settings.performanceScale;
+
+
+        document.getElementById(
+            "readyThreshold"
+        ).value =
+            settings.readyThreshold;
+
+
+        document.getElementById(
+            "monitorThreshold"
+        ).value =
+            settings.monitorThreshold;
+
+
+        document.getElementById(
+            "loadFormula"
+        ).value =
+            settings.loadFormula;
+
+    }
+
+
+    /* =========================================================
+       SAVE PROFILE
+       ========================================================= */
+
+    function saveProfile() {
+
+        const existing =
+            getUser();
+
+        const updated = {
+
+            ...existing,
+
+            name:
+                document.getElementById(
+                    "profileName"
+                ).value.trim(),
+
+            email:
+                document.getElementById(
+                    "profileEmail"
+                ).value.trim(),
+
+            role:
+                document.getElementById(
+                    "profileRole"
+                ).value,
+
+            sport:
+                document.getElementById(
+                    "profileSport"
+                ).value,
+
+            organisation:
+                document.getElementById(
+                    "profileOrganisation"
+                ).value.trim()
+
+        };
+
+
+        if (!updated.name) {
+
+            showToast(
+                "Please enter your name.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        writeJSON(
+            STORAGE.user,
+            updated
+        );
+
+
+        updateUserDisplay();
+
+
+        showToast(
+            "Profile saved successfully.",
+            "success"
+        );
+
+    }
+
+
+    /* =========================================================
+       SAVE PREFERENCES
+       ========================================================= */
+
+    function savePreferences() {
+
+        const settings =
+            getSettings();
+
+        settings.compactDashboard =
+            document.getElementById(
+                "compactDashboard"
+            ).checked;
+
+        settings.showScores =
+            document.getElementById(
+                "showScores"
+            ).checked;
+
+        settings.autoReports =
+            document.getElementById(
+                "autoReports"
+            ).checked;
+
+        settings.rememberAthlete =
+            document.getElementById(
+                "rememberAthlete"
+            ).checked;
+
+        settings.defaultPage =
+            document.getElementById(
+                "defaultPage"
+            ).value;
+
+        settings.defaultReportRange =
+            document.getElementById(
+                "defaultReportRange"
+            ).value;
+
+
+        writeJSON(
+            STORAGE.settings,
+            settings
+        );
+
+
+        showToast(
+            "Preferences saved.",
+            "success"
+        );
+
+    }
+
+
+    /* =========================================================
+       SAVE NOTIFICATIONS
+       ========================================================= */
+
+    function saveNotifications() {
+
+        const settings =
+            getSettings();
+
+        settings.notifyReadiness =
+            document.getElementById(
+                "notifyReadiness"
+            ).checked;
+
+        settings.notifyPB =
+            document.getElementById(
+                "notifyPB"
+            ).checked;
+
+        settings.notifyTraining =
+            document.getElementById(
+                "notifyTraining"
+            ).checked;
+
+        settings.notifyTesting =
+            document.getElementById(
+                "notifyTesting"
+            ).checked;
+
+        settings.notifyWeekly =
+            document.getElementById(
+                "notifyWeekly"
+            ).checked;
+
+
+        writeJSON(
+            STORAGE.settings,
+            settings
+        );
+
+
+        showToast(
+            "Notification settings saved.",
+            "success"
+        );
+
+    }
+
+
+    /* =========================================================
+       SAVE PERFORMANCE
+       ========================================================= */
+
+    function savePerformanceSettings() {
+
+        const settings =
+            getSettings();
+
+        settings.performanceScale =
+            document.getElementById(
+                "performanceScale"
+            ).value;
+
+        settings.readyThreshold =
+            document.getElementById(
+                "readyThreshold"
+            ).value;
+
+        settings.monitorThreshold =
+            document.getElementById(
+                "monitorThreshold"
+            ).value;
+
+        settings.loadFormula =
+            document.getElementById(
+                "loadFormula"
+            ).value;
+
+
+        writeJSON(
+            STORAGE.settings,
+            settings
+        );
+
+
+        showToast(
+            "Performance settings saved.",
+            "success"
+        );
+
+    }
+
+
+    /* =========================================================
+       DATA COUNTS
+       ========================================================= */
+
+    function updateDataCounts() {
+
+        const athletes =
+            readArray(
+                STORAGE.athletes
+            );
+
+        const teams =
+            readArray(
+                STORAGE.teams
+            );
+
+        const tests =
+            readArray(
+                STORAGE.tests
+            );
+
+        const training =
+            readArray(
+                STORAGE.training
+            );
+
+
+        document.getElementById(
+            "countAthletes"
+        ).textContent =
+            athletes.length +
+            (
+                athletes.length === 1
+                    ? " athlete"
+                    : " athletes"
+            );
+
+
+        document.getElementById(
+            "countTeams"
+        ).textContent =
+            teams.length +
+            (
+                teams.length === 1
+                    ? " team"
+                    : " teams"
+            );
+
+
+        document.getElementById(
+            "countTests"
+        ).textContent =
+            tests.length +
+            (
+                tests.length === 1
+                    ? " test"
+                    : " tests"
+            );
+
+
+        document.getElementById(
+            "countTraining"
+        ).textContent =
+            training.length +
+            (
+                training.length === 1
+                    ? " session"
+                    : " sessions"
+            );
+
+    }
+
+
+    /* =========================================================
+       EXPORT DATA
+       ========================================================= */
+
+    function exportData() {
+
+        const backup = {
+
+            athlete360Backup:
+                true,
+
+            version:
+                "1.0",
+
+            exportedAt:
+                new Date().toISOString(),
+
+            athletes:
+                readArray(
+                    STORAGE.athletes
+                ),
+
+            teams:
+                readArray(
+                    STORAGE.teams
+                ),
+
+            testingHistory:
+                readArray(
+                    STORAGE.tests
+                ),
+
+            trainingSessions:
+                readArray(
+                    STORAGE.training
+                ),
+
+            selectedAthlete:
+                readJSON(
+                    STORAGE.selectedAthlete,
+                    null
+                ),
+
+            selectedTeam:
+                readJSON(
+                    STORAGE.selectedTeam,
+                    null
+                ),
+
+            user:
+                getUser(),
+
+            settings:
+                getSettings()
+
+        };
+
+
+        const json =
+            JSON.stringify(
+                backup,
+                null,
+                2
+            );
+
+
+        const blob =
+            new Blob(
+                [json],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(
+                blob
+            );
+
+
+        const link =
+            document.createElement("a");
+
+
+        const date =
+            new Date()
+                .toISOString()
+                .slice(0, 10);
+
+
+        link.href = url;
+
+        link.download =
+            `athlete360-backup-${date}.json`;
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+
+        link.remove();
+
+
+        URL.revokeObjectURL(
+            url
+        );
+
+
+        showToast(
+            "Athlete360 backup exported.",
+            "success"
+        );
+
+    }
+
+
+    /* =========================================================
+       IMPORT DATA
+       ========================================================= */
+
+    document.getElementById(
+        "importFile"
+    ).addEventListener(
+        "change",
+        function(event) {
+
+            const file =
+                event.target.files[0];
+
+            if (!file) {
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function() {
+
+                    try {
+
+                        const backup =
+                            JSON.parse(
+                                reader.result
+                            );
+
+
+                        if (
+                            !backup.athlete360Backup
+                        ) {
+
+                            showToast(
+                                "This does not appear to be an Athlete360 backup.",
+                                "error"
+                            );
+
+                            return;
+
+                        }
+
+
+                        if (
+                            Array.isArray(
+                                backup.athletes
+                            )
+                        ) {
+
+                            writeJSON(
+                                STORAGE.athletes,
+                                backup.athletes
+                            );
+
+                        }
+
+
+                        if (
+                            Array.isArray(
+                                backup.teams
+                            )
+                        ) {
+
+                            writeJSON(
+                                STORAGE.teams,
+                                backup.teams
+                            );
+
+                        }
+
+
+                        if (
+                            Array.isArray(
+                                backup.testingHistory
+                            )
+                        ) {
+
+                            writeJSON(
+                                STORAGE.tests,
+                                backup.testingHistory
+                            );
+
+                        }
+
+
+                        if (
+                            Array.isArray(
+                                backup.trainingSessions
+                            )
+                        ) {
+
+                            writeJSON(
+                                STORAGE.training,
+                                backup.trainingSessions
+                            );
+
+                        }
+
+
+                        if (
+                            backup.selectedAthlete !==
+                            undefined
+                        ) {
+
+                            writeJSON(
+                                STORAGE.selectedAthlete,
+                                backup.selectedAthlete
+                            );
+
+                        }
+
+
+                        if (
+                            backup.selectedTeam !==
+                            undefined
+                        ) {
+
+                            writeJSON(
+                                STORAGE.selectedTeam,
+                                backup.selectedTeam
+                            );
+
+                        }
+
+
+                        if (
+                            backup.user
+                        ) {
+
+                            writeJSON(
+                                STORAGE.user,
+                                backup.user
+                            );
+
+                        }
+
+
+                        if (
+                            backup.settings
+                        ) {
+
+                            writeJSON(
+                                STORAGE.settings,
+                                backup.settings
+                            );
+
+                        }
+
+
+                        updateUserDisplay();
+
+                        loadSettings();
+
+                        updateDataCounts();
+
+
+                        showToast(
+                            "Athlete360 backup imported successfully.",
+                            "success"
+                        );
+
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+                        showToast(
+                            "Could not import this backup file.",
+                            "error"
+                        );
+
+                    }
+
+                };
+
+
+            reader.readAsText(
+                file
+            );
+
+
+            event.target.value = "";
+
+        }
+    );
+
+
+    /* =========================================================
+       CLEAR MODAL
+       ========================================================= */
+
+    function openClearModal() {
+
+        document.getElementById(
+            "clearModal"
+        ).classList.add(
+            "show"
+        );
+
+    }
+
+
+    function closeClearModal() {
+
+        document.getElementById(
+            "clearModal"
+        ).classList.remove(
+            "show"
+        );
+
+    }
+
+
+    /* =========================================================
+       CLEAR DATA
+       ========================================================= */
+
+    function clearAllData() {
+
+        const keys = [
+
+            STORAGE.athletes,
+
+            STORAGE.teams,
+
+            STORAGE.tests,
+
+            STORAGE.training,
+
+            STORAGE.selectedAthlete,
+
+            STORAGE.selectedTeam
+
+        ];
+
+
+        keys.forEach(
+            key =>
+                localStorage.removeItem(
+                    key
+                )
+        );
+
+
+        closeClearModal();
+
+
+        updateDataCounts();
+
+
+        showToast(
+            "Athlete360 performance data has been cleared.",
+            "success"
+        );
+
+    }
+
+
+    /* =========================================================
+       SETTINGS TABS
+       ========================================================= */
+
+    const tabs =
+        document.querySelectorAll(
+            ".settings-tab"
+        );
+
+
+    const panels =
+        document.querySelectorAll(
+            ".settings-panel"
+        );
+
+
+    tabs.forEach(
+        tab => {
+
+            tab.addEventListener(
+                "click",
+                function() {
+
+                    const target =
+                        this.dataset.tab;
+
+
+                    tabs.forEach(
+                        item =>
+                            item.classList.remove(
+                                "active"
+                            )
+                    );
+
+
+                    panels.forEach(
+                        panel =>
+                            panel.classList.remove(
+                                "active"
+                            )
+                    );
+
+
+                    this.classList.add(
+                        "active"
+                    );
+
+
+                    document.getElementById(
+                        "panel-" + target
+                    ).classList.add(
+                        "active"
+                    );
+
+
+                    if (
+                        window.innerWidth <=
+                        650
+                    ) {
+
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       TOAST
+       ========================================================= */
+
+    function showToast(
+        message,
+        type = "success"
+    ) {
+
+        const toast =
+            document.getElementById(
+                "toast"
+            );
+
+
+        toast.textContent =
+            message;
+
+
+        toast.className =
+            "toast show " +
+            type;
+
+
+        clearTimeout(
+            toastTimer
+        );
+
+
+        toastTimer =
+            setTimeout(
+                function() {
+
+                    toast.classList.remove(
+                        "show"
+                    );
+
+                },
+                3000
+            );
+
+    }
+
+
+    /* =========================================================
+       MOBILE SIDEBAR
+       ========================================================= */
+
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+    const sidebarOverlay =
+        document.getElementById(
+            "sidebarOverlay"
+        );
+
+
+    mobileMenu.addEventListener(
+        "click",
+        function() {
+
+            sidebar.classList.add(
+                "open"
+            );
+
+            sidebarOverlay.classList.add(
+                "active"
+            );
+
+        }
+    );
+
+
+    sidebarOverlay.addEventListener(
+        "click",
+        function() {
+
+            sidebar.classList.remove(
+                "open"
+            );
+
+            sidebarOverlay.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    /* =========================================================
+       ESCAPE KEY
+       ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeClearModal();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIALIZE
+       ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            updateUserDisplay();
+
+            loadSettings();
+
+            updateDataCounts();
+
+        }
+    );
+
+
+    /* =========================================================
+       STORAGE SYNC
+       ========================================================= */
+
+    window.addEventListener(
+        "storage",
+        function(event) {
+
+            if (
+                [
+                    STORAGE.athletes,
+                    STORAGE.teams,
+                    STORAGE.tests,
+                    STORAGE.training,
+                    STORAGE.user,
+                    STORAGE.settings
+                ].includes(
+                    event.key
+                )
+            ) {
+
+                updateUserDisplay();
+
+                loadSettings();
+
+                updateDataCounts();
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,5467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Athlete360 | Performance Analytics</title>
+
+    <style>
+        :root {
+            --bg: #090c10;
+            --bg-soft: #0e1319;
+            --panel: #111820;
+            --panel-2: #151d26;
+            --panel-3: #1a232d;
+
+            --border: rgba(255,255,255,0.08);
+            --border-light: rgba(255,255,255,0.13);
+
+            --text: #f4f7fa;
+            --text-soft: #aab4c0;
+            --text-muted: #737f8d;
+
+            --blue: #55b8ff;
+            --blue-dark: #2386d8;
+            --blue-soft: rgba(85,184,255,0.12);
+
+            --green: #45d483;
+            --green-dark: #249d5b;
+            --green-soft: rgba(69,212,131,0.12);
+
+            --red: #ff6262;
+            --red-soft: rgba(255,98,98,0.12);
+
+            --orange: #ffb84d;
+            --orange-soft: rgba(255,184,77,0.12);
+
+            --purple: #9c7cff;
+            --purple-soft: rgba(156,124,255,0.12);
+
+            --sidebar-width: 250px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: var(--sidebar-width);
+
+            background: #0b0f14;
+            border-right: 1px solid var(--border);
+
+            display: flex;
+            flex-direction: column;
+
+            z-index: 1000;
+        }
+
+        .brand {
+            height: 82px;
+            display: flex;
+            align-items: center;
+
+            padding: 0 22px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-mark {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            background: linear-gradient(
+                135deg,
+                var(--blue),
+                var(--green)
+            );
+
+            color: #061016;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 900;
+            font-size: 15px;
+
+            margin-right: 11px;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 17px;
+            letter-spacing: -0.3px;
+        }
+
+        .brand-text span {
+            display: block;
+            color: var(--text-muted);
+            font-size: 10px;
+            margin-top: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+        }
+
+        .nav {
+            padding: 20px 12px;
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin-bottom: 22px;
+        }
+
+        .nav-title {
+            color: #56616e;
+            font-size: 10px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 1.3px;
+
+            padding: 0 11px;
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 11px 12px;
+            margin-bottom: 3px;
+
+            border-radius: 9px;
+
+            color: var(--text-soft);
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.045);
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background: var(--blue-soft);
+            color: var(--blue);
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            padding: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .user-mini {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 10px;
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.025);
+        }
+
+        .user-avatar {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: var(--panel-3);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--blue);
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .user-info {
+            min-width: 0;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-info span {
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        .mobile-header {
+            display: none;
+        }
+
+        .mobile-overlay {
+            display: none;
+        }
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 82px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            border-bottom: 1px solid var(--border);
+
+            background: rgba(9,12,16,0.92);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+        }
+
+        .breadcrumbs {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .breadcrumbs strong {
+            color: var(--text-soft);
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-button {
+            border: 1px solid var(--border-light);
+            background: var(--panel);
+
+            color: var(--text-soft);
+
+            height: 38px;
+            padding: 0 13px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .top-button:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .content {
+            padding: 30px 32px 50px;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+
+        /* =========================================
+           PAGE HEADER
+        ========================================= */
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 29px;
+            letter-spacing: -0.8px;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 9px;
+        }
+
+        .btn {
+            border: 1px solid var(--border-light);
+            background: var(--panel);
+
+            color: var(--text);
+
+            padding: 10px 15px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            border-color: var(--blue);
+            color: var(--blue);
+        }
+
+        .btn-primary {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #061016;
+        }
+
+        .btn-primary:hover {
+            color: #061016;
+            background: #72c5ff;
+        }
+
+        /* =========================================
+           FILTERS
+        ========================================= */
+
+        .filters {
+            display: grid;
+            grid-template-columns:
+                minmax(170px, 1.2fr)
+                minmax(150px, 1fr)
+                minmax(150px, 1fr)
+                minmax(150px, 1fr)
+                minmax(150px, 1fr)
+                auto;
+
+            gap: 10px;
+
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            padding: 14px;
+
+            margin-bottom: 22px;
+        }
+
+        .filter-group label {
+            display: block;
+
+            color: var(--text-muted);
+
+            font-size: 10px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+
+            margin-bottom: 6px;
+        }
+
+        .filter-group select {
+            width: 100%;
+
+            height: 40px;
+
+            border-radius: 8px;
+
+            border: 1px solid var(--border-light);
+
+            background: var(--bg-soft);
+
+            color: var(--text);
+
+            padding: 0 10px;
+
+            outline: none;
+
+            font-size: 12px;
+        }
+
+        .filter-group select:focus {
+            border-color: var(--blue);
+        }
+
+        .filter-reset {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .reset-btn {
+            height: 40px;
+
+            border: 1px solid var(--border-light);
+            background: transparent;
+
+            color: var(--text-muted);
+
+            padding: 0 13px;
+
+            border-radius: 8px;
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .reset-btn:hover {
+            color: var(--text);
+            border-color: var(--text-soft);
+        }
+
+        /* =========================================
+           KPI CARDS
+        ========================================= */
+
+        .kpi-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 14px;
+
+            margin-bottom: 22px;
+        }
+
+        .kpi-card {
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            min-height: 132px;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .kpi-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            right: -35px;
+            top: -35px;
+
+            border-radius: 50%;
+
+            background: var(--blue-soft);
+
+            pointer-events: none;
+        }
+
+        .kpi-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 12px;
+        }
+
+        .kpi-label {
+            color: var(--text-muted);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .kpi-icon {
+            width: 30px;
+            height: 30px;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--blue-soft);
+            color: var(--blue);
+
+            font-size: 13px;
+        }
+
+        .kpi-value {
+            font-size: 29px;
+            font-weight: 800;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 5px;
+        }
+
+        .kpi-meta {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .positive {
+            color: var(--green);
+        }
+
+        .negative {
+            color: var(--red);
+        }
+
+        /* =========================================
+           PANELS
+        ========================================= */
+
+        .panel {
+            background: var(--panel);
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 17px 19px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title h2 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .panel-title p {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .panel-action {
+            border: 0;
+            background: transparent;
+
+            color: var(--blue);
+
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .panel-body {
+            padding: 18px;
+        }
+
+        /* =========================================
+           MAIN ANALYTICS GRID
+        ========================================= */
+
+        .analytics-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.55fr)
+                minmax(310px, 0.85fr);
+
+            gap: 18px;
+
+            margin-bottom: 18px;
+        }
+
+        /* =========================================
+           CHART
+        ========================================= */
+
+        .chart-wrap {
+            height: 330px;
+
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-container {
+            flex: 1;
+
+            position: relative;
+
+            min-height: 0;
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+
+            overflow: visible;
+        }
+
+        .chart-grid-line {
+            stroke: rgba(255,255,255,0.07);
+            stroke-width: 1;
+        }
+
+        .chart-axis-text {
+            fill: #697582;
+            font-size: 10px;
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: var(--blue);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .chart-area {
+            fill: url(#chartGradient);
+            opacity: 0.3;
+        }
+
+        .chart-point {
+            fill: var(--blue);
+            stroke: #111820;
+            stroke-width: 3;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+
+            margin-bottom: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            color: var(--text-muted);
+
+            font-size: 10px;
+        }
+
+        .legend-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--blue);
+        }
+
+        /* =========================================
+           READINESS
+        ========================================= */
+
+        .readiness-main {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            padding-bottom: 19px;
+
+            border-bottom: 1px solid var(--border);
+
+            margin-bottom: 17px;
+        }
+
+        .readiness-circle {
+            width: 120px;
+            height: 120px;
+
+            border-radius: 50%;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            background:
+                conic-gradient(
+                    var(--green) 0deg,
+                    var(--green) 320deg,
+                    #252d36 320deg,
+                    #252d36 360deg
+                );
+        }
+
+        .readiness-circle::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 9px;
+
+            border-radius: 50%;
+
+            background: var(--panel);
+        }
+
+        .readiness-value {
+            position: relative;
+            z-index: 2;
+
+            text-align: center;
+        }
+
+        .readiness-value strong {
+            display: block;
+
+            font-size: 27px;
+            letter-spacing: -1px;
+        }
+
+        .readiness-value span {
+            color: var(--text-muted);
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .readiness-copy h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .readiness-copy p {
+            color: var(--text-muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .factor {
+            margin-bottom: 14px;
+        }
+
+        .factor:last-child {
+            margin-bottom: 0;
+        }
+
+        .factor-top {
+            display: flex;
+            justify-content: space-between;
+
+            margin-bottom: 6px;
+
+            font-size: 11px;
+        }
+
+        .factor-top span:first-child {
+            color: var(--text-soft);
+        }
+
+        .factor-top span:last-child {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .factor-bar {
+            height: 6px;
+
+            background: #222a33;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .factor-fill {
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: var(--green);
+        }
+
+        /* =========================================
+           CATEGORY CARDS
+        ========================================= */
+
+        .category-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, minmax(0, 1fr));
+
+            gap: 12px;
+        }
+
+        .category-card {
+            background: var(--bg-soft);
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+
+            padding: 14px;
+
+            min-height: 145px;
+
+            transition: 0.2s ease;
+        }
+
+        .category-card:hover {
+            border-color: var(--border-light);
+        }
+
+        .category-icon {
+            width: 34px;
+            height: 34px;
+
+            border-radius: 9px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--blue-soft);
+
+            color: var(--blue);
+
+            font-size: 14px;
+
+            margin-bottom: 12px;
+        }
+
+        .category-card:nth-child(2) .category-icon {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .category-card:nth-child(3) .category-icon {
+            background: var(--orange-soft);
+            color: var(--orange);
+        }
+
+        .category-card:nth-child(4) .category-icon {
+            background: var(--purple-soft);
+            color: var(--purple);
+        }
+
+        .category-card:nth-child(5) .category-icon {
+            background: var(--blue-soft);
+            color: var(--blue);
+        }
+
+        .category-card h3 {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .category-score {
+            font-size: 23px;
+            font-weight: 800;
+
+            letter-spacing: -0.7px;
+
+            margin-bottom: 7px;
+        }
+
+        .category-meta {
+            display: flex;
+            justify-content: space-between;
+
+            color: var(--text-muted);
+
+            font-size: 9px;
+        }
+
+        .category-progress {
+            height: 4px;
+
+            background: #252d36;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-top: 8px;
+        }
+
+        .category-progress span {
+            display: block;
+
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: var(--blue);
+        }
+
+        /* =========================================
+           LOWER GRID
+        ========================================= */
+
+        .lower-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1.1fr)
+                minmax(0, 0.9fr);
+
+            gap: 18px;
+
+            margin-top: 18px;
+        }
+
+        /* =========================================
+           BAR CHART
+        ========================================= */
+
+        .bar-chart {
+            height: 280px;
+
+            display: flex;
+            align-items: flex-end;
+
+            gap: 16px;
+
+            padding: 10px 6px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .bar-column {
+            flex: 1;
+
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+
+            gap: 7px;
+        }
+
+        .bar-value {
+            color: var(--text-soft);
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .bar-track {
+            width: 100%;
+            max-width: 45px;
+
+            height: 200px;
+
+            display: flex;
+            align-items: flex-end;
+
+            background: #151c24;
+
+            border-radius: 6px 6px 0 0;
+
+            overflow: hidden;
+        }
+
+        .bar {
+            width: 100%;
+
+            background: linear-gradient(
+                to top,
+                var(--blue-dark),
+                var(--blue)
+            );
+
+            border-radius: 5px 5px 0 0;
+
+            transition: height 0.4s ease;
+        }
+
+        .bar-label {
+            color: var(--text-muted);
+            font-size: 9px;
+        }
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 650px;
+        }
+
+        th {
+            text-align: left;
+
+            padding: 11px 14px;
+
+            color: var(--text-muted);
+
+            font-size: 9px;
+
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+
+            font-weight: 700;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 13px 14px;
+
+            border-bottom: 1px solid rgba(255,255,255,0.045);
+
+            font-size: 11px;
+
+            color: var(--text-soft);
+        }
+
+        tr:last-child td {
+            border-bottom: 0;
+        }
+
+        tbody tr {
+            transition: 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,0.025);
+        }
+
+        .athlete-cell {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .athlete-avatar {
+            width: 30px;
+            height: 30px;
+
+            border-radius: 8px;
+
+            background: var(--panel-3);
+
+            color: var(--blue);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .athlete-name {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .athlete-sub {
+            color: var(--text-muted);
+            font-size: 9px;
+            margin-top: 2px;
+        }
+
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 39px;
+
+            padding: 5px 7px;
+
+            border-radius: 6px;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .score-badge.warning {
+            background: var(--orange-soft);
+            color: var(--orange);
+        }
+
+        .score-badge.danger {
+            background: var(--red-soft);
+            color: var(--red);
+        }
+
+        .trend-up {
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .trend-down {
+            color: var(--red);
+            font-weight: 700;
+        }
+
+        .view-link {
+            color: var(--blue);
+
+            border: 0;
+            background: transparent;
+
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* =========================================
+           ACTIVITY
+        ========================================= */
+
+        .activity-item {
+            display: flex;
+
+            gap: 12px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: 0;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+
+            border-radius: 8px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--blue-soft);
+            color: var(--blue);
+
+            font-size: 12px;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info strong {
+            display: block;
+
+            color: var(--text);
+
+            font-size: 11px;
+
+            margin-bottom: 3px;
+        }
+
+        .activity-info span {
+            color: var(--text-muted);
+
+            font-size: 10px;
+        }
+
+        .activity-score {
+            font-size: 11px;
+            font-weight: 800;
+
+            color: var(--green);
+
+            white-space: nowrap;
+        }
+
+        /* =========================================
+           LOAD VS PERFORMANCE
+        ========================================= */
+
+        .comparison-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .comparison-item {
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-item:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .comparison-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 7px;
+        }
+
+        .comparison-name {
+            font-size: 11px;
+            color: var(--text-soft);
+            font-weight: 700;
+        }
+
+        .comparison-values {
+            color: var(--text-muted);
+            font-size: 9px;
+        }
+
+        .dual-bars {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+
+        .dual-track {
+            height: 7px;
+
+            background: #242d36;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .dual-fill.load {
+            height: 100%;
+            background: var(--blue);
+        }
+
+        .dual-fill.performance {
+            height: 100%;
+            background: var(--green);
+        }
+
+        .dual-legend {
+            display: flex;
+            gap: 14px;
+
+            margin-top: 8px;
+        }
+
+        .dual-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            color: var(--text-muted);
+
+            font-size: 9px;
+        }
+
+        .mini-dot {
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+        }
+
+        .mini-dot.blue {
+            background: var(--blue);
+        }
+
+        .mini-dot.green {
+            background: var(--green);
+        }
+
+        /* =========================================
+           EMPTY STATE
+        ========================================= */
+
+        .empty-state {
+            text-align: center;
+
+            padding: 50px 20px;
+
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            width: 48px;
+            height: 48px;
+
+            border-radius: 12px;
+
+            margin: 0 auto 12px;
+
+            background: var(--panel-3);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--blue);
+
+            font-size: 18px;
+        }
+
+        .empty-state h3 {
+            color: var(--text);
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .empty-state p {
+            font-size: 11px;
+        }
+
+        /* =========================================
+           TOAST
+        ========================================= */
+
+        .toast {
+            position: fixed;
+
+            right: 24px;
+            bottom: 24px;
+
+            min-width: 260px;
+
+            background: var(--panel-3);
+
+            border: 1px solid var(--border-light);
+
+            border-left: 3px solid var(--green);
+
+            border-radius: 9px;
+
+            padding: 13px 15px;
+
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+
+            transform: translateY(20px);
+
+            opacity: 0;
+
+            pointer-events: none;
+
+            transition: 0.25s ease;
+
+            z-index: 5000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast strong {
+            display: block;
+
+            font-size: 11px;
+
+            margin-bottom: 3px;
+        }
+
+        .toast span {
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1250px) {
+
+            .filters {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+
+            .filter-reset {
+                align-items: center;
+            }
+
+            .analytics-grid,
+            .lower-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-header {
+                height: 62px;
+
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                padding: 0 17px;
+
+                background: #0b0f14;
+
+                border-bottom: 1px solid var(--border);
+
+                position: sticky;
+                top: 0;
+
+                z-index: 900;
+            }
+
+            .mobile-brand {
+                display: flex;
+                align-items: center;
+                gap: 9px;
+            }
+
+            .mobile-brand-mark {
+                width: 30px;
+                height: 30px;
+
+                border-radius: 8px;
+
+                background: linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+                color: #061016;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                font-size: 10px;
+                font-weight: 900;
+            }
+
+            .mobile-brand strong {
+                font-size: 14px;
+            }
+
+            .menu-btn {
+                width: 35px;
+                height: 35px;
+
+                border: 1px solid var(--border-light);
+
+                background: var(--panel);
+
+                color: var(--text);
+
+                border-radius: 8px;
+
+                font-size: 16px;
+            }
+
+            .mobile-overlay.show {
+                display: block;
+
+                position: fixed;
+
+                inset: 0;
+
+                background: rgba(0,0,0,0.55);
+
+                z-index: 950;
+            }
+
+            .topbar {
+                display: none;
+            }
+
+            .content {
+                padding: 22px 18px 40px;
+            }
+
+            .kpi-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-actions {
+                width: 100%;
+            }
+
+            .header-actions .btn {
+                flex: 1;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .readiness-main {
+                align-items: flex-start;
+            }
+
+            .readiness-circle {
+                width: 90px;
+                height: 90px;
+            }
+
+            .readiness-value strong {
+                font-size: 22px;
+            }
+
+            .chart-wrap {
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 440px) {
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .readiness-main {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================
+         MOBILE HEADER
+    ========================================= -->
+
+    <div class="mobile-header">
+
+        <div class="mobile-brand">
+            <div class="mobile-brand-mark">A3</div>
+
+            <strong>Athlete360</strong>
+        </div>
+
+        <button
+            class="menu-btn"
+            id="menuBtn"
+            onclick="toggleSidebar()"
+        >
+            ☰
+        </button>
+
+    </div>
+
+    <div
+        class="mobile-overlay"
+        id="mobileOverlay"
+        onclick="toggleSidebar()"
+    ></div>
+
+
+    <!-- =========================================
+         SIDEBAR
+    ========================================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                A3
+            </div>
+
+            <div class="brand-text">
+                <strong>Athlete360</strong>
+                <span>Performance Platform</span>
+            </div>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <div class="nav-section">
+
+                <div class="nav-title">
+                    Overview
+                </div>
+
+                <a
+                    href="dashboard.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">▦</span>
+                    Dashboard
+                </a>
+
+                <a
+                    href="analytics.html"
+                    class="nav-link active"
+                >
+                    <span class="nav-icon">◒</span>
+                    Analytics
+                </a>
+
+            </div>
+
+
+            <div class="nav-section">
+
+                <div class="nav-title">
+                    Athletes
+                </div>
+
+                <a
+                    href="athletes.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">♙</span>
+                    Athletes
+                </a>
+
+                <a
+                    href="teams.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">♟</span>
+                    Teams
+                </a>
+
+            </div>
+
+
+            <div class="nav-section">
+
+                <div class="nav-title">
+                    Performance
+                </div>
+
+                <a
+                    href="testing.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">⌁</span>
+                    Testing
+                </a>
+
+                <a
+                    href="training.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">⚡</span>
+                    Training
+                </a>
+
+                <a
+                    href="exercises.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">◆</span>
+                    Exercise Library
+                </a>
+
+            </div>
+
+
+            <div class="nav-section">
+
+                <div class="nav-title">
+                    Reports
+                </div>
+
+                <a
+                    href="reports.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">▤</span>
+                    Reports
+                </a>
+
+                <a
+                    href="settings.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">⚙</span>
+                    Settings
+                </a>
+
+            </div>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="user-mini">
+
+                <div
+                    class="user-avatar"
+                    id="sidebarAvatar"
+                >
+                    MJ
+                </div>
+
+                <div class="user-info">
+
+                    <strong id="sidebarUserName">
+                        Coach
+                    </strong>
+
+                    <span id="sidebarUserRole">
+                        Performance Coach
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================================
+         MAIN
+    ========================================= -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="breadcrumbs">
+                Athlete360
+                <span> / </span>
+                <strong>Performance Analytics</strong>
+            </div>
+
+
+            <div class="topbar-actions">
+
+                <button
+                    class="top-button"
+                    onclick="window.location.href='testing.html'"
+                >
+                    + New Test
+                </button>
+
+                <button
+                    class="top-button"
+                    onclick="window.location.href='training.html'"
+                >
+                    + Training Session
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+
+                    <h1>
+                        Performance Analytics
+                    </h1>
+
+                    <p>
+                        Understand athlete performance, testing trends and training load.
+                    </p>
+
+                </div>
+
+
+                <div class="header-actions">
+
+                    <button
+                        class="btn"
+                        onclick="exportAnalytics()"
+                    >
+                        ↓ Export CSV
+                    </button>
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="window.print()"
+                    >
+                        Print Report
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTERS -->
+
+            <div class="filters">
+
+                <div class="filter-group">
+
+                    <label>
+                        Athlete
+                    </label>
+
+                    <select
+                        id="athleteFilter"
+                        onchange="applyFilters()"
+                    >
+                        <option value="all">
+                            All Athletes
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Sport
+                    </label>
+
+                    <select
+                        id="sportFilter"
+                        onchange="applyFilters()"
+                    >
+                        <option value="all">
+                            All Sports
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Category
+                    </label>
+
+                    <select
+                        id="categoryFilter"
+                        onchange="applyFilters()"
+                    >
+                        <option value="all">
+                            All Categories
+                        </option>
+
+                        <option value="Speed">
+                            Speed
+                        </option>
+
+                        <option value="Strength">
+                            Strength
+                        </option>
+
+                        <option value="Power">
+                            Power
+                        </option>
+
+                        <option value="Agility">
+                            Agility
+                        </option>
+
+                        <option value="Conditioning">
+                            Conditioning
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Period
+                    </label>
+
+                    <select
+                        id="periodFilter"
+                        onchange="applyFilters()"
+                    >
+                        <option value="all">
+                            All Time
+                        </option>
+
+                        <option value="7">
+                            Last 7 Days
+                        </option>
+
+                        <option value="30">
+                            Last 30 Days
+                        </option>
+
+                        <option value="90">
+                            Last 90 Days
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Metric
+                    </label>
+
+                    <select
+                        id="metricFilter"
+                        onchange="applyFilters()"
+                    >
+                        <option value="score">
+                            Performance Score
+                        </option>
+
+                        <option value="load">
+                            Training Load
+                        </option>
+
+                        <option value="tests">
+                            Test Results
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-reset">
+
+                    <button
+                        class="reset-btn"
+                        onclick="resetFilters()"
+                    >
+                        Reset
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- KPI CARDS -->
+
+            <div class="kpi-grid">
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Average Performance
+                        </span>
+
+                        <div class="kpi-icon">
+                            ◉
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="avgPerformance"
+                    >
+                        84
+                    </div>
+
+                    <div class="kpi-meta">
+                        Overall athlete performance score
+                    </div>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Average Test Score
+                        </span>
+
+                        <div class="kpi-icon">
+                            ⌁
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="avgTestScore"
+                    >
+                        89
+                    </div>
+
+                    <div class="kpi-meta">
+                        Based on recorded testing
+                    </div>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Training Load
+                        </span>
+
+                        <div class="kpi-icon">
+                            ⚡
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value"
+                        id="totalLoad"
+                    >
+                        1,660
+                    </div>
+
+                    <div class="kpi-meta">
+                        Total recorded training load
+                    </div>
+
+                </div>
+
+
+                <div class="kpi-card">
+
+                    <div class="kpi-top">
+
+                        <span class="kpi-label">
+                            Improvement
+                        </span>
+
+                        <div class="kpi-icon">
+                            ↗
+                        </div>
+
+                    </div>
+
+                    <div
+                        class="kpi-value positive"
+                        id="improvement"
+                    >
+                        +6.2%
+                    </div>
+
+                    <div class="kpi-meta">
+                        Average performance change
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAIN ANALYTICS -->
+
+            <div class="analytics-grid">
+
+                <!-- PERFORMANCE TREND -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div class="panel-title">
+
+                            <h2>
+                                Performance Trend
+                            </h2>
+
+                            <p>
+                                Average test performance over time
+                            </p>
+
+                        </div>
+
+                        <button
+                            class="panel-action"
+                            onclick="showToast('Trend updated', 'Analytics refreshed using current data.')"
+                        >
+                            Refresh
+                        </button>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div class="chart-legend">
+
+                            <div class="legend-item">
+
+                                <span class="legend-dot"></span>
+
+                                Performance Score
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-wrap">
+
+                            <div class="chart-container">
+
+                                <svg
+                                    class="chart-svg"
+                                    id="performanceChart"
+                                    viewBox="0 0 800 280"
+                                    preserveAspectRatio="none"
+                                >
+
+                                    <defs>
+
+                                        <linearGradient
+                                            id="chartGradient"
+                                            x1="0"
+                                            x2="0"
+                                            y1="0"
+                                            y2="1"
+                                        >
+
+                                            <stop
+                                                offset="0%"
+                                                stop-color="#55b8ff"
+                                                stop-opacity="0.5"
+                                            />
+
+                                            <stop
+                                                offset="100%"
+                                                stop-color="#55b8ff"
+                                                stop-opacity="0"
+                                            />
+
+                                        </linearGradient>
+
+                                    </defs>
+
+                                </svg>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- READINESS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div class="panel-title">
+
+                            <h2>
+                                Team Readiness
+                            </h2>
+
+                            <p>
+                                Current performance readiness
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div class="readiness-main">
+
+                            <div class="readiness-circle">
+
+                                <div class="readiness-value">
+
+                                    <strong id="readinessValue">
+                                        89%
+                                    </strong>
+
+                                    <span>
+                                        Ready
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="readiness-copy">
+
+                                <h3>
+                                    Strong
+                                </h3>
+
+                                <p id="readinessCopy">
+                                    The selected athletes are currently showing strong overall performance readiness.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <div class="factor-top">
+                                <span>Performance</span>
+                                <span id="factorPerformance">91%</span>
+                            </div>
+
+                            <div class="factor-bar">
+                                <div
+                                    class="factor-fill"
+                                    id="factorPerformanceBar"
+                                    style="width:91%"
+                                ></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <div class="factor-top">
+                                <span>Testing Consistency</span>
+                                <span id="factorTesting">88%</span>
+                            </div>
+
+                            <div class="factor-bar">
+                                <div
+                                    class="factor-fill"
+                                    id="factorTestingBar"
+                                    style="width:88%"
+                                ></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <div class="factor-top">
+                                <span>Training Load</span>
+                                <span id="factorLoad">86%</span>
+                            </div>
+
+                            <div class="factor-bar">
+                                <div
+                                    class="factor-fill"
+                                    id="factorLoadBar"
+                                    style="width:86%"
+                                ></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="factor">
+
+                            <div class="factor-top">
+                                <span>Progress</span>
+                                <span id="factorProgress">91%</span>
+                            </div>
+
+                            <div class="factor-bar">
+                                <div
+                                    class="factor-fill"
+                                    id="factorProgressBar"
+                                    style="width:91%"
+                                ></div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CATEGORY BREAKDOWN -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+
+                        <h2>
+                            Performance Breakdown
+                        </h2>
+
+                        <p>
+                            Average performance by physical quality
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel-body">
+
+                    <div
+                        class="category-grid"
+                        id="categoryGrid"
+                    >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOWER ANALYTICS -->
+
+            <div class="lower-grid">
+
+                <!-- TRAINING LOAD -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div class="panel-title">
+
+                            <h2>
+                                Weekly Training Load
+                            </h2>
+
+                            <p>
+                                Training load distribution across recent sessions
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div
+                            class="bar-chart"
+                            id="trainingBarChart"
+                        >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOAD VS PERFORMANCE -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <div class="panel-title">
+
+                            <h2>
+                                Load vs Performance
+                            </h2>
+
+                            <p>
+                                Compare training demand with performance
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel-body">
+
+                        <div
+                            class="comparison-list"
+                            id="comparisonList"
+                        >
+
+                        </div>
+
+
+                        <div class="dual-legend">
+
+                            <div class="dual-legend-item">
+
+                                <span class="mini-dot blue"></span>
+
+                                Training Load
+
+                            </div>
+
+                            <div class="dual-legend-item">
+
+                                <span class="mini-dot green"></span>
+
+                                Performance
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ATHLETE RANKINGS -->
+
+            <div
+                class="panel"
+                style="margin-top:18px;"
+            >
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+
+                        <h2>
+                            Athlete Performance Ranking
+                        </h2>
+
+                        <p>
+                            Current athletes ranked by overall performance
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="panel-action"
+                        onclick="window.location.href='athletes.html'"
+                    >
+                        View Athletes →
+                    </button>
+
+                </div>
+
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Athlete
+                                </th>
+
+                                <th>
+                                    Sport
+                                </th>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th>
+                                    Performance
+                                </th>
+
+                                <th>
+                                    Improvement
+                                </th>
+
+                                <th>
+                                    Last Test
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="rankingBody">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECENT ACTIVITY -->
+
+            <div
+                class="panel"
+                style="margin-top:18px;"
+            >
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+
+                        <h2>
+                            Recent Performance Activity
+                        </h2>
+
+                        <p>
+                            Latest testing and training updates
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="panel-action"
+                        onclick="window.location.href='testing.html'"
+                    >
+                        Testing History →
+                    </button>
+
+                </div>
+
+
+                <div
+                    class="panel-body"
+                    id="activityList"
+                >
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast"
+        id="toast"
+    >
+
+        <strong id="toastTitle">
+            Success
+        </strong>
+
+        <span id="toastMessage">
+            Done.
+        </span>
+
+    </div>
+
+
+    <script>
+
+        /* =========================================
+           ATHLETE360 ANALYTICS
+        ========================================= */
+
+        const STORAGE_ATHLETES = "athlete360_athletes";
+        const STORAGE_TESTING = "athlete360_testing_history";
+        const STORAGE_TRAINING = "athlete360_training_sessions";
+        const STORAGE_SELECTED = "athlete360_selected_athlete";
+        const STORAGE_USER = "athlete360_user";
+
+
+        /* =========================================
+           SAMPLE DATA
+        ========================================= */
+
+        const sampleAthletes = [
+
+            {
+                id: 1,
+                name: "Charl Malgas",
+                sport: "Rugby",
+                ageCategory: "U15",
+                position: "Backline",
+                team: "U15 A",
+                performance: 91,
+                status: "Ready",
+                lastTest: "10m Sprint",
+                progress: 9.4
+            },
+
+            {
+                id: 2,
+                name: "Liam Adams",
+                sport: "Rugby",
+                ageCategory: "U16",
+                position: "Forward",
+                team: "U16 A",
+                performance: 87,
+                status: "Ready",
+                lastTest: "Strength Test",
+                progress: 6.1
+            },
+
+            {
+                id: 3,
+                name: "Ethan Williams",
+                sport: "Hockey",
+                ageCategory: "U14",
+                position: "Midfield",
+                team: "U14 A",
+                performance: 82,
+                status: "Ready",
+                lastTest: "Agility Test",
+                progress: 4.8
+            },
+
+            {
+                id: 4,
+                name: "Noah Smith",
+                sport: "Athletics",
+                ageCategory: "U15",
+                position: "Sprinter",
+                team: "U15",
+                performance: 76,
+                status: "Monitor",
+                lastTest: "30m Sprint",
+                progress: -2.2
+            },
+
+            {
+                id: 5,
+                name: "Jayden Peters",
+                sport: "Soccer",
+                ageCategory: "U16",
+                position: "Midfielder",
+                team: "U16 A",
+                performance: 84,
+                status: "Ready",
+                lastTest: "Yo-Yo Test",
+                progress: 5.7
+            },
+
+            {
+                id: 6,
+                name: "Aiden Botha",
+                sport: "Rugby",
+                ageCategory: "U14",
+                position: "Scrumhalf",
+                team: "U14 A",
+                performance: 79,
+                status: "Ready",
+                lastTest: "Agility Test",
+                progress: 3.5
+            },
+
+            {
+                id: 7,
+                name: "Mia Jacobs",
+                sport: "Netball",
+                ageCategory: "U15",
+                position: "Centre",
+                team: "U15 A",
+                performance: 88,
+                status: "Ready",
+                lastTest: "Beep Test",
+                progress: 7.2
+            },
+
+            {
+                id: 8,
+                name: "Luke Daniels",
+                sport: "Cricket",
+                ageCategory: "U17",
+                position: "All Rounder",
+                team: "U17",
+                performance: 74,
+                status: "Monitor",
+                lastTest: "Power Test",
+                progress: 1.3
+            }
+
+        ];
+
+
+        const sampleTesting = [
+
+            {
+                id: 1,
+                athleteId: 1,
+                athleteName: "Charl Malgas",
+                test: "10m Sprint",
+                category: "Speed",
+                result: 1.82,
+                unit: "seconds",
+                score: 94,
+                date: "2026-09-09",
+                personalBest: true
+            },
+
+            {
+                id: 2,
+                athleteId: 1,
+                athleteName: "Charl Malgas",
+                test: "Broad Jump",
+                category: "Power",
+                result: 2.41,
+                unit: "m",
+                score: 92,
+                date: "2026-09-02",
+                personalBest: true
+            },
+
+            {
+                id: 3,
+                athleteId: 1,
+                athleteName: "Charl Malgas",
+                test: "5-10-5 Agility",
+                category: "Agility",
+                result: 4.78,
+                unit: "seconds",
+                score: 90,
+                date: "2026-08-27",
+                personalBest: true
+            },
+
+            {
+                id: 4,
+                athleteId: 2,
+                athleteName: "Liam Adams",
+                test: "Push-Up Test",
+                category: "Strength",
+                result: 42,
+                unit: "reps",
+                score: 89,
+                date: "2026-09-08",
+                personalBest: true
+            },
+
+            {
+                id: 5,
+                athleteId: 3,
+                athleteName: "Ethan Williams",
+                test: "T-Test",
+                category: "Agility",
+                result: 10.8,
+                unit: "seconds",
+                score: 84,
+                date: "2026-09-07",
+                personalBest: true
+            },
+
+            {
+                id: 6,
+                athleteId: 5,
+                athleteName: "Jayden Peters",
+                test: "Yo-Yo Test",
+                category: "Conditioning",
+                result: 13,
+                unit: "level",
+                score: 88,
+                date: "2026-09-06",
+                personalBest: true
+            },
+
+            {
+                id: 7,
+                athleteId: 7,
+                athleteName: "Mia Jacobs",
+                test: "Beep Test",
+                category: "Conditioning",
+                result: 14,
+                unit: "level",
+                score: 91,
+                date: "2026-09-05",
+                personalBest: true
+            },
+
+            {
+                id: 8,
+                athleteId: 6,
+                athleteName: "Aiden Botha",
+                test: "5-10-5 Agility",
+                category: "Agility",
+                result: 5.02,
+                unit: "seconds",
+                score: 78,
+                date: "2026-09-04",
+                personalBest: false
+            },
+
+            {
+                id: 9,
+                athleteId: 4,
+                athleteName: "Noah Smith",
+                test: "30m Sprint",
+                category: "Speed",
+                result: 4.46,
+                unit: "seconds",
+                score: 75,
+                date: "2026-09-03",
+                personalBest: false
+            },
+
+            {
+                id: 10,
+                athleteId: 8,
+                athleteName: "Luke Daniels",
+                test: "Broad Jump",
+                category: "Power",
+                result: 2.18,
+                unit: "m",
+                score: 76,
+                date: "2026-09-01",
+                personalBest: false
+            }
+
+        ];
+
+
+        const sampleTraining = [
+
+            {
+                id: 1,
+                athleteId: 1,
+                athleteName: "Charl Malgas",
+                type: "Speed",
+                duration: 60,
+                rpe: 7,
+                load: 420,
+                date: "2026-09-09"
+            },
+
+            {
+                id: 2,
+                athleteId: 2,
+                athleteName: "Liam Adams",
+                type: "Strength",
+                duration: 70,
+                rpe: 8,
+                load: 560,
+                date: "2026-09-08"
+            },
+
+            {
+                id: 3,
+                athleteId: 3,
+                athleteName: "Ethan Williams",
+                type: "Agility",
+                duration: 55,
+                rpe: 6,
+                load: 330,
+                date: "2026-09-08"
+            },
+
+            {
+                id: 4,
+                athleteId: 7,
+                athleteName: "Mia Jacobs",
+                type: "Conditioning",
+                duration: 50,
+                rpe: 7,
+                load: 350,
+                date: "2026-09-07"
+            },
+
+            {
+                id: 5,
+                athleteId: 5,
+                athleteName: "Jayden Peters",
+                type: "Conditioning",
+                duration: 60,
+                rpe: 7,
+                load: 420,
+                date: "2026-09-06"
+            },
+
+            {
+                id: 6,
+                athleteId: 6,
+                athleteName: "Aiden Botha",
+                type: "Agility",
+                duration: 45,
+                rpe: 6,
+                load: 270,
+                date: "2026-09-05"
+            },
+
+            {
+                id: 7,
+                athleteId: 4,
+                athleteName: "Noah Smith",
+                type: "Speed",
+                duration: 50,
+                rpe: 7,
+                load: 350,
+                date: "2026-09-04"
+            },
+
+            {
+                id: 8,
+                athleteId: 8,
+                athleteName: "Luke Daniels",
+                type: "Power",
+                duration: 55,
+                rpe: 7,
+                load: 385,
+                date: "2026-09-03"
+            }
+
+        ];
+
+
+        /* =========================================
+           LOAD DATA
+        ========================================= */
+
+        let athletes = loadData(
+            STORAGE_ATHLETES,
+            sampleAthletes
+        );
+
+        let testingHistory = loadData(
+            STORAGE_TESTING,
+            sampleTesting
+        );
+
+        let trainingSessions = loadData(
+            STORAGE_TRAINING,
+            sampleTraining
+        );
+
+
+        function loadData(key, fallback) {
+
+            try {
+
+                const saved = localStorage.getItem(key);
+
+                if (saved) {
+
+                    const parsed = JSON.parse(saved);
+
+                    if (Array.isArray(parsed) && parsed.length) {
+                        return parsed;
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Could not load:",
+                    key,
+                    error
+                );
+
+            }
+
+            localStorage.setItem(
+                key,
+                JSON.stringify(fallback)
+            );
+
+            return fallback;
+
+        }
+
+
+        /* =========================================
+           FILTER STATE
+        ========================================= */
+
+        let filteredAthletes = [...athletes];
+        let filteredTesting = [...testingHistory];
+        let filteredTraining = [...trainingSessions];
+
+
+        /* =========================================
+           INITIALIZE
+        ========================================= */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                populateFilters();
+
+                loadUser();
+
+                applyFilters();
+
+                drawPerformanceChart();
+
+                renderCategoryBreakdown();
+
+                renderTrainingChart();
+
+                renderComparison();
+
+                renderRanking();
+
+                renderActivity();
+
+            }
+        );
+
+
+        /* =========================================
+           FILTERS
+        ========================================= */
+
+        function populateFilters() {
+
+            const athleteSelect =
+                document.getElementById(
+                    "athleteFilter"
+                );
+
+            const sportSelect =
+                document.getElementById(
+                    "sportFilter"
+                );
+
+
+            const sortedAthletes =
+                [...athletes].sort(
+                    (a,b) =>
+                        a.name.localeCompare(b.name)
+                );
+
+
+            sortedAthletes.forEach(
+                athlete => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value = athlete.id;
+
+                    option.textContent =
+                        athlete.name;
+
+                    athleteSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+
+            const sports =
+                [...new Set(
+                    athletes.map(
+                        athlete => athlete.sport
+                    )
+                )].sort();
+
+
+            sports.forEach(
+                sport => {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+                    option.value = sport;
+
+                    option.textContent = sport;
+
+                    sportSelect.appendChild(
+                        option
+                    );
+
+                }
+            );
+
+        }
+
+
+        function applyFilters() {
+
+            const athleteId =
+                document.getElementById(
+                    "athleteFilter"
+                ).value;
+
+            const sport =
+                document.getElementById(
+                    "sportFilter"
+                ).value;
+
+            const category =
+                document.getElementById(
+                    "categoryFilter"
+                ).value;
+
+            const period =
+                document.getElementById(
+                    "periodFilter"
+                ).value;
+
+
+            let selectedIds =
+                athletes.map(
+                    athlete => athlete.id
+                );
+
+
+            /* Athlete filter */
+
+            if (athleteId !== "all") {
+
+                selectedIds =
+                    selectedIds.filter(
+                        id =>
+                            String(id) ===
+                            String(athleteId)
+                    );
+
+            }
+
+
+            /* Sport filter */
+
+            if (sport !== "all") {
+
+                selectedIds =
+                    selectedIds.filter(
+                        id => {
+
+                            const athlete =
+                                athletes.find(
+                                    a => a.id === id
+                                );
+
+                            return athlete &&
+                                athlete.sport === sport;
+
+                        }
+                    );
+
+            }
+
+
+            filteredAthletes =
+                athletes.filter(
+                    athlete =>
+                        selectedIds.includes(
+                            athlete.id
+                        )
+                );
+
+
+            /* Testing */
+
+            filteredTesting =
+                testingHistory.filter(
+                    test => {
+
+                        if (
+                            !selectedIds.includes(
+                                test.athleteId
+                            )
+                        ) {
+                            return false;
+                        }
+
+
+                        if (
+                            category !== "all" &&
+                            test.category !== category
+                        ) {
+                            return false;
+                        }
+
+
+                        if (
+                            period !== "all"
+                        ) {
+
+                            const days =
+                                parseInt(period);
+
+                            const cutoff =
+                                new Date();
+
+                            cutoff.setDate(
+                                cutoff.getDate() - days
+                            );
+
+                            const testDate =
+                                new Date(test.date);
+
+                            if (
+                                testDate < cutoff
+                            ) {
+                                return false;
+                            }
+
+                        }
+
+
+                        return true;
+
+                    }
+                );
+
+
+            /* Training */
+
+            filteredTraining =
+                trainingSessions.filter(
+                    session => {
+
+                        if (
+                            !selectedIds.includes(
+                                session.athleteId
+                            )
+                        ) {
+                            return false;
+                        }
+
+
+                        if (
+                            category !== "all"
+                        ) {
+
+                            if (
+                                session.type !== category
+                            ) {
+                                return false;
+                            }
+
+                        }
+
+
+                        if (
+                            period !== "all"
+                        ) {
+
+                            const days =
+                                parseInt(period);
+
+                            const cutoff =
+                                new Date();
+
+                            cutoff.setDate(
+                                cutoff.getDate() - days
+                            );
+
+                            const sessionDate =
+                                new Date(
+                                    session.date
+                                );
+
+                            if (
+                                sessionDate < cutoff
+                            ) {
+                                return false;
+                            }
+
+                        }
+
+
+                        return true;
+
+                    }
+                );
+
+
+            updateKPIs();
+
+            drawPerformanceChart();
+
+            renderCategoryBreakdown();
+
+            renderTrainingChart();
+
+            renderComparison();
+
+            renderRanking();
+
+            renderActivity();
+
+            updateReadiness();
+
+        }
+
+
+        function resetFilters() {
+
+            document.getElementById(
+                "athleteFilter"
+            ).value = "all";
+
+            document.getElementById(
+                "sportFilter"
+            ).value = "all";
+
+            document.getElementById(
+                "categoryFilter"
+            ).value = "all";
+
+            document.getElementById(
+                "periodFilter"
+            ).value = "all";
+
+            document.getElementById(
+                "metricFilter"
+            ).value = "score";
+
+            applyFilters();
+
+            showToast(
+                "Filters reset",
+                "Showing analytics for all athletes."
+            );
+
+        }
+
+
+        /* =========================================
+           KPI
+        ========================================= */
+
+        function updateKPIs() {
+
+            const performanceValues =
+                filteredAthletes.map(
+                    athlete =>
+                        Number(
+                            athlete.performance
+                        ) || 0
+                );
+
+
+            const avgPerformance =
+                average(
+                    performanceValues
+                );
+
+
+            const testValues =
+                filteredTesting.map(
+                    test =>
+                        Number(
+                            test.score
+                        ) || 0
+                );
+
+
+            const avgTest =
+                average(
+                    testValues
+                );
+
+
+            const totalLoad =
+                filteredTraining.reduce(
+                    (total, session) =>
+                        total +
+                        (
+                            Number(
+                                session.load
+                            ) || 0
+                        ),
+                    0
+                );
+
+
+            const improvements =
+                filteredAthletes.map(
+                    athlete =>
+                        Number(
+                            athlete.progress
+                        ) || 0
+                );
+
+
+            const improvement =
+                average(
+                    improvements
+                );
+
+
+            document.getElementById(
+                "avgPerformance"
+            ).textContent =
+                Math.round(
+                    avgPerformance
+                );
+
+
+            document.getElementById(
+                "avgTestScore"
+            ).textContent =
+                Math.round(
+                    avgTest
+                );
+
+
+            document.getElementById(
+                "totalLoad"
+            ).textContent =
+                formatNumber(
+                    totalLoad
+                );
+
+
+            const improvementElement =
+                document.getElementById(
+                    "improvement"
+                );
+
+
+            improvementElement.textContent =
+                formatPercent(
+                    improvement
+                );
+
+
+            improvementElement.classList.remove(
+                "positive",
+                "negative"
+            );
+
+
+            improvementElement.classList.add(
+                improvement >= 0
+                    ? "positive"
+                    : "negative"
+            );
+
+        }
+
+
+        /* =========================================
+           CATEGORY BREAKDOWN
+        ========================================= */
+
+        function renderCategoryBreakdown() {
+
+            const categories = [
+
+                {
+                    name: "Speed",
+                    icon: "⚡"
+                },
+
+                {
+                    name: "Strength",
+                    icon: "◆"
+                },
+
+                {
+                    name: "Power",
+                    icon: "✦"
+                },
+
+                {
+                    name: "Agility",
+                    icon: "↯"
+                },
+
+                {
+                    name: "Conditioning",
+                    icon: "◉"
+                }
+
+            ];
+
+
+            const grid =
+                document.getElementById(
+                    "categoryGrid"
+                );
+
+
+            grid.innerHTML = "";
+
+
+            categories.forEach(
+                category => {
+
+                    const results =
+                        filteredTesting.filter(
+                            test =>
+                                test.category ===
+                                category.name
+                        );
+
+
+                    const score =
+                        results.length
+                            ? average(
+                                results.map(
+                                    result =>
+                                        Number(
+                                            result.score
+                                        ) || 0
+                                )
+                            )
+                            : 0;
+
+
+                    const count =
+                        results.length;
+
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+                    card.className =
+                        "category-card";
+
+
+                    card.innerHTML = `
+
+                        <div class="category-icon">
+                            ${category.icon}
+                        </div>
+
+                        <h3>
+                            ${category.name}
+                        </h3>
+
+                        <div class="category-score">
+                            ${score ? Math.round(score) : "—"}
+                        </div>
+
+                        <div class="category-meta">
+
+                            <span>
+                                ${count} test${count === 1 ? "" : "s"}
+                            </span>
+
+                            <span>
+                                ${score >= 80 ? "Strong" : score >= 70 ? "Developing" : "Needs Focus"}
+                            </span>
+
+                        </div>
+
+                        <div class="category-progress">
+
+                            <span
+                                style="width:${Math.min(score,100)}%"
+                            ></span>
+
+                        </div>
+
+                    `;
+
+
+                    grid.appendChild(card);
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           PERFORMANCE CHART
+        ========================================= */
+
+        function drawPerformanceChart() {
+
+            const svg =
+                document.getElementById(
+                    "performanceChart"
+                );
+
+
+            if (!svg) return;
+
+
+            svg.innerHTML = `
+
+                <defs>
+
+                    <linearGradient
+                        id="chartGradient"
+                        x1="0"
+                        x2="0"
+                        y1="0"
+                        y2="1"
+                    >
+
+                        <stop
+                            offset="0%"
+                            stop-color="#55b8ff"
+                            stop-opacity="0.5"
+                        />
+
+                        <stop
+                            offset="100%"
+                            stop-color="#55b8ff"
+                            stop-opacity="0"
+                        />
+
+                    </linearGradient>
+
+                </defs>
+
+            `;
+
+
+            const width = 800;
+            const height = 280;
+
+            const paddingLeft = 45;
+            const paddingRight = 15;
+            const paddingTop = 15;
+            const paddingBottom = 30;
+
+
+            const innerWidth =
+                width -
+                paddingLeft -
+                paddingRight;
+
+            const innerHeight =
+                height -
+                paddingTop -
+                paddingBottom;
+
+
+            /* Grid */
+
+            [100, 80, 60, 40, 20].forEach(
+                value => {
+
+                    const y =
+                        paddingTop +
+                        (
+                            (100 - value) / 100
+                        ) *
+                        innerHeight;
+
+
+                    const line =
+                        createSvgElement(
+                            "line",
+                            {
+                                x1: paddingLeft,
+                                y1: y,
+                                x2: width - paddingRight,
+                                y2: y,
+                                class: "chart-grid-line"
+                            }
+                        );
+
+
+                    svg.appendChild(line);
+
+
+                    const text =
+                        createSvgElement(
+                            "text",
+                            {
+                                x: 5,
+                                y: y + 3,
+                                class: "chart-axis-text"
+                            }
+                        );
+
+
+                    text.textContent = value;
+
+                    svg.appendChild(text);
+
+                }
+            );
+
+
+            let data =
+                buildTrendData();
+
+
+            if (!data.length) {
+
+                data = [
+                    72,
+                    76,
+                    75,
+                    80,
+                    83,
+                    82,
+                    87,
+                    89
+                ];
+
+            }
+
+
+            const step =
+                data.length > 1
+                    ? innerWidth /
+                      (data.length - 1)
+                    : innerWidth;
+
+
+            const points =
+                data.map(
+                    (value, index) => {
+
+                        const x =
+                            paddingLeft +
+                            index * step;
+
+                        const y =
+                            paddingTop +
+                            (
+                                (100 - value) / 100
+                            ) *
+                            innerHeight;
+
+                        return {
+                            x,
+                            y,
+                            value
+                        };
+
+                    }
+                );
+
+
+            /* Area */
+
+            const areaPath =
+                [
+                    `M ${points[0].x} ${height - paddingBottom}`,
+                    ...points.map(
+                        point =>
+                            `L ${point.x} ${point.y}`
+                    ),
+                    `L ${points[points.length - 1].x} ${height - paddingBottom}`,
+                    "Z"
+                ].join(" ");
+
+
+            svg.appendChild(
+                createSvgElement(
+                    "path",
+                    {
+                        d: areaPath,
+                        class: "chart-area"
+                    }
+                )
+            );
+
+
+            /* Line */
+
+            const linePath =
+                points.map(
+                    (point, index) =>
+                        `${index === 0 ? "M" : "L"} ${point.x} ${point.y}`
+                ).join(" ");
+
+
+            svg.appendChild(
+                createSvgElement(
+                    "path",
+                    {
+                        d: linePath,
+                        class: "chart-line"
+                    }
+                )
+            );
+
+
+            /* Points */
+
+            points.forEach(
+                point => {
+
+                    const circle =
+                        createSvgElement(
+                            "circle",
+                            {
+                                cx: point.x,
+                                cy: point.y,
+                                r: 5,
+                                class: "chart-point"
+                            }
+                        );
+
+
+                    svg.appendChild(circle);
+
+                }
+            );
+
+
+            /* X labels */
+
+            const labels =
+                buildTrendLabels(
+                    data.length
+                );
+
+
+            points.forEach(
+                (point, index) => {
+
+                    const text =
+                        createSvgElement(
+                            "text",
+                            {
+                                x: point.x,
+                                y: height - 8,
+                                "text-anchor": "middle",
+                                class: "chart-axis-text"
+                            }
+                        );
+
+
+                    text.textContent =
+                        labels[index] || "";
+
+
+                    svg.appendChild(text);
+
+                }
+            );
+
+        }
+
+
+        function buildTrendData() {
+
+            const sorted =
+                [...filteredTesting].sort(
+                    (a,b) =>
+                        new Date(a.date) -
+                        new Date(b.date)
+                );
+
+
+            if (!sorted.length) {
+                return [];
+            }
+
+
+            const grouped = {};
+
+
+            sorted.forEach(
+                item => {
+
+                    if (!grouped[item.date]) {
+                        grouped[item.date] = [];
+                    }
+
+                    grouped[item.date].push(
+                        Number(item.score) || 0
+                    );
+
+                }
+            );
+
+
+            return Object.keys(grouped)
+                .sort()
+                .slice(-10)
+                .map(
+                    date =>
+                        Math.round(
+                            average(
+                                grouped[date]
+                            )
+                        )
+                );
+
+        }
+
+
+        function buildTrendLabels(count) {
+
+            const sorted =
+                [...filteredTesting].sort(
+                    (a,b) =>
+                        new Date(a.date) -
+                        new Date(b.date)
+                );
+
+
+            const dates =
+                [
+                    ...new Set(
+                        sorted.map(
+                            item => item.date
+                        )
+                    )
+                ].slice(-count);
+
+
+            return dates.map(
+                date =>
+                    formatShortDate(date)
+            );
+
+        }
+
+
+        function createSvgElement(
+            type,
+            attributes
+        ) {
+
+            const element =
+                document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    type
+                );
+
+
+            Object.entries(attributes).forEach(
+                ([key, value]) => {
+
+                    element.setAttribute(
+                        key,
+                        value
+                    );
+
+                }
+            );
+
+
+            return element;
+
+        }
+
+
+        /* =========================================
+           TRAINING BAR CHART
+        ========================================= */
+
+        function renderTrainingChart() {
+
+            const container =
+                document.getElementById(
+                    "trainingBarChart"
+                );
+
+
+            container.innerHTML = "";
+
+
+            const grouped = {};
+
+
+            filteredTraining.forEach(
+                session => {
+
+                    const date =
+                        session.date;
+
+                    if (!grouped[date]) {
+                        grouped[date] = 0;
+                    }
+
+                    grouped[date] +=
+                        Number(
+                            session.load
+                        ) || 0;
+
+                }
+            );
+
+
+            let entries =
+                Object.entries(grouped)
+                    .sort(
+                        ([dateA],[dateB]) =>
+                            new Date(dateA) -
+                            new Date(dateB)
+                    )
+                    .slice(-7);
+
+
+            if (!entries.length) {
+
+                entries = [
+
+                    ["Mon", 320],
+                    ["Tue", 420],
+                    ["Wed", 280],
+                    ["Thu", 510],
+                    ["Fri", 390],
+                    ["Sat", 290],
+                    ["Sun", 0]
+
+                ];
+
+            }
+
+
+            const max =
+                Math.max(
+                    ...entries.map(
+                        entry =>
+                            Number(entry[1])
+                    ),
+                    500
+                );
+
+
+            entries.forEach(
+                ([date, load]) => {
+
+                    const column =
+                        document.createElement(
+                            "div"
+                        );
+
+                    column.className =
+                        "bar-column";
+
+
+                    const value =
+                        document.createElement(
+                            "div"
+                        );
+
+                    value.className =
+                        "bar-value";
+
+                    value.textContent =
+                        Math.round(load);
+
+
+                    const track =
+                        document.createElement(
+                            "div"
+                        );
+
+                    track.className =
+                        "bar-track";
+
+
+                    const bar =
+                        document.createElement(
+                            "div"
+                        );
+
+                    bar.className =
+                        "bar";
+
+
+                    const percentage =
+                        Math.min(
+                            100,
+                            (
+                                load / max
+                            ) * 100
+                        );
+
+
+                    bar.style.height =
+                        `${percentage}%`;
+
+
+                    track.appendChild(bar);
+
+
+                    const label =
+                        document.createElement(
+                            "div"
+                        );
+
+                    label.className =
+                        "bar-label";
+
+                    label.textContent =
+                        isDateString(date)
+                            ? formatShortDate(date)
+                            : date;
+
+
+                    column.appendChild(value);
+
+                    column.appendChild(track);
+
+                    column.appendChild(label);
+
+                    container.appendChild(column);
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           LOAD VS PERFORMANCE
+        ========================================= */
+
+        function renderComparison() {
+
+            const container =
+                document.getElementById(
+                    "comparisonList"
+                );
+
+
+            container.innerHTML = "";
+
+
+            const data =
+                filteredAthletes
+                    .map(
+                        athlete => {
+
+                            const sessions =
+                                filteredTraining.filter(
+                                    session =>
+                                        session.athleteId ===
+                                        athlete.id
+                                );
+
+
+                            const load =
+                                sessions.reduce(
+                                    (
+                                        total,
+                                        session
+                                    ) =>
+                                        total +
+                                        (
+                                            Number(
+                                                session.load
+                                            ) || 0
+                                        ),
+                                    0
+                                );
+
+
+                            return {
+                                athlete,
+                                load
+                            };
+
+                        }
+                    )
+                    .sort(
+                        (a,b) =>
+                            b.athlete.performance -
+                            a.athlete.performance
+                    )
+                    .slice(0, 6);
+
+
+            if (!data.length) {
+
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">
+                            ◒
+                        </div>
+                        <h3>No athlete data</h3>
+                        <p>Adjust the filters to view load vs performance.</p>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            const maxLoad =
+                Math.max(
+                    ...data.map(
+                        item => item.load
+                    ),
+                    1
+                );
+
+
+            data.forEach(
+                item => {
+
+                    const loadPercent =
+                        (
+                            item.load /
+                            maxLoad
+                        ) * 100;
+
+
+                    const performancePercent =
+                        Math.min(
+                            100,
+                            item.athlete.performance
+                        );
+
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+                    div.className =
+                        "comparison-item";
+
+
+                    div.innerHTML = `
+
+                        <div class="comparison-top">
+
+                            <span class="comparison-name">
+                                ${escapeHtml(item.athlete.name)}
+                            </span>
+
+                            <span class="comparison-values">
+                                ${Math.round(item.load)} AU
+                                ·
+                                ${item.athlete.performance}/100
+                            </span>
+
+                        </div>
+
+                        <div class="dual-bars">
+
+                            <div class="dual-track">
+
+                                <div
+                                    class="dual-fill load"
+                                    style="width:${loadPercent}%"
+                                ></div>
+
+                            </div>
+
+                            <div class="dual-track">
+
+                                <div
+                                    class="dual-fill performance"
+                                    style="width:${performancePercent}%"
+                                ></div>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(div);
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           RANKING
+        ========================================= */
+
+        function renderRanking() {
+
+            const body =
+                document.getElementById(
+                    "rankingBody"
+                );
+
+
+            body.innerHTML = "";
+
+
+            const ranking =
+                [...filteredAthletes]
+                    .sort(
+                        (a,b) =>
+                            (
+                                Number(
+                                    b.performance
+                                ) || 0
+                            ) -
+                            (
+                                Number(
+                                    a.performance
+                                ) || 0
+                            )
+                    );
+
+
+            if (!ranking.length) {
+
+                body.innerHTML = `
+
+                    <tr>
+
+                        <td colspan="8">
+
+                            <div class="empty-state">
+
+                                <div class="empty-state-icon">
+                                    ♙
+                                </div>
+
+                                <h3>
+                                    No athletes found
+                                </h3>
+
+                                <p>
+                                    Try changing your filters.
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            ranking.forEach(
+                (athlete, index) => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    const initials =
+                        getInitials(
+                            athlete.name
+                        );
+
+
+                    const scoreClass =
+                        athlete.performance >= 85
+                            ? ""
+                            : athlete.performance >= 75
+                                ? "warning"
+                                : "danger";
+
+
+                    const trendClass =
+                        athlete.progress >= 0
+                            ? "trend-up"
+                            : "trend-down";
+
+
+                    row.innerHTML = `
+
+                        <td>
+
+                            <div class="athlete-cell">
+
+                                <div class="athlete-avatar">
+                                    ${initials}
+                                </div>
+
+                                <div>
+
+                                    <div class="athlete-name">
+                                        ${escapeHtml(athlete.name)}
+                                    </div>
+
+                                    <div class="athlete-sub">
+                                        Rank #${index + 1}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(athlete.sport)}
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(athlete.ageCategory)}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="score-badge ${scoreClass}"
+                            >
+                                ${athlete.performance}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="${trendClass}">
+                                ${formatPercent(athlete.progress)}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+                            ${escapeHtml(athlete.lastTest || "—")}
+                        </td>
+
+
+                        <td>
+
+                            <span
+                                class="score-badge ${
+                                    athlete.status === "Ready"
+                                        ? ""
+                                        : "warning"
+                                }"
+                            >
+                                ${escapeHtml(athlete.status || "Monitor")}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <button
+                                class="view-link"
+                                onclick="viewAthlete(${athlete.id})"
+                            >
+                                View →
+                            </button>
+
+                        </td>
+
+                    `;
+
+
+                    body.appendChild(row);
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           ACTIVITY
+        ========================================= */
+
+        function renderActivity() {
+
+            const container =
+                document.getElementById(
+                    "activityList"
+                );
+
+
+            container.innerHTML = "";
+
+
+            const combined = [];
+
+
+            filteredTesting.forEach(
+                test => {
+
+                    combined.push({
+
+                        date: test.date,
+
+                        type: "test",
+
+                        name:
+                            `${test.athleteName} completed ${test.test}`,
+
+                        detail:
+                            `${test.result} ${test.unit}`,
+
+                        score:
+                            test.score
+
+                    });
+
+                }
+            );
+
+
+            filteredTraining.forEach(
+                session => {
+
+                    combined.push({
+
+                        date: session.date,
+
+                        type: "training",
+
+                        name:
+                            `${session.athleteName} completed a ${session.type} session`,
+
+                        detail:
+                            `${session.duration} min · RPE ${session.rpe}`,
+
+                        score:
+                            session.load
+
+                    });
+
+                }
+            );
+
+
+            combined.sort(
+                (a,b) =>
+                    new Date(b.date) -
+                    new Date(a.date)
+            );
+
+
+            const recent =
+                combined.slice(0, 8);
+
+
+            if (!recent.length) {
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-state-icon">
+                            ◒
+                        </div>
+
+                        <h3>
+                            No recent activity
+                        </h3>
+
+                        <p>
+                            Testing and training activity will appear here.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            recent.forEach(
+                item => {
+
+                    const div =
+                        document.createElement(
+                            "div"
+                        );
+
+                    div.className =
+                        "activity-item";
+
+
+                    const icon =
+                        item.type === "test"
+                            ? "⌁"
+                            : "⚡";
+
+
+                    const scoreText =
+                        item.type === "test"
+                            ? `${item.score}/100`
+                            : `${item.score} AU`;
+
+
+                    div.innerHTML = `
+
+                        <div class="activity-icon">
+                            ${icon}
+                        </div>
+
+                        <div class="activity-info">
+
+                            <strong>
+                                ${escapeHtml(item.name)}
+                            </strong>
+
+                            <span>
+                                ${escapeHtml(item.detail)}
+                                ·
+                                ${formatDate(item.date)}
+                            </span>
+
+                        </div>
+
+                        <div class="activity-score">
+                            ${scoreText}
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(div);
+
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           READINESS
+        ========================================= */
+
+        function updateReadiness() {
+
+            const performance =
+                average(
+                    filteredAthletes.map(
+                        athlete =>
+                            Number(
+                                athlete.performance
+                            ) || 0
+                    )
+                );
+
+
+            const testing =
+                average(
+                    filteredTesting.map(
+                        test =>
+                            Number(
+                                test.score
+                            ) || 0
+                    )
+                );
+
+
+            const load =
+                filteredTraining.length
+                    ? Math.min(
+                        100,
+                        (
+                            filteredTraining.reduce(
+                                (
+                                    total,
+                                    session
+                                ) =>
+                                    total +
+                                    (
+                                        Number(
+                                            session.rpe
+                                        ) || 0
+                                    ),
+                                0
+                            ) /
+                            (
+                                filteredTraining.length *
+                                10
+                            )
+                        ) * 100
+                    )
+                    : 0;
+
+
+            const progress =
+                average(
+                    filteredAthletes.map(
+                        athlete =>
+                            Math.max(
+                                0,
+                                Math.min(
+                                    100,
+                                    70 +
+                                    (
+                                        Number(
+                                            athlete.progress
+                                        ) || 0
+                                    ) * 3
+                                )
+                            )
+                    )
+                );
+
+
+            const readiness =
+                average(
+                    [
+                        performance,
+                        testing,
+                        load || performance,
+                        progress
+                    ]
+                );
+
+
+            const value =
+                Math.round(
+                    readiness || 0
+                );
+
+
+            document.getElementById(
+                "readinessValue"
+            ).textContent =
+                `${value}%`;
+
+
+            document.getElementById(
+                "factorPerformance"
+            ).textContent =
+                `${Math.round(performance)}%`;
+
+
+            document.getElementById(
+                "factorTesting"
+            ).textContent =
+                `${Math.round(testing)}%`;
+
+
+            document.getElementById(
+                "factorLoad"
+            ).textContent =
+                `${Math.round(load || performance)}%`;
+
+
+            document.getElementById(
+                "factorProgress"
+            ).textContent =
+                `${Math.round(progress)}%`;
+
+
+            setBar(
+                "factorPerformanceBar",
+                performance
+            );
+
+            setBar(
+                "factorTestingBar",
+                testing
+            );
+
+            setBar(
+                "factorLoadBar",
+                load || performance
+            );
+
+            setBar(
+                "factorProgressBar",
+                progress
+            );
+
+
+            const copy =
+                document.getElementById(
+                    "readinessCopy"
+                );
+
+
+            if (value >= 85) {
+
+                copy.textContent =
+                    "The selected athletes are currently showing strong overall performance readiness.";
+
+            } else if (value >= 75) {
+
+                copy.textContent =
+                    "The selected athletes are showing a moderate readiness level with room for improvement.";
+
+            } else {
+
+                copy.textContent =
+                    "The current group may require additional recovery, testing and targeted training attention.";
+
+            }
+
+
+            const circle =
+                document.querySelector(
+                    ".readiness-circle"
+                );
+
+
+            const degrees =
+                Math.min(
+                    360,
+                    Math.max(
+                        0,
+                        value * 3.6
+                    )
+                );
+
+
+            circle.style.background =
+                `
+                    conic-gradient(
+                        var(--green) 0deg,
+                        var(--green) ${degrees}deg,
+                        #252d36 ${degrees}deg,
+                        #252d36 360deg
+                    )
+                `;
+
+        }
+
+
+        function setBar(
+            id,
+            value
+        ) {
+
+            const element =
+                document.getElementById(id);
+
+
+            if (!element) return;
+
+
+            element.style.width =
+                `${Math.max(
+                    0,
+                    Math.min(
+                        100,
+                        value || 0
+                    )
+                )}%`;
+
+        }
+
+
+        /* =========================================
+           ATHLETE VIEW
+        ========================================= */
+
+        function viewAthlete(id) {
+
+            const athlete =
+                athletes.find(
+                    item =>
+                        String(item.id) ===
+                        String(id)
+                );
+
+
+            if (!athlete) return;
+
+
+            localStorage.setItem(
+                STORAGE_SELECTED,
+                JSON.stringify(
+                    athlete
+                )
+            );
+
+
+            window.location.href =
+                `athlete-profile.html?id=${encodeURIComponent(id)}`;
+
+        }
+
+
+        /* =========================================
+           EXPORT
+        ========================================= */
+
+        function exportAnalytics() {
+
+            const rows = [
+
+                [
+                    "Athlete",
+                    "Sport",
+                    "Age Category",
+                    "Performance",
+                    "Improvement",
+                    "Status",
+                    "Last Test"
+                ]
+
+            ];
+
+
+            filteredAthletes.forEach(
+                athlete => {
+
+                    rows.push([
+
+                        athlete.name,
+
+                        athlete.sport,
+
+                        athlete.ageCategory,
+
+                        athlete.performance,
+
+                        athlete.progress,
+
+                        athlete.status,
+
+                        athlete.lastTest
+
+                    ]);
+
+                }
+            );
+
+
+            const csv =
+                rows
+                    .map(
+                        row =>
+                            row.map(
+                                value =>
+                                    `"${String(
+                                        value ?? ""
+                                    ).replace(
+                                        /"/g,
+                                        '""'
+                                    )}"`
+                            ).join(",")
+                    )
+                    .join("\n");
+
+
+            const blob =
+                new Blob(
+                    [csv],
+                    {
+                        type:
+                            "text/csv;charset=utf-8;"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.href = url;
+
+            link.download =
+                `athlete360-analytics-${new Date().toISOString().slice(0,10)}.csv`;
+
+
+            document.body.appendChild(
+                link
+            );
+
+            link.click();
+
+            link.remove();
+
+
+            URL.revokeObjectURL(url);
+
+
+            showToast(
+                "Analytics exported",
+                "Your current analytics data has been downloaded as CSV."
+            );
+
+        }
+
+
+        /* =========================================
+           USER
+        ========================================= */
+
+        function loadUser() {
+
+            try {
+
+                const user =
+                    JSON.parse(
+                        localStorage.getItem(
+                            STORAGE_USER
+                        )
+                    );
+
+
+                if (!user) return;
+
+
+                const name =
+                    user.name ||
+                    user.fullName ||
+                    "Coach";
+
+
+                const role =
+                    user.role ||
+                    "Performance Coach";
+
+
+                document.getElementById(
+                    "sidebarUserName"
+                ).textContent =
+                    name;
+
+
+                document.getElementById(
+                    "sidebarUserRole"
+                ).textContent =
+                    role;
+
+
+                document.getElementById(
+                    "sidebarAvatar"
+                ).textContent =
+                    getInitials(name);
+
+            } catch (error) {
+
+                console.warn(
+                    "Could not load user profile."
+                );
+
+            }
+
+        }
+
+
+        /* =========================================
+           MOBILE SIDEBAR
+        ========================================= */
+
+        function toggleSidebar() {
+
+            const sidebar =
+                document.getElementById(
+                    "sidebar"
+                );
+
+
+            const overlay =
+                document.getElementById(
+                    "mobileOverlay"
+                );
+
+
+            sidebar.classList.toggle(
+                "open"
+            );
+
+
+            overlay.classList.toggle(
+                "show"
+            );
+
+        }
+
+
+        /* =========================================
+           TOAST
+        ========================================= */
+
+        let toastTimer;
+
+
+        function showToast(
+            title,
+            message
+        ) {
+
+            const toast =
+                document.getElementById(
+                    "toast"
+                );
+
+
+            document.getElementById(
+                "toastTitle"
+            ).textContent =
+                title;
+
+
+            document.getElementById(
+                "toastMessage"
+            ).textContent =
+                message;
+
+
+            toast.classList.add(
+                "show"
+            );
+
+
+            clearTimeout(
+                toastTimer
+            );
+
+
+            toastTimer =
+                setTimeout(
+                    () => {
+
+                        toast.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    3500
+                );
+
+        }
+
+
+        /* =========================================
+           HELPERS
+        ========================================= */
+
+        function average(values) {
+
+            const numbers =
+                values
+                    .map(
+                        Number
+                    )
+                    .filter(
+                        value =>
+                            Number.isFinite(
+                                value
+                            )
+                    );
+
+
+            if (!numbers.length) {
+                return 0;
+            }
+
+
+            return (
+                numbers.reduce(
+                    (
+                        total,
+                        value
+                    ) =>
+                        total + value,
+                    0
+                ) /
+                numbers.length
+            );
+
+        }
+
+
+        function formatNumber(number) {
+
+            return Number(
+                number || 0
+            ).toLocaleString(
+                "en-ZA"
+            );
+
+        }
+
+
+        function formatPercent(value) {
+
+            const number =
+                Number(
+                    value || 0
+                );
+
+
+            return (
+                number >= 0
+                    ? "+"
+                    : ""
+            ) +
+            number.toFixed(1) +
+            "%";
+
+        }
+
+
+        function formatDate(date) {
+
+            if (!date) {
+                return "—";
+            }
+
+
+            const d =
+                new Date(date);
+
+
+            if (
+                Number.isNaN(
+                    d.getTime()
+                )
+            ) {
+                return date;
+            }
+
+
+            return d.toLocaleDateString(
+                "en-ZA",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function formatShortDate(date) {
+
+            const d =
+                new Date(date);
+
+
+            if (
+                Number.isNaN(
+                    d.getTime()
+                )
+            ) {
+                return date;
+            }
+
+
+            return d.toLocaleDateString(
+                "en-ZA",
+                {
+                    day: "2-digit",
+                    month: "short"
+                }
+            );
+
+        }
+
+
+        function isDateString(value) {
+
+            return /^\d{4}-\d{2}-\d{2}$/.test(
+                value
+            );
+
+        }
+
+
+        function getInitials(name) {
+
+            return String(
+                name || "Athlete"
+            )
+                .split(" ")
+                .filter(Boolean)
+                .slice(0, 2)
+                .map(
+                    word =>
+                        word
+                            .charAt(0)
+                            .toUpperCase()
+                )
+                .join("");
+
+        }
+
+
+        function escapeHtml(value) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+    </script>
+
+</body>
+</html>

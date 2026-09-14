@@ -1,0 +1,3507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Athlete360 | Training</title>
+
+    <style>
+        :root {
+            --bg: #080b0f;
+            --bg-soft: #0d1218;
+            --panel: #111820;
+            --panel-2: #151e27;
+            --panel-3: #1a242e;
+
+            --border: rgba(255,255,255,0.08);
+            --border-blue: rgba(76,201,240,0.25);
+            --border-green: rgba(52,211,153,0.25);
+
+            --text: #f5f7fa;
+            --text-soft: #a9b4c0;
+            --text-muted: #74808d;
+
+            --blue: #4cc9f0;
+            --blue-dark: #2396c5;
+            --green: #34d399;
+            --green-dark: #1fa97c;
+            --orange: #f59e0b;
+            --red: #ef4444;
+            --purple: #8b5cf6;
+
+            --sidebar: 250px;
+            --radius: 14px;
+
+            --shadow: 0 15px 40px rgba(0,0,0,0.28);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar);
+            height: 100vh;
+            background: #0a0e13;
+            border-right: 1px solid var(--border);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-area {
+            height: 78px;
+            padding: 0 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            color: #061016;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            box-shadow: 0 8px 25px rgba(76,201,240,0.18);
+        }
+
+        .logo-text h2 {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+        }
+
+        .logo-text span {
+            display: block;
+            color: var(--text-muted);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            margin-top: 2px;
+        }
+
+        .nav {
+            padding: 18px 12px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .nav-label {
+            color: #586573;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 12px 12px 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            margin-bottom: 4px;
+            border-radius: 9px;
+            color: var(--text-soft);
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255,255,255,0.045);
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background: rgba(76,201,240,0.10);
+            color: var(--blue);
+            border: 1px solid rgba(76,201,240,0.10);
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .sidebar-bottom {
+            padding: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .user-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+        }
+
+        .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            color: #061016;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .user-info {
+            min-width: 0;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .user-info span {
+            display: block;
+            color: var(--text-muted);
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: var(--sidebar);
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 78px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(8,11,15,0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 500;
+        }
+
+        .breadcrumb {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .breadcrumb strong {
+            color: var(--text-soft);
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-btn {
+            height: 38px;
+            padding: 0 13px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--panel);
+            color: var(--text-soft);
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .top-btn:hover {
+            border-color: var(--border-blue);
+            color: var(--blue);
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--panel);
+            color: var(--text);
+        }
+
+        .content {
+            padding: 30px;
+            max-width: 1700px;
+            margin: auto;
+        }
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 26px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            line-height: 1.15;
+            letter-spacing: -0.7px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 13px;
+            max-width: 700px;
+            line-height: 1.6;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 42px;
+            padding: 0 16px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--blue), var(--green));
+            color: #061016;
+            font-size: 12px;
+            font-weight: 900;
+            box-shadow: 0 8px 25px rgba(52,211,153,0.12);
+        }
+
+        .primary-btn:hover {
+            filter: brightness(1.08);
+        }
+
+        .secondary-btn {
+            min-height: 42px;
+            padding: 0 16px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: var(--panel);
+            color: var(--text-soft);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .secondary-btn:hover {
+            color: var(--text);
+            border-color: var(--border-blue);
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(76,201,240,0.05);
+            right: -35px;
+            top: -35px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 27px;
+            font-weight: 900;
+            letter-spacing: -0.7px;
+        }
+
+        .stat-meta {
+            margin-top: 7px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .stat-meta.green {
+            color: var(--green);
+        }
+
+        .stat-meta.blue {
+            color: var(--blue);
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .training-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            min-height: 64px;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .panel-title h2 {
+            font-size: 15px;
+            font-weight: 850;
+        }
+
+        .panel-title p {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: var(--text-soft);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .form-control {
+            width: 100%;
+            min-height: 42px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: #0b1015;
+            color: var(--text);
+            padding: 0 12px;
+            outline: none;
+            font-size: 12px;
+        }
+
+        textarea.form-control {
+            padding: 12px;
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-control:focus {
+            border-color: rgba(76,201,240,0.55);
+            box-shadow: 0 0 0 3px rgba(76,201,240,0.06);
+        }
+
+        .athlete-preview {
+            display: none;
+            padding: 13px;
+            border-radius: 10px;
+            border: 1px solid var(--border-blue);
+            background: rgba(76,201,240,0.05);
+            margin-top: 3px;
+        }
+
+        .athlete-preview.show {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .preview-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(76,201,240,0.9), rgba(52,211,153,0.9));
+            color: #061016;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 12px;
+        }
+
+        .preview-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .preview-info span {
+            color: var(--text-muted);
+            font-size: 10px;
+            margin-top: 3px;
+            display: block;
+        }
+
+        /* =========================
+           INTENSITY
+        ========================= */
+
+        .range-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--blue);
+        }
+
+        .range-value {
+            width: 45px;
+            height: 34px;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: #0b1015;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        /* =========================
+           SESSION TYPE
+        ========================= */
+
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .type-btn {
+            min-height: 58px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: #0c1117;
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 800;
+            transition: 0.2s;
+        }
+
+        .type-btn span {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .type-btn:hover {
+            border-color: var(--border-blue);
+            color: var(--text);
+        }
+
+        .type-btn.active {
+            background: rgba(76,201,240,0.09);
+            border-color: rgba(76,201,240,0.4);
+            color: var(--blue);
+        }
+
+        /* =========================
+           EXERCISES
+        ========================= */
+
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .exercise-row {
+            display: grid;
+            grid-template-columns: minmax(130px, 1.5fr) 70px 70px 80px 38px;
+            gap: 8px;
+            align-items: center;
+            padding: 10px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: #0c1117;
+        }
+
+        .exercise-row input,
+        .exercise-row select {
+            min-height: 35px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: #080c11;
+            color: var(--text);
+            padding: 0 8px;
+            font-size: 10px;
+            outline: none;
+        }
+
+        .exercise-row input:focus,
+        .exercise-row select:focus {
+            border-color: rgba(76,201,240,0.4);
+        }
+
+        .remove-exercise {
+            width: 35px;
+            height: 35px;
+            border-radius: 7px;
+            border: 1px solid rgba(239,68,68,0.18);
+            background: rgba(239,68,68,0.06);
+            color: #f87171;
+            font-size: 13px;
+        }
+
+        .remove-exercise:hover {
+            background: rgba(239,68,68,0.12);
+        }
+
+        .add-exercise {
+            margin-top: 12px;
+            width: 100%;
+            min-height: 40px;
+            border-radius: 8px;
+            border: 1px dashed rgba(76,201,240,0.28);
+            background: rgba(76,201,240,0.04);
+            color: var(--blue);
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           FORM ACTIONS
+        ========================= */
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* =========================
+           WEEKLY LOAD
+        ========================= */
+
+        .load-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 18px;
+        }
+
+        .load-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .load-header h3 {
+            font-size: 14px;
+        }
+
+        .load-header span {
+            color: var(--text-muted);
+            font-size: 11px;
+        }
+
+        .load-number {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .load-number small {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .load-bar {
+            height: 9px;
+            background: #080c11;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 12px 0 8px;
+        }
+
+        .load-fill {
+            height: 100%;
+            width: 68%;
+            background: linear-gradient(90deg, var(--blue), var(--green));
+            border-radius: inherit;
+        }
+
+        .load-footer {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 10px;
+        }
+
+        /* =========================
+           TRAINING HISTORY
+        ========================= */
+
+        .history-panel {
+            margin-top: 18px;
+        }
+
+        .history-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .small-input,
+        .small-select {
+            height: 35px;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: #0b1015;
+            color: var(--text-soft);
+            padding: 0 9px;
+            font-size: 10px;
+            outline: none;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 16px;
+            color: #697684;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            font-weight: 900;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.045);
+            font-size: 11px;
+            color: var(--text-soft);
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,0.018);
+        }
+
+        .athlete-cell {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .mini-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: var(--panel-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+            font-size: 9px;
+            font-weight: 900;
+            border: 1px solid var(--border);
+        }
+
+        .athlete-cell strong {
+            display: block;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .athlete-cell span {
+            display: block;
+            color: var(--text-muted);
+            font-size: 9px;
+            margin-top: 2px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 23px;
+            padding: 0 8px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .badge.blue {
+            background: rgba(76,201,240,0.09);
+            color: var(--blue);
+            border: 1px solid rgba(76,201,240,0.15);
+        }
+
+        .badge.green {
+            background: rgba(52,211,153,0.09);
+            color: var(--green);
+            border: 1px solid rgba(52,211,153,0.15);
+        }
+
+        .badge.orange {
+            background: rgba(245,158,11,0.09);
+            color: var(--orange);
+            border: 1px solid rgba(245,158,11,0.15);
+        }
+
+        .badge.red {
+            background: rgba(239,68,68,0.09);
+            color: #f87171;
+            border: 1px solid rgba(239,68,68,0.15);
+        }
+
+        .action-btn {
+            height: 30px;
+            padding: 0 9px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--panel-2);
+            color: var(--text-muted);
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .action-btn:hover {
+            color: var(--blue);
+            border-color: var(--border-blue);
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+            padding: 45px 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: rgba(76,201,240,0.06);
+            border: 1px solid var(--border-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            color: var(--blue);
+            font-size: 20px;
+        }
+
+        .empty-state h3 {
+            color: var(--text-soft);
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+        .empty-state p {
+            font-size: 11px;
+            max-width: 400px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 3000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 520px;
+            background: #111820;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h3 {
+            font-size: 15px;
+        }
+
+        .close-modal {
+            width: 32px;
+            height: 32px;
+            border-radius: 7px;
+            border: 1px solid var(--border);
+            background: var(--panel-2);
+            color: var(--text-muted);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            min-width: 280px;
+            max-width: 360px;
+            padding: 14px 16px;
+            background: #10171e;
+            border: 1px solid var(--border-green);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(130px);
+            opacity: 0;
+            transition: 0.3s ease;
+            z-index: 5000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: rgba(52,211,153,0.1);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+        .toast strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .toast span {
+            color: var(--text-muted);
+            font-size: 10px;
+            margin-top: 2px;
+            display: block;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .training-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            :root {
+                --sidebar: 0px;
+            }
+
+            .sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                transition: 0.25s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+            }
+
+            .page-header .primary-btn {
+                width: 100%;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .exercise-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .exercise-row input:first-of-type {
+                grid-column: 1 / -1;
+            }
+
+            .remove-exercise {
+                width: 100%;
+            }
+
+            .history-controls {
+                flex-wrap: wrap;
+            }
+
+            .small-input,
+            .small-select {
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .top-actions .top-btn {
+                display: none;
+            }
+
+            .content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo-area">
+            <div class="logo-mark">A3</div>
+
+            <div class="logo-text">
+                <h2>Athlete360</h2>
+                <span>Performance Platform</span>
+            </div>
+        </div>
+
+        <nav class="nav">
+
+            <div class="nav-label">Main</div>
+
+            <a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="athletes.html" class="nav-link">
+                <span class="nav-icon">♙</span>
+                Athletes
+            </a>
+
+            <a href="teams.html" class="nav-link">
+                <span class="nav-icon">◉</span>
+                Teams
+            </a>
+
+            <div class="nav-label">Performance</div>
+
+            <a href="testing.html" class="nav-link">
+                <span class="nav-icon">✓</span>
+                Testing
+            </a>
+
+            <a href="training.html" class="nav-link active">
+                <span class="nav-icon">⚡</span>
+                Training
+            </a>
+
+            <a href="analytics.html" class="nav-link">
+                <span class="nav-icon">↗</span>
+                Analytics
+            </a>
+
+            <a href="exercises.html" class="nav-link">
+                <span class="nav-icon">◇</span>
+                Exercise Library
+            </a>
+
+            <div class="nav-label">Management</div>
+
+            <a href="reports.html" class="nav-link">
+                <span class="nav-icon">▤</span>
+                Reports
+            </a>
+
+            <a href="settings.html" class="nav-link">
+                <span class="nav-icon">⚙</span>
+                Settings
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="user-box">
+
+                <div class="avatar" id="sidebarAvatar">
+                    MJ
+                </div>
+
+                <div class="user-info">
+                    <strong id="sidebarUserName">Coach Mikhail</strong>
+                    <span id="sidebarUserRole">Performance Coach</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex; align-items:center; gap:12px;">
+
+                <button class="mobile-menu" onclick="toggleSidebar()">
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    Performance / <strong>Training</strong>
+                </div>
+
+            </div>
+
+            <div class="top-actions">
+
+                <button class="top-btn" onclick="window.location.href='testing.html'">
+                    + Testing
+                </button>
+
+                <button class="top-btn" onclick="window.location.href='athletes.html'">
+                    Athletes
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- PAGE HEADER -->
+
+            <div class="page-header">
+
+                <div>
+                    <h1>Training Management</h1>
+
+                    <p>
+                        Plan, record and monitor athlete training sessions,
+                        workload and training progression.
+                    </p>
+                </div>
+
+                <button class="primary-btn" onclick="focusTrainingForm()">
+                    + Create Training Session
+                </button>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-label">Sessions This Week</div>
+                    <div class="stat-value" id="sessionsThisWeek">0</div>
+                    <div class="stat-meta green">Training sessions recorded</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Training Load</div>
+                    <div class="stat-value" id="weeklyLoad">0</div>
+                    <div class="stat-meta blue">Weekly session load</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Average RPE</div>
+                    <div class="stat-value" id="averageRpe">0.0</div>
+                    <div class="stat-meta">Session intensity</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">Completion Rate</div>
+                    <div class="stat-value" id="completionRate">0%</div>
+                    <div class="stat-meta green">Completed sessions</div>
+                </div>
+
+            </div>
+
+
+            <!-- TRAINING BUILDER -->
+
+            <div class="training-layout">
+
+                <!-- LEFT -->
+
+                <div class="panel" id="trainingBuilder">
+
+                    <div class="panel-header">
+
+                        <div class="panel-title">
+                            <h2>Create Training Session</h2>
+                            <p>Build a structured session for an athlete.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-body">
+
+                        <form id="trainingForm">
+
+                            <div class="form-grid">
+
+                                <!-- Athlete -->
+
+                                <div class="form-group full">
+
+                                    <label for="athleteSelect">
+                                        Athlete
+                                    </label>
+
+                                    <select
+                                        id="athleteSelect"
+                                        class="form-control"
+                                        required
+                                    >
+                                        <option value="">
+                                            Select athlete
+                                        </option>
+                                    </select>
+
+                                    <div
+                                        class="athlete-preview"
+                                        id="athletePreview"
+                                    >
+
+                                        <div
+                                            class="preview-avatar"
+                                            id="previewAvatar"
+                                        >
+                                            A
+                                        </div>
+
+                                        <div class="preview-info">
+
+                                            <strong id="previewName">
+                                                Athlete
+                                            </strong>
+
+                                            <span id="previewDetails">
+                                                Select an athlete
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Date -->
+
+                                <div class="form-group">
+
+                                    <label for="trainingDate">
+                                        Training Date
+                                    </label>
+
+                                    <input
+                                        type="date"
+                                        id="trainingDate"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <!-- Duration -->
+
+                                <div class="form-group">
+
+                                    <label for="duration">
+                                        Duration
+                                    </label>
+
+                                    <select
+                                        id="duration"
+                                        class="form-control"
+                                    >
+
+                                        <option value="30">
+                                            30 minutes
+                                        </option>
+
+                                        <option value="45">
+                                            45 minutes
+                                        </option>
+
+                                        <option value="60" selected>
+                                            60 minutes
+                                        </option>
+
+                                        <option value="75">
+                                            75 minutes
+                                        </option>
+
+                                        <option value="90">
+                                            90 minutes
+                                        </option>
+
+                                        <option value="120">
+                                            120 minutes
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <!-- Session Type -->
+
+                                <div class="form-group full">
+
+                                    <label>
+                                        Training Type
+                                    </label>
+
+                                    <div class="type-grid">
+
+                                        <button
+                                            type="button"
+                                            class="type-btn active"
+                                            data-type="Strength"
+                                        >
+                                            <span>🏋</span>
+                                            Strength
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="type-btn"
+                                            data-type="Speed"
+                                        >
+                                            <span>⚡</span>
+                                            Speed
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="type-btn"
+                                            data-type="Power"
+                                        >
+                                            <span>↯</span>
+                                            Power
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="type-btn"
+                                            data-type="Agility"
+                                        >
+                                            <span>◈</span>
+                                            Agility
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="type-btn"
+                                            data-type="Conditioning"
+                                        >
+                                            <span>♥</span>
+                                            Conditioning
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="type-btn"
+                                            data-type="Mobility"
+                                        >
+                                            <span>↔</span>
+                                            Mobility
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="type-btn"
+                                            data-type="Recovery"
+                                        >
+                                            <span>+</span>
+                                            Recovery
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            class="type-btn"
+                                            data-type="Mixed"
+                                        >
+                                            <span>✦</span>
+                                            Mixed
+                                        </button>
+
+                                    </div>
+
+                                    <input
+                                        type="hidden"
+                                        id="trainingType"
+                                        value="Strength"
+                                    >
+
+                                </div>
+
+
+                                <!-- RPE -->
+
+                                <div class="form-group full">
+
+                                    <label>
+                                        Session RPE
+                                    </label>
+
+                                    <div class="range-wrap">
+
+                                        <input
+                                            type="range"
+                                            id="rpe"
+                                            min="1"
+                                            max="10"
+                                            value="6"
+                                        >
+
+                                        <div
+                                            class="range-value"
+                                            id="rpeValue"
+                                        >
+                                            6
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Notes -->
+
+                                <div class="form-group full">
+
+                                    <label for="trainingNotes">
+                                        Coach Notes
+                                    </label>
+
+                                    <textarea
+                                        id="trainingNotes"
+                                        class="form-control"
+                                        placeholder="Add session objectives, coaching notes, athlete feedback or important observations..."
+                                    ></textarea>
+
+                                </div>
+
+
+                                <!-- Exercises -->
+
+                                <div class="form-group full">
+
+                                    <label>
+                                        Exercises
+                                    </label>
+
+                                    <div
+                                        class="exercise-list"
+                                        id="exerciseList"
+                                    ></div>
+
+                                    <button
+                                        type="button"
+                                        class="add-exercise"
+                                        onclick="addExercise()"
+                                    >
+                                        + Add Exercise
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-actions">
+
+                                <button
+                                    type="button"
+                                    class="secondary-btn"
+                                    onclick="resetTrainingForm()"
+                                >
+                                    Clear
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    class="primary-btn"
+                                >
+                                    Save Training Session
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT -->
+
+                <div>
+
+                    <!-- LOAD -->
+
+                    <div class="load-card">
+
+                        <div class="load-header">
+
+                            <div>
+                                <h3>Weekly Training Load</h3>
+                                <span>Duration × RPE</span>
+                            </div>
+
+                            <span>This week</span>
+
+                        </div>
+
+                        <div class="load-number">
+                            <span id="loadCardNumber">0</span>
+                            <small>AU</small>
+                        </div>
+
+                        <div class="load-bar">
+                            <div
+                                class="load-fill"
+                                id="loadFill"
+                            ></div>
+                        </div>
+
+                        <div class="load-footer">
+
+                            <span>
+                                0 AU
+                            </span>
+
+                            <span>
+                                Target: 1,000 AU
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- SESSION SUMMARY -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div class="panel-title">
+                                <h2>Session Summary</h2>
+                                <p>Live training session calculation.</p>
+                            </div>
+
+                        </div>
+
+                        <div class="panel-body">
+
+                            <div
+                                style="
+                                display:grid;
+                                grid-template-columns:repeat(2,1fr);
+                                gap:10px;
+                                "
+                            >
+
+                                <div
+                                    style="
+                                    padding:15px;
+                                    background:#0c1117;
+                                    border:1px solid var(--border);
+                                    border-radius:10px;
+                                    "
+                                >
+
+                                    <div class="stat-label">
+                                        Duration
+                                    </div>
+
+                                    <strong
+                                        id="summaryDuration"
+                                        style="font-size:20px;"
+                                    >
+                                        60
+                                    </strong>
+
+                                    <span
+                                        style="
+                                        color:var(--text-muted);
+                                        font-size:10px;
+                                        "
+                                    >
+                                        min
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                    padding:15px;
+                                    background:#0c1117;
+                                    border:1px solid var(--border);
+                                    border-radius:10px;
+                                    "
+                                >
+
+                                    <div class="stat-label">
+                                        RPE
+                                    </div>
+
+                                    <strong
+                                        id="summaryRpe"
+                                        style="font-size:20px;color:var(--blue);"
+                                    >
+                                        6
+                                    </strong>
+
+                                    <span
+                                        style="
+                                        color:var(--text-muted);
+                                        font-size:10px;
+                                        "
+                                    >
+                                        / 10
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                    padding:15px;
+                                    background:#0c1117;
+                                    border:1px solid var(--border);
+                                    border-radius:10px;
+                                    "
+                                >
+
+                                    <div class="stat-label">
+                                        Session Load
+                                    </div>
+
+                                    <strong
+                                        id="summaryLoad"
+                                        style="font-size:20px;color:var(--green);"
+                                    >
+                                        360
+                                    </strong>
+
+                                    <span
+                                        style="
+                                        color:var(--text-muted);
+                                        font-size:10px;
+                                        "
+                                    >
+                                        AU
+                                    </span>
+
+                                </div>
+
+
+                                <div
+                                    style="
+                                    padding:15px;
+                                    background:#0c1117;
+                                    border:1px solid var(--border);
+                                    border-radius:10px;
+                                    "
+                                >
+
+                                    <div class="stat-label">
+                                        Type
+                                    </div>
+
+                                    <strong
+                                        id="summaryType"
+                                        style="font-size:15px;"
+                                    >
+                                        Strength
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <div
+                                style="
+                                margin-top:18px;
+                                padding:14px;
+                                border-radius:10px;
+                                background:rgba(52,211,153,0.05);
+                                border:1px solid var(--border-green);
+                                "
+                            >
+
+                                <div
+                                    style="
+                                    display:flex;
+                                    justify-content:space-between;
+                                    align-items:center;
+                                    "
+                                >
+
+                                    <div>
+                                        <strong
+                                            style="
+                                            font-size:11px;
+                                            "
+                                        >
+                                            Training Load Status
+                                        </strong>
+
+                                        <p
+                                            id="loadStatusText"
+                                            style="
+                                            color:var(--text-muted);
+                                            font-size:10px;
+                                            margin-top:4px;
+                                            "
+                                        >
+                                            Moderate training stimulus
+                                        </p>
+                                    </div>
+
+                                    <span
+                                        id="loadStatus"
+                                        class="badge green"
+                                    >
+                                        MODERATE
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HISTORY -->
+
+            <div class="panel history-panel">
+
+                <div class="panel-header">
+
+                    <div class="panel-title">
+                        <h2>Training History</h2>
+                        <p>Recently recorded training sessions.</p>
+                    </div>
+
+                    <div class="history-controls">
+
+                        <input
+                            type="search"
+                            class="small-input"
+                            id="historySearch"
+                            placeholder="Search athlete..."
+                        >
+
+                        <select
+                            class="small-select"
+                            id="historyFilter"
+                        >
+
+                            <option value="all">
+                                All types
+                            </option>
+
+                            <option value="Strength">
+                                Strength
+                            </option>
+
+                            <option value="Speed">
+                                Speed
+                            </option>
+
+                            <option value="Power">
+                                Power
+                            </option>
+
+                            <option value="Agility">
+                                Agility
+                            </option>
+
+                            <option value="Conditioning">
+                                Conditioning
+                            </option>
+
+                            <option value="Mobility">
+                                Mobility
+                            </option>
+
+                            <option value="Recovery">
+                                Recovery
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Date</th>
+                                <th>Athlete</th>
+                                <th>Training</th>
+                                <th>Duration</th>
+                                <th>RPE</th>
+                                <th>Load</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="historyBody"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         TOAST
+    ========================= -->
+
+    <div class="toast" id="toast">
+
+        <div class="toast-icon">
+            ✓
+        </div>
+
+        <div>
+            <strong id="toastTitle">
+                Training session saved
+            </strong>
+
+            <span id="toastMessage">
+                The session has been added to your training history.
+            </span>
+        </div>
+
+    </div>
+
+
+    <script>
+
+        /* ==========================================
+           ATHLETE360 TRAINING MODULE
+        ========================================== */
+
+        const ATHLETES_KEY = "athlete360_athletes";
+        const TRAINING_KEY = "athlete360_training_sessions";
+        const SELECTED_ATHLETE_KEY = "athlete360_selected_athlete";
+        const USER_KEY = "athlete360_user";
+
+
+        /* ==========================================
+           SAMPLE ATHLETES
+        ========================================== */
+
+        const sampleAthletes = [
+
+            {
+                id: 1,
+                name: "Charl Malgas",
+                sport: "Rugby",
+                ageCategory: "U15",
+                position: "Backline",
+                team: "U15 A",
+                performance: 91,
+                status: "Ready"
+            },
+
+            {
+                id: 2,
+                name: "Liam Adams",
+                sport: "Rugby",
+                ageCategory: "U16",
+                position: "Forward",
+                team: "U16 A",
+                performance: 87,
+                status: "Ready"
+            },
+
+            {
+                id: 3,
+                name: "Ethan Williams",
+                sport: "Hockey",
+                ageCategory: "U14",
+                position: "Midfield",
+                team: "U14 A",
+                performance: 82,
+                status: "Ready"
+            },
+
+            {
+                id: 4,
+                name: "Noah Smith",
+                sport: "Athletics",
+                ageCategory: "U15",
+                position: "Sprinter",
+                team: "U15",
+                performance: 76,
+                status: "Monitor"
+            },
+
+            {
+                id: 5,
+                name: "Jayden Peters",
+                sport: "Soccer",
+                ageCategory: "U16",
+                position: "Midfielder",
+                team: "U16 A",
+                performance: 84,
+                status: "Ready"
+            },
+
+            {
+                id: 6,
+                name: "Aiden Botha",
+                sport: "Rugby",
+                ageCategory: "U14",
+                position: "Scrumhalf",
+                team: "U14 A",
+                performance: 79,
+                status: "Ready"
+            },
+
+            {
+                id: 7,
+                name: "Mia Jacobs",
+                sport: "Netball",
+                ageCategory: "U15",
+                position: "Centre",
+                team: "U15 A",
+                performance: 88,
+                status: "Ready"
+            },
+
+            {
+                id: 8,
+                name: "Luke Daniels",
+                sport: "Cricket",
+                ageCategory: "U17",
+                position: "All Rounder",
+                team: "U17",
+                performance: 74,
+                status: "Monitor"
+            }
+
+        ];
+
+
+        /* ==========================================
+           SAMPLE TRAINING DATA
+        ========================================== */
+
+        const sampleTraining = [
+
+            {
+                id: "TR-001",
+                athleteId: 1,
+                athleteName: "Charl Malgas",
+                sport: "Rugby",
+                type: "Speed",
+                date: "2026-09-09",
+                duration: 60,
+                rpe: 7,
+                load: 420,
+                status: "Completed",
+                notes: "Acceleration and sprint mechanics.",
+                exercises: [
+                    {
+                        name: "10m Acceleration",
+                        sets: 5,
+                        reps: 2,
+                        rest: 60
+                    },
+                    {
+                        name: "30m Sprint",
+                        sets: 4,
+                        reps: 1,
+                        rest: 90
+                    }
+                ]
+            },
+
+            {
+                id: "TR-002",
+                athleteId: 2,
+                athleteName: "Liam Adams",
+                sport: "Rugby",
+                type: "Strength",
+                date: "2026-09-08",
+                duration: 70,
+                rpe: 8,
+                load: 560,
+                status: "Completed",
+                notes: "Lower-body strength session.",
+                exercises: [
+                    {
+                        name: "Back Squat",
+                        sets: 4,
+                        reps: 6,
+                        rest: 120
+                    },
+                    {
+                        name: "Romanian Deadlift",
+                        sets: 3,
+                        reps: 8,
+                        rest: 90
+                    }
+                ]
+            },
+
+            {
+                id: "TR-003",
+                athleteId: 3,
+                athleteName: "Ethan Williams",
+                sport: "Hockey",
+                type: "Agility",
+                date: "2026-09-07",
+                duration: 55,
+                rpe: 6,
+                load: 330,
+                status: "Completed",
+                notes: "Change of direction and reaction work.",
+                exercises: [
+                    {
+                        name: "5-10-5 Shuttle",
+                        sets: 5,
+                        reps: 2,
+                        rest: 60
+                    },
+                    {
+                        name: "Reaction Drill",
+                        sets: 4,
+                        reps: 4,
+                        rest: 45
+                    }
+                ]
+            },
+
+            {
+                id: "TR-004",
+                athleteId: 7,
+                athleteName: "Mia Jacobs",
+                sport: "Netball",
+                type: "Conditioning",
+                date: "2026-09-06",
+                duration: 50,
+                rpe: 7,
+                load: 350,
+                status: "Completed",
+                notes: "Repeated effort conditioning.",
+                exercises: [
+                    {
+                        name: "Shuttle Runs",
+                        sets: 6,
+                        reps: 1,
+                        rest: 45
+                    },
+                    {
+                        name: "Tempo Running",
+                        sets: 4,
+                        reps: 1,
+                        rest: 60
+                    }
+                ]
+            }
+
+        ];
+
+
+        /* ==========================================
+           GLOBAL STATE
+        ========================================== */
+
+        let athletes = [];
+        let trainingSessions = [];
+        let exerciseCounter = 0;
+
+
+        /* ==========================================
+           INITIALISE
+        ========================================== */
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            loadUser();
+
+            loadAthletes();
+
+            loadTrainingSessions();
+
+            setToday();
+
+            setupTypeButtons();
+
+            setupFormListeners();
+
+            setupFilters();
+
+            createInitialExercise();
+
+            updateDashboardStats();
+
+            updateLiveSummary();
+
+            renderHistory();
+
+            selectStoredAthlete();
+
+        });
+
+
+        /* ==========================================
+           USER
+        ========================================== */
+
+        function loadUser() {
+
+            try {
+
+                const storedUser =
+                    JSON.parse(localStorage.getItem(USER_KEY));
+
+                if (!storedUser) return;
+
+                const name =
+                    storedUser.name ||
+                    storedUser.fullName ||
+                    "Coach Mikhail";
+
+                const role =
+                    storedUser.role ||
+                    "Performance Coach";
+
+                document.getElementById("sidebarUserName").textContent =
+                    name;
+
+                document.getElementById("sidebarUserRole").textContent =
+                    role;
+
+                document.getElementById("sidebarAvatar").textContent =
+                    getInitials(name);
+
+            } catch (error) {
+
+                console.log("No stored user found.");
+
+            }
+
+        }
+
+
+        /* ==========================================
+           ATHLETES
+        ========================================== */
+
+        function loadAthletes() {
+
+            try {
+
+                const stored =
+                    JSON.parse(localStorage.getItem(ATHLETES_KEY));
+
+                if (Array.isArray(stored) && stored.length > 0) {
+
+                    athletes = stored;
+
+                } else {
+
+                    athletes = sampleAthletes;
+
+                    localStorage.setItem(
+                        ATHLETES_KEY,
+                        JSON.stringify(athletes)
+                    );
+
+                }
+
+            } catch (error) {
+
+                athletes = sampleAthletes;
+
+            }
+
+            populateAthleteSelect();
+
+        }
+
+
+        function populateAthleteSelect() {
+
+            const select =
+                document.getElementById("athleteSelect");
+
+            select.innerHTML =
+                '<option value="">Select athlete</option>';
+
+            athletes.forEach(athlete => {
+
+                const option =
+                    document.createElement("option");
+
+                option.value = athlete.id;
+
+                option.textContent =
+                    `${athlete.name} — ${athlete.sport} • ${athlete.ageCategory}`;
+
+                select.appendChild(option);
+
+            });
+
+        }
+
+
+        function selectStoredAthlete() {
+
+            try {
+
+                const selected =
+                    JSON.parse(
+                        localStorage.getItem(
+                            SELECTED_ATHLETE_KEY
+                        )
+                    );
+
+                if (!selected) return;
+
+                const athlete =
+                    athletes.find(
+                        item =>
+                            String(item.id) ===
+                            String(selected.id)
+                    );
+
+                if (athlete) {
+
+                    document.getElementById("athleteSelect").value =
+                        athlete.id;
+
+                    updateAthletePreview(athlete);
+
+                }
+
+            } catch (error) {
+
+                console.log("No selected athlete.");
+
+            }
+
+        }
+
+
+        function updateAthletePreview(athlete) {
+
+            const preview =
+                document.getElementById("athletePreview");
+
+            if (!athlete) {
+
+                preview.classList.remove("show");
+
+                return;
+
+            }
+
+            preview.classList.add("show");
+
+            document.getElementById("previewAvatar").textContent =
+                getInitials(athlete.name);
+
+            document.getElementById("previewName").textContent =
+                athlete.name;
+
+            document.getElementById("previewDetails").textContent =
+                `${athlete.sport} • ${athlete.ageCategory} • ${athlete.position || "Athlete"} • Performance ${athlete.performance || 0}/100`;
+
+        }
+
+
+        /* ==========================================
+           TRAINING STORAGE
+        ========================================== */
+
+        function loadTrainingSessions() {
+
+            try {
+
+                const stored =
+                    JSON.parse(
+                        localStorage.getItem(TRAINING_KEY)
+                    );
+
+                if (Array.isArray(stored) && stored.length > 0) {
+
+                    trainingSessions = stored;
+
+                } else {
+
+                    trainingSessions = sampleTraining;
+
+                    localStorage.setItem(
+                        TRAINING_KEY,
+                        JSON.stringify(trainingSessions)
+                    );
+
+                }
+
+            } catch (error) {
+
+                trainingSessions = sampleTraining;
+
+            }
+
+        }
+
+
+        function saveTrainingSessions() {
+
+            localStorage.setItem(
+                TRAINING_KEY,
+                JSON.stringify(trainingSessions)
+            );
+
+        }
+
+
+        /* ==========================================
+           DATE
+        ========================================== */
+
+        function setToday() {
+
+            const input =
+                document.getElementById("trainingDate");
+
+            const today =
+                new Date();
+
+            const formatted =
+                today.toISOString().split("T")[0];
+
+            input.value = formatted;
+
+        }
+
+
+        /* ==========================================
+           TRAINING TYPE
+        ========================================== */
+
+        function setupTypeButtons() {
+
+            const buttons =
+                document.querySelectorAll(".type-btn");
+
+            buttons.forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    buttons.forEach(btn =>
+                        btn.classList.remove("active")
+                    );
+
+                    button.classList.add("active");
+
+                    const type =
+                        button.dataset.type;
+
+                    document.getElementById("trainingType").value =
+                        type;
+
+                    updateLiveSummary();
+
+                });
+
+            });
+
+        }
+
+
+        /* ==========================================
+           FORM LISTENERS
+        ========================================== */
+
+        function setupFormListeners() {
+
+            document
+                .getElementById("athleteSelect")
+                .addEventListener("change", event => {
+
+                    const athlete =
+                        athletes.find(
+                            item =>
+                                String(item.id) ===
+                                String(event.target.value)
+                        );
+
+                    updateAthletePreview(athlete);
+
+                    if (athlete) {
+
+                        localStorage.setItem(
+                            SELECTED_ATHLETE_KEY,
+                            JSON.stringify(athlete)
+                        );
+
+                    }
+
+                });
+
+
+            document
+                .getElementById("rpe")
+                .addEventListener("input", () => {
+
+                    document.getElementById("rpeValue").textContent =
+                        document.getElementById("rpe").value;
+
+                    updateLiveSummary();
+
+                });
+
+
+            document
+                .getElementById("duration")
+                .addEventListener("change", updateLiveSummary);
+
+
+            document
+                .getElementById("trainingForm")
+                .addEventListener("submit", saveTrainingSession);
+
+        }
+
+
+        /* ==========================================
+           EXERCISES
+        ========================================== */
+
+        function createInitialExercise() {
+
+            addExercise(
+                "Dynamic Warm-Up",
+                2,
+                5,
+                60
+            );
+
+        }
+
+
+        function addExercise(
+            defaultName = "",
+            defaultSets = 3,
+            defaultReps = 8,
+            defaultRest = 60
+        ) {
+
+            exerciseCounter++;
+
+            const list =
+                document.getElementById("exerciseList");
+
+            const row =
+                document.createElement("div");
+
+            row.className = "exercise-row";
+
+            row.dataset.exerciseId =
+                exerciseCounter;
+
+            row.innerHTML = `
+
+                <input
+                    type="text"
+                    class="exercise-name"
+                    placeholder="Exercise name"
+                    value="${escapeHtml(defaultName)}"
+                >
+
+                <input
+                    type="number"
+                    class="exercise-sets"
+                    min="1"
+                    value="${defaultSets}"
+                    title="Sets"
+                >
+
+                <input
+                    type="number"
+                    class="exercise-reps"
+                    min="1"
+                    value="${defaultReps}"
+                    title="Reps"
+                >
+
+                <input
+                    type="number"
+                    class="exercise-rest"
+                    min="0"
+                    value="${defaultRest}"
+                    title="Rest seconds"
+                >
+
+                <button
+                    type="button"
+                    class="remove-exercise"
+                    onclick="removeExercise(${exerciseCounter})"
+                >
+                    ×
+                </button>
+
+            `;
+
+            list.appendChild(row);
+
+        }
+
+
+        function removeExercise(id) {
+
+            const row =
+                document.querySelector(
+                    `.exercise-row[data-exercise-id="${id}"]`
+                );
+
+            if (row) {
+
+                row.remove();
+
+            }
+
+        }
+
+
+        function getExercises() {
+
+            const rows =
+                document.querySelectorAll(".exercise-row");
+
+            const exercises = [];
+
+            rows.forEach(row => {
+
+                const name =
+                    row.querySelector(".exercise-name").value.trim();
+
+                const sets =
+                    Number(
+                        row.querySelector(".exercise-sets").value
+                    ) || 0;
+
+                const reps =
+                    Number(
+                        row.querySelector(".exercise-reps").value
+                    ) || 0;
+
+                const rest =
+                    Number(
+                        row.querySelector(".exercise-rest").value
+                    ) || 0;
+
+                if (name) {
+
+                    exercises.push({
+                        name,
+                        sets,
+                        reps,
+                        rest
+                    });
+
+                }
+
+            });
+
+            return exercises;
+
+        }
+
+
+        /* ==========================================
+           LIVE SUMMARY
+        ========================================== */
+
+        function updateLiveSummary() {
+
+            const duration =
+                Number(
+                    document.getElementById("duration").value
+                ) || 0;
+
+            const rpe =
+                Number(
+                    document.getElementById("rpe").value
+                ) || 0;
+
+            const type =
+                document.getElementById("trainingType").value;
+
+            const load =
+                duration * rpe;
+
+            document.getElementById("rpeValue").textContent =
+                rpe;
+
+            document.getElementById("summaryDuration").textContent =
+                duration;
+
+            document.getElementById("summaryRpe").textContent =
+                rpe;
+
+            document.getElementById("summaryLoad").textContent =
+                load;
+
+            document.getElementById("summaryType").textContent =
+                type;
+
+            updateLoadStatus(load);
+
+        }
+
+
+        function updateLoadStatus(load) {
+
+            const badge =
+                document.getElementById("loadStatus");
+
+            const text =
+                document.getElementById("loadStatusText");
+
+            badge.className = "badge";
+
+            if (load < 300) {
+
+                badge.classList.add("blue");
+
+                badge.textContent = "LIGHT";
+
+                text.textContent =
+                    "Light training stimulus — suitable for recovery or lower-load work.";
+
+            } else if (load < 500) {
+
+                badge.classList.add("green");
+
+                badge.textContent = "MODERATE";
+
+                text.textContent =
+                    "Moderate training stimulus.";
+
+            } else if (load < 700) {
+
+                badge.classList.add("orange");
+
+                badge.textContent = "HIGH";
+
+                text.textContent =
+                    "High training stimulus — monitor recovery and total weekly load.";
+
+            } else {
+
+                badge.classList.add("red");
+
+                badge.textContent = "VERY HIGH";
+
+                text.textContent =
+                    "Very high training stimulus — recovery should be monitored closely.";
+
+            }
+
+        }
+
+
+        /* ==========================================
+           SAVE TRAINING
+        ========================================== */
+
+        function saveTrainingSession(event) {
+
+            event.preventDefault();
+
+            const athleteId =
+                document.getElementById("athleteSelect").value;
+
+            if (!athleteId) {
+
+                showToast(
+                    "Select an athlete",
+                    "Choose an athlete before saving the training session."
+                );
+
+                return;
+
+            }
+
+            const athlete =
+                athletes.find(
+                    item =>
+                        String(item.id) ===
+                        String(athleteId)
+                );
+
+            if (!athlete) {
+
+                return;
+
+            }
+
+            const date =
+                document.getElementById("trainingDate").value;
+
+            const duration =
+                Number(
+                    document.getElementById("duration").value
+                );
+
+            const rpe =
+                Number(
+                    document.getElementById("rpe").value
+                );
+
+            const type =
+                document.getElementById("trainingType").value;
+
+            const notes =
+                document.getElementById("trainingNotes").value.trim();
+
+            const exercises =
+                getExercises();
+
+            const load =
+                duration * rpe;
+
+            const session = {
+
+                id:
+                    "TR-" +
+                    Date.now(),
+
+                athleteId:
+                    athlete.id,
+
+                athleteName:
+                    athlete.name,
+
+                sport:
+                    athlete.sport,
+
+                type,
+
+                date,
+
+                duration,
+
+                rpe,
+
+                load,
+
+                status:
+                    "Completed",
+
+                notes,
+
+                exercises,
+
+                createdAt:
+                    new Date().toISOString()
+
+            };
+
+            trainingSessions.unshift(session);
+
+            saveTrainingSessions();
+
+            updateDashboardStats();
+
+            renderHistory();
+
+            showToast(
+                "Training session saved",
+                `${type} session for ${athlete.name} has been recorded.`
+            );
+
+            resetTrainingForm(false);
+
+        }
+
+
+        /* ==========================================
+           RESET
+        ========================================== */
+
+        function resetTrainingForm(showMessage = true) {
+
+            document
+                .getElementById("trainingForm")
+                .reset();
+
+            document.getElementById("rpe").value =
+                6;
+
+            document.getElementById("rpeValue").textContent =
+                6;
+
+            document.getElementById("trainingType").value =
+                "Strength";
+
+            document
+                .querySelectorAll(".type-btn")
+                .forEach(button =>
+                    button.classList.remove("active")
+                );
+
+            document
+                .querySelector('.type-btn[data-type="Strength"]')
+                .classList.add("active");
+
+            setToday();
+
+            document.getElementById("exerciseList").innerHTML =
+                "";
+
+            exerciseCounter = 0;
+
+            createInitialExercise();
+
+            document
+                .getElementById("athletePreview")
+                .classList.remove("show");
+
+            updateLiveSummary();
+
+            if (showMessage) {
+
+                showToast(
+                    "Form cleared",
+                    "The training session form has been reset."
+                );
+
+            }
+
+        }
+
+
+        /* ==========================================
+           HISTORY
+        ========================================== */
+
+        function setupFilters() {
+
+            document
+                .getElementById("historySearch")
+                .addEventListener("input", renderHistory);
+
+            document
+                .getElementById("historyFilter")
+                .addEventListener("change", renderHistory);
+
+        }
+
+
+        function renderHistory() {
+
+            const body =
+                document.getElementById("historyBody");
+
+            const search =
+                document
+                    .getElementById("historySearch")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+            const filter =
+                document
+                    .getElementById("historyFilter")
+                    .value;
+
+
+            const filtered =
+                trainingSessions.filter(session => {
+
+                    const matchesSearch =
+                        !search ||
+                        session.athleteName
+                            .toLowerCase()
+                            .includes(search);
+
+                    const matchesType =
+                        filter === "all" ||
+                        session.type === filter;
+
+                    return matchesSearch && matchesType;
+
+                });
+
+
+            if (filtered.length === 0) {
+
+                body.innerHTML = `
+
+                    <tr>
+
+                        <td colspan="8">
+
+                            <div class="empty-state">
+
+                                <div class="empty-icon">
+                                    ⚡
+                                </div>
+
+                                <h3>No training sessions found</h3>
+
+                                <p>
+                                    Create your first training session
+                                    to start building athlete workload history.
+                                </p>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+
+            }
+
+
+            body.innerHTML =
+                filtered.map(session => {
+
+                    const statusClass =
+                        getStatusClass(session.status);
+
+                    return `
+
+                        <tr>
+
+                            <td>
+                                ${formatDate(session.date)}
+                            </td>
+
+                            <td>
+
+                                <div class="athlete-cell">
+
+                                    <div class="mini-avatar">
+                                        ${getInitials(session.athleteName)}
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            ${escapeHtml(session.athleteName)}
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHtml(session.sport)}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                <span class="badge blue">
+                                    ${escapeHtml(session.type)}
+                                </span>
+                            </td>
+
+                            <td>
+                                ${session.duration} min
+                            </td>
+
+                            <td>
+                                ${session.rpe}/10
+                            </td>
+
+                            <td>
+                                <strong style="color:var(--text);">
+                                    ${session.load}
+                                </strong>
+                                AU
+                            </td>
+
+                            <td>
+                                <span class="badge ${statusClass}">
+                                    ${escapeHtml(session.status)}
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn"
+                                    onclick="viewSession('${session.id}')"
+                                >
+                                    View
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    `;
+
+                }).join("");
+
+        }
+
+
+        function viewSession(id) {
+
+            const session =
+                trainingSessions.find(
+                    item => item.id === id
+                );
+
+            if (!session) return;
+
+            const exercises =
+                session.exercises
+                    .map(
+                        exercise =>
+                            `${exercise.name} — ${exercise.sets} sets × ${exercise.reps} reps`
+                    )
+                    .join("\n");
+
+            alert(
+                `Training Session\n\n` +
+                `Athlete: ${session.athleteName}\n` +
+                `Sport: ${session.sport}\n` +
+                `Type: ${session.type}\n` +
+                `Date: ${formatDate(session.date)}\n` +
+                `Duration: ${session.duration} min\n` +
+                `RPE: ${session.rpe}/10\n` +
+                `Training Load: ${session.load} AU\n\n` +
+                `Exercises:\n${exercises || "No exercises recorded."}\n\n` +
+                `Notes:\n${session.notes || "No notes."}`
+            );
+
+        }
+
+
+        /* ==========================================
+           DASHBOARD STATS
+        ========================================== */
+
+        function updateDashboardStats() {
+
+            const start =
+                getStartOfWeek();
+
+            const weekly =
+                trainingSessions.filter(session => {
+
+                    const date =
+                        new Date(
+                            session.date + "T00:00:00"
+                        );
+
+                    return date >= start;
+
+                });
+
+
+            const sessions =
+                weekly.length;
+
+            const load =
+                weekly.reduce(
+                    (total, session) =>
+                        total + Number(session.load || 0),
+                    0
+                );
+
+            const rpeTotal =
+                weekly.reduce(
+                    (total, session) =>
+                        total + Number(session.rpe || 0),
+                    0
+                );
+
+            const avgRpe =
+                sessions
+                    ? (rpeTotal / sessions).toFixed(1)
+                    : "0.0";
+
+            const completed =
+                weekly.filter(
+                    session =>
+                        session.status === "Completed"
+                ).length;
+
+            const completion =
+                sessions
+                    ? Math.round(
+                        (completed / sessions) * 100
+                    )
+                    : 0;
+
+
+            document.getElementById("sessionsThisWeek").textContent =
+                sessions;
+
+            document.getElementById("weeklyLoad").textContent =
+                load;
+
+            document.getElementById("averageRpe").textContent =
+                avgRpe;
+
+            document.getElementById("completionRate").textContent =
+                completion + "%";
+
+            document.getElementById("loadCardNumber").textContent =
+                load;
+
+
+            const percentage =
+                Math.min(
+                    100,
+                    Math.round(
+                        (load / 1000) * 100
+                    )
+                );
+
+            document.getElementById("loadFill").style.width =
+                percentage + "%";
+
+        }
+
+
+        /* ==========================================
+           WEEK
+        ========================================== */
+
+        function getStartOfWeek() {
+
+            const date =
+                new Date();
+
+            const day =
+                date.getDay();
+
+            const diff =
+                day === 0
+                    ? -6
+                    : 1 - day;
+
+            date.setDate(
+                date.getDate() + diff
+            );
+
+            date.setHours(
+                0,
+                0,
+                0,
+                0
+            );
+
+            return date;
+
+        }
+
+
+        /* ==========================================
+           UTILITIES
+        ========================================== */
+
+        function formatDate(dateString) {
+
+            if (!dateString) return "—";
+
+            const date =
+                new Date(
+                    dateString + "T00:00:00"
+                );
+
+            return date.toLocaleDateString(
+                "en-ZA",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function getInitials(name) {
+
+            if (!name) return "A";
+
+            return name
+                .split(" ")
+                .map(word => word[0])
+                .join("")
+                .substring(0, 2)
+                .toUpperCase();
+
+        }
+
+
+        function getStatusClass(status) {
+
+            if (status === "Completed") {
+                return "green";
+            }
+
+            if (status === "Planned") {
+                return "blue";
+            }
+
+            if (status === "Cancelled") {
+                return "red";
+            }
+
+            return "orange";
+
+        }
+
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        /* ==========================================
+           TOAST
+        ========================================== */
+
+        let toastTimer;
+
+        function showToast(title, message) {
+
+            const toast =
+                document.getElementById("toast");
+
+            document.getElementById("toastTitle").textContent =
+                title;
+
+            document.getElementById("toastMessage").textContent =
+                message;
+
+            toast.classList.add("show");
+
+            clearTimeout(toastTimer);
+
+            toastTimer =
+                setTimeout(() => {
+
+                    toast.classList.remove("show");
+
+                }, 3500);
+
+        }
+
+
+        /* ==========================================
+           FOCUS TRAINING BUILDER
+        ========================================== */
+
+        function focusTrainingForm() {
+
+            const builder =
+                document.getElementById("trainingBuilder");
+
+            builder.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+            setTimeout(() => {
+
+                document
+                    .getElementById("athleteSelect")
+                    .focus();
+
+            }, 500);
+
+        }
+
+
+        /* ==========================================
+           MOBILE SIDEBAR
+        ========================================== */
+
+        function toggleSidebar() {
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
+
+        }
+
+
+        /* ==========================================
+           CLOSE MOBILE SIDEBAR
+        ========================================== */
+
+        document.addEventListener("click", event => {
+
+            const sidebar =
+                document.getElementById("sidebar");
+
+            const menu =
+                document.querySelector(".mobile-menu");
+
+            if (
+                window.innerWidth <= 900 &&
+                sidebar.classList.contains("open") &&
+                !sidebar.contains(event.target) &&
+                !menu.contains(event.target)
+            ) {
+
+                sidebar.classList.remove("open");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>

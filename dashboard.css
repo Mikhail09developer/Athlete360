@@ -1,0 +1,2039 @@
+/* =========================================================
+   ATHLETE360 — DASHBOARD DESIGN SYSTEM
+   Train. Test. Track. Perform.
+   ========================================================= */
+
+
+/* =========================================================
+   01. DESIGN TOKENS
+   ========================================================= */
+
+:root {
+
+    --navy-950: #07111f;
+    --navy-900: #0b1728;
+    --navy-800: #10223a;
+    --navy-700: #16345a;
+
+    --blue-600: #2563eb;
+    --blue-500: #3b82f6;
+    --blue-400: #60a5fa;
+    --blue-300: #93c5fd;
+
+    --blue-50: #eff6ff;
+    --blue-100: #dbeafe;
+
+    --cyan: #06b6d4;
+    --green: #16a34a;
+    --green-light: #22c55e;
+    --green-soft: #ecfdf5;
+
+    --orange: #f59e0b;
+    --orange-soft: #fffbeb;
+
+    --purple: #8b5cf6;
+    --purple-soft: #f5f3ff;
+
+    --red: #ef4444;
+    --red-soft: #fef2f2;
+
+    --background: #f3f6fb;
+    --surface: #ffffff;
+    --surface-soft: #f8fafc;
+
+    --text: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+
+    --border: #e2e8f0;
+    --border-light: #edf2f7;
+
+    --shadow-sm:
+        0 1px 2px rgba(15, 23, 42, 0.04);
+
+    --shadow:
+        0 8px 24px rgba(15, 23, 42, 0.07);
+
+    --shadow-lg:
+        0 18px 45px rgba(15, 23, 42, 0.12);
+
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+
+    --sidebar-width: 258px;
+}
+
+
+/* =========================================================
+   02. RESET
+   ========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: var(--background);
+    color: var(--text);
+
+    min-height: 100vh;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   03. SIDEBAR
+   ========================================================= */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: var(--sidebar-width);
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--navy-950) 0%,
+            var(--navy-900) 55%,
+            #0d1b30 100%
+        );
+
+    color: #ffffff;
+
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+
+    z-index: 1000;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand {
+
+    height: 88px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 0 22px;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.brand-logo {
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue-500),
+            var(--cyan)
+        );
+
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 900;
+
+    letter-spacing: -0.5px;
+
+    box-shadow:
+        0 8px 24px rgba(37, 99, 235, 0.35);
+}
+
+
+.brand h2 {
+
+    font-size: 17px;
+    line-height: 1;
+
+    font-weight: 850;
+    letter-spacing: 1.8px;
+}
+
+
+.brand span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #8ea4bf;
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.sidebar-nav {
+
+    flex: 1;
+
+    padding: 20px 13px;
+
+    overflow-y: auto;
+}
+
+
+.nav-item {
+
+    width: 100%;
+    min-height: 46px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 5px;
+
+    padding: 0 14px;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: #91a4bc;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: left;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.nav-item:hover {
+
+    background: rgba(255, 255, 255, 0.065);
+
+    color: #ffffff;
+
+    transform: translateX(2px);
+}
+
+
+.nav-item.active {
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(59, 130, 246, 0.20),
+            rgba(59, 130, 246, 0.08)
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        inset 3px 0 0 var(--blue-500);
+}
+
+
+.nav-icon {
+
+    width: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+
+    opacity: 0.9;
+}
+
+
+.nav-item.active .nav-icon {
+
+    color: var(--blue-400);
+
+    opacity: 1;
+}
+
+
+.nav-divider {
+
+    height: 1px;
+
+    margin: 18px 9px;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+}
+
+
+.logout-button {
+
+    border: 0;
+}
+
+
+/* =========================================================
+   SIDEBAR FOOTER
+   ========================================================= */
+
+.sidebar-footer {
+
+    padding: 17px 21px 20px;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.system-status {
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 13px;
+
+    color: #a6b8cc;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+.status-dot {
+
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--green-light);
+
+    box-shadow:
+        0 0 0 4px rgba(34, 197, 94, 0.12);
+}
+
+
+.sidebar-footer p {
+
+    color: #ffffff;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+}
+
+
+.sidebar-footer small {
+
+    display: block;
+
+    margin-top: 4px;
+
+    color: #60758f;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   04. MAIN CONTENT
+   ========================================================= */
+
+.main-content {
+
+    margin-left: var(--sidebar-width);
+
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+.topbar {
+
+    height: 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 34px;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    border-bottom:
+        1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+
+    backdrop-filter: blur(14px);
+}
+
+
+.page-label {
+
+    margin-bottom: 4px;
+
+    color: var(--blue-600);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.topbar h1 {
+
+    color: var(--text);
+
+    font-size: 22px;
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+}
+
+
+.coach-area {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.coach-info {
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-end;
+}
+
+
+.coach-info strong {
+
+    color: var(--text);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    max-width: 240px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+
+.coach-info span {
+
+    margin-top: 2px;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+.coach-avatar {
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue-500),
+            var(--purple)
+        );
+
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    box-shadow:
+        0 6px 18px rgba(37, 99, 235, 0.25);
+}
+
+
+/* =========================================================
+   05. DASHBOARD CONTAINER
+   ========================================================= */
+
+.dashboard-container {
+
+    max-width: 1600px;
+
+    margin: 0 auto;
+
+    padding: 30px 34px 50px;
+}
+
+
+/* =========================================================
+   06. WELCOME HERO
+   ========================================================= */
+
+.welcome-section {
+
+    position: relative;
+
+    min-height: 190px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 32px 36px;
+
+    margin-bottom: 24px;
+
+    overflow: hidden;
+
+    border-radius: var(--radius-xl);
+
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(96, 165, 250, 0.35),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 70% 100%,
+            rgba(6, 182, 212, 0.18),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #0b1c34,
+            #12345b 55%,
+            #175c9b
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 16px 40px rgba(15, 23, 42, 0.15);
+}
+
+
+.welcome-section::after {
+
+    content: "360";
+
+    position: absolute;
+
+    right: 25px;
+    bottom: -45px;
+
+    color: rgba(255, 255, 255, 0.055);
+
+    font-size: 190px;
+    font-weight: 900;
+
+    line-height: 1;
+
+    pointer-events: none;
+}
+
+
+.welcome-section > div {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 680px;
+}
+
+
+.eyebrow {
+
+    margin-bottom: 8px;
+
+    color: var(--blue-600);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.6px;
+}
+
+
+.welcome-section .eyebrow {
+
+    color: #93c5fd;
+}
+
+
+.welcome-section h2 {
+
+    margin-bottom: 8px;
+
+    font-size: clamp(25px, 3vw, 34px);
+
+    line-height: 1.1;
+
+    font-weight: 850;
+
+    letter-spacing: -1px;
+}
+
+
+.welcome-section p:not(.eyebrow) {
+
+    max-width: 620px;
+
+    color: #bfd0e3;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.primary-button,
+.secondary-button,
+.cancel-button {
+
+    min-height: 42px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 0 18px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+    font-weight: 750;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.primary-button {
+
+    position: relative;
+
+    border: 1px solid transparent;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue-500),
+            var(--blue-600)
+        );
+
+    color: #ffffff;
+
+    box-shadow:
+        0 7px 18px rgba(37, 99, 235, 0.25);
+}
+
+
+.primary-button:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 25px rgba(37, 99, 235, 0.34);
+}
+
+
+.welcome-section .primary-button {
+
+    z-index: 3;
+
+    flex-shrink: 0;
+
+    background: #ffffff;
+
+    color: var(--blue-600);
+
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.16);
+}
+
+
+.welcome-section .primary-button:hover {
+
+    background: #eff6ff;
+
+    transform: translateY(-2px);
+}
+
+
+.secondary-button {
+
+    border: 1px solid var(--blue-100);
+
+    background: var(--blue-50);
+
+    color: var(--blue-600);
+}
+
+
+.secondary-button:hover {
+
+    background: var(--blue-100);
+
+    transform: translateY(-1px);
+}
+
+
+.cancel-button {
+
+    border: 1px solid var(--border);
+
+    background: #ffffff;
+
+    color: var(--text-secondary);
+}
+
+
+.cancel-button:hover {
+
+    background: var(--surface-soft);
+}
+
+
+/* =========================================================
+   07. STAT CARDS
+   ========================================================= */
+
+.stats-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 26px;
+}
+
+
+.stat-card {
+
+    position: relative;
+
+    min-height: 150px;
+
+    padding: 20px;
+
+    overflow: hidden;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-lg);
+
+    box-shadow: var(--shadow-sm);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+.stat-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow);
+
+    border-color: var(--blue-100);
+}
+
+
+.stat-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--blue-500),
+            var(--cyan)
+        );
+}
+
+
+.stat-card:nth-child(2)::before {
+
+    background:
+        linear-gradient(
+            90deg,
+            #16a34a,
+            #4ade80
+        );
+}
+
+
+.stat-card:nth-child(3)::before {
+
+    background:
+        linear-gradient(
+            90deg,
+            #8b5cf6,
+            #c084fc
+        );
+}
+
+
+.stat-card:nth-child(4)::before {
+
+    background:
+        linear-gradient(
+            90deg,
+            #f59e0b,
+            #fbbf24
+        );
+}
+
+
+.stat-card-top {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 17px;
+}
+
+
+.stat-label {
+
+    color: var(--text-muted);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.stat-icon {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: var(--blue-50);
+
+    font-size: 17px;
+}
+
+
+.stat-card:nth-child(2) .stat-icon {
+
+    background: var(--green-soft);
+}
+
+
+.stat-card:nth-child(3) .stat-icon {
+
+    background: var(--purple-soft);
+}
+
+
+.stat-card:nth-child(4) .stat-icon {
+
+    background: var(--orange-soft);
+}
+
+
+.stat-card > strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: var(--text);
+
+    font-size: 31px;
+    line-height: 1;
+
+    font-weight: 850;
+
+    letter-spacing: -1px;
+}
+
+
+.stat-description {
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   08. ATHLETE MANAGEMENT CARD
+   ========================================================= */
+
+.athlete-section {
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-xl);
+
+    box-shadow: var(--shadow-sm);
+
+    overflow: hidden;
+}
+
+
+.section-header {
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 27px 28px 22px;
+
+    border-bottom: 1px solid var(--border-light);
+}
+
+
+.section-header h2 {
+
+    margin-bottom: 5px;
+
+    color: var(--text);
+
+    font-size: 20px;
+    font-weight: 800;
+
+    letter-spacing: -0.4px;
+}
+
+
+.section-header p:not(.eyebrow) {
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   09. FILTERS
+   ========================================================= */
+
+.filters {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 18px 28px;
+
+    background: var(--surface-soft);
+
+    border-bottom: 1px solid var(--border-light);
+}
+
+
+.search-box {
+
+    position: relative;
+
+    flex: 1;
+
+    max-width: 440px;
+}
+
+
+.search-box > span {
+
+    position: absolute;
+
+    top: 50%;
+    left: 14px;
+
+    transform: translateY(-50%);
+
+    color: var(--text-muted);
+
+    font-size: 18px;
+
+    pointer-events: none;
+}
+
+
+.search-box input,
+.filters select {
+
+    width: 100%;
+    height: 42px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: var(--text);
+
+    outline: none;
+
+    font-size: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.search-box input {
+
+    padding: 0 14px 0 40px;
+}
+
+
+.filters select {
+
+    width: 210px;
+
+    padding: 0 35px 0 13px;
+}
+
+
+.search-box input:focus,
+.filters select:focus {
+
+    border-color: var(--blue-400);
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.10);
+}
+
+
+.search-box input::placeholder {
+
+    color: var(--text-light);
+}
+
+
+/* =========================================================
+   10. TABLE
+   ========================================================= */
+
+.table-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+}
+
+
+.athlete-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 820px;
+}
+
+
+.athlete-table thead {
+
+    background: #f8fafc;
+}
+
+
+.athlete-table th {
+
+    padding: 13px 20px;
+
+    color: #64748b;
+
+    font-size: 8px;
+    font-weight: 850;
+
+    letter-spacing: 1.1px;
+
+    text-align: left;
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+.athlete-table td {
+
+    padding: 16px 20px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+    border-bottom: 1px solid var(--border-light);
+
+    vertical-align: middle;
+}
+
+
+.athlete-table tbody tr {
+
+    transition:
+        background 0.15s ease;
+}
+
+
+.athlete-table tbody tr:hover {
+
+    background: #f8fbff;
+}
+
+
+.athlete-table tbody tr:last-child td {
+
+    border-bottom: 0;
+}
+
+
+/* =========================================================
+   ATHLETE NAME / AVATAR
+   ========================================================= */
+
+.athlete-name-cell {
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+}
+
+
+.athlete-avatar {
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue-500),
+            var(--purple)
+        );
+
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+.athlete-name {
+
+    color: var(--text);
+
+    font-size: 12px;
+    font-weight: 750;
+}
+
+
+.athlete-email {
+
+    margin-top: 2px;
+
+    color: var(--text-light);
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   SPORT BADGES
+   ========================================================= */
+
+.sport-badge {
+
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    background: var(--blue-50);
+
+    color: var(--blue-600);
+
+    font-size: 9px;
+    font-weight: 750;
+}
+
+
+.position-text {
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+
+.performance-value {
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 5px;
+
+    color: var(--blue-600);
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+.performance-value::before {
+
+    content: "";
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: var(--blue-500);
+}
+
+
+.status-badge {
+
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 9px;
+
+    border-radius: 999px;
+
+    background: var(--green-soft);
+
+    color: #15803d;
+
+    font-size: 9px;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   VIEW BUTTON
+   ========================================================= */
+
+.view-button {
+
+    min-height: 34px;
+
+    padding: 0 12px;
+
+    border: 1px solid var(--blue-100);
+
+    border-radius: 8px;
+
+    background: var(--blue-50);
+
+    color: var(--blue-600);
+
+    font-size: 10px;
+    font-weight: 750;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.view-button:hover {
+
+    background: var(--blue-100);
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   11. EMPTY STATE
+   ========================================================= */
+
+.empty-state {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 280px;
+
+    padding: 40px;
+
+    text-align: center;
+}
+
+
+.empty-icon {
+
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 16px;
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--blue-50),
+            #eef2ff
+        );
+
+    color: var(--blue-600);
+
+    font-size: 25px;
+}
+
+
+.empty-state h3 {
+
+    margin-bottom: 6px;
+
+    color: var(--text);
+
+    font-size: 15px;
+    font-weight: 800;
+}
+
+
+.empty-state p {
+
+    max-width: 330px;
+
+    margin-bottom: 18px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   12. MODAL
+   ========================================================= */
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(7, 17, 31, 0.68);
+
+    backdrop-filter: blur(7px);
+
+    z-index: 2000;
+}
+
+
+.modal-overlay.active {
+
+    display: flex;
+}
+
+
+.modal {
+
+    width: min(760px, 100%);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: #ffffff;
+
+    border: 1px solid rgba(255, 255, 255, 0.5);
+
+    border-radius: 20px;
+
+    box-shadow: var(--shadow-lg);
+
+    animation:
+        modalIn 0.22s ease;
+}
+
+
+@keyframes modalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(12px)
+            scale(0.98);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+.modal-header {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 23px 26px;
+
+    border-bottom: 1px solid var(--border-light);
+}
+
+
+.modal-header h2 {
+
+    color: var(--text);
+
+    font-size: 20px;
+    font-weight: 800;
+}
+
+
+.close-button {
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: var(--surface-soft);
+
+    color: var(--text-muted);
+
+    font-size: 21px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.close-button:hover {
+
+    background: var(--red-soft);
+
+    color: var(--red);
+}
+
+
+/* =========================================================
+   13. FORM
+   ========================================================= */
+
+#athleteForm {
+
+    padding: 26px;
+}
+
+
+.form-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+
+.form-group {
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.form-group.full-width {
+
+    grid-column: 1 / -1;
+}
+
+
+.form-group label {
+
+    color: var(--text-secondary);
+
+    font-size: 10px;
+    font-weight: 750;
+}
+
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+
+    width: 100%;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: var(--text);
+
+    outline: none;
+
+    font-size: 12px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.form-group input,
+.form-group select {
+
+    height: 43px;
+
+    padding: 0 13px;
+}
+
+
+.form-group textarea {
+
+    min-height: 100px;
+
+    padding: 12px 13px;
+
+    resize: vertical;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+
+    border-color: var(--blue-400);
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.10);
+
+    background: #fcfdff;
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+
+    color: var(--text-light);
+}
+
+
+/* =========================================================
+   MODAL ACTIONS
+   ========================================================= */
+
+.modal-actions {
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid var(--border-light);
+}
+
+
+/* =========================================================
+   14. FOCUS / ACCESSIBILITY
+   ========================================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+
+    outline: 3px solid rgba(59, 130, 246, 0.28);
+
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   15. SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+
+    width: 8px;
+    height: 8px;
+}
+
+
+::-webkit-scrollbar-track {
+
+    background: #eef2f7;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background: #c5d0de;
+
+    border-radius: 999px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background: #9eafc3;
+}
+
+
+/* =========================================================
+   16. RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+    :root {
+        --sidebar-width: 230px;
+    }
+
+    .dashboard-container {
+
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .topbar {
+
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .stats-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .welcome-section {
+
+        min-height: 175px;
+
+        padding: 28px;
+    }
+}
+
+
+/* =========================================================
+   17. RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 780px) {
+
+    :root {
+        --sidebar-width: 0px;
+    }
+
+
+    .sidebar {
+
+        position: fixed;
+
+        width: 250px;
+
+        transform: translateX(-100%);
+
+        transition:
+            transform 0.25s ease;
+    }
+
+
+    .main-content {
+
+        margin-left: 0;
+    }
+
+
+    .topbar {
+
+        height: 72px;
+
+        padding: 0 18px;
+    }
+
+
+    .topbar h1 {
+
+        font-size: 19px;
+    }
+
+
+    .coach-info {
+
+        display: none;
+    }
+
+
+    .dashboard-container {
+
+        padding: 20px 16px 40px;
+    }
+
+
+    .welcome-section {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        min-height: auto;
+
+        padding: 25px;
+
+        border-radius: 16px;
+    }
+
+
+    .welcome-section::after {
+
+        font-size: 120px;
+
+        right: -10px;
+        bottom: -25px;
+    }
+
+
+    .welcome-section h2 {
+
+        font-size: 25px;
+    }
+
+
+    .welcome-section .primary-button {
+
+        width: 100%;
+    }
+
+
+    .stats-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 12px;
+    }
+
+
+    .stat-card {
+
+        min-height: 135px;
+
+        padding: 16px;
+    }
+
+
+    .stat-card > strong {
+
+        font-size: 27px;
+    }
+
+
+    .section-header {
+
+        flex-direction: column;
+
+        padding: 22px 18px 18px;
+    }
+
+
+    .section-header .secondary-button {
+
+        width: 100%;
+    }
+
+
+    .filters {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        padding: 15px 18px;
+    }
+
+
+    .search-box {
+
+        max-width: none;
+    }
+
+
+    .filters select {
+
+        width: 100%;
+    }
+
+
+    .athlete-section {
+
+        border-radius: 16px;
+    }
+
+
+    .table-wrapper {
+
+        overflow-x: auto;
+    }
+
+
+    .form-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .form-group.full-width {
+
+        grid-column: auto;
+    }
+
+
+    #athleteForm {
+
+        padding: 20px;
+    }
+
+
+    .modal {
+
+        max-height: 94vh;
+
+        border-radius: 16px;
+    }
+
+
+    .modal-header {
+
+        padding: 20px;
+    }
+
+
+    .modal-actions {
+
+        flex-direction: column-reverse;
+
+        align-items: stretch;
+    }
+
+
+    .modal-actions button {
+
+        width: 100%;
+    }
+}
+
+
+/* =========================================================
+   18. VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 430px) {
+
+    .stats-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .stat-card {
+
+        min-height: 125px;
+    }
+
+
+    .topbar {
+
+        padding: 0 14px;
+    }
+
+
+    .dashboard-container {
+
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+
+    .welcome-section {
+
+        padding: 21px;
+    }
+}
+
