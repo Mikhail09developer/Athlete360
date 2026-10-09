@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athlete360 | Exercise Details</title>
+
+<style>
+:root{
+    --bg:#0a0d10;
+    --sidebar:#0d1116;
+    --card:#12181e;
+    --card-hover:#172129;
+    --border:#202a32;
+    --text:#f3f7fa;
+    --muted:#8d9aa5;
+    --blue:#38bdf8;
+    --green:#22c55e;
+    --danger:#ef4444;
+    --radius:16px;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+button{
+    font:inherit;
+    cursor:pointer;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:250px;
+    min-width:250px;
+    background:var(--sidebar);
+    border-right:1px solid var(--border);
+    padding:24px 16px;
+    display:flex;
+    flex-direction:column;
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    z-index:100;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:4px 10px 28px;
+}
+
+.brand-mark{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--blue),#2563eb);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#061018;
+    font-weight:900;
+}
+
+.brand-text h1{
+    font-size:18px;
+}
+
+.brand-text span{
+    display:block;
+    color:var(--muted);
+    font-size:11px;
+    margin-top:3px;
+}
+
+.nav-section{
+    margin-bottom:22px;
+}
+
+.nav-label{
+    color:#65727d;
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.4px;
+    padding:0 12px 8px;
+}
+
+.nav-link{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:100%;
+    padding:11px 12px;
+    border-radius:11px;
+    color:#9ba8b2;
+    font-size:13px;
+    margin-bottom:3px;
+}
+
+.nav-link:hover{
+    background:#151c22;
+    color:var(--text);
+}
+
+.nav-link.active{
+    background:rgba(56,189,248,.12);
+    color:var(--blue);
+}
+
+.nav-icon{
+    width:19px;
+    text-align:center;
+}
+
+.sidebar-bottom{
+    margin-top:auto;
+    border-top:1px solid var(--border);
+    padding:16px 10px 0;
+}
+
+.system-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    color:#8996a0;
+    font-size:11px;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--green);
+}
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:25px;
+}
+
+.page-title h2{
+    font-size:30px;
+    margin-bottom:7px;
+}
+
+.page-title p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.btn{
+    border:1px solid var(--border);
+    background:var(--card);
+    color:var(--text);
+    padding:10px 15px;
+    border-radius:10px;
+    font-size:12px;
+}
+
+.btn:hover{
+    background:var(--card-hover);
+}
+
+.btn-primary{
+    background:var(--blue);
+    border-color:var(--blue);
+    color:#061018;
+    font-weight:700;
+}
+
+.btn-primary:hover{
+    background:#0ea5e9;
+}
+
+.exercise-header{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:25px;
+    display:flex;
+    gap:25px;
+    margin-bottom:18px;
+}
+
+.exercise-icon{
+    width:130px;
+    height:130px;
+    flex-shrink:0;
+    border-radius:20px;
+    background:#0d1419;
+    border:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--blue);
+    font-size:50px;
+}
+
+.exercise-info{
+    flex:1;
+}
+
+.exercise-info h1{
+    font-size:28px;
+    margin-bottom:10px;
+}
+
+.exercise-description{
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.7;
+    max-width:800px;
+}
+
+.tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:16px;
+}
+
+.tag{
+    background:#0d1318;
+    border:1px solid var(--border);
+    color:#9ba8b2;
+    padding:7px 10px;
+    border-radius:8px;
+    font-size:10px;
+}
+
+.content-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+}
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px;
+}
+
+.card h3{
+    font-size:16px;
+    margin-bottom:15px;
+}
+
+.card ol,
+.card ul{
+    padding-left:20px;
+}
+
+.card li{
+    color:#9ba8b2;
+    font-size:12px;
+    line-height:1.8;
+    margin-bottom:5px;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.info-item{
+    background:#0d1318;
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:13px;
+}
+
+.info-label{
+    color:#66737e;
+    font-size:10px;
+    margin-bottom:5px;
+}
+
+.info-value{
+    font-size:12px;
+    font-weight:700;
+}
+
+.notice{
+    margin-top:18px;
+    padding:14px;
+    border:1px dashed #2b3740;
+    border-radius:11px;
+    color:#7f8c96;
+    font-size:11px;
+    line-height:1.6;
+}
+
+.not-found{
+    display:none;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:60px 25px;
+    text-align:center;
+}
+
+.not-found.show{
+    display:block;
+}
+
+.not-found h2{
+    margin-bottom:10px;
+}
+
+.not-found p{
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+.exercise-page{
+    display:none;
+}
+
+.exercise-page.show{
+    display:block;
+}
+
+.mobile-menu-btn{
+    display:none;
+    position:fixed;
+    top:15px;
+    left:15px;
+    z-index:300;
+    width:40px;
+    height:40px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--card);
+    color:var(--text);
+}
+
+@media(max-width:900px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.25s ease;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .mobile-menu-btn{
+        display:block;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:75px 20px 25px;
+    }
+
+    .content-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .exercise-header{
+        flex-direction:column;
+    }
+
+    .exercise-icon{
+        width:100px;
+        height:100px;
+    }
+
+    .exercise-info h1{
+        font-size:24px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+        <div class="brand-mark">A3</div>
+
+        <div class="brand-text">
+            <h1>Athlete360</h1>
+            <span>Train. Test. Track. Perform.</span>
+        </div>
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-label">Main</div>
+
+        <a class="nav-link" href="dashboard.html">
+            <span class="nav-icon">⌂</span>
+            Dashboard
+        </a>
+
+        <a class="nav-link" href="athlete.html">
+            <span class="nav-icon">●</span>
+            Athletes
+        </a>
+
+        <a class="nav-link" href="teams.html">
+            <span class="nav-icon">◆</span>
+            Teams
+        </a>
+
+        <a class="nav-link" href="testing.html">
+            <span class="nav-icon">✓</span>
+            Testing
+        </a>
+
+        <a class="nav-link" href="training.html">
+            <span class="nav-icon">▣</span>
+            Training
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-label">Performance</div>
+
+        <a class="nav-link active" href="exercise-library.html">
+            <span class="nav-icon">⚡</span>
+            Exercises
+        </a>
+
+        <a class="nav-link" href="analytics.html">
+            <span class="nav-icon">▥</span>
+            Analytics
+        </a>
+
+        <a class="nav-link" href="reports.html">
+            <span class="nav-icon">▤</span>
+            Reports
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-label">System</div>
+
+        <a class="nav-link" href="settings.html">
+            <span class="nav-icon">⚙</span>
+            Settings
+        </a>
+
+    </div>
+
+    <div class="sidebar-bottom">
+        <div class="system-status">
+            <span class="status-dot"></span>
+            Exercise database ready
+        </div>
+    </div>
+
+</aside>
+
+<button
+    class="mobile-menu-btn"
+    id="mobileMenuBtn"
+    aria-label="Open menu">
+    ☰
+</button>
+
+<main class="main">
+
+    <div class="topbar">
+
+        <div class="page-title">
+            <h2>Exercise Details</h2>
+            <p>View exercise instructions and coaching information.</p>
+        </div>
+
+        <a
+            class="btn"
+            href="exercise-library.html">
+            ← Exercise Library
+        </a>
+
+    </div>
+
+    <!-- EXERCISE PAGE -->
+
+    <section class="exercise-page" id="exercisePage">
+
+        <div class="exercise-header">
+
+            <div class="exercise-icon" id="exerciseIcon">
+                ⚡
+            </div>
+
+            <div class="exercise-info">
+
+                <h1 id="exerciseName">
+                    Exercise
+                </h1>
+
+                <p
+                    class="exercise-description"
+                    id="exerciseDescription">
+                </p>
+
+                <div class="tags">
+
+                    <span class="tag" id="categoryTag">
+                        Category
+                    </span>
+
+                    <span class="tag" id="focusTag">
+                        Focus
+                    </span>
+
+                    <span class="tag" id="equipmentTag">
+                        Equipment
+                    </span>
+
+                    <span class="tag" id="difficultyTag">
+                        Difficulty
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="content-grid">
+
+            <div class="card">
+
+                <h3>How to Perform</h3>
+
+                <ol id="instructions"></ol>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Coaching Points</h3>
+
+                <ul id="coachingPoints"></ul>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Exercise Information</h3>
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            Category
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="infoCategory">
+                        </div>
+                    </div>
+
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            Focus
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="infoFocus">
+                        </div>
+                    </div>
+
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            Equipment
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="infoEquipment">
+                        </div>
+                    </div>
+
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            Difficulty
+                        </div>
+
+                        <div
+                            class="info-value"
+                            id="infoDifficulty">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="notice">
+                    Athlete360 currently stores exercise information only.
+                    No athlete performance result is created from viewing an
+                    exercise.
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <h3>Next Step</h3>
+
+                <p style="
+                    color:#9ba8b2;
+                    font-size:12px;
+                    line-height:1.7;
+                    margin-bottom:18px;
+                ">
+                    Use the Testing and Training sections to record actual
+                    athlete results and training activity.
+                </p>
+
+                <a
+                    class="btn btn-primary"
+                    href="testing.html">
+                    Go to Testing
+                </a>
+
+                <a
+                    class="btn"
+                    href="training.html"
+                    style="margin-left:6px;">
+                    Go to Training
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- NOT FOUND -->
+
+    <section
+        class="not-found"
+        id="notFound">
+
+        <h2>Exercise Not Found</h2>
+
+        <p id="notFoundMessage">
+            The selected exercise could not be found in the Athlete360
+            Exercise Library.
+        </p>
+
+        <a
+            class="btn btn-primary"
+            href="exercise-library.html">
+            Return to Exercise Library
+        </a>
+
+    </section>
+
+</main>
+
+</div>
+
+
+<script>
+
+/*
+============================================================
+ATHLETE360 EXERCISE DETAILS
+============================================================
+*/
+
+const STORAGE_KEY = "athlete360_exercises";
+
+
+/*
+============================================================
+FALLBACK EXERCISE DATA
+
+These IDs exactly match the IDs used by exercise-library.html.
+============================================================
+*/
+
+const DEFAULT_EXERCISES = [
+
+{
+    id:"bodyweight-squat",
+    name:"Bodyweight Squat",
+    category:"Strength",
+    focus:"Lower Body",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"⬇",
+    description:"A fundamental lower-body movement for developing leg strength and movement control.",
+    instructions:[
+        "Stand with feet approximately shoulder-width apart.",
+        "Brace the core and keep the chest controlled.",
+        "Push the hips back and bend the knees.",
+        "Lower under control while keeping the feet grounded.",
+        "Drive through the feet to return to standing."
+    ],
+    coachingPoints:[
+        "Keep the knees tracking in line with the toes.",
+        "Maintain a controlled tempo.",
+        "Avoid collapsing the chest forward."
+    ]
+},
+
+{
+    id:"push-up",
+    name:"Push-Up",
+    category:"Strength",
+    focus:"Upper Body",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"↑",
+    description:"A bodyweight upper-body exercise targeting the chest, shoulders, arms and core.",
+    instructions:[
+        "Start in a strong plank position.",
+        "Place the hands slightly wider than shoulder width.",
+        "Brace the core and keep the body aligned.",
+        "Lower the chest toward the floor.",
+        "Push through the hands to return to the starting position."
+    ],
+    coachingPoints:[
+        "Keep the hips from dropping.",
+        "Use a controlled range of motion.",
+        "Keep the head and spine aligned."
+    ]
+},
+
+{
+    id:"forward-lunge",
+    name:"Forward Lunge",
+    category:"Strength",
+    focus:"Lower Body",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"↘",
+    description:"A unilateral lower-body movement that develops strength, balance and coordination.",
+    instructions:[
+        "Stand tall with the feet together.",
+        "Step forward with one leg.",
+        "Lower the hips under control.",
+        "Keep the front foot stable.",
+        "Push through the front foot to return."
+    ],
+    coachingPoints:[
+        "Keep the front knee controlled.",
+        "Maintain an upright torso.",
+        "Avoid allowing the knee to collapse inward."
+    ]
+},
+
+{
+    id:"split-squat",
+    name:"Split Squat",
+    category:"Strength",
+    focus:"Lower Body",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"▾",
+    description:"A single-leg strength exercise that develops lower-body control and stability.",
+    instructions:[
+        "Take a staggered stance.",
+        "Brace the core and keep the torso upright.",
+        "Lower the rear knee toward the floor.",
+        "Maintain control through the movement.",
+        "Drive through the front foot to stand."
+    ],
+    coachingPoints:[
+        "Keep the front foot planted.",
+        "Control the lowering phase.",
+        "Maintain stable hip and knee alignment."
+    ]
+},
+
+{
+    id:"glute-bridge",
+    name:"Glute Bridge",
+    category:"Strength",
+    focus:"Posterior Chain",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"⌃",
+    description:"A simple exercise for developing glute strength and posterior-chain control.",
+    instructions:[
+        "Lie on your back with knees bent.",
+        "Place the feet flat on the floor.",
+        "Brace the core.",
+        "Drive through the feet and lift the hips.",
+        "Lower the hips under control."
+    ],
+    coachingPoints:[
+        "Squeeze the glutes at the top.",
+        "Avoid excessive lower-back arching.",
+        "Keep the knees stable."
+    ]
+},
+
+{
+    id:"calf-raise",
+    name:"Calf Raise",
+    category:"Strength",
+    focus:"Lower Leg",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"↑",
+    description:"A simple lower-leg exercise for developing calf strength and ankle control.",
+    instructions:[
+        "Stand tall with feet approximately hip width.",
+        "Use a wall for balance if required.",
+        "Raise the heels from the floor.",
+        "Pause briefly at the top.",
+        "Lower the heels slowly."
+    ],
+    coachingPoints:[
+        "Use full controlled movement.",
+        "Avoid bouncing.",
+        "Keep the ankles stable."
+    ]
+},
+
+{
+    id:"plank",
+    name:"Plank",
+    category:"Core",
+    focus:"Core Stability",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"▬",
+    description:"An isometric core exercise that develops trunk stability and control.",
+    instructions:[
+        "Start on the forearms and toes.",
+        "Keep the body in a straight line.",
+        "Brace the abdominal muscles.",
+        "Keep the hips level.",
+        "Hold the position while maintaining good form."
+    ],
+    coachingPoints:[
+        "Do not let the hips sag.",
+        "Do not lift the hips excessively.",
+        "Keep breathing throughout the hold."
+    ]
+},
+
+{
+    id:"side-plank",
+    name:"Side Plank",
+    category:"Core",
+    focus:"Lateral Core",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"▱",
+    description:"A lateral core exercise that develops trunk stability and control.",
+    instructions:[
+        "Lie on your side with the elbow under the shoulder.",
+        "Stack or stagger the feet.",
+        "Brace the core.",
+        "Lift the hips from the floor.",
+        "Hold while maintaining alignment."
+    ],
+    coachingPoints:[
+        "Keep the hips elevated.",
+        "Keep the shoulder supported.",
+        "Maintain a straight body line."
+    ]
+},
+
+{
+    id:"vertical-jump",
+    name:"Vertical Jump",
+    category:"Power",
+    focus:"Explosive Power",
+    equipment:"Bodyweight",
+    difficulty:"Intermediate",
+    icon:"↟",
+    description:"An explosive movement used to develop lower-body power and jumping ability.",
+    instructions:[
+        "Start in an athletic stance.",
+        "Dip quickly through the hips and knees.",
+        "Swing the arms naturally.",
+        "Explode upward from the ground.",
+        "Land softly with control."
+    ],
+    coachingPoints:[
+        "Use a quick and powerful take-off.",
+        "Land quietly and under control.",
+        "Keep the knees aligned on landing."
+    ]
+},
+
+{
+    id:"broad-jump",
+    name:"Broad Jump",
+    category:"Power",
+    focus:"Horizontal Power",
+    equipment:"Bodyweight",
+    difficulty:"Intermediate",
+    icon:"→",
+    description:"An explosive horizontal jump that develops lower-body power and coordination.",
+    instructions:[
+        "Start in an athletic stance.",
+        "Load through the hips and knees.",
+        "Swing the arms backward.",
+        "Explode forward and upward.",
+        "Land with both feet and absorb the impact."
+    ],
+    coachingPoints:[
+        "Generate power through the hips.",
+        "Use the arms actively.",
+        "Stick the landing with control."
+    ]
+},
+
+{
+    id:"pogo-jumps",
+    name:"Pogo Jumps",
+    category:"Power",
+    focus:"Elasticity",
+    equipment:"Bodyweight",
+    difficulty:"Intermediate",
+    icon:"↟",
+    description:"Quick repeated jumps that develop lower-leg stiffness and elastic qualities.",
+    instructions:[
+        "Stand tall with a slight bend in the knees.",
+        "Bounce quickly through the ankles.",
+        "Keep the jumps short and rhythmic.",
+        "Maintain an upright posture.",
+        "Land softly and repeat."
+    ],
+    coachingPoints:[
+        "Keep ground contact short.",
+        "Use the ankles rather than deep squats.",
+        "Maintain rhythm and control."
+    ]
+},
+
+{
+    id:"a-skip",
+    name:"A-Skip",
+    category:"Speed",
+    focus:"Running Mechanics",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"↗",
+    description:"A running-drill variation used to develop rhythm, posture and basic sprint mechanics.",
+    instructions:[
+        "Stand tall with relaxed shoulders.",
+        "Lift one knee while maintaining posture.",
+        "Drive the opposite arm forward.",
+        "Alternate sides rhythmically.",
+        "Progress forward with controlled skips."
+    ],
+    coachingPoints:[
+        "Stay tall through the hips.",
+        "Keep the arms coordinated.",
+        "Focus on rhythm rather than speed."
+    ]
+},
+
+{
+    id:"high-knees",
+    name:"High Knees",
+    category:"Speed",
+    focus:"Running Mechanics",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"↑",
+    description:"A dynamic running drill for coordination, rhythm and lower-body movement.",
+    instructions:[
+        "Stand tall with the core engaged.",
+        "Drive one knee upward.",
+        "Quickly switch to the opposite leg.",
+        "Coordinate the arms with the legs.",
+        "Maintain a consistent rhythm."
+    ],
+    coachingPoints:[
+        "Stay tall.",
+        "Keep the movements quick.",
+        "Avoid leaning excessively backward."
+    ]
+},
+
+{
+    id:"lateral-shuffle",
+    name:"Lateral Shuffle",
+    category:"Agility",
+    focus:"Change of Direction",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"↔",
+    description:"A lateral movement drill for developing footwork, coordination and change-of-direction ability.",
+    instructions:[
+        "Start in an athletic stance.",
+        "Push sideways from the outside foot.",
+        "Move laterally without crossing the feet.",
+        "Stay low and controlled.",
+        "Change direction smoothly."
+    ],
+    coachingPoints:[
+        "Keep the hips low.",
+        "Do not cross the feet.",
+        "Push aggressively from the outside foot."
+    ]
+},
+
+{
+    id:"shuttle-run",
+    name:"Shuttle Run",
+    category:"Conditioning",
+    focus:"Repeated Effort",
+    equipment:"Cones",
+    difficulty:"Intermediate",
+    icon:"↔",
+    description:"A repeated running movement that develops acceleration, deceleration and conditioning.",
+    instructions:[
+        "Set two clear movement points.",
+        "Start in an athletic stance.",
+        "Accelerate toward the first point.",
+        "Decelerate under control and change direction.",
+        "Repeat according to the training prescription."
+    ],
+    coachingPoints:[
+        "Lower the centre of mass before changing direction.",
+        "Accelerate strongly after each turn.",
+        "Maintain technique as fatigue increases."
+    ]
+},
+
+{
+    id:"mountain-climbers",
+    name:"Mountain Climbers",
+    category:"Conditioning",
+    focus:"Full Body Conditioning",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"↗",
+    description:"A dynamic bodyweight exercise combining core stability with repeated lower-body movement.",
+    instructions:[
+        "Start in a strong high-plank position.",
+        "Brace the core.",
+        "Drive one knee toward the chest.",
+        "Return it and switch legs.",
+        "Continue with controlled alternating repetitions."
+    ],
+    coachingPoints:[
+        "Keep the shoulders stable.",
+        "Avoid excessive hip movement.",
+        "Maintain a controlled rhythm."
+    ]
+},
+
+{
+    id:"hip-mobility",
+    name:"Hip Mobility",
+    category:"Mobility",
+    focus:"Hip Movement",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"◌",
+    description:"A mobility exercise category used to improve controlled movement around the hips.",
+    instructions:[
+        "Start in a comfortable athletic position.",
+        "Move the hip slowly through the available range.",
+        "Keep the movement controlled.",
+        "Avoid forcing uncomfortable positions.",
+        "Repeat on both sides."
+    ],
+    coachingPoints:[
+        "Use controlled movement.",
+        "Do not force range of motion.",
+        "Keep the surrounding joints stable."
+    ]
+},
+
+{
+    id:"hamstring-mobility",
+    name:"Hamstring Mobility",
+    category:"Mobility",
+    focus:"Posterior Chain",
+    equipment:"Bodyweight",
+    difficulty:"Beginner",
+    icon:"◌",
+    description:"Controlled mobility work for the hamstrings and posterior chain.",
+    instructions:[
+        "Begin in a comfortable standing or floor position.",
+        "Move slowly into the available range.",
+        "Keep the spine controlled.",
+        "Pause briefly at a comfortable end range.",
+        "Return smoothly and repeat."
+    ],
+    coachingPoints:[
+        "Do not bounce.",
+        "Work within a comfortable range.",
+        "Keep movements controlled."
+    ]
+},
+
+{
+    id:"burpee",
+    name:"Burpee",
+    category:"Conditioning",
+    focus:"Full Body",
+    equipment:"Bodyweight",
+    difficulty:"Intermediate",
+    icon:"↕",
+    description:"A full-body conditioning exercise combining a squat, plank position and explosive return.",
+    instructions:[
+        "Start standing in an athletic stance.",
+        "Lower into a squat and place the hands down.",
+        "Move the feet back into a plank.",
+        "Return the feet toward the hands.",
+        "Stand tall and finish under control."
+    ],
+    coachingPoints:[
+        "Maintain core control.",
+        "Land softly when returning the feet.",
+        "Prioritise good movement quality over speed."
+    ]
+}
+];
+
+
+/*
+============================================================
+GET EXERCISES
+============================================================
+*/
+
+function getExercises(){
+
+    try{
+
+        const stored =
+            localStorage.getItem(STORAGE_KEY);
+
+        if(stored){
+
+            const parsed =
+                JSON.parse(stored);
+
+            if(Array.isArray(parsed) && parsed.length){
+
+                return parsed;
+            }
+        }
+
+    }catch(error){
+
+        console.warn(
+            "Could not read Athlete360 exercise library:",
+            error
+        );
+    }
+
+    return DEFAULT_EXERCISES;
+}
+
+
+/*
+============================================================
+GET SELECTED ID
+============================================================
+*/
+
+function getSelectedId(){
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const id =
+        params.get("exercise");
+
+    if(!id){
+        return null;
+    }
+
+    return decodeURIComponent(id).trim();
+}
+
+
+/*
+============================================================
+FIND EXERCISE
+============================================================
+*/
+
+function findExercise(exercises,id){
+
+    if(!id){
+        return null;
+    }
+
+    return exercises.find(exercise => {
+
+        if(!exercise){
+            return false;
+        }
+
+        const exerciseId =
+            String(exercise.id || "").trim();
+
+        const exerciseSlug =
+            String(exercise.slug || "").trim();
+
+        const exerciseName =
+            String(exercise.name || "")
+                .trim()
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g,"-")
+                .replace(/^-|-$/g,"");
+
+        return (
+            exerciseId === id ||
+            exerciseSlug === id ||
+            exerciseName === id
+        );
+
+    }) || null;
+}
+
+
+/*
+============================================================
+RENDER
+============================================================
+*/
+
+function renderExercise(exercise){
+
+    document.getElementById("exercisePage")
+        .classList.add("show");
+
+    document.getElementById("notFound")
+        .classList.remove("show");
+
+    document.title =
+        `Athlete360 | ${exercise.name}`;
+
+    document.getElementById("exerciseIcon")
+        .textContent =
+        exercise.icon || "⚡";
+
+    document.getElementById("exerciseName")
+        .textContent =
+        exercise.name || "Exercise";
+
+    document.getElementById("exerciseDescription")
+        .textContent =
+        exercise.description || "No description available.";
+
+    document.getElementById("categoryTag")
+        .textContent =
+        exercise.category || "Category";
+
+    document.getElementById("focusTag")
+        .textContent =
+        exercise.focus || "Focus";
+
+    document.getElementById("equipmentTag")
+        .textContent =
+        exercise.equipment || "Equipment";
+
+    document.getElementById("difficultyTag")
+        .textContent =
+        exercise.difficulty || "Difficulty";
+
+
+    document.getElementById("infoCategory")
+        .textContent =
+        exercise.category || "—";
+
+    document.getElementById("infoFocus")
+        .textContent =
+        exercise.focus || "—";
+
+    document.getElementById("infoEquipment")
+        .textContent =
+        exercise.equipment || "—";
+
+    document.getElementById("infoDifficulty")
+        .textContent =
+        exercise.difficulty || "—";
+
+
+    const instructions =
+        document.getElementById("instructions");
+
+    instructions.innerHTML = "";
+
+    (exercise.instructions || []).forEach(step => {
+
+        const li =
+            document.createElement("li");
+
+        li.textContent = step;
+
+        instructions.appendChild(li);
+
+    });
+
+
+    const coachingPoints =
+        document.getElementById("coachingPoints");
+
+    coachingPoints.innerHTML = "";
+
+    (exercise.coachingPoints || []).forEach(point => {
+
+        const li =
+            document.createElement("li");
+
+        li.textContent = point;
+
+        coachingPoints.appendChild(li);
+
+    });
+}
+
+
+/*
+============================================================
+NOT FOUND
+============================================================
+*/
+
+function renderNotFound(id){
+
+    document.getElementById("exercisePage")
+        .classList.remove("show");
+
+    document.getElementById("notFound")
+        .classList.add("show");
+
+    const message =
+        document.getElementById("notFoundMessage");
+
+    if(!id){
+
+        message.textContent =
+            "No exercise was selected. Please return to the Exercise Library and choose an exercise.";
+
+    }else{
+
+        message.textContent =
+            `The exercise "${id}" could not be found in the Athlete360 Exercise Library.`;
+
+    }
+}
+
+
+/*
+============================================================
+INITIALISE
+============================================================
+*/
+
+function initialise(){
+
+    const exercises =
+        getExercises();
+
+    const selectedId =
+        getSelectedId();
+
+    const exercise =
+        findExercise(
+            exercises,
+            selectedId
+        );
+
+    if(exercise){
+
+        renderExercise(exercise);
+
+    }else{
+
+        renderNotFound(selectedId);
+
+    }
+}
+
+
+/*
+============================================================
+MOBILE MENU
+============================================================
+*/
+
+document
+    .getElementById("mobileMenuBtn")
+    .addEventListener("click",() => {
+
+        document
+            .getElementById("sidebar")
+            .classList.toggle("open");
+
+    });
+
+
+document
+    .querySelectorAll(".nav-link")
+    .forEach(link => {
+
+        link.addEventListener("click",() => {
+
+            document
+                .getElementById("sidebar")
+                .classList.remove("open");
+
+        });
+
+    });
+
+
+initialise();
+
+</script>
+
+</body>
+</html>

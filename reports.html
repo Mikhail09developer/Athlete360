@@ -1,5327 +1,952 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Athlete360 | Reports</title>
-
-    <style>
-        /* =========================================================
-           ATHLETE360 REPORTS
-           Dark performance reporting centre
-           ========================================================= */
-
-        :root {
-            --bg: #080b10;
-            --bg-soft: #0d1218;
-            --panel: #10161d;
-            --panel-2: #141b23;
-            --panel-3: #18212a;
-
-            --border: #24303a;
-            --border-soft: #1c252e;
-
-            --text: #eef4f8;
-            --text-soft: #c0cad3;
-            --muted: #84919d;
-
-            --blue: #54b9ff;
-            --blue-2: #2e9fe9;
-            --green: #23d18b;
-            --green-dark: #168c61;
-            --orange: #ffb84d;
-            --red: #ff5f6d;
-            --purple: #9b8cff;
-
-            --sidebar-width: 250px;
-            --topbar-height: 74px;
-
-            --radius: 14px;
-            --radius-sm: 10px;
-
-            --shadow: 0 12px 35px rgba(0, 0, 0, 0.28);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family:
-                Inter,
-                ui-sans-serif,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        button,
-        input,
-        select {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        /* =========================================================
-           SCROLLBAR
-           ========================================================= */
-
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #090d12;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #293540;
-            border-radius: 20px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #3a4a58;
-        }
-
-        /* =========================================================
-           APP SHELL
-           ========================================================= */
-
-        .app {
-            min-height: 100vh;
-        }
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: var(--sidebar-width);
-            background:
-                linear-gradient(
-                    180deg,
-                    #0c1117 0%,
-                    #090d12 100%
-                );
-
-            border-right: 1px solid var(--border);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-logo {
-            height: var(--topbar-height);
-            padding: 0 22px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .brand-mark {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--blue),
-                    var(--green)
-                );
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #071016;
-            font-weight: 900;
-            font-size: 17px;
-            box-shadow: 0 6px 20px rgba(84, 185, 255, 0.16);
-        }
-
-        .brand-text strong {
-            display: block;
-            font-size: 16px;
-            letter-spacing: 0.2px;
-        }
-
-        .brand-text span {
-            display: block;
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 2px;
-            letter-spacing: 1.1px;
-            text-transform: uppercase;
-        }
-
-        .sidebar-nav {
-            padding: 18px 12px;
-            overflow-y: auto;
-            flex: 1;
-        }
-
-        .nav-label {
-            padding: 8px 12px 9px;
-            color: #5f6b75;
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1.3px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-height: 44px;
-            padding: 10px 12px;
-            border-radius: 9px;
-            color: var(--muted);
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            transition: 0.18s ease;
-        }
-
-        .nav-item:hover {
-            background: #121a22;
-            color: var(--text);
-        }
-
-        .nav-item.active {
-            background: rgba(84, 185, 255, 0.10);
-            color: var(--blue);
-            border: 1px solid rgba(84, 185, 255, 0.14);
-        }
-
-        .nav-icon {
-            width: 21px;
-            height: 21px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 16px;
-        }
-
-        .sidebar-bottom {
-            padding: 14px;
-            border-top: 1px solid var(--border);
-        }
-
-        .user-mini {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            background: #0e151c;
-            border: 1px solid var(--border-soft);
-        }
-
-        .user-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--blue), var(--green));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #071016;
-            font-weight: 900;
-            font-size: 12px;
-        }
-
-        .user-mini-text {
-            min-width: 0;
-        }
-
-        .user-mini-text strong {
-            display: block;
-            font-size: 12px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-mini-text span {
-            display: block;
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 2px;
-        }
-
-        /* =========================================================
-           MAIN
-           ========================================================= */
-
-        .main {
-            margin-left: var(--sidebar-width);
-            min-height: 100vh;
-        }
-
-        .topbar {
-            height: var(--topbar-height);
-            position: sticky;
-            top: 0;
-            z-index: 500;
-            background: rgba(8, 11, 16, 0.92);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 28px;
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .breadcrumb strong {
-            color: var(--text);
-        }
-
-        .mobile-menu {
-            display: none;
-            width: 38px;
-            height: 38px;
-            border-radius: 9px;
-            background: var(--panel);
-            border: 1px solid var(--border);
-            color: var(--text);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .topbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .top-icon-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 9px;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.18s ease;
-        }
-
-        .top-icon-btn:hover {
-            color: var(--text);
-            border-color: #354451;
-        }
-
-        /* =========================================================
-           CONTENT
-           ========================================================= */
-
-        .content {
-            padding: 30px;
-            max-width: 1800px;
-            margin: 0 auto;
-        }
-
-        .page-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .page-title h1 {
-            font-size: 29px;
-            line-height: 1.1;
-            letter-spacing: -0.8px;
-            margin-bottom: 8px;
-        }
-
-        .page-title p {
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.6;
-            max-width: 680px;
-        }
-
-        .page-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text-soft);
-            min-height: 40px;
-            padding: 0 14px;
-            border-radius: 9px;
-            font-size: 12px;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: 0.18s ease;
-        }
-
-        .btn:hover {
-            border-color: #3b4b58;
-            color: var(--text);
-            background: var(--panel-2);
-        }
-
-        .btn-primary {
-            background: var(--blue);
-            border-color: var(--blue);
-            color: #061018;
-        }
-
-        .btn-primary:hover {
-            background: #72c6ff;
-            border-color: #72c6ff;
-            color: #061018;
-        }
-
-        .btn-green {
-            background: var(--green);
-            border-color: var(--green);
-            color: #06120d;
-        }
-
-        .btn-danger {
-            color: var(--red);
-        }
-
-        /* =========================================================
-           REPORT BUILDER
-           ========================================================= */
-
-        .report-builder {
-            background:
-                linear-gradient(
-                    135deg,
-                    #111921 0%,
-                    #0e141b 100%
-                );
-
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .builder-heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 18px;
-        }
-
-        .builder-heading h2 {
-            font-size: 15px;
-        }
-
-        .builder-heading p {
-            color: var(--muted);
-            font-size: 11px;
-            margin-top: 4px;
-        }
-
-        .builder-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            color: var(--green);
-            font-size: 11px;
-            font-weight: 700;
-        }
-
-        .status-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--green);
-            border-radius: 50%;
-            box-shadow: 0 0 0 4px rgba(35, 209, 139, 0.08);
-        }
-
-        .filter-grid {
-            display: grid;
-            grid-template-columns:
-                1.2fr
-                1fr
-                1fr
-                1fr
-                0.9fr;
-            gap: 12px;
-        }
-
-        .field {
-            min-width: 0;
-        }
-
-        .field label {
-            display: block;
-            color: var(--muted);
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            margin-bottom: 7px;
-        }
-
-        .field select,
-        .field input {
-            width: 100%;
-            height: 42px;
-            border-radius: 9px;
-            border: 1px solid var(--border);
-            background: #0a1016;
-            color: var(--text);
-            outline: none;
-            padding: 0 11px;
-            font-size: 12px;
-        }
-
-        .field select:focus,
-        .field input:focus {
-            border-color: rgba(84, 185, 255, 0.55);
-            box-shadow: 0 0 0 3px rgba(84, 185, 255, 0.07);
-        }
-
-        .builder-actions {
-            margin-top: 14px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-
-        /* =========================================================
-           KPI CARDS
-           ========================================================= */
-
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .kpi-card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 18px;
-            min-width: 0;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .kpi-card::after {
-            content: "";
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            right: -30px;
-            bottom: -30px;
-            border-radius: 50%;
-            background: rgba(84, 185, 255, 0.06);
-        }
-
-        .kpi-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 13px;
-        }
-
-        .kpi-label {
-            color: var(--muted);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            font-weight: 800;
-        }
-
-        .kpi-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: rgba(84, 185, 255, 0.08);
-            color: var(--blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-        }
-
-        .kpi-value {
-            font-size: 26px;
-            line-height: 1;
-            font-weight: 800;
-            letter-spacing: -0.7px;
-        }
-
-        .kpi-meta {
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 8px;
-        }
-
-        .kpi-meta.positive {
-            color: var(--green);
-        }
-
-        .kpi-meta.warning {
-            color: var(--orange);
-        }
-
-        .kpi-meta.negative {
-            color: var(--red);
-        }
-
-        /* =========================================================
-           REPORT HEADER
-           ========================================================= */
-
-        .report-shell {
-            background: #0d1319;
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .report-head {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .report-head h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .report-head p {
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        .report-meta {
-            text-align: right;
-            color: var(--muted);
-            font-size: 10px;
-            line-height: 1.7;
-        }
-
-        .report-meta strong {
-            color: var(--text-soft);
-        }
-
-        .report-body {
-            padding: 20px;
-        }
-
-        /* =========================================================
-           REPORT GRID
-           ========================================================= */
-
-        .report-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
-            gap: 14px;
-            margin-bottom: 14px;
-        }
-
-        .report-card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            min-width: 0;
-        }
-
-        .card-head {
-            min-height: 54px;
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .card-head h3 {
-            font-size: 13px;
-        }
-
-        .card-head span {
-            color: var(--muted);
-            font-size: 10px;
-        }
-
-        .card-body {
-            padding: 16px;
-        }
-
-        /* =========================================================
-           TREND CHART
-           ========================================================= */
-
-        .trend-wrap {
-            width: 100%;
-            overflow: hidden;
-        }
-
-        .trend-chart {
-            position: relative;
-            height: 250px;
-            width: 100%;
-            padding: 15px 5px 25px 35px;
-        }
-
-        .chart-grid-line {
-            position: absolute;
-            left: 35px;
-            right: 8px;
-            border-top: 1px dashed #25313b;
-        }
-
-        .chart-grid-line span {
-            position: absolute;
-            left: -30px;
-            top: -7px;
-            color: #64717c;
-            font-size: 9px;
-        }
-
-        .chart-grid-line.one {
-            top: 22px;
-        }
-
-        .chart-grid-line.two {
-            top: 76px;
-        }
-
-        .chart-grid-line.three {
-            top: 130px;
-        }
-
-        .chart-grid-line.four {
-            top: 184px;
-        }
-
-        .chart-svg {
-            position: absolute;
-            left: 35px;
-            right: 8px;
-            top: 15px;
-            width: calc(100% - 43px);
-            height: 205px;
-            overflow: visible;
-        }
-
-        .chart-labels {
-            position: absolute;
-            left: 35px;
-            right: 8px;
-            bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-        }
-
-        .chart-labels span {
-            color: #687681;
-            font-size: 9px;
-            white-space: nowrap;
-        }
-
-        .empty-chart {
-            height: 205px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--muted);
-            font-size: 12px;
-            border: 1px dashed var(--border);
-            border-radius: 9px;
-        }
-
-        /* =========================================================
-           BARS
-           ========================================================= */
-
-        .bar-row {
-            margin-bottom: 15px;
-        }
-
-        .bar-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .bar-label {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 7px;
-            font-size: 11px;
-        }
-
-        .bar-label span:first-child {
-            color: var(--text-soft);
-        }
-
-        .bar-label span:last-child {
-            color: var(--muted);
-            font-weight: 700;
-        }
-
-        .bar-track {
-            width: 100%;
-            height: 8px;
-            border-radius: 10px;
-            background: #1b252e;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(
-                90deg,
-                var(--blue),
-                var(--green)
-            );
-            transition: width 0.5s ease;
-        }
-
-        .bar-fill.green {
-            background: var(--green);
-        }
-
-        .bar-fill.orange {
-            background: var(--orange);
-        }
-
-        .bar-fill.red {
-            background: var(--red);
-        }
-
-        .bar-fill.purple {
-            background: var(--purple);
-        }
-
-        /* =========================================================
-           READINESS
-           ========================================================= */
-
-        .readiness-box {
-            display: grid;
-            grid-template-columns: 150px minmax(0, 1fr);
-            gap: 18px;
-            align-items: center;
-        }
-
-        .readiness-ring {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto;
-            border-radius: 50%;
-            background:
-                conic-gradient(
-                    var(--green) 0deg,
-                    var(--green) var(--ready-angle),
-                    var(--orange) var(--ready-angle),
-                    var(--orange) calc(
-                        var(--ready-angle) + var(--monitor-angle)
-                    ),
-                    var(--red) calc(
-                        var(--ready-angle) + var(--monitor-angle)
-                    ),
-                    var(--red) 360deg
-                );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .readiness-ring::before {
-            content: "";
-            position: absolute;
-            width: 104px;
-            height: 104px;
-            border-radius: 50%;
-            background: var(--panel);
-        }
-
-        .ring-content {
-            position: relative;
-            text-align: center;
-        }
-
-        .ring-content strong {
-            display: block;
-            font-size: 25px;
-        }
-
-        .ring-content span {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            margin-top: 3px;
-        }
-
-        .readiness-legend {
-            display: grid;
-            gap: 12px;
-        }
-
-        .legend-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            font-size: 11px;
-        }
-
-        .legend-left {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-soft);
-        }
-
-        .legend-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-        }
-
-        .legend-dot.ready {
-            background: var(--green);
-        }
-
-        .legend-dot.monitor {
-            background: var(--orange);
-        }
-
-        .legend-dot.risk {
-            background: var(--red);
-        }
-
-        .legend-value {
-            color: var(--muted);
-            font-weight: 800;
-        }
-
-        /* =========================================================
-           TABLE
-           ========================================================= */
-
-        .table-wrap {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
-
-        th {
-            text-align: left;
-            padding: 11px 12px;
-            color: #687681;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            font-weight: 800;
-            border-bottom: 1px solid var(--border);
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #1b242d;
-            font-size: 11px;
-            color: var(--text-soft);
-            white-space: nowrap;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        tbody tr:hover {
-            background: #111920;
-        }
-
-        .athlete-cell {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-
-        .athlete-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            background: #18232c;
-            border: 1px solid #2a3742;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--blue);
-            font-size: 9px;
-            font-weight: 900;
-            flex-shrink: 0;
-        }
-
-        .athlete-info strong {
-            display: block;
-            color: var(--text);
-            font-size: 11px;
-        }
-
-        .athlete-info span {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            margin-top: 2px;
-        }
-
-        .score {
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .score.good {
-            color: var(--green);
-        }
-
-        .score.warning {
-            color: var(--orange);
-        }
-
-        .score.bad {
-            color: var(--red);
-        }
-
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 8px;
-            border-radius: 20px;
-            font-size: 9px;
-            font-weight: 800;
-        }
-
-        .status-pill.ready {
-            color: var(--green);
-            background: rgba(35, 209, 139, 0.08);
-            border: 1px solid rgba(35, 209, 139, 0.14);
-        }
-
-        .status-pill.monitor {
-            color: var(--orange);
-            background: rgba(255, 184, 77, 0.08);
-            border: 1px solid rgba(255, 184, 77, 0.14);
-        }
-
-        .status-pill.risk {
-            color: var(--red);
-            background: rgba(255, 95, 109, 0.08);
-            border: 1px solid rgba(255, 95, 109, 0.14);
-        }
-
-        .change-up {
-            color: var(--green);
-            font-weight: 800;
-        }
-
-        .change-down {
-            color: var(--red);
-            font-weight: 800;
-        }
-
-        .change-flat {
-            color: var(--muted);
-            font-weight: 800;
-        }
-
-        /* =========================================================
-           ATTENTION
-           ========================================================= */
-
-        .attention-list {
-            display: grid;
-            gap: 8px;
-        }
-
-        .attention-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 11px;
-            background: #0d1319;
-            border: 1px solid var(--border-soft);
-            border-radius: 9px;
-        }
-
-        .attention-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            font-size: 12px;
-        }
-
-        .attention-icon.orange {
-            color: var(--orange);
-            background: rgba(255, 184, 77, 0.08);
-        }
-
-        .attention-icon.red {
-            color: var(--red);
-            background: rgba(255, 95, 109, 0.08);
-        }
-
-        .attention-info {
-            min-width: 0;
-            flex: 1;
-        }
-
-        .attention-info strong {
-            display: block;
-            font-size: 11px;
-            color: var(--text);
-        }
-
-        .attention-info span {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            margin-top: 3px;
-        }
-
-        .attention-score {
-            font-weight: 900;
-            font-size: 12px;
-        }
-
-        /* =========================================================
-           SUMMARY STAT
-           ========================================================= */
-
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-        }
-
-        .summary-stat {
-            padding: 13px;
-            border-radius: 9px;
-            background: #0d1319;
-            border: 1px solid var(--border-soft);
-        }
-
-        .summary-stat span {
-            display: block;
-            color: var(--muted);
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-            font-weight: 800;
-        }
-
-        .summary-stat strong {
-            display: block;
-            font-size: 20px;
-            margin-top: 7px;
-        }
-
-        /* =========================================================
-           EMPTY
-           ========================================================= */
-
-        .empty-state {
-            padding: 40px 20px;
-            text-align: center;
-            color: var(--muted);
-        }
-
-        .empty-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: #121a21;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            color: var(--blue);
-            font-size: 20px;
-        }
-
-        .empty-state strong {
-            display: block;
-            color: var(--text-soft);
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-
-        .empty-state span {
-            font-size: 11px;
-        }
-
-        /* =========================================================
-           TOAST
-           ========================================================= */
-
-        .toast {
-            position: fixed;
-            right: 24px;
-            bottom: 24px;
-            min-width: 240px;
-            max-width: 380px;
-            padding: 13px 15px;
-            background: #101820;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            color: var(--text);
-            font-size: 11px;
-            z-index: 3000;
-            transform: translateY(20px);
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.2s ease;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            border-color: rgba(35, 209, 139, 0.35);
-        }
-
-        .toast.error {
-            border-color: rgba(255, 95, 109, 0.35);
-        }
-
-        /* =========================================================
-           MOBILE OVERLAY
-           ========================================================= */
-
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.55);
-            z-index: 900;
-        }
-
-        /* =========================================================
-           PRINT
-           ========================================================= */
-
-        .print-only {
-            display: none;
-        }
-
-        @media print {
-
-            body {
-                background: #fff !important;
-                color: #111 !important;
-            }
-
-            .sidebar,
-            .topbar,
-            .report-builder,
-            .page-actions,
-            .toast,
-            .mobile-menu {
-                display: none !important;
-            }
-
-            .main {
-                margin-left: 0 !important;
-            }
-
-            .content {
-                padding: 0 !important;
-                max-width: none !important;
-            }
-
-            .page-header {
-                margin-bottom: 20px;
-            }
-
-            .report-shell,
-            .report-card,
-            .kpi-card {
-                background: #fff !important;
-                color: #111 !important;
-                border: 1px solid #ddd !important;
-                box-shadow: none !important;
-            }
-
-            .report-shell {
-                overflow: visible !important;
-            }
-
-            .report-head,
-            .card-head {
-                border-color: #ddd !important;
-            }
-
-            .page-title h1,
-            .report-head h2,
-            .card-head h3,
-            .kpi-value,
-            td,
-            .athlete-info strong,
-            .summary-stat strong {
-                color: #111 !important;
-            }
-
-            .page-title p,
-            .report-head p,
-            .report-meta,
-            .card-head span,
-            th,
-            .kpi-label,
-            .kpi-meta,
-            .athlete-info span {
-                color: #666 !important;
-            }
-
-            .bar-track {
-                background: #eee !important;
-            }
-
-            .print-only {
-                display: block;
-            }
-        }
-
-        /* =========================================================
-           RESPONSIVE
-           ========================================================= */
-
-        @media (max-width: 1250px) {
-
-            .filter-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .kpi-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .report-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 900px) {
-
-            :root {
-                --sidebar-width: 250px;
-            }
-
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.22s ease;
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay.active {
-                display: block;
-            }
-
-            .main {
-                margin-left: 0;
-            }
-
-            .mobile-menu {
-                display: flex;
-            }
-
-            .content {
-                padding: 22px;
-            }
-
-            .topbar {
-                padding: 0 18px;
-            }
-
-            .page-header {
-                flex-direction: column;
-            }
-
-            .filter-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 620px) {
-
-            .content {
-                padding: 16px;
-            }
-
-            .topbar {
-                height: 64px;
-            }
-
-            .breadcrumb {
-                display: none;
-            }
-
-            .page-title h1 {
-                font-size: 24px;
-            }
-
-            .page-actions {
-                width: 100%;
-            }
-
-            .page-actions .btn {
-                flex: 1;
-            }
-
-            .filter-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .builder-actions {
-                flex-direction: column;
-            }
-
-            .builder-actions .btn {
-                width: 100%;
-            }
-
-            .kpi-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .kpi-card {
-                padding: 14px;
-            }
-
-            .kpi-value {
-                font-size: 22px;
-            }
-
-            .report-head {
-                flex-direction: column;
-            }
-
-            .report-meta {
-                text-align: left;
-            }
-
-            .readiness-box {
-                grid-template-columns: 1fr;
-            }
-
-            .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .chart-labels span:nth-child(even) {
-                display: none;
-            }
-        }
-
-        @media (max-width: 390px) {
-
-            .kpi-grid,
-            .summary-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .topbar-actions .top-icon-btn:nth-child(2) {
-                display: none;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athlete360 | Reports</title>
+
+<style>
+:root{
+    --bg:#0a0d10;
+    --sidebar:#0d1116;
+    --card:#12181e;
+    --card2:#10161c;
+    --border:#202a33;
+    --text:#edf4f8;
+    --muted:#8d9aa5;
+    --blue:#38bdf8;
+    --blue2:#42b8ff;
+    --green:#22c55e;
+    --yellow:#f5c451;
+    --red:#ef6262;
+    --shadow:0 18px 45px rgba(0,0,0,.22);
+    --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+.app{min-height:100vh;display:flex}
+.sidebar{
+    position:fixed;left:0;top:0;bottom:0;width:250px;
+    background:var(--sidebar);border-right:1px solid var(--border);
+    z-index:50;display:flex;flex-direction:column;
+}
+.sidebar-logo{padding:22px 18px;border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{
+    width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    background:#16232d;border:1px solid #244253;color:var(--blue);font-weight:800;
+}
+.brand-text{display:flex;flex-direction:column;gap:2px}
+.brand-text strong{font-size:17px}.brand-text span{font-size:11px;color:var(--muted)}
+.sidebar-nav{padding:18px 12px;overflow:auto}
+.nav-label{
+    color:#5f6c76;font-size:10px;text-transform:uppercase;letter-spacing:1.2px;
+    font-weight:800;padding:13px 10px 7px;
+}
+.nav-item{
+    display:flex;align-items:center;gap:11px;padding:11px 12px;margin:3px 0;
+    border-radius:11px;color:#aeb9c2;font-size:13px;transition:.18s;
+}
+.nav-item:hover{background:#111a21;color:var(--text)}
+.nav-item.active{background:#142530;color:var(--blue);border:1px solid #1f4354}
+.nav-icon{width:20px;text-align:center;font-size:15px}
+.sidebar-bottom{margin-top:auto;padding:15px;border-top:1px solid var(--border)}
+.user-mini{display:flex;align-items:center;gap:10px}
+.user-avatar{
+    width:36px;height:36px;border-radius:50%;display:grid;place-items:center;
+    background:#16232d;color:var(--blue);font-size:12px;font-weight:800;
+}
+.user-mini-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.user-mini-text strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-mini-text span{font-size:10px;color:var(--muted)}
+
+.main{margin-left:250px;width:calc(100% - 250px);min-width:0}
+.topbar{
+    height:68px;border-bottom:1px solid var(--border);display:flex;align-items:center;
+    justify-content:space-between;padding:0 28px;background:rgba(10,13,16,.94);
+    position:sticky;top:0;z-index:30;backdrop-filter:blur(12px);
+}
+.topbar-left,.topbar-actions{display:flex;align-items:center;gap:12px}
+.breadcrumb{display:flex;gap:9px;align-items:center;color:#64727c;font-size:12px}
+.breadcrumb strong{color:#cbd5db}
+.top-icon-btn,.mobile-menu{
+    width:38px;height:38px;border-radius:10px;border:1px solid var(--border);
+    background:#10161c;color:#9aa7b0;
+}
+.top-icon-btn:hover{color:var(--blue);border-color:#2b5265}
+.mobile-menu{display:none}
+
+.content{padding:28px;max-width:1600px;margin:auto}
+.page-header{
+    display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:22px
+}
+.page-title h1{margin:0;font-size:28px;letter-spacing:-.5px}
+.page-title p{margin:8px 0 0;color:var(--muted);font-size:13px;max-width:760px;line-height:1.6}
+.page-actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{
+    border:1px solid var(--border);background:#11181f;color:#cbd5db;border-radius:10px;
+    padding:10px 14px;font-size:12px;font-weight:700;white-space:nowrap
+}
+.btn:hover{border-color:#315366;color:var(--text)}
+.btn-primary{background:#173244;border-color:#28566e;color:var(--blue)}
+.btn-primary:hover{background:#1a3c50}
+
+.report-builder{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:20px;box-shadow:var(--shadow);margin-bottom:18px;
+}
+.builder-heading{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:18px}
+.builder-heading h2{margin:0;font-size:16px}
+.builder-heading p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.builder-status{
+    display:flex;align-items:center;gap:7px;color:#9fabb4;font-size:11px;
+    padding:8px 10px;border:1px solid var(--border);border-radius:999px
+}
+.status-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(34,197,94,.35)}
+.filter-grid{display:grid;grid-template-columns:1.2fr 1.2fr 1.1fr 1fr 1fr;gap:11px}
+.field label{display:block;color:#87949d;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px}
+.field select{
+    width:100%;height:40px;background:#0c1217;border:1px solid var(--border);border-radius:9px;
+    color:#d9e1e6;padding:0 10px;outline:none
+}
+.field select:focus{border-color:#315d73}
+.builder-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:15px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.kpi-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;
+}
+.kpi-top{display:flex;justify-content:space-between;align-items:center}
+.kpi-label{font-size:11px;color:var(--muted);font-weight:700}
+.kpi-icon{color:var(--blue);font-size:16px}
+.kpi-value{font-size:27px;font-weight:800;margin-top:13px;letter-spacing:-.5px}
+.kpi-meta{font-size:10px;color:#687680;margin-top:5px}
+.kpi-meta.good{color:#7fd89a}
+
+.report-shell{
+    background:#0e141a;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+}
+.report-head{
+    padding:20px 22px;border-bottom:1px solid var(--border);display:flex;
+    justify-content:space-between;gap:20px
+}
+.report-head h2{margin:0;font-size:18px}
+.report-head p{margin:6px 0 0;color:var(--muted);font-size:12px}
+.report-meta{text-align:right;color:#71808a;font-size:10px;line-height:1.8}
+.report-meta strong{color:#c8d2d8;font-weight:700}
+.report-body{padding:16px}
+.report-grid{display:grid;grid-template-columns:1.3fr .9fr;gap:14px;margin-bottom:14px}
+.report-card{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden
+}
+.card-head{
+    min-height:54px;padding:13px 15px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between;gap:10px
+}
+.card-head h3{margin:0;font-size:13px}
+.card-head span{font-size:10px;color:#66747e}
+.card-body{padding:15px}
+.empty-state{
+    min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;gap:7px;color:var(--muted);padding:25px
+}
+.empty-icon{
+    width:42px;height:42px;border-radius:12px;background:#111a21;border:1px solid var(--border);
+    display:grid;place-items:center;color:#63717b;font-size:18px;margin-bottom:3px
+}
+.empty-state strong{color:#bfc9cf;font-size:12px}.empty-state span{font-size:11px;max-width:360px;line-height:1.5}
+
+.status-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.status-box{border:1px solid var(--border);border-radius:11px;padding:13px;background:#0e1419}
+.status-box span{font-size:10px;color:var(--muted)}.status-box strong{display:block;font-size:22px;margin-top:6px}
+.status-box.ready strong{color:var(--green)}.status-box.monitor strong{color:var(--yellow)}.status-box.risk strong{color:var(--red)}
+
+.data-table{width:100%;border-collapse:collapse;min-width:680px}
+.data-table th{
+    text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.7px;color:#697780;
+    padding:10px 12px;border-bottom:1px solid var(--border);background:#0e1419
+}
+.data-table td{padding:11px 12px;border-bottom:1px solid #1a2229;font-size:11px;color:#c7d0d5}
+.data-table tr:last-child td{border-bottom:0}
+.data-table tbody tr:hover{background:#111920}
+.table-wrap{overflow:auto}
+.name-cell{display:flex;align-items:center;gap:9px}
+.avatar{
+    width:28px;height:28px;border-radius:9px;background:#17232c;border:1px solid #253945;
+    color:var(--blue);display:grid;place-items:center;font-size:9px;font-weight:800;flex:none
+}
+.name-cell strong{font-size:11px;color:#dbe4e9}.name-cell span{display:block;font-size:9px;color:#66757f;margin-top:2px}
+.pill{
+    display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:4px 8px;
+    font-size:9px;font-weight:800;border:1px solid var(--border)
+}
+.pill.ready{color:var(--green);background:#102118;border-color:#1d4a2b}
+.pill.monitor{color:var(--yellow);background:#211d10;border-color:#4b411e}
+.pill.risk{color:var(--red);background:#251416;border-color:#52272b}
+.pill.neutral{color:#a8b3ba;background:#121a20}
+.muted{color:#66747e!important}
+
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.summary-stat{border:1px solid var(--border);border-radius:10px;padding:12px;background:#0e1419}
+.summary-stat span{font-size:9px;color:var(--muted)}.summary-stat strong{display:block;font-size:18px;margin-top:5px}
+
+.activity-list{display:flex;flex-direction:column}
+.activity-item{
+    display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #1b232a
+}
+.activity-item:last-child{border-bottom:0}
+.activity-icon{
+    width:30px;height:30px;border-radius:9px;background:#121d24;border:1px solid var(--border);
+    display:grid;place-items:center;color:var(--blue);font-size:12px
+}
+.activity-info{min-width:0}.activity-info strong{display:block;font-size:11px}.activity-info span{font-size:9px;color:var(--muted)}
+.activity-date{margin-left:auto;color:#687680;font-size:9px;white-space:nowrap}
+
+.attention-list{display:flex;flex-direction:column}
+.attention-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #1b232a}
+.attention-item:last-child{border-bottom:0}
+.attention-icon{
+    width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-weight:800;
+    border:1px solid var(--border)
+}
+.attention-icon.monitor{color:var(--yellow);background:#211d10}.attention-icon.risk{color:var(--red);background:#251416}
+.attention-info{min-width:0}.attention-info strong{font-size:11px}.attention-info span{display:block;color:var(--muted);font-size:9px;margin-top:2px}
+.attention-reason{margin-left:auto;color:#74828b;font-size:9px;text-align:right}
+
+.toast{
+    position:fixed;right:22px;bottom:22px;z-index:100;opacity:0;transform:translateY(10px);
+    pointer-events:none;padding:11px 14px;border:1px solid #2a4654;background:#101920;
+    border-radius:10px;color:#dce6eb;font-size:11px;transition:.2s
+}
+.toast.show{opacity:1;transform:none}
+.toast.error{border-color:#5a2b2e;color:#ffb0b0}
+
+.sidebar-overlay{display:none}
+
+@media print{
+    body{background:#fff;color:#111}
+    .sidebar,.topbar,.page-actions,.report-builder,.toast,.mobile-menu{display:none!important}
+    .main{margin:0;width:100%}.content{padding:0;max-width:none}
+    .report-shell,.report-card,.kpi-card{background:#fff;border:1px solid #ccc;box-shadow:none}
+    .report-head h2,.card-head h3,.kpi-value,.data-table td,.data-table th{color:#111}
+    .report-head p,.report-meta,.card-head span,.kpi-meta,.kpi-label,.muted{color:#555!important}
+    .report-grid{break-inside:avoid}
+}
+
+@media(max-width:1100px){
+    .filter-grid{grid-template-columns:repeat(2,1fr)}
+    .kpi-grid{grid-template-columns:repeat(3,1fr)}
+    .report-grid{grid-template-columns:1fr}
+}
+@media(max-width:780px){
+    .sidebar{transform:translateX(-100%);transition:.2s}
+    .sidebar.open{transform:translateX(0)}
+    .sidebar-overlay.active{display:block;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:40}
+    .main{margin-left:0;width:100%}
+    .mobile-menu{display:block}
+    .topbar{padding:0 16px}
+    .breadcrumb{display:none}
+    .content{padding:16px}
+    .page-header{align-items:flex-start;flex-direction:column}
+    .page-actions{width:100%}.page-actions .btn{flex:1}
+    .filter-grid{grid-template-columns:1fr}
+    .builder-actions{flex-direction:column}.builder-actions .btn{width:100%}
+    .kpi-grid{grid-template-columns:repeat(2,1fr)}
+    .report-head{flex-direction:column}.report-meta{text-align:left}
+}
+@media(max-width:390px){
+    .kpi-grid,.summary-grid,.status-breakdown{grid-template-columns:1fr}
+    .topbar-actions .top-icon-btn:nth-child(2){display:none}
+}
+</style>
 </head>
 
 <body>
-
 <div class="app">
 
-    <!-- =========================================================
-         SIDEBAR
-         ========================================================= -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+        <a href="dashboard.html" class="brand">
+            <div class="brand-mark">A3</div>
+            <div class="brand-text">
+                <strong>Athlete360</strong>
+                <span>Performance Platform</span>
+            </div>
+        </a>
+    </div>
 
-    <aside class="sidebar" id="sidebar">
+    <nav class="sidebar-nav">
+        <div class="nav-label">Main</div>
+        <a href="dashboard.html" class="nav-item"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+        <a href="athlete.html" class="nav-item"><span class="nav-icon">♙</span><span>Athletes</span></a>
+        <a href="teams.html" class="nav-item"><span class="nav-icon">♟</span><span>Teams</span></a>
 
-        <div class="sidebar-logo">
+        <div class="nav-label">Performance</div>
+        <a href="testing.html" class="nav-item"><span class="nav-icon">◈</span><span>Testing</span></a>
+        <a href="training.html" class="nav-item"><span class="nav-icon">⚡</span><span>Training</span></a>
+        <a href="exercise-library.html" class="nav-item"><span class="nav-icon">◎</span><span>Exercises</span></a>
+        <a href="analytics.html" class="nav-item"><span class="nav-icon">▥</span><span>Analytics</span></a>
+        <a href="reports.html" class="nav-item active"><span class="nav-icon">▤</span><span>Reports</span></a>
 
-            <a href="dashboard.html" class="brand">
+        <div class="nav-label">System</div>
+        <a href="settings.html" class="nav-item"><span class="nav-icon">⚙</span><span>Settings</span></a>
+    </nav>
 
-                <div class="brand-mark">
-                    A3
-                </div>
-
-                <div class="brand-text">
-                    <strong>Athlete360</strong>
-                    <span>Performance Platform</span>
-                </div>
-
-            </a>
-
+    <div class="sidebar-bottom">
+        <div class="user-mini">
+            <div class="user-avatar" id="sidebarAvatar">CO</div>
+            <div class="user-mini-text">
+                <strong id="sidebarUserName">Coach</strong>
+                <span>Performance Staff</span>
+            </div>
         </div>
-
-        <nav class="sidebar-nav">
-
-            <div class="nav-label">
-                Main
-            </div>
-
-            <a href="dashboard.html" class="nav-item">
-                <span class="nav-icon">⌂</span>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="athletes.html" class="nav-item">
-                <span class="nav-icon">♙</span>
-                <span>Athletes</span>
-            </a>
-
-            <a href="teams.html" class="nav-item">
-                <span class="nav-icon">♟</span>
-                <span>Teams</span>
-            </a>
-
-            <div class="nav-label">
-                Performance
-            </div>
-
-            <a href="testing.html" class="nav-item">
-                <span class="nav-icon">◈</span>
-                <span>Testing</span>
-            </a>
-
-            <a href="training.html" class="nav-item">
-                <span class="nav-icon">⚡</span>
-                <span>Training</span>
-            </a>
-
-            <a href="analytics.html" class="nav-item">
-                <span class="nav-icon">▥</span>
-                <span>Analytics</span>
-            </a>
-
-            <a href="exercises.html" class="nav-item">
-                <span class="nav-icon">◎</span>
-                <span>Exercises</span>
-            </a>
-
-            <a href="reports.html" class="nav-item active">
-                <span class="nav-icon">▤</span>
-                <span>Reports</span>
-            </a>
-
-            <div class="nav-label">
-                System
-            </div>
-
-            <a href="settings.html" class="nav-item">
-                <span class="nav-icon">⚙</span>
-                <span>Settings</span>
-            </a>
-
-            <a href="ai-assistant.html" class="nav-item">
-                <span class="nav-icon">✦</span>
-                <span>AI Assistant</span>
-            </a>
-
-        </nav>
-
-        <div class="sidebar-bottom">
-
-            <div class="user-mini">
-
-                <div class="user-avatar" id="sidebarAvatar">
-                    MJ
-                </div>
-
-                <div class="user-mini-text">
-
-                    <strong id="sidebarUserName">
-                        Coach
-                    </strong>
-
-                    <span>
-                        Performance Staff
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </aside>
-
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <!-- =========================================================
-         MAIN
-         ========================================================= -->
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <div class="topbar-left">
-
-                <button
-                    class="mobile-menu"
-                    id="mobileMenu"
-                    type="button"
-                    aria-label="Open navigation"
-                >
-                    ☰
-                </button>
-
-                <div class="breadcrumb">
-                    <span>Athlete360</span>
-                    <span>›</span>
-                    <strong>Reports</strong>
-                </div>
-
-            </div>
-
-            <div class="topbar-actions">
-
-                <button
-                    class="top-icon-btn"
-                    type="button"
-                    onclick="window.location.href='notifications.html'"
-                    title="Notifications"
-                >
-                    ♢
-                </button>
-
-                <button
-                    class="top-icon-btn"
-                    type="button"
-                    onclick="window.location.href='settings.html'"
-                    title="Settings"
-                >
-                    ⚙
-                </button>
-
-            </div>
-
-        </header>
-
-        <section class="content">
-
-            <!-- =================================================
-                 PAGE HEADER
-                 ================================================= -->
-
-            <div class="page-header">
-
-                <div class="page-title">
-
-                    <h1>
-                        Reports & Performance Centre
-                    </h1>
-
-                    <p>
-                        Generate professional athlete, team, testing,
-                        training, progress and readiness reports using
-                        your Athlete360 performance data.
-                    </p>
-
-                </div>
-
-                <div class="page-actions">
-
-                    <button
-                        class="btn"
-                        type="button"
-                        onclick="printReport()"
-                    >
-                        🖨 Print
-                    </button>
-
-                    <button
-                        class="btn"
-                        type="button"
-                        onclick="exportCSV()"
-                    >
-                        ⇩ Export CSV
-                    </button>
-
-                    <button
-                        class="btn btn-primary"
-                        type="button"
-                        onclick="generateReport()"
-                    >
-                        ↻ Generate Report
-                    </button>
-
-                </div>
-
-            </div>
-
-            <!-- =================================================
-                 REPORT BUILDER
-                 ================================================= -->
-
-            <section class="report-builder">
-
-                <div class="builder-heading">
-
-                    <div>
-                        <h2>
-                            Report Builder
-                        </h2>
-
-                        <p>
-                            Choose the report you want to generate and
-                            apply the filters you need.
-                        </p>
-                    </div>
-
-                    <div class="builder-status">
-                        <span class="status-dot"></span>
-                        Live Athlete360 Data
-                    </div>
-
-                </div>
-
-                <div class="filter-grid">
-
-                    <div class="field">
-
-                        <label for="reportType">
-                            Report Type
-                        </label>
-
-                        <select id="reportType">
-
-                            <option value="overview">
-                                Performance Overview
-                            </option>
-
-                            <option value="athlete">
-                                Athlete Report
-                            </option>
-
-                            <option value="team">
-                                Team Report
-                            </option>
-
-                            <option value="testing">
-                                Testing Report
-                            </option>
-
-                            <option value="training">
-                                Training Report
-                            </option>
-
-                            <option value="progress">
-                                Progress Report
-                            </option>
-
-                            <option value="readiness">
-                                Readiness Report
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="field">
-
-                        <label for="athleteFilter">
-                            Athlete
-                        </label>
-
-                        <select id="athleteFilter">
-                            <option value="all">
-                                All Athletes
-                            </option>
-                        </select>
-
-                    </div>
-
-                    <div class="field">
-
-                        <label for="teamFilter">
-                            Team
-                        </label>
-
-                        <select id="teamFilter">
-                            <option value="all">
-                                All Teams
-                            </option>
-                        </select>
-
-                    </div>
-
-                    <div class="field">
-
-                        <label for="sportFilter">
-                            Sport
-                        </label>
-
-                        <select id="sportFilter">
-                            <option value="all">
-                                All Sports
-                            </option>
-                        </select>
-
-                    </div>
-
-                    <div class="field">
-
-                        <label for="dateFilter">
-                            Date Range
-                        </label>
-
-                        <select id="dateFilter">
-
-                            <option value="30">
-                                Last 30 Days
-                            </option>
-
-                            <option value="7">
-                                Last 7 Days
-                            </option>
-
-                            <option value="90">
-                                Last 90 Days
-                            </option>
-
-                            <option value="365">
-                                Last 12 Months
-                            </option>
-
-                            <option value="all">
-                                All Available Data
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-                <div class="builder-actions">
-
-                    <button
-                        class="btn"
-                        type="button"
-                        onclick="resetFilters()"
-                    >
-                        Reset Filters
-                    </button>
-
-                    <button
-                        class="btn btn-primary"
-                        type="button"
-                        onclick="generateReport()"
-                    >
-                        Generate Report
-                    </button>
-
-                </div>
-
-            </section>
-
-            <!-- =================================================
-                 KPI GRID
-                 ================================================= -->
-
-            <section class="kpi-grid" id="kpiGrid">
-
-                <div class="kpi-card">
-
-                    <div class="kpi-top">
-
-                        <span class="kpi-label">
-                            Athletes
-                        </span>
-
-                        <span class="kpi-icon">
-                            ♙
-                        </span>
-
-                    </div>
-
-                    <div
-                        class="kpi-value"
-                        id="kpiAthletes"
-                    >
-                        0
-                    </div>
-
-                    <div
-                        class="kpi-meta"
-                        id="kpiAthletesMeta"
-                    >
-                        In current report
-                    </div>
-
-                </div>
-
-                <div class="kpi-card">
-
-                    <div class="kpi-top">
-
-                        <span class="kpi-label">
-                            Avg Performance
-                        </span>
-
-                        <span class="kpi-icon">
-                            ↗
-                        </span>
-
-                    </div>
-
-                    <div
-                        class="kpi-value"
-                        id="kpiPerformance"
-                    >
-                        0
-                    </div>
-
-                    <div
-                        class="kpi-meta"
-                        id="kpiPerformanceMeta"
-                    >
-                        Performance score
-                    </div>
-
-                </div>
-
-                <div class="kpi-card">
-
-                    <div class="kpi-top">
-
-                        <span class="kpi-label">
-                            Readiness
-                        </span>
-
-                        <span class="kpi-icon">
-                            ✓
-                        </span>
-
-                    </div>
-
-                    <div
-                        class="kpi-value"
-                        id="kpiReadiness"
-                    >
-                        0%
-                    </div>
-
-                    <div
-                        class="kpi-meta positive"
-                        id="kpiReadinessMeta"
-                    >
-                        Ready athletes
-                    </div>
-
-                </div>
-
-                <div class="kpi-card">
-
-                    <div class="kpi-top">
-
-                        <span class="kpi-label">
-                            Tests
-                        </span>
-
-                        <span class="kpi-icon">
-                            ◈
-                        </span>
-
-                    </div>
-
-                    <div
-                        class="kpi-value"
-                        id="kpiTests"
-                    >
-                        0
-                    </div>
-
-                    <div
-                        class="kpi-meta"
-                        id="kpiTestsMeta"
-                    >
-                        Completed tests
-                    </div>
-
-                </div>
-
-                <div class="kpi-card">
-
-                    <div class="kpi-top">
-
-                        <span class="kpi-label">
-                            Training Load
-                        </span>
-
-                        <span class="kpi-icon">
-                            ⚡
-                        </span>
-
-                    </div>
-
-                    <div
-                        class="kpi-value"
-                        id="kpiLoad"
-                    >
-                        0
-                    </div>
-
-                    <div
-                        class="kpi-meta"
-                        id="kpiLoadMeta"
-                    >
-                        Session load
-                    </div>
-
-                </div>
-
-            </section>
-
-            <!-- =================================================
-                 REPORT
-                 ================================================= -->
-
-            <section class="report-shell">
-
-                <div class="report-head">
-
-                    <div>
-
-                        <h2 id="reportTitle">
-                            Performance Overview
-                        </h2>
-
-                        <p id="reportSubtitle">
-                            Current performance, readiness, testing and
-                            training overview.
-                        </p>
-
-                    </div>
-
-                    <div class="report-meta">
-
-                        <div>
-                            Generated:
-                            <strong id="generatedDate">
-                                —
-                            </strong>
-                        </div>
-
-                        <div>
-                            Filters:
-                            <strong id="generatedFilters">
-                                All Data
-                            </strong>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="report-body">
-
-                    <!-- =========================================
-                         FIRST ROW
-                         ========================================= -->
-
-                    <div class="report-grid">
-
-                        <div class="report-card">
-
-                            <div class="card-head">
-
-                                <h3>
-                                    Performance Trend
-                                </h3>
-
-                                <span id="trendLabel">
-                                    Testing scores
-                                </span>
-
-                            </div>
-
-                            <div class="card-body">
-
-                                <div
-                                    class="trend-wrap"
-                                    id="trendContainer"
-                                >
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="report-card">
-
-                            <div class="card-head">
-
-                                <h3>
-                                    Readiness Breakdown
-                                </h3>
-
-                                <span>
-                                    Current status
-                                </span>
-
-                            </div>
-
-                            <div class="card-body">
-
-                                <div class="readiness-box">
-
-                                    <div
-                                        class="readiness-ring"
-                                        id="readinessRing"
-                                        style="
-                                            --ready-angle: 0deg;
-                                            --monitor-angle: 0deg;
-                                        "
-                                    >
-
-                                        <div class="ring-content">
-
-                                            <strong id="ringPercent">
-                                                0%
-                                            </strong>
-
-                                            <span>
-                                                Ready
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div
-                                        class="readiness-legend"
-                                        id="readinessLegend"
-                                    >
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- =========================================
-                         PERFORMANCE BREAKDOWN
-                         ========================================= -->
-
-                    <div class="report-grid">
-
-                        <div class="report-card">
-
-                            <div class="card-head">
-
-                                <h3>
-                                    Performance Breakdown
-                                </h3>
-
-                                <span>
-                                    Average athlete score
-                                </span>
-
-                            </div>
-
-                            <div
-                                class="card-body"
-                                id="performanceBreakdown"
-                            >
-                            </div>
-
-                        </div>
-
-                        <div class="report-card">
-
-                            <div class="card-head">
-
-                                <h3>
-                                    Report Summary
-                                </h3>
-
-                                <span>
-                                    Current selection
-                                </span>
-
-                            </div>
-
-                            <div class="card-body">
-
-                                <div
-                                    class="summary-grid"
-                                    id="summaryGrid"
-                                >
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- =========================================
-                         ATHLETE RANKING
-                         ========================================= -->
-
-                    <div class="report-card" style="margin-bottom:14px;">
-
-                        <div class="card-head">
-
-                            <h3>
-                                Athlete Performance Ranking
-                            </h3>
-
-                            <span>
-                                Highest performance scores
-                            </span>
-
-                        </div>
-
-                        <div
-                            class="table-wrap"
-                            id="athleteRanking"
-                        >
-                        </div>
-
-                    </div>
-
-                    <!-- =========================================
-                         TESTING TABLE
-                         ========================================= -->
-
-                    <div class="report-card" style="margin-bottom:14px;">
-
-                        <div class="card-head">
-
-                            <h3>
-                                Recent Testing Results
-                            </h3>
-
-                            <span>
-                                Latest recorded tests
-                            </span>
-
-                        </div>
-
-                        <div
-                            class="table-wrap"
-                            id="testingTable"
-                        >
-                        </div>
-
-                    </div>
-
-                    <!-- =========================================
-                         TRAINING TABLE
-                         ========================================= -->
-
-                    <div class="report-card" style="margin-bottom:14px;">
-
-                        <div class="card-head">
-
-                            <h3>
-                                Recent Training Activity
-                            </h3>
-
-                            <span>
-                                Sessions and training load
-                            </span>
-
-                        </div>
-
-                        <div
-                            class="table-wrap"
-                            id="trainingTable"
-                        >
-                        </div>
-
-                    </div>
-
-                    <!-- =========================================
-                         ATTENTION
-                         ========================================= -->
-
-                    <div class="report-grid">
-
-                        <div class="report-card">
-
-                            <div class="card-head">
-
-                                <h3>
-                                    Attention Required
-                                </h3>
-
-                                <span>
-                                    Athletes to monitor
-                                </span>
-
-                            </div>
-
-                            <div class="card-body">
-
-                                <div
-                                    class="attention-list"
-                                    id="attentionList"
-                                >
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="report-card">
-
-                            <div class="card-head">
-
-                                <h3>
-                                    Team Summary
-                                </h3>
-
-                                <span>
-                                    Current squads
-                                </span>
-
-                            </div>
-
-                            <div
-                                class="table-wrap"
-                                id="teamSummary"
-                            >
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </section>
-
-    </main>
-
+    </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<main class="main">
+<header class="topbar">
+    <div class="topbar-left">
+        <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb"><span>Athlete360</span><span>›</span><strong>Reports</strong></div>
+    </div>
+    <div class="topbar-actions">
+        <button class="top-icon-btn" id="refreshBtn" type="button" title="Refresh report">↻</button>
+        <button class="top-icon-btn" type="button" onclick="window.location.href='settings.html'" title="Settings">⚙</button>
+    </div>
+</header>
+
+<section class="content">
+
+<div class="page-header">
+    <div class="page-title">
+        <h1>Reports & Performance Centre</h1>
+        <p>Build printable reports from the athlete, team, testing and training records actually stored in Athlete360. No sample athletes or invented performance values are used.</p>
+    </div>
+    <div class="page-actions">
+        <button class="btn" type="button" onclick="printReport()">🖨 Print</button>
+        <button class="btn" type="button" onclick="exportCSV()">⇩ Export CSV</button>
+        <button class="btn btn-primary" type="button" onclick="generateReport()">↻ Generate Report</button>
+    </div>
 </div>
 
-<div
-    class="toast"
-    id="toast"
-></div>
+<section class="report-builder">
+    <div class="builder-heading">
+        <div>
+            <h2>Report Builder</h2>
+            <p>Choose the report view and filter the real records you want included.</p>
+        </div>
+        <div class="builder-status"><span class="status-dot"></span> Live Athlete360 Data</div>
+    </div>
+
+    <div class="filter-grid">
+        <div class="field">
+            <label for="reportType">Report Type</label>
+            <select id="reportType">
+                <option value="overview">Performance Overview</option>
+                <option value="athlete">Athlete Report</option>
+                <option value="team">Team Report</option>
+                <option value="testing">Testing Report</option>
+                <option value="training">Training Report</option>
+                <option value="progress">Progress / History Report</option>
+                <option value="readiness">Status Report</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="athleteFilter">Athlete</label>
+            <select id="athleteFilter"><option value="all">All Athletes</option></select>
+        </div>
+        <div class="field">
+            <label for="teamFilter">Team</label>
+            <select id="teamFilter"><option value="all">All Teams</option></select>
+        </div>
+        <div class="field">
+            <label for="sportFilter">Sport</label>
+            <select id="sportFilter"><option value="all">All Sports</option></select>
+        </div>
+        <div class="field">
+            <label for="dateFilter">Date Range</label>
+            <select id="dateFilter">
+                <option value="30">Last 30 Days</option>
+                <option value="7">Last 7 Days</option>
+                <option value="90">Last 90 Days</option>
+                <option value="365">Last 12 Months</option>
+                <option value="all">All Available Data</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="builder-actions">
+        <button class="btn" type="button" onclick="resetFilters()">Reset Filters</button>
+        <button class="btn btn-primary" type="button" onclick="generateReport()">Generate Report</button>
+    </div>
+</section>
+
+<section class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Athletes</span><span class="kpi-icon">♙</span></div><div class="kpi-value" id="kpiAthletes">0</div><div class="kpi-meta" id="kpiAthletesMeta">No athlete data</div></div>
+    <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Tests Recorded</span><span class="kpi-icon">◈</span></div><div class="kpi-value" id="kpiTests">0</div><div class="kpi-meta" id="kpiTestsMeta">No testing data</div></div>
+    <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Personal Bests</span><span class="kpi-icon">★</span></div><div class="kpi-value" id="kpiPBs">0</div><div class="kpi-meta" id="kpiPBMeta">No PB records</div></div>
+    <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Training Sessions</span><span class="kpi-icon">⚡</span></div><div class="kpi-value" id="kpiSessions">0</div><div class="kpi-meta" id="kpiSessionsMeta">No training data</div></div>
+    <div class="kpi-card"><div class="kpi-top"><span class="kpi-label">Training Load</span><span class="kpi-icon">↗</span></div><div class="kpi-value" id="kpiLoad">0</div><div class="kpi-meta" id="kpiLoadMeta">Only recorded/calculated from session inputs</div></div>
+</section>
+
+<section class="report-shell">
+    <div class="report-head">
+        <div>
+            <h2 id="reportTitle">Performance Overview</h2>
+            <p id="reportSubtitle">Current athlete, testing and training records.</p>
+        </div>
+        <div class="report-meta">
+            <div>Generated: <strong id="generatedDate">—</strong></div>
+            <div>Filters: <strong id="generatedFilters">All Available Data</strong></div>
+        </div>
+    </div>
+
+    <div class="report-body">
+
+        <div class="report-grid">
+            <div class="report-card">
+                <div class="card-head"><h3>Testing Activity</h3><span>Recorded tests only</span></div>
+                <div class="card-body" id="testingActivity"></div>
+            </div>
+            <div class="report-card">
+                <div class="card-head"><h3>Athlete Status</h3><span>Explicit status only</span></div>
+                <div class="card-body" id="statusBreakdown"></div>
+            </div>
+        </div>
+
+        <div class="report-grid">
+            <div class="report-card">
+                <div class="card-head"><h3>Report Summary</h3><span>Current selection</span></div>
+                <div class="card-body"><div class="summary-grid" id="summaryGrid"></div></div>
+            </div>
+            <div class="report-card">
+                <div class="card-head"><h3>Recent Activity</h3><span>Latest stored records</span></div>
+                <div class="card-body" id="activityList"></div>
+            </div>
+        </div>
+
+        <div class="report-card" style="margin-bottom:14px">
+            <div class="card-head"><h3>Athlete Overview</h3><span>Real athlete records</span></div>
+            <div class="table-wrap" id="athleteTable"></div>
+        </div>
+
+        <div class="report-card" style="margin-bottom:14px">
+            <div class="card-head"><h3>Recent Testing Results</h3><span>Latest recorded measurements</span></div>
+            <div class="table-wrap" id="testingTable"></div>
+        </div>
+
+        <div class="report-card" style="margin-bottom:14px">
+            <div class="card-head"><h3>Recent Training Activity</h3><span>Stored sessions and load</span></div>
+            <div class="table-wrap" id="trainingTable"></div>
+        </div>
+
+        <div class="report-grid">
+            <div class="report-card">
+                <div class="card-head"><h3>Attention Required</h3><span>Explicit Monitor / At Risk status</span></div>
+                <div class="card-body" id="attentionList"></div>
+            </div>
+            <div class="report-card">
+                <div class="card-head"><h3>Team Summary</h3><span>Current squads</span></div>
+                <div class="table-wrap" id="teamSummary"></div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+</section>
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-/* =============================================================
-   ATHLETE360 REPORTS JAVASCRIPT
-   ============================================================= */
-
 const STORAGE = {
-    athletes: "athlete360_athletes",
+    athletes: "athlete360_athletes_v2",
     teams: "athlete360_teams",
-    tests: "athlete360_testing_history",
+    tests: "athlete360_tests",
     training: "athlete360_training_sessions",
     user: "athlete360_user"
 };
 
-let state = {
-    athletes: [],
-    teams: [],
-    tests: [],
-    training: [],
-    user: null
+const LEGACY = {
+    athletes: ["athlete360_athletes"],
+    tests: ["athlete360_testing", "athlete360_test_results", "athlete360_testing_history"],
+    training: ["athlete360_training", "athlete360_training_data"]
 };
 
-/* =============================================================
-   BASIC HELPERS
-   ============================================================= */
+let state = { athletes:[], teams:[], tests:[], training:[], user:null };
 
-function readArray(key) {
-    try {
-        const value = localStorage.getItem(key);
-
-        if (!value) {
-            return [];
-        }
-
-        const parsed = JSON.parse(value);
-
-        return Array.isArray(parsed) ? parsed : [];
-
-    } catch (error) {
-        console.error("Could not read:", key, error);
-        return [];
+function readArray(key, fallbacks=[]){
+    const keys=[key,...fallbacks];
+    for(const k of keys){
+        try{
+            const raw=localStorage.getItem(k);
+            if(!raw) continue;
+            const parsed=JSON.parse(raw);
+            if(Array.isArray(parsed) && parsed.length) return parsed;
+            if(Array.isArray(parsed)) return parsed;
+        }catch(e){}
     }
+    return [];
 }
-
-function readObject(key) {
-    try {
-        const value = localStorage.getItem(key);
-
-        if (!value) {
-            return null;
-        }
-
-        return JSON.parse(value);
-
-    } catch (error) {
-        return null;
+function readObject(key){
+    try{
+        const raw=localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+    }catch(e){return null}
+}
+function s(v,f=""){return v===null||v===undefined?f:String(v)}
+function n(v,f=0){const x=Number(v);return Number.isFinite(x)?x:f}
+function norm(v){return s(v).trim().toLowerCase()}
+function esc(v){return s(v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
+function initials(name){
+    const p=s(name).trim().split(/\s+/).filter(Boolean);
+    if(!p.length)return"NA";
+    if(p.length===1)return p[0].slice(0,2).toUpperCase();
+    return (p[0][0]+p[p.length-1][0]).toUpperCase();
+}
+function athleteId(a){return s(a?.id ?? a?.athleteId ?? a?.athleteID)}
+function athleteName(a){
+    const direct=a?.name ?? a?.fullName ?? a?.athleteName;
+    if(direct) return s(direct);
+    return [a?.firstName,a?.surname ?? a?.lastName].filter(Boolean).join(" ") || "Unnamed Athlete";
+}
+function athleteSport(a){return s(a?.sport ?? a?.sports,"")}
+function athleteTeamId(a){return s(a?.teamId)}
+function athleteStatus(a){
+    const v=a?.status ?? a?.readinessStatus ?? a?.readiness;
+    if(!v)return "";
+    const x=norm(v);
+    if(x.includes("ready"))return"Ready";
+    if(x.includes("monitor")||x.includes("watch"))return"Monitor";
+    if(x.includes("risk")||x.includes("not ready"))return"At Risk";
+    return s(v);
+}
+function recordAthleteId(r){return s(r?.athleteId ?? r?.athleteID ?? r?.athlete_id ?? r?.playerId)}
+function recordAthleteName(r){return s(r?.athleteName ?? r?.name ?? r?.athlete ?? r?.playerName ?? r?.player)}
+function resolveAthlete(r){
+    const id=recordAthleteId(r), name=norm(recordAthleteName(r));
+    if(id){
+        const a=state.athletes.find(x=>athleteId(x)===id);
+        if(a)return a;
     }
-}
-
-function number(value, fallback = 0) {
-    const parsed = Number(value);
-
-    return Number.isFinite(parsed)
-        ? parsed
-        : fallback;
-}
-
-function safeString(value, fallback = "") {
-    if (
-        value === null ||
-        value === undefined
-    ) {
-        return fallback;
+    if(name){
+        return state.athletes.find(x=>norm(athleteName(x))===name) || null;
     }
-
-    return String(value);
-}
-
-function escapeHTML(value) {
-    return safeString(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
-
-function normalize(value) {
-    return safeString(value)
-        .trim()
-        .toLowerCase();
-}
-
-/* =============================================================
-   DATE HELPERS
-   ============================================================= */
-
-function parseDate(value) {
-
-    if (!value) {
-        return null;
-    }
-
-    const date = new Date(value);
-
-    if (!Number.isNaN(date.getTime())) {
-        return date;
-    }
-
     return null;
 }
-
-function getRecordDate(record) {
-
-    const possibleDates = [
-        record?.date,
-        record?.testDate,
-        record?.testingDate,
-        record?.sessionDate,
-        record?.trainingDate,
-        record?.createdAt,
-        record?.timestamp,
-        record?.completedAt
-    ];
-
-    for (const value of possibleDates) {
-
-        const parsed = parseDate(value);
-
-        if (parsed) {
-            return parsed;
-        }
+function parseDate(v){
+    if(!v)return null;
+    const d=new Date(v);
+    return Number.isNaN(d.getTime())?null:d;
+}
+function recordDate(r){
+    for(const v of [r?.date,r?.testDate,r?.testingDate,r?.sessionDate,r?.trainingDate,r?.createdAt,r?.timestamp,r?.completedAt]){
+        const d=parseDate(v);if(d)return d;
     }
-
     return null;
 }
-
-function formatDate(value) {
-
-    const date = value instanceof Date
-        ? value
-        : parseDate(value);
-
-    if (!date) {
-        return "—";
+function dateText(v){
+    const d=v instanceof Date?v:parseDate(v);
+    return d?d.toLocaleDateString("en-ZA",{day:"2-digit",month:"short",year:"numeric"}):"—";
+}
+function shortDate(v){
+    const d=v instanceof Date?v:parseDate(v);
+    return d?d.toLocaleDateString("en-ZA",{day:"2-digit",month:"short"}):"—";
+}
+function withinRange(date){
+    const value=document.getElementById("dateFilter").value;
+    if(value==="all" || !date)return true;
+    const cutoff=Date.now()-n(value,30)*86400000;
+    return date.getTime()>=cutoff;
+}
+function testName(t){return s(t?.test ?? t?.testName ?? t?.metric ?? t?.category,"Test")}
+function testValue(t){return s(t?.value ?? t?.result ?? t?.measurement ?? t?.performanceValue,"—")}
+function isPB(t){return Boolean(t?.pb ?? t?.personalBest ?? t?.isPB)}
+function trainingType(x){return s(x?.type ?? x?.trainingType ?? x?.category,"Training")}
+function trainingDuration(x){return n(x?.duration ?? x?.durationMinutes,0)}
+function trainingRPE(x){return n(x?.rpe ?? x?.RPE,0)}
+function trainingLoad(x){
+    const direct=Number(x?.load ?? x?.trainingLoad ?? x?.sessionLoad);
+    if(Number.isFinite(direct))return direct;
+    const d=trainingDuration(x), r=trainingRPE(x);
+    return d && r ? d*r : 0;
+}
+function teamNameForAthlete(a){
+    const id=athleteTeamId(a);
+    if(id){
+        const team=state.teams.find(t=>s(t.id)===id);
+        if(team)return s(team.name,"Unnamed Team");
     }
-
-    return date.toLocaleDateString(
-        "en-ZA",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        }
-    );
+    if(a?.team)return s(a.team);
+    return "Unassigned";
+}
+function teamAthletes(team){
+    return state.athletes.filter(a=>athleteTeamId(a)===s(team?.id) || norm(a?.team)===norm(team?.name));
+}
+function getSelectedTeam(){
+    const id=document.getElementById("teamFilter").value;
+    return id==="all"?null:state.teams.find(t=>s(t.id)===id)||null;
 }
 
-function formatShortDate(value) {
+function populateFilters(){
+    const aSel=document.getElementById("athleteFilter");
+    const tSel=document.getElementById("teamFilter");
+    const sSel=document.getElementById("sportFilter");
 
-    const date = value instanceof Date
-        ? value
-        : parseDate(value);
+    aSel.innerHTML='<option value="all">All Athletes</option>';
+    [...state.athletes].sort((a,b)=>athleteName(a).localeCompare(athleteName(b))).forEach(a=>{
+        const o=document.createElement("option");o.value=athleteId(a);o.textContent=athleteName(a);aSel.appendChild(o);
+    });
 
-    if (!date) {
-        return "—";
+    tSel.innerHTML='<option value="all">All Teams</option>';
+    [...state.teams].sort((a,b)=>s(a.name).localeCompare(s(b.name))).forEach(t=>{
+        const o=document.createElement("option");o.value=s(t.id);o.textContent=s(t.name,"Unnamed Team");tSel.appendChild(o);
+    });
+
+    const sports=[...new Set(state.athletes.map(athleteSport).filter(Boolean))].sort();
+    sSel.innerHTML='<option value="all">All Sports</option>';
+    sports.forEach(sp=>{const o=document.createElement("option");o.value=sp;o.textContent=sp;sSel.appendChild(o)});
+}
+
+function getFilteredAthletes(){
+    const aid=document.getElementById("athleteFilter").value;
+    const sport=document.getElementById("sportFilter").value;
+    const team=getSelectedTeam();
+    let arr=[...state.athletes];
+
+    if(aid!=="all")arr=arr.filter(a=>athleteId(a)===aid);
+    if(sport!=="all")arr=arr.filter(a=>norm(athleteSport(a))===norm(sport));
+    if(team){
+        const ids=new Set(teamAthletes(team).map(athleteId));
+        arr=arr.filter(a=>ids.has(athleteId(a)));
     }
-
-    return date.toLocaleDateString(
-        "en-ZA",
-        {
-            day: "2-digit",
-            month: "short"
-        }
-    );
+    return arr;
 }
-
-/* =============================================================
-   ATHLETE HELPERS
-   ============================================================= */
-
-function athleteId(athlete) {
-
-    return safeString(
-        athlete?.id ??
-        athlete?.athleteId ??
-        athlete?.athleteID ??
-        ""
-    );
-}
-
-function athleteName(athlete) {
-
-    return safeString(
-        athlete?.name ??
-        athlete?.fullName ??
-        athlete?.athleteName ??
-        [
-            athlete?.firstName,
-            athlete?.lastName
-        ].filter(Boolean).join(" ") ??
-        "Unknown Athlete"
-    );
-}
-
-function athleteSport(athlete) {
-
-    return safeString(
-        athlete?.sport ??
-        athlete?.sports ??
-        "Unknown"
-    );
-}
-
-function athletePerformance(athlete) {
-
-    return number(
-        athlete?.performance ??
-        athlete?.performanceScore ??
-        athlete?.overallPerformance ??
-        athlete?.score ??
-        0
-    );
-}
-
-function athleteStatus(athlete) {
-
-    const explicit =
-        athlete?.readiness ??
-        athlete?.status ??
-        athlete?.readinessStatus;
-
-    if (explicit) {
-
-        const value = normalize(explicit);
-
-        if (
-            value.includes("ready") ||
-            value.includes("good")
-        ) {
-            return "Ready";
-        }
-
-        if (
-            value.includes("monitor") ||
-            value.includes("watch")
-        ) {
-            return "Monitor";
-        }
-
-        if (
-            value.includes("risk") ||
-            value.includes("danger") ||
-            value.includes("not ready")
-        ) {
-            return "At Risk";
-        }
-    }
-
-    const score = athletePerformance(athlete);
-
-    if (score >= 80) {
-        return "Ready";
-    }
-
-    if (score >= 65) {
-        return "Monitor";
-    }
-
-    return "At Risk";
-}
-
-function initials(name) {
-
-    const parts = safeString(name)
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean);
-
-    if (!parts.length) {
-        return "NA";
-    }
-
-    if (parts.length === 1) {
-        return parts[0]
-            .substring(0, 2)
-            .toUpperCase();
-    }
-
-    return (
-        parts[0][0] +
-        parts[parts.length - 1][0]
-    ).toUpperCase();
-}
-
-/* =============================================================
-   RECORD ATHLETE HELPERS
-   ============================================================= */
-
-function recordAthleteId(record) {
-
-    return safeString(
-        record?.athleteId ??
-        record?.athleteID ??
-        record?.athlete_id ??
-        record?.playerId ??
-        ""
-    );
-}
-
-function recordAthleteName(record) {
-
-    return safeString(
-        record?.athleteName ??
-        record?.name ??
-        record?.athlete ??
-        record?.playerName ??
-        record?.player ??
-        ""
-    );
-}
-
-function resolveAthlete(record) {
-
-    const id = recordAthleteId(record);
-    const name = normalize(recordAthleteName(record));
-
-    if (id) {
-
-        const byId = state.athletes.find(
-            athlete =>
-                athleteId(athlete) === id
-        );
-
-        if (byId) {
-            return byId;
-        }
-    }
-
-    if (name) {
-
-        const byName = state.athletes.find(
-            athlete =>
-                normalize(athleteName(athlete)) === name
-        );
-
-        if (byName) {
-            return byName;
-        }
-    }
-
-    return null;
-}
-
-/* =============================================================
-   LOAD DATA
-   ============================================================= */
-
-function loadData() {
-
-    state.athletes = readArray(STORAGE.athletes);
-    state.teams = readArray(STORAGE.teams);
-    state.tests = readArray(STORAGE.tests);
-    state.training = readArray(STORAGE.training);
-    state.user = readObject(STORAGE.user);
-
-    populateFilters();
-    updateUser();
-
-    generateReport();
-}
-
-/* =============================================================
-   USER
-   ============================================================= */
-
-function updateUser() {
-
-    const user =
-        state.user ||
-        {
-            name: "Coach"
-        };
-
-    const name =
-        user.name ||
-        user.fullName ||
-        user.displayName ||
-        user.email ||
-        "Coach";
-
-    document.getElementById(
-        "sidebarUserName"
-    ).textContent = name;
-
-    document.getElementById(
-        "sidebarAvatar"
-    ).textContent = initials(name);
-}
-
-/* =============================================================
-   FILTERS
-   ============================================================= */
-
-function populateFilters() {
-
-    const athleteSelect =
-        document.getElementById("athleteFilter");
-
-    const teamSelect =
-        document.getElementById("teamFilter");
-
-    const sportSelect =
-        document.getElementById("sportFilter");
-
-    athleteSelect.innerHTML =
-        `<option value="all">All Athletes</option>`;
-
-    state.athletes
-        .slice()
-        .sort((a, b) =>
-            athleteName(a).localeCompare(
-                athleteName(b)
-            )
-        )
-        .forEach(athlete => {
-
-            const option =
-                document.createElement("option");
-
-            option.value = athleteId(athlete);
-
-            option.textContent =
-                athleteName(athlete);
-
-            athleteSelect.appendChild(option);
-        });
-
-    teamSelect.innerHTML =
-        `<option value="all">All Teams</option>`;
-
-    state.teams
-        .slice()
-        .sort((a, b) =>
-            safeString(a.name)
-                .localeCompare(
-                    safeString(b.name)
-                )
-        )
-        .forEach(team => {
-
-            const option =
-                document.createElement("option");
-
-            option.value =
-                safeString(team.id);
-
-            option.textContent =
-                safeString(
-                    team.name,
-                    "Unnamed Team"
-                );
-
-            teamSelect.appendChild(option);
-        });
-
-    const sports = [
-        ...new Set(
-            state.athletes
-                .map(athleteSport)
-                .filter(Boolean)
-        )
-    ].sort();
-
-    sportSelect.innerHTML =
-        `<option value="all">All Sports</option>`;
-
-    sports.forEach(sport => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = sport;
-        option.textContent = sport;
-
-        sportSelect.appendChild(option);
+function getFilteredRecords(records){
+    const athletes=getFilteredAthletes();
+    const ids=new Set(athletes.map(athleteId));
+    const names=new Set(athletes.map(a=>norm(athleteName(a))));
+    return records.filter(r=>{
+        if(!withinRange(recordDate(r)))return false;
+        const a=resolveAthlete(r);
+        if(a)return ids.has(athleteId(a));
+        const name=norm(recordAthleteName(r));
+        return name ? names.has(name) : false;
     });
 }
 
-/* =============================================================
-   TEAM HELPERS
-   ============================================================= */
-
-function teamAthletes(team) {
-
-    if (!team) {
-        return [];
-    }
-
-    const roster =
-        Array.isArray(team.athleteIds)
-            ? team.athleteIds
-            : Array.isArray(team.roster)
-                ? team.roster
-                : [];
-
-    return state.athletes.filter(
-        athlete => {
-
-            const id = athleteId(athlete);
-            const name = athleteName(athlete);
-
-            return roster.some(
-                member => {
-
-                    const memberValue =
-                        safeString(
-                            typeof member === "object"
-                                ? (
-                                    member.id ??
-                                    member.athleteId ??
-                                    member.name
-                                )
-                                : member
-                        );
-
-                    return (
-                        memberValue === id ||
-                        normalize(memberValue) ===
-                        normalize(name)
-                    );
-                }
-            );
-        }
-    );
+function updateUser(){
+    const u=state.user||{};
+    const name=s(u.name ?? u.fullName ?? u.displayName ?? u.email,"Coach");
+    document.getElementById("sidebarUserName").textContent=name;
+    document.getElementById("sidebarAvatar").textContent=initials(name);
 }
 
-function getSelectedTeam() {
-
-    const value =
-        document.getElementById(
-            "teamFilter"
-        ).value;
-
-    if (value === "all") {
-        return null;
-    }
-
-    return state.teams.find(
-        team =>
-            safeString(team.id) === value
-    ) || null;
-}
-
-/* =============================================================
-   DATE FILTER
-   ============================================================= */
-
-function isWithinDateRange(date) {
-
-    const range =
-        document.getElementById(
-            "dateFilter"
-        ).value;
-
-    if (range === "all") {
-        return true;
-    }
-
-    if (!date) {
-        return true;
-    }
-
-    const days = number(range, 30);
-
-    const now = new Date();
-
-    const cutoff =
-        new Date(
-            now.getTime() -
-            days *
-            24 *
-            60 *
-            60 *
-            1000
-        );
-
-    return date >= cutoff;
-}
-
-/* =============================================================
-   FILTERED ATHLETES
-   ============================================================= */
-
-function getFilteredAthletes() {
-
-    const athleteValue =
-        document.getElementById(
-            "athleteFilter"
-        ).value;
-
-    const sportValue =
-        document.getElementById(
-            "sportFilter"
-        ).value;
-
-    const team =
-        getSelectedTeam();
-
-    let athletes =
-        [...state.athletes];
-
-    if (athleteValue !== "all") {
-
-        athletes =
-            athletes.filter(
-                athlete =>
-                    athleteId(athlete) ===
-                    athleteValue
-            );
-    }
-
-    if (sportValue !== "all") {
-
-        athletes =
-            athletes.filter(
-                athlete =>
-                    normalize(
-                        athleteSport(athlete)
-                    ) ===
-                    normalize(sportValue)
-            );
-    }
-
-    if (team) {
-
-        const teamRoster =
-            teamAthletes(team);
-
-        const ids =
-            new Set(
-                teamRoster.map(athleteId)
-            );
-
-        athletes =
-            athletes.filter(
-                athlete =>
-                    ids.has(
-                        athleteId(athlete)
-                    )
-            );
-    }
-
-    return athletes;
-}
-
-/* =============================================================
-   FILTERED TESTS
-   ============================================================= */
-
-function getFilteredTests() {
-
-    const athletes =
-        getFilteredAthletes();
-
-    const athleteIds =
-        new Set(
-            athletes.map(athleteId)
-        );
-
-    const athleteNames =
-        new Set(
-            athletes.map(
-                athlete =>
-                    normalize(
-                        athleteName(athlete)
-                    )
-            )
-        );
-
-    return state.tests.filter(
-        test => {
-
-            const date =
-                getRecordDate(test);
-
-            if (!isWithinDateRange(date)) {
-                return false;
-            }
-
-            const athlete =
-                resolveAthlete(test);
-
-            if (athlete) {
-
-                return athleteIds.has(
-                    athleteId(athlete)
-                );
-            }
-
-            const name =
-                normalize(
-                    recordAthleteName(test)
-                );
-
-            return athleteNames.has(name);
-        }
-    );
-}
-
-/* =============================================================
-   FILTERED TRAINING
-   ============================================================= */
-
-function getFilteredTraining() {
-
-    const athletes =
-        getFilteredAthletes();
-
-    const athleteIds =
-        new Set(
-            athletes.map(athleteId)
-        );
-
-    const athleteNames =
-        new Set(
-            athletes.map(
-                athlete =>
-                    normalize(
-                        athleteName(athlete)
-                    )
-            )
-        );
-
-    return state.training.filter(
-        session => {
-
-            const date =
-                getRecordDate(session);
-
-            if (!isWithinDateRange(date)) {
-                return false;
-            }
-
-            const athlete =
-                resolveAthlete(session);
-
-            if (athlete) {
-
-                return athleteIds.has(
-                    athleteId(athlete)
-                );
-            }
-
-            const name =
-                normalize(
-                    recordAthleteName(session)
-                );
-
-            return athleteNames.has(name);
-        }
-    );
-}
-
-/* =============================================================
-   TEST SCORE
-   ============================================================= */
-
-function testScore(test) {
-
-    return number(
-        test?.score ??
-        test?.rating ??
-        test?.performanceScore ??
-        test?.points ??
-        0
-    );
-}
-
-function testName(test) {
-
-    return safeString(
-        test?.test ??
-        test?.testName ??
-        test?.metric ??
-        test?.category ??
-        "Performance Test"
-    );
-}
-
-function testValue(test) {
-
-    return safeString(
-        test?.value ??
-        test?.result ??
-        test?.measurement ??
-        test?.performanceValue ??
-        "—"
-    );
-}
-
-/* =============================================================
-   TRAINING HELPERS
-   ============================================================= */
-
-function trainingLoad(session) {
-
-    const direct =
-        number(
-            session?.load ??
-            session?.trainingLoad ??
-            session?.sessionLoad,
-            NaN
-        );
-
-    if (Number.isFinite(direct)) {
-        return direct;
-    }
-
-    const duration =
-        number(
-            session?.duration ??
-            session?.durationMinutes,
-            0
-        );
-
-    const rpe =
-        number(
-            session?.rpe ??
-            session?.RPE,
-            0
-        );
-
-    return duration * rpe;
-}
-
-function trainingType(session) {
-
-    return safeString(
-        session?.type ??
-        session?.trainingType ??
-        session?.category ??
-        "Training"
-    );
-}
-
-function trainingDuration(session) {
-
-    return number(
-        session?.duration ??
-        session?.durationMinutes ??
-        0
-    );
-}
-
-function trainingRPE(session) {
-
-    return number(
-        session?.rpe ??
-        session?.RPE ??
-        0
-    );
-}
-
-/* =============================================================
-   KPI
-   ============================================================= */
-
-function updateKPIs(
-    athletes,
-    tests,
-    training
-) {
-
-    const athleteCount =
-        athletes.length;
-
-    const averagePerformance =
-        athleteCount
-            ? athletes.reduce(
-                (sum, athlete) =>
-                    sum +
-                    athletePerformance(athlete),
-                0
-            ) / athleteCount
-            : 0;
-
-    const readyCount =
-        athletes.filter(
-            athlete =>
-                athleteStatus(athlete) ===
-                "Ready"
-        ).length;
-
-    const readiness =
-        athleteCount
-            ? (readyCount / athleteCount) * 100
-            : 0;
-
-    const totalLoad =
-        training.reduce(
-            (sum, session) =>
-                sum +
-                trainingLoad(session),
-            0
-        );
-
-    document.getElementById(
-        "kpiAthletes"
-    ).textContent =
-        athleteCount;
-
-    document.getElementById(
-        "kpiPerformance"
-    ).textContent =
-        Math.round(averagePerformance);
-
-    document.getElementById(
-        "kpiReadiness"
-    ).textContent =
-        Math.round(readiness) + "%";
-
-    document.getElementById(
-        "kpiTests"
-    ).textContent =
-        tests.length;
-
-    document.getElementById(
-        "kpiLoad"
-    ).textContent =
-        Math.round(totalLoad).toLocaleString();
-
-    document.getElementById(
-        "kpiAthletesMeta"
-    ).textContent =
-        "In current report";
-
-    document.getElementById(
-        "kpiPerformanceMeta"
-    ).textContent =
-        averagePerformance
-            ? "Average performance score"
-            : "No performance data";
-
-    document.getElementById(
-        "kpiReadinessMeta"
-    ).textContent =
-        readyCount +
-        " ready of " +
-        athleteCount;
-
-    document.getElementById(
-        "kpiTestsMeta"
-    ).textContent =
-        tests.length === 1
-            ? "Completed test"
-            : "Completed tests";
-
-    document.getElementById(
-        "kpiLoadMeta"
-    ).textContent =
-        training.length +
-        " training sessions";
-}
-
-/* =============================================================
-   REPORT TITLE
-   ============================================================= */
-
-function updateReportHeader() {
-
-    const type =
-        document.getElementById(
-            "reportType"
-        ).value;
-
-    const titles = {
-
-        overview: [
-            "Performance Overview",
-            "Current performance, readiness, testing and training overview."
-        ],
-
-        athlete: [
-            "Athlete Performance Report",
-            "Individual athlete performance and development summary."
-        ],
-
-        team: [
-            "Team Performance Report",
-            "Squad performance, readiness and training overview."
-        ],
-
-        testing: [
-            "Testing Report",
-            "Testing results, personal bests and recent measurements."
-        ],
-
-        training: [
-            "Training Report",
-            "Training sessions, duration, RPE and training load."
-        ],
-
-        progress: [
-            "Progress Report",
-            "Performance development and improvement trends."
-        ],
-
-        readiness: [
-            "Readiness Report",
-            "Current athlete readiness and attention requirements."
-        ]
-
-    };
-
-    const selected =
-        titles[type] ||
-        titles.overview;
-
-    document.getElementById(
-        "reportTitle"
-    ).textContent =
-        selected[0];
-
-    document.getElementById(
-        "reportSubtitle"
-    ).textContent =
-        selected[1];
-
-    document.getElementById(
-        "generatedDate"
-    ).textContent =
-        new Date().toLocaleString(
-            "en-ZA",
-            {
-                dateStyle: "medium",
-                timeStyle: "short"
-            }
-        );
-
-    const athleteValue =
-        document.getElementById(
-            "athleteFilter"
-        ).value;
-
-    const teamValue =
-        document.getElementById(
-            "teamFilter"
-        ).value;
-
-    const sportValue =
-        document.getElementById(
-            "sportFilter"
-        ).value;
-
-    const dateValue =
-        document.getElementById(
-            "dateFilter"
-        ).selectedOptions[0].textContent;
-
-    const parts = [];
-
-    if (athleteValue !== "all") {
-
-        const athlete =
-            state.athletes.find(
-                item =>
-                    athleteId(item) ===
-                    athleteValue
-            );
-
-        if (athlete) {
-            parts.push(
-                athleteName(athlete)
-            );
-        }
-    }
-
-    if (teamValue !== "all") {
-
-        const team =
-            state.teams.find(
-                item =>
-                    safeString(item.id) ===
-                    teamValue
-            );
-
-        if (team) {
-            parts.push(
-                team.name
-            );
-        }
-    }
-
-    if (sportValue !== "all") {
-        parts.push(sportValue);
-    }
-
-    parts.push(dateValue);
-
-    document.getElementById(
-        "generatedFilters"
-    ).textContent =
-        parts.join(" • ");
-}
-
-/* =============================================================
-   READINESS
-   ============================================================= */
-
-function renderReadiness(athletes) {
-
-    const ready =
-        athletes.filter(
-            athlete =>
-                athleteStatus(athlete) ===
-                "Ready"
-        ).length;
-
-    const monitor =
-        athletes.filter(
-            athlete =>
-                athleteStatus(athlete) ===
-                "Monitor"
-        ).length;
-
-    const risk =
-        athletes.filter(
-            athlete =>
-                athleteStatus(athlete) ===
-                "At Risk"
-        ).length;
-
-    const total =
-        athletes.length || 1;
-
-    const readyPercent =
-        (ready / total) * 100;
-
-    const monitorPercent =
-        (monitor / total) * 100;
-
-    const ring =
-        document.getElementById(
-            "readinessRing"
-        );
-
-    ring.style.setProperty(
-        "--ready-angle",
-        `${readyPercent * 3.6}deg`
-    );
-
-    ring.style.setProperty(
-        "--monitor-angle",
-        `${monitorPercent * 3.6}deg`
-    );
-
-    document.getElementById(
-        "ringPercent"
-    ).textContent =
-        Math.round(
-            readyPercent
-        ) + "%";
-
-    document.getElementById(
-        "readinessLegend"
-    ).innerHTML = `
-
-        <div class="legend-row">
-            <div class="legend-left">
-                <span class="legend-dot ready"></span>
-                <span>Ready</span>
-            </div>
-            <span class="legend-value">
-                ${ready}
-            </span>
-        </div>
-
-        <div class="legend-row">
-            <div class="legend-left">
-                <span class="legend-dot monitor"></span>
-                <span>Monitor</span>
-            </div>
-            <span class="legend-value">
-                ${monitor}
-            </span>
-        </div>
-
-        <div class="legend-row">
-            <div class="legend-left">
-                <span class="legend-dot risk"></span>
-                <span>At Risk</span>
-            </div>
-            <span class="legend-value">
-                ${risk}
-            </span>
-        </div>
-
-    `;
-}
-
-/* =============================================================
-   PERFORMANCE BREAKDOWN
-   ============================================================= */
-
-function renderPerformanceBreakdown(athletes) {
-
-    const container =
-        document.getElementById(
-            "performanceBreakdown"
-        );
-
-    if (!athletes.length) {
-
-        container.innerHTML =
-            emptyState(
-                "No athlete data",
-                "Add athletes to generate a performance breakdown."
-            );
-
-        return;
-    }
-
-    const categories = [
-        {
-            name: "Overall Performance",
-            value:
-                average(
-                    athletes.map(
-                        athletePerformance
-                    )
-                )
-        },
-        {
-            name: "Ready Athletes",
-            value:
-                percentage(
-                    athletes.filter(
-                        athlete =>
-                            athleteStatus(athlete) ===
-                            "Ready"
-                    ).length,
-                    athletes.length
-                )
-        },
-        {
-            name: "High Performers",
-            value:
-                percentage(
-                    athletes.filter(
-                        athlete =>
-                            athletePerformance(athlete) >=
-                            85
-                    ).length,
-                    athletes.length
-                )
-        },
-        {
-            name: "Performance ≥ 70",
-            value:
-                percentage(
-                    athletes.filter(
-                        athlete =>
-                            athletePerformance(athlete) >=
-                            70
-                    ).length,
-                    athletes.length
-                )
-        }
-    ];
-
-    container.innerHTML =
-        categories.map(
-            category => `
-
-                <div class="bar-row">
-
-                    <div class="bar-label">
-                        <span>
-                            ${escapeHTML(category.name)}
-                        </span>
-
-                        <span>
-                            ${Math.round(category.value)}
-                        </span>
-                    </div>
-
-                    <div class="bar-track">
-
-                        <div
-                            class="bar-fill"
-                            style="width:${clamp(
-                                category.value,
-                                0,
-                                100
-                            )}%"
-                        ></div>
-
-                    </div>
-
-                </div>
-
-            `
-        ).join("");
-}
-
-/* =============================================================
-   TREND CHART
-   ============================================================= */
-
-function renderTrend(tests) {
-
-    const container =
-        document.getElementById(
-            "trendContainer"
-        );
-
-    if (!tests.length) {
-
-        container.innerHTML =
-            `
-            <div class="empty-chart">
-                No testing data available for the selected period.
-            </div>
-            `;
-
-        return;
-    }
-
-    const sorted =
-        [...tests]
-            .filter(test => testScore(test) > 0)
-            .sort(
-                (a, b) =>
-                    (
-                        getRecordDate(a)?.getTime() || 0
-                    ) -
-                    (
-                        getRecordDate(b)?.getTime() || 0
-                    )
-            )
-            .slice(-12);
-
-    if (!sorted.length) {
-
-        container.innerHTML =
-            `
-            <div class="empty-chart">
-                Testing records do not contain scores yet.
-            </div>
-            `;
-
-        return;
-    }
-
-    const width = 760;
-    const height = 205;
-
-    const values =
-        sorted.map(test =>
-            clamp(
-                testScore(test),
-                0,
-                100
-            )
-        );
-
-    const min =
-        Math.max(
-            0,
-            Math.min(...values) - 10
-        );
-
-    const max =
-        Math.min(
-            100,
-            Math.max(...values) + 10
-        );
-
-    const range =
-        Math.max(
-            1,
-            max - min
-        );
-
-    const points =
-        values.map(
-            (value, index) => {
-
-                const x =
-                    sorted.length === 1
-                        ? width / 2
-                        : (
-                            index /
-                            (sorted.length - 1)
-                        ) *
-                        width;
-
-                const y =
-                    height -
-                    (
-                        (
-                            value - min
-                        ) /
-                        range
-                    ) *
-                    height;
-
-                return {
-                    x,
-                    y,
-                    value
-                };
-            }
-        );
-
-    const polyline =
-        points
-            .map(
-                point =>
-                    `${point.x},${point.y}`
-            )
-            .join(" ");
-
-    const circles =
-        points
-            .map(
-                point => `
-                    <circle
-                        cx="${point.x}"
-                        cy="${point.y}"
-                        r="4"
-                        fill="#54b9ff"
-                        stroke="#0d1319"
-                        stroke-width="3"
-                    />
-                `
-            )
-            .join("");
-
-    const area =
-        `0,${height} ` +
-        polyline +
-        ` ${width},${height}`;
-
-    const labels =
-        sorted.map(
-            test =>
-                `<span>${escapeHTML(
-                    formatShortDate(
-                        getRecordDate(test)
-                    )
-                )}</span>`
-        );
-
-    container.innerHTML = `
-
-        <div class="trend-chart">
-
-            <div class="chart-grid-line one">
-                <span>100</span>
-            </div>
-
-            <div class="chart-grid-line two">
-                <span>75</span>
-            </div>
-
-            <div class="chart-grid-line three">
-                <span>50</span>
-            </div>
-
-            <div class="chart-grid-line four">
-                <span>25</span>
-            </div>
-
-            <svg
-                class="chart-svg"
-                viewBox="0 0 ${width} ${height}"
-                preserveAspectRatio="none"
-            >
-
-                <polygon
-                    points="${area}"
-                    fill="rgba(84,185,255,0.06)"
-                />
-
-                <polyline
-                    points="${polyline}"
-                    fill="none"
-                    stroke="#54b9ff"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                />
-
-                ${circles}
-
-            </svg>
-
-            <div class="chart-labels">
-                ${labels.join("")}
-            </div>
-
-        </div>
-
-    `;
-}
-
-/* =============================================================
-   ATHLETE RANKING
-   ============================================================= */
-
-function renderAthleteRanking(athletes) {
-
-    const container =
-        document.getElementById(
-            "athleteRanking"
-        );
-
-    if (!athletes.length) {
-
-        container.innerHTML =
-            emptyState(
-                "No athletes found",
-                "Try changing your filters."
-            );
-
-        return;
-    }
-
-    const sorted =
-        [...athletes]
-            .sort(
-                (a, b) =>
-                    athletePerformance(b) -
-                    athletePerformance(a)
-            )
-            .slice(0, 15);
-
-    container.innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Rank</th>
-                    <th>Athlete</th>
-                    <th>Sport</th>
-                    <th>Performance</th>
-                    <th>Readiness</th>
-                    <th>Status</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${sorted.map(
-                    (athlete, index) => {
-
-                        const score =
-                            athletePerformance(
-                                athlete
-                            );
-
-                        const status =
-                            athleteStatus(
-                                athlete
-                            );
-
-                        return `
-
-                            <tr>
-
-                                <td>
-                                    <strong>
-                                        #${index + 1}
-                                    </strong>
-                                </td>
-
-                                <td>
-
-                                    <div class="athlete-cell">
-
-                                        <div class="athlete-avatar">
-                                            ${escapeHTML(
-                                                initials(
-                                                    athleteName(
-                                                        athlete
-                                                    )
-                                                )
-                                            )}
-                                        </div>
-
-                                        <div class="athlete-info">
-
-                                            <strong>
-                                                ${escapeHTML(
-                                                    athleteName(
-                                                        athlete
-                                                    )
-                                                )}
-                                            </strong>
-
-                                            <span>
-                                                ${escapeHTML(
-                                                    athlete?.position ||
-                                                    athlete?.role ||
-                                                    "Athlete"
-                                                )}
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-                                <td>
-                                    ${escapeHTML(
-                                        athleteSport(
-                                            athlete
-                                        )
-                                    )}
-                                </td>
-
-                                <td>
-
-                                    <span class="score ${
-                                        score >= 80
-                                            ? "good"
-                                            : score >= 65
-                                                ? "warning"
-                                                : "bad"
-                                    }">
-                                        ${Math.round(score)}
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    ${readinessLabel(
-                                        status
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${statusPill(
-                                        status
-                                    )}
-                                </td>
-
-                            </tr>
-
-                        `;
-                    }
-                ).join("")}
-
-            </tbody>
-
-        </table>
-
-    `;
-}
-
-/* =============================================================
-   TESTING TABLE
-   ============================================================= */
-
-function renderTestingTable(tests) {
-
-    const container =
-        document.getElementById(
-            "testingTable"
-        );
-
-    if (!tests.length) {
-
-        container.innerHTML =
-            emptyState(
-                "No testing records",
-                "Complete a test in Testing to populate this report."
-            );
-
-        return;
-    }
-
-    const sorted =
-        [...tests]
-            .sort(
-                (a, b) =>
-                    (
-                        getRecordDate(b)?.getTime() || 0
-                    ) -
-                    (
-                        getRecordDate(a)?.getTime() || 0
-                    )
-            )
-            .slice(0, 20);
-
-    container.innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Date</th>
-                    <th>Athlete</th>
-                    <th>Test</th>
-                    <th>Result</th>
-                    <th>Score</th>
-                    <th>Status</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${sorted.map(
-                    test => {
-
-                        const athlete =
-                            resolveAthlete(test);
-
-                        const score =
-                            testScore(test);
-
-                        const isPB =
-                            Boolean(
-                                test?.pb ??
-                                test?.personalBest ??
-                                test?.isPB
-                            );
-
-                        return `
-
-                            <tr>
-
-                                <td>
-                                    ${formatDate(
-                                        getRecordDate(
-                                            test
-                                        )
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${
-                                        athlete
-                                            ? escapeHTML(
-                                                athleteName(
-                                                    athlete
-                                                )
-                                            )
-                                            : escapeHTML(
-                                                recordAthleteName(
-                                                    test
-                                                ) ||
-                                                "Unknown Athlete"
-                                            )
-                                    }
-                                </td>
-
-                                <td>
-                                    ${escapeHTML(
-                                        testName(test)
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${escapeHTML(
-                                        testValue(test)
-                                    )}
-                                </td>
-
-                                <td>
-
-                                    <span class="score ${
-                                        score >= 80
-                                            ? "good"
-                                            : score >= 65
-                                                ? "warning"
-                                                : "bad"
-                                    }">
-                                        ${
-                                            score
-                                                ? Math.round(score)
-                                                : "—"
-                                        }
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    ${
-                                        isPB
-                                            ? `
-                                                <span class="status-pill ready">
-                                                    ● Personal Best
-                                                </span>
-                                            `
-                                            : `
-                                                <span
-                                                    class="status-pill monitor"
-                                                >
-                                                    • Recorded
-                                                </span>
-                                            `
-                                    }
-
-                                </td>
-
-                            </tr>
-
-                        `;
-                    }
-                ).join("")}
-
-            </tbody>
-
-        </table>
-
-    `;
-}
-
-/* =============================================================
-   TRAINING TABLE
-   ============================================================= */
-
-function renderTrainingTable(training) {
-
-    const container =
-        document.getElementById(
-            "trainingTable"
-        );
-
-    if (!training.length) {
-
-        container.innerHTML =
-            emptyState(
-                "No training sessions",
-                "Record training sessions to see training load here."
-            );
-
-        return;
-    }
-
-    const sorted =
-        [...training]
-            .sort(
-                (a, b) =>
-                    (
-                        getRecordDate(b)?.getTime() || 0
-                    ) -
-                    (
-                        getRecordDate(a)?.getTime() || 0
-                    )
-            )
-            .slice(0, 20);
-
-    container.innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Date</th>
-                    <th>Athlete</th>
-                    <th>Type</th>
-                    <th>Duration</th>
-                    <th>RPE</th>
-                    <th>Load</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${sorted.map(
-                    session => {
-
-                        const athlete =
-                            resolveAthlete(
-                                session
-                            );
-
-                        const load =
-                            trainingLoad(
-                                session
-                            );
-
-                        return `
-
-                            <tr>
-
-                                <td>
-                                    ${formatDate(
-                                        getRecordDate(
-                                            session
-                                        )
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${
-                                        athlete
-                                            ? escapeHTML(
-                                                athleteName(
-                                                    athlete
-                                                )
-                                            )
-                                            : escapeHTML(
-                                                recordAthleteName(
-                                                    session
-                                                ) ||
-                                                "Unknown Athlete"
-                                            )
-                                    }
-                                </td>
-
-                                <td>
-                                    ${escapeHTML(
-                                        trainingType(
-                                            session
-                                        )
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${trainingDuration(
-                                        session
-                                    )} min
-                                </td>
-
-                                <td>
-                                    ${trainingRPE(
-                                        session
-                                    )}
-                                </td>
-
-                                <td>
-
-                                    <strong>
-                                        ${Math.round(
-                                            load
-                                        )}
-                                    </strong>
-
-                                </td>
-
-                            </tr>
-
-                        `;
-                    }
-                ).join("")}
-
-            </tbody>
-
-        </table>
-
-    `;
-}
-
-/* =============================================================
-   TEAM SUMMARY
-   ============================================================= */
-
-function renderTeamSummary() {
-
-    const container =
-        document.getElementById(
-            "teamSummary"
-        );
-
-    if (!state.teams.length) {
-
-        container.innerHTML =
-            emptyState(
-                "No teams found",
-                "Create a team from the Teams page."
-            );
-
-        return;
-    }
-
-    const sport =
-        document.getElementById(
-            "sportFilter"
-        ).value;
-
-    let teams =
-        [...state.teams];
-
-    if (sport !== "all") {
-
-        teams =
-            teams.filter(
-                team =>
-                    normalize(
-                        team.sport
-                    ) ===
-                    normalize(sport)
-            );
-    }
-
-    const selected =
-        getSelectedTeam();
-
-    if (selected) {
-        teams = [selected];
-    }
-
-    container.innerHTML = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Team</th>
-                    <th>Sport</th>
-                    <th>Players</th>
-                    <th>Avg</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                ${teams.slice(0, 10).map(
-                    team => {
-
-                        const roster =
-                            teamAthletes(team);
-
-                        const avg =
-                            roster.length
-                                ? average(
-                                    roster.map(
-                                        athletePerformance
-                                    )
-                                )
-                                : 0;
-
-                        return `
-
-                            <tr>
-
-                                <td>
-                                    <strong>
-                                        ${escapeHTML(
-                                            team.name ||
-                                            "Unnamed Team"
-                                        )}
-                                    </strong>
-                                </td>
-
-                                <td>
-                                    ${escapeHTML(
-                                        team.sport ||
-                                        "—"
-                                    )}
-                                </td>
-
-                                <td>
-                                    ${roster.length}
-                                </td>
-
-                                <td>
-
-                                    <span class="score ${
-                                        avg >= 80
-                                            ? "good"
-                                            : avg >= 65
-                                                ? "warning"
-                                                : "bad"
-                                    }">
-                                        ${Math.round(avg)}
-                                    </span>
-
-                                </td>
-
-                            </tr>
-
-                        `;
-                    }
-                ).join("")}
-
-            </tbody>
-
-        </table>
-
-    `;
-}
-
-/* =============================================================
-   ATTENTION
-   ============================================================= */
-
-function renderAttention(athletes) {
-
-    const container =
-        document.getElementById(
-            "attentionList"
-        );
-
-    const attention =
-        athletes
-            .filter(
-                athlete =>
-                    athleteStatus(athlete) !==
-                    "Ready"
-            )
-            .sort(
-                (a, b) =>
-                    athletePerformance(a) -
-                    athletePerformance(b)
-            )
-            .slice(0, 8);
-
-    if (!attention.length) {
-
-        container.innerHTML = `
-
-            <div class="empty-state">
-                <div class="empty-icon">
-                    ✓
-                </div>
-
-                <strong>
-                    No immediate concerns
-                </strong>
-
-                <span>
-                    All selected athletes are currently marked ready.
-                </span>
-            </div>
-
-        `;
-
-        return;
-    }
-
-    container.innerHTML =
-        attention.map(
-            athlete => {
-
-                const status =
-                    athleteStatus(
-                        athlete
-                    );
-
-                const riskClass =
-                    status === "At Risk"
-                        ? "red"
-                        : "orange";
-
-                return `
-
-                    <div class="attention-item">
-
-                        <div
-                            class="attention-icon ${riskClass}"
-                        >
-                            ${status === "At Risk"
-                                ? "!"
-                                : "◐"}
-                        </div>
-
-                        <div class="attention-info">
-
-                            <strong>
-                                ${escapeHTML(
-                                    athleteName(
-                                        athlete
-                                    )
-                                )}
-                            </strong>
-
-                            <span>
-                                ${escapeHTML(
-                                    athleteSport(
-                                        athlete
-                                    )
-                                )}
-                                •
-                                ${status}
-                            </span>
-
-                        </div>
-
-                        <div
-                            class="attention-score ${
-                                status === "At Risk"
-                                    ? "change-down"
-                                    : "change-flat"
-                            }"
-                        >
-                            ${Math.round(
-                                athletePerformance(
-                                    athlete
-                                )
-                            )}
-                        </div>
-
-                    </div>
-
-                `;
-            }
-        ).join("");
-}
-
-/* =============================================================
-   SUMMARY
-   ============================================================= */
-
-function renderSummary(
-    athletes,
-    tests,
-    training
-) {
-
-    const totalLoad =
-        training.reduce(
-            (sum, session) =>
-                sum +
-                trainingLoad(session),
-            0
-        );
-
-    const personalBests =
-        tests.filter(
-            test =>
-                Boolean(
-                    test?.pb ??
-                    test?.personalBest ??
-                    test?.isPB
-                )
-        ).length;
-
-    const highPerformers =
-        athletes.filter(
-            athlete =>
-                athletePerformance(athlete) >= 85
-        ).length;
-
-    const sessions =
-        training.length;
-
-    document.getElementById(
-        "summaryGrid"
-    ).innerHTML = `
-
-        <div class="summary-stat">
-
-            <span>
-                Personal Bests
-            </span>
-
-            <strong>
-                ${personalBests}
-            </strong>
-
-        </div>
-
-        <div class="summary-stat">
-
-            <span>
-                High Performers
-            </span>
-
-            <strong>
-                ${highPerformers}
-            </strong>
-
-        </div>
-
-        <div class="summary-stat">
-
-            <span>
-                Sessions
-            </span>
-
-            <strong>
-                ${sessions}
-            </strong>
-
-        </div>
-
-        <div class="summary-stat">
-
-            <span>
-                Total Load
-            </span>
-
-            <strong>
-                ${Math.round(
-                    totalLoad
-                ).toLocaleString()}
-            </strong>
-
-        </div>
-
-    `;
-}
-
-/* =============================================================
-   GENERATE REPORT
-   ============================================================= */
-
-function generateReport() {
-
-    updateReportHeader();
-
-    const athletes =
-        getFilteredAthletes();
-
-    const tests =
-        getFilteredTests();
-
-    const training =
-        getFilteredTraining();
-
-    updateKPIs(
-        athletes,
-        tests,
-        training
-    );
-
-    renderReadiness(
-        athletes
-    );
-
-    renderPerformanceBreakdown(
-        athletes
-    );
-
-    renderTrend(
-        tests
-    );
-
-    renderAthleteRanking(
-        athletes
-    );
-
-    renderTestingTable(
-        tests
-    );
-
-    renderTrainingTable(
-        training
-    );
-
-    renderAttention(
-        athletes
-    );
-
-    renderTeamSummary();
-
-    renderSummary(
-        athletes,
-        tests,
-        training
-    );
-}
-
-/* =============================================================
-   RESET
-   ============================================================= */
-
-function resetFilters() {
-
-    document.getElementById(
-        "reportType"
-    ).value = "overview";
-
-    document.getElementById(
-        "athleteFilter"
-    ).value = "all";
-
-    document.getElementById(
-        "teamFilter"
-    ).value = "all";
-
-    document.getElementById(
-        "sportFilter"
-    ).value = "all";
-
-    document.getElementById(
-        "dateFilter"
-    ).value = "30";
-
+function loadData(){
+    state.athletes=readArray(STORAGE.athletes,LEGACY.athletes);
+    state.teams=readArray(STORAGE.teams);
+    state.tests=readArray(STORAGE.tests,LEGACY.tests);
+    state.training=readArray(STORAGE.training,LEGACY.training);
+    state.user=readObject(STORAGE.user);
+    populateFilters();
+    updateUser();
     generateReport();
-
-    showToast(
-        "Report filters reset.",
-        "success"
-    );
 }
 
-/* =============================================================
-   CSV EXPORT
-   ============================================================= */
+const titles={
+    overview:["Performance Overview","Current athlete, testing and training records."],
+    athlete:["Athlete Report","Individual athlete profile, testing and training history."],
+    team:["Team Report","Squad membership, testing and training records."],
+    testing:["Testing Report","Recorded testing results and personal-best records."],
+    training:["Training Report","Recorded sessions, duration, RPE and training load."],
+    progress:["Progress / History Report","Recorded history without inventing improvement scores."],
+    readiness:["Status Report","Explicit athlete status records only; no status is inferred."]
+};
 
-function csvEscape(value) {
+function updateHeader(){
+    const type=document.getElementById("reportType").value;
+    const t=titles[type]||titles.overview;
+    document.getElementById("reportTitle").textContent=t[0];
+    document.getElementById("reportSubtitle").textContent=t[1];
+    document.getElementById("generatedDate").textContent=new Date().toLocaleString("en-ZA",{dateStyle:"medium",timeStyle:"short"});
 
-    const text =
-        safeString(value);
-
-    return `"${text.replace(
-        /"/g,
-        '""'
-    )}"`;
+    const parts=[];
+    const aid=document.getElementById("athleteFilter").value;
+    const tid=document.getElementById("teamFilter").value;
+    const sp=document.getElementById("sportFilter").value;
+    const df=document.getElementById("dateFilter");
+    if(aid!=="all"){const a=state.athletes.find(x=>athleteId(x)===aid);if(a)parts.push(athleteName(a))}
+    if(tid!=="all"){const t=state.teams.find(x=>s(x.id)===tid);if(t)parts.push(s(t.name))}
+    if(sp!=="all")parts.push(sp);
+    parts.push(df.selectedOptions[0]?.textContent||"All Available Data");
+    document.getElementById("generatedFilters").textContent=parts.join(" • ");
 }
 
-function downloadCSV(
-    filename,
-    rows
-) {
-
-    const csv =
-        rows.map(
-            row =>
-                row.map(
-                    csvEscape
-                ).join(",")
-        ).join("\n");
-
-    const blob =
-        new Blob(
-            [csv],
-            {
-                type: "text/csv;charset=utf-8;"
-            }
-        );
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-    const link =
-        document.createElement("a");
-
-    link.href = url;
-    link.download = filename;
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-    URL.revokeObjectURL(url);
+function empty(title,desc){
+    return `<div class="empty-state"><div class="empty-icon">▤</div><strong>${esc(title)}</strong><span>${esc(desc)}</span></div>`;
 }
 
-function exportCSV() {
+function updateKPIs(athletes,tests,training){
+    const pbs=tests.filter(isPB).length;
+    const load=training.reduce((sum,x)=>sum+trainingLoad(x),0);
+    document.getElementById("kpiAthletes").textContent=athletes.length;
+    document.getElementById("kpiTests").textContent=tests.length;
+    document.getElementById("kpiPBs").textContent=pbs;
+    document.getElementById("kpiSessions").textContent=training.length;
+    document.getElementById("kpiLoad").textContent=Math.round(load).toLocaleString();
 
-    const athletes =
-        getFilteredAthletes();
+    document.getElementById("kpiAthletesMeta").textContent=athletes.length?"Current report selection":"No athlete data";
+    document.getElementById("kpiTestsMeta").textContent=tests.length?(tests.length===1?"Recorded test":"Recorded tests"):"No testing data";
+    document.getElementById("kpiPBMeta").textContent=pbs?(pbs===1?"Recorded personal best":"Recorded personal bests"):"No PB records";
+    document.getElementById("kpiSessionsMeta").textContent=training.length?(training.length===1?"Recorded session":"Recorded sessions"):"No training data";
+    document.getElementById("kpiLoadMeta").textContent=load?"From stored load or duration × RPE":"No load data recorded";
+}
 
-    const tests =
-        getFilteredTests();
+function renderStatus(athletes){
+    const counts={Ready:0,Monitor:0,"At Risk":0};
+    athletes.forEach(a=>{const st=athleteStatus(a);if(counts[st]!==undefined)counts[st]++});
+    const hasExplicit=Object.values(counts).some(Boolean);
+    document.getElementById("statusBreakdown").innerHTML=hasExplicit?`
+        <div class="status-breakdown">
+            <div class="status-box ready"><span>Ready</span><strong>${counts.Ready}</strong></div>
+            <div class="status-box monitor"><span>Monitor</span><strong>${counts.Monitor}</strong></div>
+            <div class="status-box risk"><span>At Risk</span><strong>${counts["At Risk"]}</strong></div>
+        </div>
+        <p class="muted" style="font-size:10px;line-height:1.5;margin:12px 0 0">These values come from athlete status fields. Athlete360 does not automatically classify readiness from a performance score.</p>
+    `:empty("No status data","Set an athlete's status in the Athletes page to include status information here.");
+}
 
-    const training =
-        getFilteredTraining();
+function renderTestingActivity(tests){
+    if(!tests.length){document.getElementById("testingActivity").innerHTML=empty("No testing records","Complete a test in Testing to populate this report.");return}
+    const counts={};
+    tests.forEach(t=>{const key=shortDate(recordDate(t));counts[key]=(counts[key]||0)+1});
+    const rows=Object.entries(counts).slice(-8).reverse();
+    const max=Math.max(...rows.map(x=>x[1]),1);
+    document.getElementById("testingActivity").innerHTML=rows.map(([date,count])=>`
+        <div style="display:flex;align-items:center;gap:10px;margin:9px 0">
+            <span style="width:48px;color:#75838c;font-size:9px">${esc(date)}</span>
+            <div style="flex:1;height:8px;background:#0b1116;border:1px solid #1d2730;border-radius:99px;overflow:hidden">
+                <div style="height:100%;width:${count/max*100}%;background:#38bdf8;border-radius:99px"></div>
+            </div>
+            <strong style="width:24px;text-align:right;font-size:10px">${count}</strong>
+        </div>
+    `).join("");
+}
 
-    const rows = [
-        [
-            "Athlete360 Report",
-            new Date().toISOString()
-        ],
+function renderSummary(athletes,tests,training){
+    const explicitStatus=athletes.filter(a=>athleteStatus(a)).length;
+    const uniqueTested=new Set(tests.map(r=>{const a=resolveAthlete(r);return a?athleteId(a):norm(recordAthleteName(r))}).filter(Boolean)).size;
+    const duration=training.reduce((sum,x)=>sum+trainingDuration(x),0);
+    document.getElementById("summaryGrid").innerHTML=`
+        <div class="summary-stat"><span>Tested Athletes</span><strong>${uniqueTested}</strong></div>
+        <div class="summary-stat"><span>PB Records</span><strong>${tests.filter(isPB).length}</strong></div>
+        <div class="summary-stat"><span>Status Set</span><strong>${explicitStatus}</strong></div>
+        <div class="summary-stat"><span>Training Minutes</span><strong>${duration?Math.round(duration):0}</strong></div>
+    `;
+}
+
+function renderAthletes(athletes,tests,training){
+    const c=document.getElementById("athleteTable");
+    if(!athletes.length){c.innerHTML=empty("No athletes found","Add athletes or change the report filters.");return}
+    const rows=athletes.map(a=>{
+        const id=athleteId(a);
+        const relatedTests=tests.filter(r=>{const x=resolveAthlete(r);return x?athleteId(x)===id:norm(recordAthleteName(r))===norm(athleteName(a))}).length;
+        const relatedTraining=training.filter(r=>{const x=resolveAthlete(r);return x?athleteId(x)===id:norm(recordAthleteName(r))===norm(athleteName(a))}).length;
+        const st=athleteStatus(a);
+        const statusHtml=st?`<span class="pill ${st==="Ready"?"ready":st==="Monitor"?"monitor":"risk"}">● ${esc(st)}</span>`:`<span class="pill neutral">Not set</span>`;
+        return `<tr>
+            <td><div class="name-cell"><div class="avatar">${esc(initials(athleteName(a)))}</div><div><strong>${esc(athleteName(a))}</strong><span>${esc(a?.position||"Athlete")}</span></div></div></td>
+            <td>${esc(athleteSport(a)||"—")}</td>
+            <td>${esc(teamNameForAthlete(a))}</td>
+            <td>${relatedTests}</td>
+            <td>${relatedTraining}</td>
+            <td>${statusHtml}</td>
+        </tr>`;
+    }).join("");
+    c.innerHTML=`<table class="data-table"><thead><tr><th>Athlete</th><th>Sport</th><th>Team</th><th>Tests</th><th>Training</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderTesting(tests){
+    const c=document.getElementById("testingTable");
+    if(!tests.length){c.innerHTML=empty("No testing records","Complete a test in Testing to populate this report.");return}
+    const rows=[...tests].sort((a,b)=>(recordDate(b)?.getTime()||0)-(recordDate(a)?.getTime()||0)).slice(0,25).map(t=>{
+        const a=resolveAthlete(t);
+        return `<tr>
+            <td>${dateText(recordDate(t))}</td>
+            <td>${esc(a?athleteName(a):recordAthleteName(t)||"—")}</td>
+            <td>${esc(testName(t))}</td>
+            <td>${esc(testValue(t))}</td>
+            <td>${isPB(t)?'<span class="pill ready">★ PB</span>':'<span class="pill neutral">Recorded</span>'}</td>
+        </tr>`;
+    }).join("");
+    c.innerHTML=`<table class="data-table"><thead><tr><th>Date</th><th>Athlete</th><th>Test</th><th>Result</th><th>Record</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderTraining(training){
+    const c=document.getElementById("trainingTable");
+    if(!training.length){c.innerHTML=empty("No training sessions","Record a training session in Training to populate this report.");return}
+    const rows=[...training].sort((a,b)=>(recordDate(b)?.getTime()||0)-(recordDate(a)?.getTime()||0)).slice(0,25).map(x=>{
+        const a=resolveAthlete(x);
+        const load=trainingLoad(x);
+        return `<tr>
+            <td>${dateText(recordDate(x))}</td>
+            <td>${esc(a?athleteName(a):recordAthleteName(x)||x?.teamName||"—")}</td>
+            <td>${esc(trainingType(x))}</td>
+            <td>${trainingDuration(x)||"—"}${trainingDuration(x)?" min":""}</td>
+            <td>${trainingRPE(x)||"—"}</td>
+            <td>${load?Math.round(load):"—"}</td>
+        </tr>`;
+    }).join("");
+    c.innerHTML=`<table class="data-table"><thead><tr><th>Date</th><th>Target</th><th>Type</th><th>Duration</th><th>RPE</th><th>Load</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderActivity(tests,training){
+    const items=[
+        ...tests.map(t=>({kind:"Testing",name:testName(t),person:resolveAthlete(t)?.name||recordAthleteName(t),date:recordDate(t)})),
+        ...training.map(x=>({kind:"Training",name:trainingType(x),person:resolveAthlete(x)?.name||recordAthleteName(x)||x?.teamName,date:recordDate(x)}))
+    ].sort((a,b)=>(b.date?.getTime()||0)-(a.date?.getTime()||0)).slice(0,7);
+
+    document.getElementById("activityList").innerHTML=items.length?`
+        <div class="activity-list">${items.map(x=>`
+            <div class="activity-item">
+                <div class="activity-icon">${x.kind==="Testing"?"◈":"⚡"}</div>
+                <div class="activity-info"><strong>${esc(x.name)}</strong><span>${esc(x.person||"Record without athlete name")} • ${x.kind}</span></div>
+                <div class="activity-date">${dateText(x.date)}</div>
+            </div>`).join("")}</div>
+    `:empty("No recent activity","Testing and training records will appear here when entered.");
+}
+
+function renderAttention(athletes){
+    const c=document.getElementById("attentionList");
+    const attention=athletes.filter(a=>["Monitor","At Risk"].includes(athleteStatus(a)));
+    if(!attention.length){
+        const anyStatus=athletes.some(a=>athleteStatus(a));
+        c.innerHTML=anyStatus?empty("No athletes flagged","No selected athlete is currently marked Monitor or At Risk."):empty("No status data","No attention status has been entered for the selected athletes.");
+        return;
+    }
+    c.innerHTML=`<div class="attention-list">${attention.map(a=>{
+        const st=athleteStatus(a), risk=st==="At Risk";
+        return `<div class="attention-item">
+            <div class="attention-icon ${risk?"risk":"monitor"}">${risk?"!":"◐"}</div>
+            <div class="attention-info"><strong>${esc(athleteName(a))}</strong><span>${esc(athleteSport(a)||"Sport not set")} • ${esc(st)}</span></div>
+            <div class="attention-reason">Status recorded<br>in athlete profile</div>
+        </div>`;
+    }).join("")}</div>`;
+}
+
+function renderTeams(athletes){
+    const c=document.getElementById("teamSummary");
+    if(!state.teams.length){c.innerHTML=empty("No teams created","Create teams in Teams to show squad summaries.");return}
+    const rows=state.teams.map(t=>{
+        const roster=teamAthletes(t);
+        const sports=[...new Set(roster.map(athleteSport).filter(Boolean))];
+        return `<tr><td>${esc(t.name||"Unnamed Team")}</td><td>${esc(t.ageGroup||"—")}</td><td>${esc(t.sport||sports.join(", ")||"—")}</td><td>${roster.length}</td></tr>`;
+    }).join("");
+    c.innerHTML=`<table class="data-table" style="min-width:430px"><thead><tr><th>Team</th><th>Age</th><th>Sport</th><th>Athletes</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function generateReport(){
+    updateHeader();
+    const athletes=getFilteredAthletes();
+    const tests=getFilteredRecords(state.tests);
+    const training=getFilteredRecords(state.training);
+
+    updateKPIs(athletes,tests,training);
+    renderStatus(athletes);
+    renderTestingActivity(tests);
+    renderSummary(athletes,tests,training);
+    renderAthletes(athletes,tests,training);
+    renderTesting(tests);
+    renderTraining(training);
+    renderActivity(tests,training);
+    renderAttention(athletes);
+    renderTeams(athletes);
+}
+
+function resetFilters(){
+    document.getElementById("reportType").value="overview";
+    document.getElementById("athleteFilter").value="all";
+    document.getElementById("teamFilter").value="all";
+    document.getElementById("sportFilter").value="all";
+    document.getElementById("dateFilter").value="30";
+    generateReport();
+    showToast("Report filters reset.");
+}
+
+function csvEscape(v){return `"${s(v).replace(/"/g,'""')}"`}
+function downloadCSV(filename,rows){
+    const csv=rows.map(r=>r.map(csvEscape).join(",")).join("\n");
+    const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+
+function exportCSV(){
+    const athletes=getFilteredAthletes(), tests=getFilteredRecords(state.tests), training=getFilteredRecords(state.training);
+    const rows=[
+        ["Athlete360 Report",new Date().toISOString()],
         [],
-        [
-            "ATHLETE PERFORMANCE"
-        ],
-        [
-            "Athlete",
-            "Sport",
-            "Performance",
-            "Readiness",
-            "Position"
-        ]
+        ["ATHLETES","Sport","Team","Tests","Training Sessions","Status"]
     ];
-
-    athletes.forEach(
-        athlete => {
-
-            rows.push([
-                athleteName(athlete),
-                athleteSport(athlete),
-                Math.round(
-                    athletePerformance(
-                        athlete
-                    )
-                ),
-                athleteStatus(
-                    athlete
-                ),
-                athlete?.position ||
-                athlete?.role ||
-                ""
-            ]);
-
-        }
-    );
-
-    rows.push([]);
-
-    rows.push([
-        "TESTING RESULTS"
-    ]);
-
-    rows.push([
-        "Date",
-        "Athlete",
-        "Test",
-        "Result",
-        "Score",
-        "Personal Best"
-    ]);
-
-    tests.forEach(
-        test => {
-
-            const athlete =
-                resolveAthlete(test);
-
-            rows.push([
-                formatDate(
-                    getRecordDate(test)
-                ),
-                athlete
-                    ? athleteName(athlete)
-                    : recordAthleteName(test),
-                testName(test),
-                testValue(test),
-                testScore(test),
-                (
-                    test?.pb ??
-                    test?.personalBest ??
-                    test?.isPB
-                )
-                    ? "Yes"
-                    : "No"
-            ]);
-
-        }
-    );
-
-    rows.push([]);
-
-    rows.push([
-        "TRAINING SESSIONS"
-    ]);
-
-    rows.push([
-        "Date",
-        "Athlete",
-        "Type",
-        "Duration",
-        "RPE",
-        "Load"
-    ]);
-
-    training.forEach(
-        session => {
-
-            const athlete =
-                resolveAthlete(
-                    session
-                );
-
-            rows.push([
-                formatDate(
-                    getRecordDate(
-                        session
-                    )
-                ),
-                athlete
-                    ? athleteName(athlete)
-                    : recordAthleteName(session),
-                trainingType(session),
-                trainingDuration(session),
-                trainingRPE(session),
-                Math.round(
-                    trainingLoad(session)
-                )
-            ]);
-
-        }
-    );
-
-    const filename =
-        `athlete360-report-${new Date()
-            .toISOString()
-            .slice(0, 10)}.csv`;
-
-    downloadCSV(
-        filename,
-        rows
-    );
-
-    showToast(
-        "Report exported successfully.",
-        "success"
-    );
+    athletes.forEach(a=>{
+        const id=athleteId(a);
+        rows.push([athleteName(a),athleteSport(a),teamNameForAthlete(a),
+            tests.filter(r=>(resolveAthlete(r)?.id===id)||norm(recordAthleteName(r))===norm(athleteName(a))).length,
+            training.filter(r=>(resolveAthlete(r)?.id===id)||norm(recordAthleteName(r))===norm(athleteName(a))).length,
+            athleteStatus(a)||"Not set"]);
+    });
+    rows.push([],["TESTING","Date","Athlete","Test","Result","Personal Best"]);
+    tests.forEach(t=>rows.push(["",dateText(recordDate(t)),resolveAthlete(t)?athleteName(resolveAthlete(t)):recordAthleteName(t),testName(t),testValue(t),isPB(t)?"Yes":"No"]));
+    rows.push([],["TRAINING","Date","Target","Type","Duration","RPE","Load"]);
+    training.forEach(x=>rows.push(["",dateText(recordDate(x)),resolveAthlete(x)?athleteName(resolveAthlete(x)):recordAthleteName(x)||x?.teamName||"",trainingType(x),trainingDuration(x),trainingRPE(x),trainingLoad(x)||""]));
+    downloadCSV(`athlete360-report-${new Date().toISOString().slice(0,10)}.csv`,rows);
+    showToast("Report exported successfully.");
 }
 
-/* =============================================================
-   PRINT
-   ============================================================= */
+function printReport(){generateReport();setTimeout(()=>window.print(),150)}
 
-function printReport() {
-
-    generateReport();
-
-    setTimeout(
-        () => {
-            window.print();
-        },
-        150
-    );
+let toastTimer;
+function showToast(message,type="success"){
+    const t=document.getElementById("toast");t.textContent=message;t.className=`toast show ${type}`;
+    clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2500);
 }
 
-/* =============================================================
-   UI HELPERS
-   ============================================================= */
+const mobileMenu=document.getElementById("mobileMenu");
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("sidebarOverlay");
+mobileMenu.addEventListener("click",()=>{sidebar.classList.add("open");overlay.classList.add("active")});
+overlay.addEventListener("click",()=>{sidebar.classList.remove("open");overlay.classList.remove("active")});
+document.getElementById("refreshBtn").addEventListener("click",()=>{loadData();showToast("Report refreshed.")});
 
-function average(values) {
+["reportType","athleteFilter","teamFilter","sportFilter","dateFilter"].forEach(id=>{
+    document.getElementById(id).addEventListener("change",generateReport);
+});
 
-    if (!values.length) {
-        return 0;
-    }
-
-    return (
-        values.reduce(
-            (sum, value) =>
-                sum + number(value),
-            0
-        ) /
-        values.length
-    );
-}
-
-function percentage(
-    part,
-    total
-) {
-
-    if (!total) {
-        return 0;
-    }
-
-    return (
-        number(part) /
-        number(total)
-    ) *
-    100;
-}
-
-function clamp(
-    value,
-    min,
-    max
-) {
-
-    return Math.min(
-        max,
-        Math.max(
-            min,
-            number(value)
-        )
-    );
-}
-
-function readinessLabel(
-    status
-) {
-
-    if (status === "Ready") {
-        return "Ready";
-    }
-
-    if (status === "Monitor") {
-        return "Monitor";
-    }
-
-    return "At Risk";
-}
-
-function statusPill(
-    status
-) {
-
-    if (status === "Ready") {
-
-        return `
-            <span class="status-pill ready">
-                ● Ready
-            </span>
-        `;
-    }
-
-    if (status === "Monitor") {
-
-        return `
-            <span class="status-pill monitor">
-                ● Monitor
-            </span>
-        `;
-    }
-
-    return `
-        <span class="status-pill risk">
-            ● At Risk
-        </span>
-    `;
-}
-
-function emptyState(
-    title,
-    description
-) {
-
-    return `
-
-        <div class="empty-state">
-
-            <div class="empty-icon">
-                ▤
-            </div>
-
-            <strong>
-                ${escapeHTML(title)}
-            </strong>
-
-            <span>
-                ${escapeHTML(description)}
-            </span>
-
-        </div>
-
-    `;
-}
-
-/* =============================================================
-   TOAST
-   ============================================================= */
-
-let toastTimer = null;
-
-function showToast(
-    message,
-    type = "success"
-) {
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-    toast.textContent =
-        message;
-
-    toast.className =
-        "toast show " +
-        type;
-
-    clearTimeout(
-        toastTimer
-    );
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2800
-        );
-}
-
-/* =============================================================
-   MOBILE SIDEBAR
-   ============================================================= */
-
-const mobileMenu =
-    document.getElementById(
-        "mobileMenu"
-    );
-
-const sidebar =
-    document.getElementById(
-        "sidebar"
-    );
-
-const sidebarOverlay =
-    document.getElementById(
-        "sidebarOverlay"
-    );
-
-function openSidebar() {
-
-    sidebar.classList.add(
-        "open"
-    );
-
-    sidebarOverlay.classList.add(
-        "active"
-    );
-}
-
-function closeSidebar() {
-
-    sidebar.classList.remove(
-        "open"
-    );
-
-    sidebarOverlay.classList.remove(
-        "active"
-    );
-}
-
-mobileMenu?.addEventListener(
-    "click",
-    openSidebar
-);
-
-sidebarOverlay?.addEventListener(
-    "click",
-    closeSidebar
-);
-
-/* =============================================================
-   FILTER EVENTS
-   ============================================================= */
-
-[
-    "reportType",
-    "athleteFilter",
-    "teamFilter",
-    "sportFilter",
-    "dateFilter"
-].forEach(
-    id => {
-
-        document
-            .getElementById(id)
-            ?.addEventListener(
-                "change",
-                generateReport
-            );
-
-    }
-);
-
-/* =============================================================
-   ATHLETE360 INITIALIZATION
-   ============================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
+window.addEventListener("storage",e=>{
+    if([STORAGE.athletes,STORAGE.teams,STORAGE.tests,STORAGE.training,STORAGE.user,...LEGACY.tests,...LEGACY.training].includes(e.key)){
         loadData();
-
     }
-);
+});
 
-/* =============================================================
-   STORAGE CHANGE SUPPORT
-   ============================================================= */
-
-window.addEventListener(
-    "storage",
-    event => {
-
-        if (
-            [
-                STORAGE.athletes,
-                STORAGE.teams,
-                STORAGE.tests,
-                STORAGE.training,
-                STORAGE.user
-            ].includes(event.key)
-        ) {
-
-            loadData();
-
-            showToast(
-                "Athlete360 data updated.",
-                "success"
-            );
-        }
-
-    }
-);
-
-/* =============================================================
-   GLOBAL ACCESS
-   ============================================================= */
-
-window.generateReport =
-    generateReport;
-
-window.resetFilters =
-    resetFilters;
-
-window.exportCSV =
-    exportCSV;
-
-window.printReport =
-    printReport;
-
+document.addEventListener("DOMContentLoaded",loadData);
+window.generateReport=generateReport;
+window.resetFilters=resetFilters;
+window.exportCSV=exportCSV;
+window.printReport=printReport;
 </script>
-
 </body>
 </html>

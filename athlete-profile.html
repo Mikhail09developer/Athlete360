@@ -1,8 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Athlete Profile | Athlete360</title>
 
     <style>
@@ -12,7 +14,10 @@
             --sidebar: #0e1319;
             --card: #151c24;
             --card-2: #19222c;
+            --card-3: #111820;
+
             --border: #27323d;
+            --border-soft: #202a34;
 
             --blue: #45b9ff;
             --blue-dark: #168bd0;
@@ -65,9 +70,9 @@
             text-decoration: none;
         }
 
-        /* =========================================
+        /* =====================================================
            SIDEBAR
-        ========================================= */
+        ===================================================== */
 
         .sidebar {
             position: fixed;
@@ -78,6 +83,7 @@
             background: var(--sidebar);
             border-right: 1px solid var(--border);
             z-index: 1000;
+
             display: flex;
             flex-direction: column;
         }
@@ -85,9 +91,11 @@
         .brand {
             height: 78px;
             padding: 0 22px;
+
             display: flex;
             align-items: center;
             gap: 12px;
+
             border-bottom: 1px solid var(--border);
         }
 
@@ -95,10 +103,17 @@
             width: 40px;
             height: 40px;
             border-radius: 11px;
-            background: linear-gradient(135deg, var(--blue), var(--green));
+
+            background: linear-gradient(
+                135deg,
+                var(--blue),
+                var(--green)
+            );
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             color: #071017;
             font-weight: 900;
             font-size: 16px;
@@ -112,10 +127,13 @@
 
         .brand-text span {
             display: block;
+
             font-size: 10px;
             color: var(--text-muted);
+
             text-transform: uppercase;
             letter-spacing: 1.5px;
+
             margin-top: 2px;
         }
 
@@ -133,22 +151,31 @@
             color: #596775;
             font-size: 10px;
             font-weight: 700;
+
             text-transform: uppercase;
             letter-spacing: 1.5px;
+
             padding: 0 12px 9px;
         }
 
         .nav-link {
             width: 100%;
+
             display: flex;
             align-items: center;
             gap: 12px;
+
             padding: 11px 12px;
             margin-bottom: 4px;
+
             border-radius: 10px;
+
             color: var(--text-soft);
+
             transition: var(--transition);
+
             font-size: 13px;
+
             border: 1px solid transparent;
         }
 
@@ -178,20 +205,31 @@
             display: flex;
             align-items: center;
             gap: 10px;
+
             padding: 9px;
             border-radius: 10px;
+
             background: #121920;
         }
 
         .user-avatar {
             width: 34px;
             height: 34px;
+
             border-radius: 9px;
-            background: linear-gradient(135deg, var(--blue), var(--green));
+
+            background: linear-gradient(
+                135deg,
+                var(--blue),
+                var(--green)
+            );
+
             color: #061017;
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             font-weight: 800;
             font-size: 12px;
         }
@@ -202,7 +240,9 @@
 
         .user-info strong {
             display: block;
+
             font-size: 12px;
+
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -210,14 +250,16 @@
 
         .user-info span {
             display: block;
+
             font-size: 10px;
             color: var(--text-muted);
+
             margin-top: 2px;
         }
 
-        /* =========================================
+        /* =====================================================
            MAIN
-        ========================================= */
+        ===================================================== */
 
         .main {
             margin-left: var(--sidebar-width);
@@ -226,14 +268,20 @@
 
         .topbar {
             height: 78px;
+
             border-bottom: 1px solid var(--border);
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             padding: 0 30px;
+
             background: rgba(11, 15, 20, 0.96);
+
             position: sticky;
             top: 0;
+
             z-index: 900;
         }
 
@@ -245,11 +293,16 @@
 
         .mobile-menu {
             display: none;
+
             width: 40px;
             height: 40px;
+
             border: 1px solid var(--border);
+
             background: var(--card);
+
             color: var(--text);
+
             border-radius: 9px;
         }
 
@@ -257,7 +310,9 @@
             display: flex;
             align-items: center;
             gap: 8px;
+
             color: var(--text-muted);
+
             font-size: 12px;
         }
 
@@ -278,10 +333,15 @@
         .icon-btn {
             width: 38px;
             height: 38px;
+
             border: 1px solid var(--border);
+
             background: var(--card);
+
             color: var(--text-soft);
+
             border-radius: 9px;
+
             transition: var(--transition);
         }
 
@@ -292,150 +352,267 @@
 
         .page {
             padding: 28px 30px 50px;
+
             max-width: 1600px;
+
             margin: 0 auto;
         }
 
-        /* =========================================
+        /* =====================================================
            PROFILE HEADER
-        ========================================= */
+        ===================================================== */
 
         .profile-header {
             background:
-                radial-gradient(circle at 90% 20%, rgba(69, 185, 255, 0.12), transparent 30%),
-                radial-gradient(circle at 65% 100%, rgba(49, 213, 138, 0.07), transparent 30%),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(69, 185, 255, 0.12),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 65% 100%,
+                    rgba(49, 213, 138, 0.07),
+                    transparent 30%
+                ),
                 var(--card);
+
             border: 1px solid var(--border);
+
             border-radius: var(--radius);
+
             padding: 26px;
+
             margin-bottom: 20px;
         }
 
         .profile-top {
             display: flex;
+
             justify-content: space-between;
+
             align-items: flex-start;
+
             gap: 20px;
         }
 
         .profile-main {
             display: flex;
+
             align-items: center;
+
             gap: 20px;
         }
 
         .profile-avatar {
             width: 82px;
             height: 82px;
+
             border-radius: 18px;
-            background: linear-gradient(135deg, #172f40, #193d32);
-            border: 1px solid rgba(69, 185, 255, 0.25);
+
+            background: linear-gradient(
+                135deg,
+                #172f40,
+                #193d32
+            );
+
+            border: 1px solid rgba(
+                69,
+                185,
+                255,
+                0.25
+            );
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             color: var(--blue);
+
             font-size: 26px;
+
             font-weight: 900;
+
             flex-shrink: 0;
         }
 
         .profile-details h1 {
             font-size: 29px;
+
             letter-spacing: -0.8px;
+
             margin-bottom: 7px;
         }
 
         .profile-details p {
             color: var(--text-soft);
+
             font-size: 13px;
+
             margin-bottom: 11px;
         }
 
         .profile-tags {
             display: flex;
             flex-wrap: wrap;
+
             gap: 7px;
         }
 
         .tag {
             padding: 6px 9px;
+
             border-radius: 7px;
+
             background: #101820;
+
             border: 1px solid var(--border);
+
             color: var(--text-soft);
+
             font-size: 10px;
         }
 
         .status {
             display: inline-flex;
+
             align-items: center;
+
             gap: 6px;
+
             padding: 6px 9px;
+
             border-radius: 7px;
+
             font-size: 10px;
+
             font-weight: 700;
         }
 
         .status.ready {
             color: var(--green);
-            background: rgba(49, 213, 138, 0.10);
-            border: 1px solid rgba(49, 213, 138, 0.20);
+
+            background: rgba(
+                49,
+                213,
+                138,
+                0.10
+            );
+
+            border: 1px solid rgba(
+                49,
+                213,
+                138,
+                0.20
+            );
         }
 
         .status.monitor {
             color: var(--orange);
-            background: rgba(255, 173, 77, 0.10);
-            border: 1px solid rgba(255, 173, 77, 0.20);
+
+            background: rgba(
+                255,
+                173,
+                77,
+                0.10
+            );
+
+            border: 1px solid rgba(
+                255,
+                173,
+                77,
+                0.20
+            );
+        }
+
+        .status.rest {
+            color: var(--red);
+
+            background: rgba(
+                255,
+                95,
+                103,
+                0.10
+            );
+
+            border: 1px solid rgba(
+                255,
+                95,
+                103,
+                0.20
+            );
         }
 
         .status-dot {
             width: 6px;
             height: 6px;
+
             border-radius: 50%;
+
             background: currentColor;
         }
 
         .profile-actions {
             display: flex;
+
             gap: 9px;
+
             flex-wrap: wrap;
         }
 
         .btn {
             border: 1px solid var(--border);
+
             background: #111820;
+
             color: var(--text-soft);
+
             padding: 10px 14px;
+
             border-radius: 9px;
+
             font-size: 11px;
+
             font-weight: 700;
+
             transition: var(--transition);
         }
 
         .btn:hover {
-            border-color: rgba(69, 185, 255, 0.35);
+            border-color: rgba(
+                69,
+                185,
+                255,
+                0.35
+            );
+
             color: var(--blue);
         }
 
         .btn-primary {
             background: var(--blue);
+
             color: #071017;
+
             border-color: var(--blue);
         }
 
         .btn-primary:hover {
             background: #62c4ff;
+
             color: #071017;
         }
 
         .btn-green {
             background: var(--green);
+
             color: #06130d;
+
             border-color: var(--green);
         }
 
         .btn-green:hover {
             background: #50e5a0;
+
             color: #06130d;
         }
 
@@ -443,266 +620,189 @@
             color: var(--red);
         }
 
-        /* =========================================
-           GRID / CARDS
-        ========================================= */
+        /* =====================================================
+           CARDS
+        ===================================================== */
 
-        .section-title {
-            font-size: 15px;
-            margin-bottom: 12px;
-            font-weight: 800;
-        }
+        .card {
+            background: var(--card);
 
-        .section-subtitle {
-            color: var(--text-muted);
-            font-size: 11px;
-            margin-top: -7px;
-            margin-bottom: 14px;
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 20px;
         }
 
         .overview-grid {
             display: grid;
-            grid-template-columns: 1.15fr 2fr;
+
+            grid-template-columns:
+                1.15fr
+                2fr;
+
             gap: 20px;
+
             margin-bottom: 20px;
         }
 
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px;
-        }
-
-        /* =========================================
-           SCORE CARD
-        ========================================= */
+        /* =====================================================
+           SCORE
+        ===================================================== */
 
         .score-card {
             display: flex;
+
             flex-direction: column;
+
             justify-content: space-between;
+
             min-height: 250px;
         }
 
         .score-head {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
         }
 
         .score-label {
             color: var(--text-muted);
+
             font-size: 11px;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
         }
 
         .score-date {
             color: var(--text-muted);
+
             font-size: 10px;
         }
 
         .score-center {
             display: flex;
+
             align-items: center;
+
             gap: 20px;
+
             margin: 20px 0;
         }
 
         .score-ring {
             width: 120px;
             height: 120px;
+
             border-radius: 50%;
-            background:
-                conic-gradient(
-                    var(--green) 0deg,
-                    var(--blue) 300deg,
-                    #26323d 300deg,
-                    #26323d 360deg
-                );
+
             position: relative;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             flex-shrink: 0;
         }
 
         .score-ring::before {
             content: "";
+
             position: absolute;
+
             width: 92px;
             height: 92px;
+
             border-radius: 50%;
+
             background: var(--card);
         }
 
         .score-value {
             position: relative;
+
             z-index: 2;
+
             text-align: center;
         }
 
         .score-value strong {
             display: block;
+
             font-size: 31px;
+
             line-height: 1;
         }
 
         .score-value span {
             color: var(--text-muted);
+
             font-size: 9px;
+
             text-transform: uppercase;
+
             letter-spacing: 1px;
         }
 
         .score-description h3 {
             font-size: 15px;
+
             margin-bottom: 7px;
         }
 
         .score-description p {
             color: var(--text-muted);
+
             line-height: 1.6;
+
             font-size: 11px;
         }
 
         .score-footer {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             padding-top: 14px;
+
             border-top: 1px solid var(--border);
         }
 
         .improvement {
             color: var(--green);
+
             font-size: 11px;
+
             font-weight: 700;
         }
 
         .score-footer span:last-child {
             color: var(--text-muted);
+
             font-size: 10px;
         }
 
-        /* =========================================
+        /* =====================================================
            METRICS
-        ========================================= */
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-        }
-
-        .metric {
-            background: #111820;
-            border: 1px solid var(--border);
-            border-radius: 11px;
-            padding: 14px;
-        }
-
-        .metric-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .metric-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(69, 185, 255, 0.10);
-            color: var(--blue);
-            font-size: 14px;
-        }
-
-        .metric:nth-child(2) .metric-icon {
-            background: rgba(49, 213, 138, 0.10);
-            color: var(--green);
-        }
-
-        .metric:nth-child(3) .metric-icon {
-            background: rgba(155, 124, 255, 0.10);
-            color: var(--purple);
-        }
-
-        .metric:nth-child(4) .metric-icon {
-            background: rgba(255, 173, 77, 0.10);
-            color: var(--orange);
-        }
-
-        .metric:nth-child(5) .metric-icon {
-            background: rgba(69, 185, 255, 0.10);
-            color: var(--blue);
-        }
-
-        .metric-name {
-            color: var(--text-muted);
-            font-size: 10px;
-        }
-
-        .metric-score {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .metric-score small {
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 400;
-        }
-
-        .progress {
-            height: 5px;
-            background: #26313b;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(90deg, var(--blue), var(--green));
-        }
-
-        .metric-change {
-            margin-top: 8px;
-            color: var(--green);
-            font-size: 9px;
-            font-weight: 700;
-        }
-
-        /* =========================================
-           TWO COLUMN CONTENT
-        ========================================= */
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1.55fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        /* =========================================
-           CHART
-        ========================================= */
-
-        .chart-card {
-            min-height: 360px;
-        }
+        ===================================================== */
 
         .card-header {
             display: flex;
+
             justify-content: space-between;
+
             align-items: flex-start;
+
             margin-bottom: 20px;
+
             gap: 15px;
         }
 
@@ -712,26 +812,202 @@
 
         .card-header p {
             color: var(--text-muted);
+
             font-size: 10px;
+
             margin-top: 5px;
         }
 
+        .metrics-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 10px;
+        }
+
+        .metric {
+            background: var(--card-3);
+
+            border: 1px solid var(--border);
+
+            border-radius: 11px;
+
+            padding: 14px;
+        }
+
+        .metric-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 12px;
+        }
+
+        .metric-icon {
+            width: 30px;
+            height: 30px;
+
+            border-radius: 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: rgba(
+                69,
+                185,
+                255,
+                0.10
+            );
+
+            color: var(--blue);
+
+            font-size: 14px;
+        }
+
+        .metric:nth-child(2)
+        .metric-icon {
+            background: rgba(
+                49,
+                213,
+                138,
+                0.10
+            );
+
+            color: var(--green);
+        }
+
+        .metric:nth-child(3)
+        .metric-icon {
+            background: rgba(
+                155,
+                124,
+                255,
+                0.10
+            );
+
+            color: var(--purple);
+        }
+
+        .metric:nth-child(4)
+        .metric-icon {
+            background: rgba(
+                255,
+                173,
+                77,
+                0.10
+            );
+
+            color: var(--orange);
+        }
+
+        .metric-name {
+            color: var(--text-muted);
+
+            font-size: 10px;
+        }
+
+        .metric-score {
+            font-size: 24px;
+
+            font-weight: 800;
+
+            margin-bottom: 8px;
+        }
+
+        .metric-score small {
+            color: var(--text-muted);
+
+            font-size: 10px;
+
+            font-weight: 400;
+        }
+
+        .progress {
+            height: 5px;
+
+            background: #26313b;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: linear-gradient(
+                90deg,
+                var(--blue),
+                var(--green)
+            );
+        }
+
+        .metric-change {
+            margin-top: 8px;
+
+            color: var(--green);
+
+            font-size: 9px;
+
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           CONTENT GRID
+        ===================================================== */
+
+        .content-grid {
+            display: grid;
+
+            grid-template-columns:
+                1.55fr
+                1fr;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+        .chart-card,
+        .readiness-card {
+            min-height: 360px;
+        }
+
+        /* =====================================================
+           CHART
+        ===================================================== */
+
         .chart-legend {
             display: flex;
+
             gap: 12px;
+
             color: var(--text-muted);
+
             font-size: 9px;
         }
 
         .legend-item {
             display: flex;
+
             align-items: center;
+
             gap: 5px;
         }
 
         .legend-dot {
             width: 7px;
             height: 7px;
+
             border-radius: 50%;
         }
 
@@ -745,120 +1021,151 @@
 
         .chart {
             height: 250px;
+
             position: relative;
+
             border-left: 1px solid #2b3742;
+
             border-bottom: 1px solid #2b3742;
+
             margin-left: 35px;
+
             margin-right: 10px;
         }
 
         .grid-line {
             position: absolute;
+
             left: 0;
             right: 0;
+
             border-top: 1px dashed #25303a;
         }
 
         .grid-line span {
             position: absolute;
+
             right: calc(100% + 10px);
+
             top: -6px;
+
             color: var(--text-muted);
+
             font-size: 8px;
         }
 
         .line-svg {
             position: absolute;
+
             inset: 0;
+
             width: 100%;
             height: 100%;
+
             overflow: visible;
         }
 
         .chart-labels {
             display: flex;
+
             justify-content: space-between;
+
             margin-left: 35px;
+
             margin-right: 10px;
+
             padding-top: 9px;
+
             color: var(--text-muted);
+
             font-size: 8px;
         }
 
-        /* =========================================
+        /* =====================================================
            READINESS
-        ========================================= */
-
-        .readiness-card {
-            min-height: 360px;
-        }
+        ===================================================== */
 
         .readiness-main {
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 25px;
+
             padding: 8px 0 24px;
         }
 
         .readiness-ring {
             width: 130px;
             height: 130px;
+
             border-radius: 50%;
-            background:
-                conic-gradient(
-                    var(--green) 0deg,
-                    var(--green) 315deg,
-                    #26323d 315deg,
-                    #26323d 360deg
-                );
+
             position: relative;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
         }
 
         .readiness-ring::before {
             content: "";
+
             width: 99px;
             height: 99px;
+
             background: var(--card);
+
             position: absolute;
+
             border-radius: 50%;
         }
 
         .readiness-value {
             position: relative;
+
             text-align: center;
+
             z-index: 2;
         }
 
         .readiness-value strong {
             display: block;
+
             font-size: 29px;
         }
 
         .readiness-value span {
             color: var(--text-muted);
+
             font-size: 9px;
+
             text-transform: uppercase;
         }
 
         .readiness-status h3 {
             font-size: 16px;
-            color: var(--green);
+
             margin-bottom: 7px;
         }
 
         .readiness-status p {
             color: var(--text-muted);
+
             font-size: 10px;
+
             line-height: 1.5;
+
             max-width: 160px;
         }
 
         .factor-list {
             border-top: 1px solid var(--border);
+
             padding-top: 14px;
         }
 
@@ -872,24 +1179,29 @@
 
         .factor-info {
             display: flex;
+
             justify-content: space-between;
+
             margin-bottom: 6px;
         }
 
         .factor-info span:first-child {
             color: var(--text-soft);
+
             font-size: 10px;
         }
 
         .factor-info span:last-child {
             color: var(--text);
+
             font-size: 10px;
+
             font-weight: 700;
         }
 
-        /* =========================================
-           TESTING TABLE
-        ========================================= */
+        /* =====================================================
+           TESTING
+        ===================================================== */
 
         .testing-card {
             margin-bottom: 20px;
@@ -901,25 +1213,37 @@
 
         table {
             width: 100%;
+
             border-collapse: collapse;
         }
 
         th {
             text-align: left;
+
             color: var(--text-muted);
+
             font-size: 9px;
+
             text-transform: uppercase;
+
             letter-spacing: 0.8px;
+
             padding: 10px 12px;
+
             border-bottom: 1px solid var(--border);
+
             white-space: nowrap;
         }
 
         td {
             padding: 13px 12px;
-            border-bottom: 1px solid #202a34;
+
+            border-bottom: 1px solid var(--border-soft);
+
             font-size: 11px;
+
             color: var(--text-soft);
+
             white-space: nowrap;
         }
 
@@ -933,57 +1257,83 @@
 
         .test-name {
             color: var(--text);
+
             font-weight: 700;
         }
 
         .pb {
             color: var(--green);
+
             font-weight: 700;
         }
 
         .result {
             color: var(--blue);
+
             font-weight: 700;
         }
 
-        /* =========================================
-           BOTTOM GRID
-        ========================================= */
+        /* =====================================================
+           BOTTOM
+        ===================================================== */
 
         .bottom-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
             gap: 20px;
         }
 
         .training-list {
             display: flex;
+
             flex-direction: column;
         }
 
         .training-item {
             display: flex;
+
             align-items: center;
+
             gap: 12px;
+
             padding: 13px 0;
-            border-bottom: 1px solid #202a34;
+
+            border-bottom: 1px solid var(--border-soft);
         }
 
         .training-item:last-child {
             border-bottom: none;
+
             padding-bottom: 0;
         }
 
         .training-icon {
             width: 38px;
             height: 38px;
+
             border-radius: 9px;
-            background: rgba(69, 185, 255, 0.10);
+
+            background: rgba(
+                69,
+                185,
+                255,
+                0.10
+            );
+
             color: var(--blue);
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             font-size: 15px;
+
             flex-shrink: 0;
         }
 
@@ -993,12 +1343,15 @@
 
         .training-info strong {
             display: block;
+
             font-size: 11px;
+
             margin-bottom: 4px;
         }
 
         .training-info span {
             color: var(--text-muted);
+
             font-size: 9px;
         }
 
@@ -1008,71 +1361,110 @@
 
         .training-load strong {
             display: block;
+
             font-size: 12px;
         }
 
         .training-load span {
             color: var(--text-muted);
+
             font-size: 8px;
         }
 
-        /* =========================================
+        /* =====================================================
            NOTES
-        ========================================= */
+        ===================================================== */
 
         .notes-area {
             width: 100%;
+
             min-height: 155px;
+
             background: #10171e;
+
             border: 1px solid var(--border);
+
             border-radius: 10px;
+
             color: var(--text-soft);
+
             padding: 13px;
+
             resize: vertical;
+
             outline: none;
+
             font-size: 11px;
+
             line-height: 1.6;
         }
 
         .notes-area:focus {
-            border-color: rgba(69, 185, 255, 0.5);
+            border-color: rgba(
+                69,
+                185,
+                255,
+                0.5
+            );
         }
 
         .notes-footer {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             margin-top: 10px;
         }
 
         .save-status {
             color: var(--text-muted);
+
             font-size: 9px;
         }
 
-        /* =========================================
-           EMPTY STATE
-        ========================================= */
+        /* =====================================================
+           EMPTY STATES
+        ===================================================== */
 
         .empty-state {
             min-height: 500px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             text-align: center;
+
             padding: 30px;
         }
 
         .empty-icon {
             width: 70px;
             height: 70px;
+
             margin: 0 auto 18px;
+
             border-radius: 18px;
-            background: rgba(69, 185, 255, 0.10);
+
+            background: rgba(
+                69,
+                185,
+                255,
+                0.10
+            );
+
             color: var(--blue);
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             font-size: 28px;
         }
 
@@ -1082,64 +1474,261 @@
 
         .empty-state p {
             color: var(--text-muted);
+
             font-size: 12px;
+
             margin-bottom: 18px;
+
+            max-width: 480px;
+
+            line-height: 1.6;
         }
 
-        /* =========================================
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(
+                0,
+                0,
+                0,
+                0.70
+            );
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 5000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+
+            max-width: 620px;
+
+            background: #121920;
+
+            border: 1px solid var(--border);
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 30px 80px
+                rgba(0,0,0,0.55);
+
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 16px;
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+
+            border: 1px solid var(--border);
+
+            background: var(--card);
+
+            color: var(--text-soft);
+
+            border-radius: 8px;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1fr;
+
+            gap: 14px;
+        }
+
+        .form-group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: var(--text-soft);
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+
+            background: #0e151b;
+
+            border: 1px solid var(--border);
+
+            color: var(--text);
+
+            border-radius: 9px;
+
+            padding: 11px 12px;
+
+            outline: none;
+
+            font-size: 11px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: rgba(
+                69,
+                185,
+                255,
+                0.55
+            );
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+
+            border-top: 1px solid var(--border);
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 9px;
+        }
+
+        /* =====================================================
            TOAST
-        ========================================= */
+        ===================================================== */
 
         .toast {
             position: fixed;
+
             right: 25px;
+
             bottom: 25px;
+
             background: #17212a;
+
             border: 1px solid var(--border);
+
             padding: 13px 17px;
+
             border-radius: 10px;
+
             color: var(--text);
+
             font-size: 11px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.35);
+
             transform: translateY(120px);
+
             opacity: 0;
+
             pointer-events: none;
+
             transition: 0.3s ease;
-            z-index: 3000;
+
+            z-index: 6000;
         }
 
         .toast.show {
             transform: translateY(0);
+
             opacity: 1;
         }
 
-        /* =========================================
+        /* =====================================================
            RESPONSIVE
-        ========================================= */
+        ===================================================== */
 
         @media (max-width: 1200px) {
+
             .metrics-grid {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns:
+                    repeat(3, 1fr);
             }
 
             .overview-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns:
+                    1fr;
             }
+
         }
 
         @media (max-width: 950px) {
+
             :root {
                 --sidebar-width: 0px;
             }
 
             .sidebar {
                 width: 250px;
-                transform: translateX(-100%);
+
+                transform:
+                    translateX(-100%);
+
                 transition: 0.3s ease;
             }
 
             .sidebar.open {
-                transform: translateX(0);
+                transform:
+                    translateX(0);
             }
 
             .main {
@@ -1152,11 +1741,14 @@
 
             .content-grid,
             .bottom-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns:
+                    1fr;
             }
+
         }
 
         @media (max-width: 700px) {
+
             .topbar {
                 padding: 0 15px;
             }
@@ -1166,7 +1758,8 @@
             }
 
             .page {
-                padding: 18px 15px 40px;
+                padding:
+                    18px 15px 40px;
             }
 
             .profile-top {
@@ -1190,16 +1783,19 @@
             }
 
             .metrics-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(2, 1fr);
             }
 
             .score-center {
                 flex-direction: column;
+
                 align-items: flex-start;
             }
 
             .readiness-main {
                 flex-direction: column;
+
                 text-align: center;
             }
 
@@ -1211,11 +1807,23 @@
             .readiness-card {
                 min-height: auto;
             }
+
+            .form-grid {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
         }
 
         @media (max-width: 450px) {
+
             .metrics-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns:
+                    1fr;
             }
 
             .profile-main {
@@ -1229,105 +1837,222 @@
             .profile-actions .btn {
                 width: 100%;
             }
+
+            .score-footer {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 7px;
+            }
+
         }
     </style>
 </head>
 
 <body>
 
-    <!-- =========================================
+    <!-- =====================================================
          SIDEBAR
-    ========================================= -->
+    ===================================================== -->
 
     <aside class="sidebar" id="sidebar">
 
         <div class="brand">
-            <div class="brand-logo">A3</div>
+
+            <div class="brand-logo">
+                A3
+            </div>
 
             <div class="brand-text">
-                <h2>Athlete360</h2>
-                <span>Performance Platform</span>
+
+                <h2>
+                    Athlete360
+                </h2>
+
+                <span>
+                    Performance Platform
+                </span>
+
             </div>
+
         </div>
+
 
         <nav class="nav">
 
             <div class="nav-section">
-                <div class="nav-label">Main</div>
 
-                <a href="dashboard.html" class="nav-link">
-                    <span class="nav-icon">▦</span>
+                <div class="nav-label">
+                    Main
+                </div>
+
+                <a
+                    href="dashboard.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ▦
+                    </span>
+
                     Dashboard
                 </a>
 
-                <a href="athletes.html" class="nav-link active">
-                    <span class="nav-icon">♙</span>
+                <a
+                    href="athlete.html"
+                    class="nav-link active"
+                >
+                    <span class="nav-icon">
+                        ♙
+                    </span>
+
                     Athletes
                 </a>
 
-                <a href="teams.html" class="nav-link">
-                    <span class="nav-icon">♟</span>
-                    Teams
+                <a
+                    href="teams.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ♟
+                    </span>
+
+                    Teams & Groups
                 </a>
+
             </div>
 
-            <div class="nav-section">
-                <div class="nav-label">Performance</div>
 
-                <a href="testing.html" class="nav-link">
-                    <span class="nav-icon">⌁</span>
+            <div class="nav-section">
+
+                <div class="nav-label">
+                    Performance
+                </div>
+
+                <a
+                    href="testing.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ⌁
+                    </span>
+
                     Testing
                 </a>
 
-                <a href="training.html" class="nav-link">
-                    <span class="nav-icon">◈</span>
+                <a
+                    href="training.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ◈
+                    </span>
+
                     Training
                 </a>
 
-                <a href="analytics.html" class="nav-link">
-                    <span class="nav-icon">⌁</span>
+                <a
+                    href="analytics.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ⌁
+                    </span>
+
                     Analytics
                 </a>
 
-                <a href="exercises.html" class="nav-link">
-                    <span class="nav-icon">◉</span>
+                <a
+                    href="exercises.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ◉
+                    </span>
+
                     Exercise Library
                 </a>
+
             </div>
 
-            <div class="nav-section">
-                <div class="nav-label">Management</div>
 
-                <a href="reports.html" class="nav-link">
-                    <span class="nav-icon">▤</span>
+            <div class="nav-section">
+
+                <div class="nav-label">
+                    Management
+                </div>
+
+                <a
+                    href="reports.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ▤
+                    </span>
+
                     Reports
                 </a>
 
-                <a href="settings.html" class="nav-link">
-                    <span class="nav-icon">⚙</span>
+                <a
+                    href="settings.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ⚙
+                    </span>
+
                     Settings
                 </a>
+
+                <a
+                    href="notifications.html"
+                    class="nav-link"
+                >
+                    <span class="nav-icon">
+                        ◌
+                    </span>
+
+                    Notifications
+                </a>
+
             </div>
 
         </nav>
 
+
         <div class="sidebar-bottom">
+
             <div class="user-mini">
-                <div class="user-avatar" id="sidebarAvatar">MJ</div>
+
+                <div
+                    class="user-avatar"
+                    id="sidebarAvatar"
+                >
+                    MJ
+                </div>
 
                 <div class="user-info">
-                    <strong id="sidebarName">Coach</strong>
-                    <span id="sidebarRole">Coach Account</span>
+
+                    <strong id="sidebarName">
+                        Coach
+                    </strong>
+
+                    <span id="sidebarRole">
+                        Coach Account
+                    </span>
+
                 </div>
+
             </div>
+
         </div>
 
     </aside>
 
 
-    <!-- =========================================
+    <!-- =====================================================
          MAIN
-    ========================================= -->
+    ===================================================== -->
 
     <main class="main">
 
@@ -1335,256 +2060,572 @@
 
             <div class="topbar-left">
 
-                <button class="mobile-menu" id="mobileMenu">
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                >
                     ☰
                 </button>
 
                 <div class="breadcrumb">
-                    <a href="dashboard.html">Dashboard</a>
-                    <span>›</span>
-                    <a href="athletes.html">Athletes</a>
-                    <span>›</span>
-                    <span class="current">Athlete Profile</span>
+
+                    <a href="dashboard.html">
+                        Dashboard
+                    </a>
+
+                    <span>
+                        ›
+                    </span>
+
+                    <a href="athlete.html">
+                        Athletes
+                    </a>
+
+                    <span>
+                        ›
+                    </span>
+
+                    <span class="current">
+                        Athlete Profile
+                    </span>
+
                 </div>
 
             </div>
 
+
             <div class="topbar-actions">
-                <button class="icon-btn" onclick="window.location.href='athletes.html'" title="Back to athletes">
+
+                <button
+                    class="icon-btn"
+                    onclick="goBackToAthletes()"
+                    title="Back to athletes"
+                >
                     ←
                 </button>
 
-                <button class="icon-btn" onclick="window.print()" title="Print profile">
+                <button
+                    class="icon-btn"
+                    onclick="window.print()"
+                    title="Print profile"
+                >
                     ⎙
                 </button>
+
             </div>
 
         </header>
 
 
-        <div class="page" id="pageContent">
-
-            <!-- Profile content injected by JavaScript -->
-
+        <div
+            class="page"
+            id="pageContent"
+        >
         </div>
 
     </main>
 
 
-    <div class="toast" id="toast"></div>
+    <!-- =====================================================
+         EDIT MODAL
+    ===================================================== -->
+
+    <div
+        class="modal-overlay"
+        id="editModal"
+    >
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2>
+                    Edit Athlete
+                </h2>
+
+                <button
+                    class="modal-close"
+                    onclick="closeEditModal()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <form id="editForm">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>
+                                First Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="editFirstName"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Surname
+                            </label>
+
+                            <input
+                                type="text"
+                                id="editSurname"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Sport
+                            </label>
+
+                            <input
+                                type="text"
+                                id="editSport"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Age Category
+                            </label>
+
+                            <input
+                                type="text"
+                                id="editCategory"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Position / Event
+                            </label>
+
+                            <input
+                                type="text"
+                                id="editPosition"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Team / Group
+                            </label>
+
+                            <input
+                                type="text"
+                                id="editTeam"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Dominant Side
+                            </label>
+
+                            <select id="editSide">
+
+                                <option value="">
+                                    Not specified
+                                </option>
+
+                                <option value="Right">
+                                    Right
+                                </option>
+
+                                <option value="Left">
+                                    Left
+                                </option>
+
+                                <option value="Both">
+                                    Both
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Performance Score
+                            </label>
+
+                            <input
+                                type="number"
+                                id="editPerformance"
+                                min="0"
+                                max="100"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Readiness
+                            </label>
+
+                            <select id="editStatus">
+
+                                <option value="Ready">
+                                    Ready
+                                </option>
+
+                                <option value="Monitor">
+                                    Monitor
+                                </option>
+
+                                <option value="Rest">
+                                    Rest
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Last Test
+                            </label>
+
+                            <input
+                                type="date"
+                                id="editLastTest"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Coach Notes
+                            </label>
+
+                            <textarea
+                                id="editNotes"
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    class="btn"
+                    onclick="closeEditModal()"
+                >
+                    Cancel
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="submitEdit()"
+                >
+                    Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="toast"
+        id="toast"
+    ></div>
 
 
     <script>
 
-        /* =========================================
-           ATHLETE360 PROFILE
-        ========================================= */
+        /* =====================================================
+           ATHLETE360 PROFILE SYSTEM
+        ===================================================== */
 
-        const STORAGE_KEY = "athlete360_athletes";
-        const SELECTED_KEY = "athlete360_selected_athlete";
+        const STORAGE_KEY =
+            "athlete360_athletes_v2";
 
-        const sampleAthletes = [
-            {
-                id: 1,
-                name: "Charl Malgas",
-                sport: "Rugby",
-                age: "U15",
-                position: "Backline",
-                team: "U15 A",
-                side: "Right",
-                performance: 91,
-                status: "Ready",
-                lastTest: "10m Sprint",
-                change: "+9.4%",
-                notes: "Excellent acceleration and strong overall conditioning. Continue developing repeat sprint ability."
-            },
-            {
-                id: 2,
-                name: "Liam Adams",
-                sport: "Rugby",
-                age: "U16",
-                position: "Forward",
-                team: "U16 A",
-                side: "Right",
-                performance: 87,
-                status: "Ready",
-                lastTest: "Strength Test",
-                change: "+6.1%",
-                notes: "Good strength profile. Continue improving mobility and conditioning."
-            },
-            {
-                id: 3,
-                name: "Ethan Williams",
-                sport: "Hockey",
-                age: "U14",
-                position: "Midfield",
-                team: "U14 A",
-                side: "Left",
-                performance: 82,
-                status: "Ready",
-                lastTest: "Agility Test",
-                change: "+4.8%",
-                notes: "Strong agility and movement skills. Conditioning remains an important development area."
-            },
-            {
-                id: 4,
-                name: "Noah Smith",
-                sport: "Athletics",
-                age: "U15",
-                position: "Sprinter",
-                team: "U15",
-                side: "Right",
-                performance: 76,
-                status: "Monitor",
-                lastTest: "30m Sprint",
-                change: "-2.2%",
-                notes: "Monitor recent performance drop and training load. Recovery should be considered."
-            },
-            {
-                id: 5,
-                name: "Jayden Peters",
-                sport: "Soccer",
-                age: "U16",
-                position: "Midfielder",
-                team: "U16 A",
-                side: "Right",
-                performance: 84,
-                status: "Ready",
-                lastTest: "Yo-Yo Test",
-                change: "+5.7%",
-                notes: "Good aerobic capacity and consistent training performance."
-            },
-            {
-                id: 6,
-                name: "Aiden Botha",
-                sport: "Rugby",
-                age: "U14",
-                position: "Scrumhalf",
-                team: "U14 A",
-                side: "Right",
-                performance: 79,
-                status: "Ready",
-                lastTest: "Agility Test",
-                change: "+3.5%",
-                notes: "Good movement profile. Focus on speed and explosive power."
-            },
-            {
-                id: 7,
-                name: "Mia Jacobs",
-                sport: "Netball",
-                age: "U15",
-                position: "Centre",
-                team: "U15 A",
-                side: "Right",
-                performance: 88,
-                status: "Ready",
-                lastTest: "Beep Test",
-                change: "+7.2%",
-                notes: "Very strong conditioning base. Maintain workload while developing power."
-            },
-            {
-                id: 8,
-                name: "Luke Daniels",
-                sport: "Cricket",
-                age: "U17",
-                position: "All Rounder",
-                team: "U17",
-                side: "Right",
-                performance: 74,
-                status: "Monitor",
-                lastTest: "Power Test",
-                change: "+1.3%",
-                notes: "Development focus should be explosive power and general conditioning."
-            }
-        ];
+        const SELECTED_KEY =
+            "athlete360_selected_athlete";
+
+        const SELECTED_ID_KEY =
+            "athlete360_selected_athlete_id";
 
 
-        /* =========================================
+        let athletes = [];
+
+        let athlete = null;
+
+        let toastTimer;
+
+
+        /* =====================================================
            INITIALISE
-        ========================================= */
+        ===================================================== */
 
-        let athletes = loadAthletes();
-        let athlete = getCurrentAthlete();
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
 
-        document.addEventListener("DOMContentLoaded", () => {
+                loadUser();
 
-            loadUser();
+                athletes =
+                    loadAthletes();
 
-            if (!athlete) {
-                showEmptyState();
-                return;
+                athlete =
+                    getCurrentAthlete();
+
+                setupMobileMenu();
+
+                if (!athlete) {
+
+                    showEmptyState();
+
+                    return;
+                }
+
+                renderProfile(athlete);
+
             }
-
-            renderProfile(athlete);
-
-            setupMobileMenu();
-        });
+        );
 
 
-        /* =========================================
-           LOCAL STORAGE
-        ========================================= */
+        /* =====================================================
+           LOAD ATHLETES
+        ===================================================== */
 
         function loadAthletes() {
 
-            const saved = localStorage.getItem(STORAGE_KEY);
+            const saved =
+                localStorage.getItem(
+                    STORAGE_KEY
+                );
 
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-
-                    if (Array.isArray(parsed) && parsed.length > 0) {
-                        return parsed;
-                    }
-
-                } catch (error) {
-                    console.log("Could not load athlete data.");
-                }
+            if (!saved) {
+                return [];
             }
 
-            return sampleAthletes;
+            try {
+
+                const parsed =
+                    JSON.parse(saved);
+
+                if (
+                    Array.isArray(parsed)
+                ) {
+                    return parsed;
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Athlete data could not be loaded.",
+                    error
+                );
+
+            }
+
+            return [];
+
         }
 
 
+        /* =====================================================
+           GET CURRENT ATHLETE
+        ===================================================== */
+
         function getCurrentAthlete() {
 
-            const params = new URLSearchParams(window.location.search);
-
-            const id = params.get("id");
-
-            if (id) {
-
-                const found = athletes.find(
-                    item => String(item.id) === String(id)
+            const params =
+                new URLSearchParams(
+                    window.location.search
                 );
 
+            const urlId =
+                params.get("id");
+
+
+            /*
+             * FIRST PRIORITY:
+             * Athlete ID from URL
+             */
+
+            if (urlId) {
+
+                const found =
+                    athletes.find(
+                        item =>
+                            String(item.id) ===
+                            String(urlId)
+                    );
+
                 if (found) {
+
                     return found;
+
                 }
+
             }
 
-            const selected = localStorage.getItem(SELECTED_KEY);
+
+            /*
+             * SECOND PRIORITY:
+             * Saved athlete ID
+             */
+
+            const savedId =
+                localStorage.getItem(
+                    SELECTED_ID_KEY
+                );
+
+            if (savedId) {
+
+                const found =
+                    athletes.find(
+                        item =>
+                            String(item.id) ===
+                            String(savedId)
+                    );
+
+                if (found) {
+
+                    return found;
+
+                }
+
+            }
+
+
+            /*
+             * THIRD PRIORITY:
+             * Saved selected athlete object
+             */
+
+            const selected =
+                localStorage.getItem(
+                    SELECTED_KEY
+                );
 
             if (selected) {
 
                 try {
-                    return JSON.parse(selected);
+
+                    const selectedAthlete =
+                        JSON.parse(selected);
+
+                    if (
+                        selectedAthlete &&
+                        selectedAthlete.id
+                    ) {
+
+                        const found =
+                            athletes.find(
+                                item =>
+                                    String(item.id) ===
+                                    String(
+                                        selectedAthlete.id
+                                    )
+                            );
+
+                        if (found) {
+
+                            return found;
+
+                        }
+
+                    }
+
                 } catch (error) {
-                    console.log("Selected athlete data unavailable.");
+
+                    console.error(
+                        "Selected athlete could not be loaded.",
+                        error
+                    );
+
                 }
+
             }
 
+
             return null;
+
         }
 
 
-        /* =========================================
+        /* =====================================================
+           SAVE SELECTED ATHLETE
+        ===================================================== */
+
+        function saveSelectedAthlete() {
+
+            if (!athlete) {
+                return;
+            }
+
+            localStorage.setItem(
+                SELECTED_KEY,
+                JSON.stringify(athlete)
+            );
+
+            localStorage.setItem(
+                SELECTED_ID_KEY,
+                String(athlete.id)
+            );
+
+        }
+
+
+        /* =====================================================
            USER
-        ========================================= */
+        ===================================================== */
 
         function loadUser() {
 
-            const user = localStorage.getItem("athlete360_user");
+            const user =
+                localStorage.getItem(
+                    "athlete360_user"
+                );
 
             if (!user) {
                 return;
@@ -1592,54 +2633,125 @@
 
             try {
 
-                const data = JSON.parse(user);
+                const data =
+                    JSON.parse(user);
 
-                const name = data.name || "Coach";
+                const name =
+                    data.name ||
+                    "Coach";
 
-                document.getElementById("sidebarName").textContent = name;
+                document.getElementById(
+                    "sidebarName"
+                ).textContent =
+                    name;
 
-                document.getElementById("sidebarRole").textContent =
-                    data.role ? data.role + " Account" : "Coach Account";
+                document.getElementById(
+                    "sidebarRole"
+                ).textContent =
+                    data.role
+                        ? data.role +
+                          " Account"
+                        : "Coach Account";
 
-                const initials = getInitials(name);
-
-                document.getElementById("sidebarAvatar").textContent = initials;
+                document.getElementById(
+                    "sidebarAvatar"
+                ).textContent =
+                    getInitials(name);
 
             } catch (error) {
-                console.log("User data unavailable.");
+
+                console.log(
+                    "User data unavailable."
+                );
+
             }
+
         }
 
 
         function getInitials(name) {
 
-            return name
-                .split(" ")
+            const words =
+                String(name || "Athlete")
+                    .trim()
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+            if (!words.length) {
+                return "A";
+            }
+
+            return words
                 .map(word => word[0])
                 .join("")
                 .substring(0, 2)
                 .toUpperCase();
+
         }
 
 
-        /* =========================================
+        /* =====================================================
            PROFILE RENDER
-        ========================================= */
+        ===================================================== */
 
         function renderProfile(a) {
 
-            const initials = getInitials(a.name);
+            const firstName =
+                a.firstName ||
+                getFirstName(a.name);
 
-            const metrics = generateMetrics(a);
+            const surname =
+                a.surname ||
+                getSurname(a.name);
+
+            const fullName =
+                getFullName(a);
+
+            const performance =
+                normalizeScore(
+                    a.performance
+                );
+
+            const category =
+                a.category ||
+                a.age ||
+                "Not specified";
+
+            const position =
+                a.position ||
+                "Not specified";
+
+            const sport =
+                a.sport ||
+                "Not specified";
+
+            const team =
+                a.team ||
+                "No team/group";
+
+            const side =
+                a.dominantSide ||
+                a.side ||
+                "";
+
+            const status =
+                a.status ||
+                "Ready";
 
             const statusClass =
-                String(a.status).toLowerCase() === "monitor"
-                    ? "monitor"
-                    : "ready";
+                getStatusClass(status);
 
-            document.getElementById("pageContent").innerHTML = `
+            const metrics =
+                generateMetrics(performance);
 
-                <!-- PROFILE HEADER -->
+            const change =
+                a.change ||
+                "No previous comparison";
+
+
+            document.getElementById(
+                "pageContent"
+            ).innerHTML = `
 
                 <section class="profile-header">
 
@@ -1648,34 +2760,67 @@
                         <div class="profile-main">
 
                             <div class="profile-avatar">
-                                ${initials}
+                                ${escapeHTML(
+                                    getInitials(
+                                        fullName
+                                    )
+                                )}
                             </div>
 
                             <div class="profile-details">
 
-                                <h1>${escapeHTML(a.name)}</h1>
+                                <h1>
+                                    ${escapeHTML(
+                                        fullName
+                                    )}
+                                </h1>
 
                                 <p>
-                                    ${escapeHTML(a.sport)}
+                                    ${escapeHTML(
+                                        sport
+                                    )}
                                     •
-                                    ${escapeHTML(a.position)}
+                                    ${escapeHTML(
+                                        position
+                                    )}
                                     •
-                                    ${escapeHTML(a.age)}
+                                    ${escapeHTML(
+                                        category
+                                    )}
                                 </p>
 
                                 <div class="profile-tags">
 
                                     <span class="tag">
-                                        ${escapeHTML(a.team)}
+                                        ${escapeHTML(
+                                            team
+                                        )}
                                     </span>
 
-                                    <span class="tag">
-                                        ${escapeHTML(a.side)} Handed
-                                    </span>
+                                    ${
+                                        side
+                                            ? `
+                                                <span class="tag">
+                                                    ${escapeHTML(
+                                                        side
+                                                    )} Side
+                                                </span>
+                                              `
+                                            : ""
+                                    }
 
-                                    <span class="status ${statusClass}">
-                                        <span class="status-dot"></span>
-                                        ${escapeHTML(a.status)}
+                                    <span
+                                        class="status ${statusClass}"
+                                    >
+
+                                        <span
+                                            class="status-dot"
+                                        ></span>
+
+                                        ${escapeHTML(
+                                            status
+                                        )}
+
                                     </span>
 
                                 </div>
@@ -1687,18 +2832,24 @@
 
                         <div class="profile-actions">
 
-                            <button class="btn"
-                                onclick="editAthlete()">
+                            <button
+                                class="btn"
+                                onclick="openEditModal()"
+                            >
                                 ✎ Edit Athlete
                             </button>
 
-                            <button class="btn btn-green"
-                                onclick="window.location.href='training.html'">
+                            <button
+                                class="btn btn-green"
+                                onclick="openTraining()"
+                            >
                                 + Assign Training
                             </button>
 
-                            <button class="btn btn-primary"
-                                onclick="window.location.href='testing.html'">
+                            <button
+                                class="btn btn-primary"
+                                onclick="openTesting()"
+                            >
                                 + Start Test
                             </button>
 
@@ -1708,8 +2859,6 @@
 
                 </section>
 
-
-                <!-- SCORE + METRICS -->
 
                 <div class="overview-grid">
 
@@ -1730,21 +2879,25 @@
 
                         <div class="score-center">
 
-                            <div class="score-ring"
+                            <div
+                                class="score-ring"
                                 style="
-                                background:
-                                conic-gradient(
-                                var(--green) 0deg,
-                                var(--blue) ${a.performance * 3.6}deg,
-                                #26323d ${a.performance * 3.6}deg,
-                                #26323d 360deg
-                                );
-                                ">
+                                    background:
+                                    conic-gradient(
+                                        var(--green) 0deg,
+                                        var(--blue)
+                                        ${performance * 3.6}deg,
+                                        #26323d
+                                        ${performance * 3.6}deg,
+                                        #26323d 360deg
+                                    );
+                                "
+                            >
 
                                 <div class="score-value">
 
                                     <strong>
-                                        ${a.performance}
+                                        ${performance}
                                     </strong>
 
                                     <span>
@@ -1759,13 +2912,17 @@
                             <div class="score-description">
 
                                 <h3>
-                                    ${getPerformanceLabel(a.performance)}
+                                    ${getPerformanceLabel(
+                                        performance
+                                    )}
                                 </h3>
 
                                 <p>
-                                    This is the athlete's current
-                                    performance score across the
-                                    main physical performance areas.
+                                    Current overall
+                                    performance score
+                                    based on the athlete's
+                                    available performance
+                                    information.
                                 </p>
 
                             </div>
@@ -1776,11 +2933,13 @@
                         <div class="score-footer">
 
                             <span class="improvement">
-                                ${escapeHTML(a.change)} overall change
+                                ${escapeHTML(
+                                    change
+                                )}
                             </span>
 
                             <span>
-                                Based on latest recorded testing
+                                Latest recorded profile data
                             </span>
 
                         </div>
@@ -1793,11 +2952,15 @@
                         <div class="card-header">
 
                             <div>
-                                <h2>Performance Metrics</h2>
+
+                                <h2>
+                                    Performance Metrics
+                                </h2>
 
                                 <p>
                                     Current performance profile
                                 </p>
+
                             </div>
 
                         </div>
@@ -1809,35 +2972,35 @@
                                 "⚡",
                                 "Speed",
                                 metrics.speed,
-                                "+4.8%"
+                                metrics.speedChange
                             )}
 
                             ${metricHTML(
                                 "▣",
                                 "Strength",
                                 metrics.strength,
-                                "+6.2%"
+                                metrics.strengthChange
                             )}
 
                             ${metricHTML(
                                 "◆",
                                 "Power",
                                 metrics.power,
-                                "+3.9%"
+                                metrics.powerChange
                             )}
 
                             ${metricHTML(
                                 "↯",
                                 "Agility",
                                 metrics.agility,
-                                "+5.4%"
+                                metrics.agilityChange
                             )}
 
                             ${metricHTML(
                                 "◉",
                                 "Conditioning",
                                 metrics.conditioning,
-                                "+7.1%"
+                                metrics.conditioningChange
                             )}
 
                         </div>
@@ -1847,8 +3010,6 @@
                 </div>
 
 
-                <!-- TREND + READINESS -->
-
                 <div class="content-grid">
 
                     <section class="card chart-card">
@@ -1856,23 +3017,38 @@
                         <div class="card-header">
 
                             <div>
-                                <h2>Performance Trend</h2>
+
+                                <h2>
+                                    Performance Trend
+                                </h2>
 
                                 <p>
-                                    Performance score across recent testing periods
+                                    Available performance
+                                    progression
                                 </p>
+
                             </div>
 
                             <div class="chart-legend">
 
                                 <div class="legend-item">
-                                    <span class="legend-dot legend-blue"></span>
+
+                                    <span
+                                        class="legend-dot legend-blue"
+                                    ></span>
+
                                     Performance
+
                                 </div>
 
                                 <div class="legend-item">
-                                    <span class="legend-dot legend-green"></span>
+
+                                    <span
+                                        class="legend-dot legend-green"
+                                    ></span>
+
                                     Target
+
                                 </div>
 
                             </div>
@@ -1882,23 +3058,38 @@
 
                         <div class="chart">
 
-                            <div class="grid-line" style="top:0%;">
+                            <div
+                                class="grid-line"
+                                style="top:0%;"
+                            >
                                 <span>100</span>
                             </div>
 
-                            <div class="grid-line" style="top:25%;">
+                            <div
+                                class="grid-line"
+                                style="top:25%;"
+                            >
                                 <span>75</span>
                             </div>
 
-                            <div class="grid-line" style="top:50%;">
+                            <div
+                                class="grid-line"
+                                style="top:50%;"
+                            >
                                 <span>50</span>
                             </div>
 
-                            <div class="grid-line" style="top:75%;">
+                            <div
+                                class="grid-line"
+                                style="top:75%;"
+                            >
                                 <span>25</span>
                             </div>
 
-                            <div class="grid-line" style="top:100%;">
+                            <div
+                                class="grid-line"
+                                style="top:100%;"
+                            >
                                 <span>0</span>
                             </div>
 
@@ -1918,6 +3109,7 @@
                                         x2="0"
                                         y2="1"
                                     >
+
                                         <stop
                                             offset="0%"
                                             stop-color="#45b9ff"
@@ -1936,12 +3128,17 @@
 
 
                                 <polygon
-                                    points="${getAreaPoints(a.performance)}"
+                                    points="${getAreaPoints(
+                                        performance
+                                    )}"
                                     fill="url(#areaGradient)"
                                 />
 
+
                                 <polyline
-                                    points="${getPerformancePoints(a.performance)}"
+                                    points="${getPerformancePoints(
+                                        performance
+                                    )}"
                                     fill="none"
                                     stroke="#45b9ff"
                                     stroke-width="3"
@@ -1949,8 +3146,17 @@
                                     stroke-linejoin="round"
                                 />
 
+
                                 <polyline
-                                    points="0,62 100,62 200,62 300,62 400,62 500,62 600,62"
+                                    points="
+                                        0,62
+                                        100,62
+                                        200,62
+                                        300,62
+                                        400,62
+                                        500,62
+                                        600,62
+                                    "
                                     fill="none"
                                     stroke="#31d58a"
                                     stroke-width="1.5"
@@ -1958,7 +3164,10 @@
                                     opacity="0.7"
                                 />
 
-                                ${getChartPoints(a.performance)}
+
+                                ${getChartPoints(
+                                    performance
+                                )}
 
                             </svg>
 
@@ -1966,13 +3175,35 @@
 
 
                         <div class="chart-labels">
-                            <span>May</span>
-                            <span>Jun</span>
-                            <span>Jul</span>
-                            <span>Aug</span>
-                            <span>Sep</span>
-                            <span>Oct</span>
-                            <span>Current</span>
+
+                            <span>
+                                Start
+                            </span>
+
+                            <span>
+                                Period 2
+                            </span>
+
+                            <span>
+                                Period 3
+                            </span>
+
+                            <span>
+                                Period 4
+                            </span>
+
+                            <span>
+                                Period 5
+                            </span>
+
+                            <span>
+                                Period 6
+                            </span>
+
+                            <span>
+                                Current
+                            </span>
+
                         </div>
 
                     </section>
@@ -1983,16 +3214,29 @@
                         <div class="card-header">
 
                             <div>
-                                <h2>Readiness</h2>
+
+                                <h2>
+                                    Readiness
+                                </h2>
 
                                 <p>
                                     Current training readiness
                                 </p>
+
                             </div>
 
-                            <span class="status ${statusClass}">
-                                <span class="status-dot"></span>
-                                ${escapeHTML(a.status)}
+                            <span
+                                class="status ${statusClass}"
+                            >
+
+                                <span
+                                    class="status-dot"
+                                ></span>
+
+                                ${escapeHTML(
+                                    status
+                                )}
+
                             </span>
 
                         </div>
@@ -2000,11 +3244,31 @@
 
                         <div class="readiness-main">
 
-                            <div class="readiness-ring">
+                            <div
+                                class="readiness-ring"
+                                style="
+                                    background:
+                                    conic-gradient(
+                                        var(--green) 0deg,
+                                        var(--green)
+                                        ${getReadiness(a) * 3.6}deg,
+                                        #26323d
+                                        ${getReadiness(a) * 3.6}deg,
+                                        #26323d 360deg
+                                    );
+                                "
+                            >
 
                                 <div class="readiness-value">
-                                    <strong>${getReadiness(a)}</strong>
-                                    <span>Ready</span>
+
+                                    <strong>
+                                        ${getReadiness(a)}
+                                    </strong>
+
+                                    <span>
+                                        Ready
+                                    </span>
+
                                 </div>
 
                             </div>
@@ -2012,14 +3276,21 @@
 
                             <div class="readiness-status">
 
-                                <h3>
+                                <h3
+                                    style="
+                                        color:
+                                        ${getReadinessColor(a)};
+                                    "
+                                >
                                     ${getReadinessLabel(a)}
                                 </h3>
 
                                 <p>
-                                    Readiness is calculated from
-                                    recent performance, training
-                                    load and athlete wellness data.
+                                    This readiness score
+                                    currently uses the
+                                    athlete's available
+                                    profile and performance
+                                    information.
                                 </p>
 
                             </div>
@@ -2029,10 +3300,25 @@
 
                         <div class="factor-list">
 
-                            ${factorHTML("Recovery", getFactor(a, 1))}
-                            ${factorHTML("Sleep", getFactor(a, 2))}
-                            ${factorHTML("Training Load", getFactor(a, 3))}
-                            ${factorHTML("Wellness", getFactor(a, 4))}
+                            ${factorHTML(
+                                "Performance",
+                                performance
+                            )}
+
+                            ${factorHTML(
+                                "Recovery",
+                                getRecoveryScore(a)
+                            )}
+
+                            ${factorHTML(
+                                "Training Load",
+                                getTrainingLoadScore(a)
+                            )}
+
+                            ${factorHTML(
+                                "Wellness",
+                                getWellnessScore(a)
+                            )}
 
                         </div>
 
@@ -2041,22 +3327,27 @@
                 </div>
 
 
-                <!-- TESTING HISTORY -->
-
                 <section class="card testing-card">
 
                     <div class="card-header">
 
                         <div>
-                            <h2>Testing History</h2>
+
+                            <h2>
+                                Testing History
+                            </h2>
 
                             <p>
-                                Recent performance testing results
+                                Testing data associated
+                                with this athlete
                             </p>
+
                         </div>
 
-                        <button class="btn btn-primary"
-                            onclick="window.location.href='testing.html'">
+                        <button
+                            class="btn btn-primary"
+                            onclick="openTesting()"
+                        >
                             View Testing
                         </button>
 
@@ -2070,15 +3361,35 @@
                             <thead>
 
                                 <tr>
-                                    <th>Date</th>
-                                    <th>Test</th>
-                                    <th>Result</th>
-                                    <th>Score</th>
-                                    <th>Change</th>
-                                    <th>Status</th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Test
+                                    </th>
+
+                                    <th>
+                                        Result
+                                    </th>
+
+                                    <th>
+                                        Score
+                                    </th>
+
+                                    <th>
+                                        Change
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
                                 </tr>
 
                             </thead>
+
 
                             <tbody>
 
@@ -2093,8 +3404,6 @@
                 </section>
 
 
-                <!-- TRAINING + NOTES -->
-
                 <div class="bottom-grid">
 
                     <section class="card">
@@ -2102,16 +3411,23 @@
                         <div class="card-header">
 
                             <div>
-                                <h2>Recent Training</h2>
+
+                                <h2>
+                                    Recent Training
+                                </h2>
 
                                 <p>
-                                    Latest recorded sessions
+                                    Training sessions will
+                                    appear here as training
+                                    data is recorded.
                                 </p>
+
                             </div>
 
                             <button
                                 class="btn"
-                                onclick="window.location.href='training.html'">
+                                onclick="openTraining()"
+                            >
                                 Training
                             </button>
 
@@ -2132,11 +3448,16 @@
                         <div class="card-header">
 
                             <div>
-                                <h2>Coach Notes</h2>
+
+                                <h2>
+                                    Coach Notes
+                                </h2>
 
                                 <p>
-                                    Private performance observations
+                                    Private performance
+                                    observations
                                 </p>
+
                             </div>
 
                         </div>
@@ -2146,18 +3467,24 @@
                             id="coachNotes"
                             class="notes-area"
                             placeholder="Add notes about this athlete..."
-                        >${escapeHTML(a.notes || "")}</textarea>
+                        >${escapeHTML(
+                            a.notes || ""
+                        )}</textarea>
 
 
                         <div class="notes-footer">
 
-                            <span class="save-status" id="saveStatus">
+                            <span
+                                class="save-status"
+                                id="saveStatus"
+                            >
                                 Notes are stored locally
                             </span>
 
                             <button
                                 class="btn btn-green"
-                                onclick="saveNotes()">
+                                onclick="saveNotes()"
+                            >
                                 Save Notes
                             </button>
 
@@ -2168,23 +3495,30 @@
                 </div>
 
 
-                <!-- MANAGEMENT -->
-
-                <section class="card" style="margin-top:20px;">
+                <section
+                    class="card"
+                    style="margin-top:20px;"
+                >
 
                     <div class="card-header">
 
                         <div>
-                            <h2>Athlete Management</h2>
+
+                            <h2>
+                                Athlete Management
+                            </h2>
 
                             <p>
-                                Manage this athlete's profile
+                                Manage this athlete's
+                                profile
                             </p>
+
                         </div>
 
                         <button
                             class="btn btn-danger"
-                            onclick="deleteAthlete()">
+                            onclick="deleteAthlete()"
+                        >
                             Delete Athlete
                         </button>
 
@@ -2193,33 +3527,62 @@
                 </section>
 
             `;
+
         }
 
 
-        /* =========================================
+        /* =====================================================
            METRICS
-        ========================================= */
+        ===================================================== */
 
-        function generateMetrics(a) {
+        function generateMetrics(score) {
 
-            const base = Number(a.performance) || 75;
+            const base =
+                Number(score) || 0;
 
             return {
-                speed: clamp(base + 2),
-                strength: clamp(base - 1),
-                power: clamp(base - 3),
-                agility: clamp(base + 1),
-                conditioning: clamp(base + 3)
+
+                speed:
+                    clamp(base + 2),
+
+                strength:
+                    clamp(base - 1),
+
+                power:
+                    clamp(base - 3),
+
+                agility:
+                    clamp(base + 1),
+
+                conditioning:
+                    clamp(base + 3),
+
+                speedChange:
+                    base > 0 ? "+ Profile" : "No data",
+
+                strengthChange:
+                    base > 0 ? "+ Profile" : "No data",
+
+                powerChange:
+                    base > 0 ? "+ Profile" : "No data",
+
+                agilityChange:
+                    base > 0 ? "+ Profile" : "No data",
+
+                conditioningChange:
+                    base > 0 ? "+ Profile" : "No data"
+
             };
+
         }
 
 
-        function clamp(value) {
-            return Math.max(0, Math.min(100, value));
-        }
-
-
-        function metricHTML(icon, name, score, change) {
+        function metricHTML(
+            icon,
+            name,
+            score,
+            change
+        ) {
 
             return `
 
@@ -2237,37 +3600,94 @@
 
                     </div>
 
+
                     <div class="metric-score">
+
                         ${score}
-                        <small>/100</small>
+
+                        <small>
+                            /100
+                        </small>
+
                     </div>
+
 
                     <div class="progress">
 
                         <div
                             class="progress-bar"
-                            style="width:${score}%">
-                        </div>
+                            style="width:${score}%"
+                        ></div>
 
                     </div>
 
+
                     <div class="metric-change">
-                        ↑ ${change}
+                        ${escapeHTML(change)}
                     </div>
 
                 </div>
 
             `;
+
         }
 
 
-        /* =========================================
-           PERFORMANCE CHART
-        ========================================= */
+        function clamp(value) {
 
-        function getPerformanceValues(score) {
+            return Math.max(
+                0,
+                Math.min(
+                    100,
+                    Number(value) || 0
+                )
+            );
+
+        }
+
+
+        function normalizeScore(value) {
+
+            const score =
+                Number(value);
+
+            if (
+                !Number.isFinite(score)
+            ) {
+                return 0;
+            }
+
+            return Math.round(
+                clamp(score)
+            );
+
+        }
+
+
+        /* =====================================================
+           PERFORMANCE CHART
+        ===================================================== */
+
+        function getPerformanceValues(
+            score
+        ) {
+
+            if (!score) {
+
+                return [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ];
+
+            }
 
             return [
+
                 clamp(score - 14),
                 clamp(score - 11),
                 clamp(score - 8),
@@ -2275,133 +3695,303 @@
                 clamp(score - 4),
                 clamp(score - 2),
                 score
+
             ];
+
         }
 
 
-        function getPerformancePoints(score) {
+        function getPerformancePoints(
+            score
+        ) {
 
-            const values = getPerformanceValues(score);
+            const values =
+                getPerformanceValues(
+                    score
+                );
 
             const width = 600;
+
             const height = 250;
 
             return values
-                .map((value, index) => {
+                .map(
+                    (
+                        value,
+                        index
+                    ) => {
 
-                    const x = index * (width / 6);
-                    const y = height - (value / 100 * height);
+                        const x =
+                            index *
+                            (
+                                width / 6
+                            );
 
-                    return `${x},${y}`;
+                        const y =
+                            height -
+                            (
+                                value /
+                                100 *
+                                height
+                            );
 
-                })
+                        return `${x},${y}`;
+
+                    }
+                )
                 .join(" ");
+
         }
 
 
         function getAreaPoints(score) {
 
-            const values = getPerformanceValues(score);
+            const values =
+                getPerformanceValues(
+                    score
+                );
 
             const width = 600;
+
             const height = 250;
 
-            const points = values
-                .map((value, index) => {
+            const points =
+                values.map(
+                    (
+                        value,
+                        index
+                    ) => {
 
-                    const x = index * (width / 6);
-                    const y = height - (value / 100 * height);
+                        const x =
+                            index *
+                            (
+                                width / 6
+                            );
 
-                    return `${x},${y}`;
+                        const y =
+                            height -
+                            (
+                                value /
+                                100 *
+                                height
+                            );
 
-                });
+                        return `${x},${y}`;
 
-            points.push(`${width},${height}`);
-            points.push(`0,${height}`);
+                    }
+                );
+
+            points.push(
+                `${width},${height}`
+            );
+
+            points.push(
+                `0,${height}`
+            );
 
             return points.join(" ");
+
         }
 
 
         function getChartPoints(score) {
 
-            const values = getPerformanceValues(score);
+            const values =
+                getPerformanceValues(
+                    score
+                );
 
             const width = 600;
+
             const height = 250;
 
             return values
-                .map((value, index) => {
+                .map(
+                    (
+                        value,
+                        index
+                    ) => {
 
-                    const x = index * (width / 6);
-                    const y = height - (value / 100 * height);
+                        const x =
+                            index *
+                            (
+                                width / 6
+                            );
 
-                    return `
-                        <circle
-                            cx="${x}"
-                            cy="${y}"
-                            r="4"
-                            fill="#45b9ff"
-                            stroke="#151c24"
-                            stroke-width="2"
-                        />
-                    `;
+                        const y =
+                            height -
+                            (
+                                value /
+                                100 *
+                                height
+                            );
 
-                })
+                        return `
+
+                            <circle
+                                cx="${x}"
+                                cy="${y}"
+                                r="4"
+                                fill="#45b9ff"
+                                stroke="#151c24"
+                                stroke-width="2"
+                            />
+
+                        `;
+
+                    }
+                )
                 .join("");
+
         }
 
 
-        /* =========================================
+        /* =====================================================
            READINESS
-        ========================================= */
+        ===================================================== */
 
         function getReadiness(a) {
 
-            if (a.status === "Monitor") {
-                return Math.max(65, a.performance - 2);
+            const performance =
+                normalizeScore(
+                    a.performance
+                );
+
+            if (!performance) {
+                return 0;
             }
 
-            return Math.min(98, a.performance + 2);
+            if (
+                String(a.status)
+                    .toLowerCase() ===
+                "rest"
+            ) {
+
+                return Math.min(
+                    65,
+                    performance
+                );
+
+            }
+
+            if (
+                String(a.status)
+                    .toLowerCase() ===
+                "monitor"
+            ) {
+
+                return Math.max(
+                    0,
+                    Math.min(
+                        79,
+                        performance - 2
+                    )
+                );
+
+            }
+
+            return Math.min(
+                98,
+                performance + 2
+            );
+
         }
 
 
         function getReadinessLabel(a) {
 
-            const readiness = getReadiness(a);
+            const readiness =
+                getReadiness(a);
 
-            if (readiness >= 90) {
+            if (!readiness) {
+                return "No Data";
+            }
+
+            if (
+                readiness >= 90
+            ) {
                 return "Excellent";
             }
 
-            if (readiness >= 80) {
+            if (
+                readiness >= 80
+            ) {
                 return "Good";
             }
 
-            if (readiness >= 70) {
+            if (
+                readiness >= 70
+            ) {
                 return "Moderate";
             }
 
             return "Needs Attention";
+
         }
 
 
-        function getFactor(a, variation) {
+        function getReadinessColor(a) {
 
-            const readiness = getReadiness(a);
+            const readiness =
+                getReadiness(a);
 
-            const values = [
-                readiness + variation,
-                readiness - 3 + variation,
-                readiness - 1 + variation,
-                readiness + 1 + variation
-            ];
+            if (
+                readiness >= 80
+            ) {
+                return "var(--green)";
+            }
 
-            return clamp(values[variation - 1]);
+            if (
+                readiness >= 70
+            ) {
+                return "var(--orange)";
+            }
+
+            return "var(--red)";
+
         }
 
 
-        function factorHTML(name, score) {
+        function getRecoveryScore(a) {
+
+            const readiness =
+                getReadiness(a);
+
+            return readiness
+                ? clamp(readiness - 2)
+                : 0;
+
+        }
+
+
+        function getTrainingLoadScore(a) {
+
+            const readiness =
+                getReadiness(a);
+
+            return readiness
+                ? clamp(readiness + 1)
+                : 0;
+
+        }
+
+
+        function getWellnessScore(a) {
+
+            const readiness =
+                getReadiness(a);
+
+            return readiness
+                ? clamp(readiness - 1)
+                : 0;
+
+        }
+
+
+        function factorHTML(
+            name,
+            score
+        ) {
 
             return `
 
@@ -2409,333 +3999,646 @@
 
                     <div class="factor-info">
 
-                        <span>${name}</span>
+                        <span>
+                            ${escapeHTML(name)}
+                        </span>
 
-                        <span>${score}%</span>
+                        <span>
+                            ${score}%
+                        </span>
 
                     </div>
+
 
                     <div class="progress">
 
                         <div
                             class="progress-bar"
-                            style="width:${score}%">
-                        </div>
+                            style="width:${score}%"
+                        ></div>
 
                     </div>
 
                 </div>
 
             `;
+
         }
 
 
-        /* =========================================
+        /* =====================================================
            TESTING HISTORY
-        ========================================= */
+        ===================================================== */
 
         function testingRows(a) {
 
-            const performance = Number(a.performance) || 75;
+            /*
+             * IMPORTANT:
+             *
+             * We no longer invent a fake testing
+             * history for a brand-new athlete.
+             *
+             * Once the Testing system is connected,
+             * this section can display real records.
+             */
 
-            let rows = [];
+            const lastTest =
+                a.lastTest || "";
 
-            if (a.sport === "Rugby") {
+            if (!lastTest) {
 
-                rows = [
-                    ["08 Sep 2026", "10m Sprint", "1.82 sec", performance, "+4.8%", "New PB"],
-                    ["01 Sep 2026", "Broad Jump", "2.34 m", performance - 2, "+3.1%", "Completed"],
-                    ["25 Aug 2026", "Yo-Yo Test", "Level 18.2", performance - 3, "+5.2%", "Completed"],
-                    ["18 Aug 2026", "5-10-5 Agility", "4.61 sec", performance - 5, "+2.4%", "Completed"]
-                ];
+                return `
 
-            } else if (a.sport === "Athletics") {
+                    <tr>
 
-                rows = [
-                    ["08 Sep 2026", "30m Sprint", "4.42 sec", performance, "+2.6%", "Completed"],
-                    ["01 Sep 2026", "Vertical Jump", "52 cm", performance - 2, "+3.8%", "New PB"],
-                    ["25 Aug 2026", "Broad Jump", "2.28 m", performance - 4, "+1.9%", "Completed"],
-                    ["18 Aug 2026", "Yo-Yo Test", "Level 16.8", performance - 5, "+1.2%", "Completed"]
-                ];
+                        <td colspan="6">
 
-            } else if (a.sport === "Netball") {
+                            <div
+                                style="
+                                    padding:25px;
+                                    text-align:center;
+                                    color:var(--text-muted);
+                                "
+                            >
 
-                rows = [
-                    ["08 Sep 2026", "Beep Test", "Level 17.4", performance, "+4.7%", "New PB"],
-                    ["01 Sep 2026", "5-10-5 Agility", "4.74 sec", performance - 2, "+3.4%", "Completed"],
-                    ["25 Aug 2026", "Vertical Jump", "48 cm", performance - 3, "+2.8%", "Completed"],
-                    ["18 Aug 2026", "30m Sprint", "4.68 sec", performance - 4, "+2.1%", "Completed"]
-                ];
+                                No testing results have
+                                been recorded for this
+                                athlete yet.
 
-            } else {
+                            </div>
 
-                rows = [
-                    ["08 Sep 2026", a.lastTest || "Performance Test", "Completed", performance, "+3.6%", "Completed"],
-                    ["01 Sep 2026", "Agility Test", "4.72 sec", performance - 2, "+2.8%", "Completed"],
-                    ["25 Aug 2026", "Power Test", "Good", performance - 4, "+2.2%", "Completed"],
-                    ["18 Aug 2026", "Conditioning Test", "Strong", performance - 5, "+1.7%", "Completed"]
-                ];
+                        </td>
+
+                    </tr>
+
+                `;
+
             }
 
 
-            return rows.map(row => `
+            return `
 
                 <tr>
 
-                    <td>${row[0]}</td>
+                    <td>
+                        ${formatDate(
+                            lastTest
+                        )}
+                    </td>
 
                     <td>
+
                         <span class="test-name">
-                            ${row[1]}
+                            ${escapeHTML(
+                                lastTest
+                            )}
                         </span>
+
                     </td>
 
                     <td>
+
                         <span class="result">
-                            ${row[2]}
+                            Recorded
                         </span>
+
                     </td>
 
                     <td>
-                        ${row[3]}/100
+                        ${normalizeScore(
+                            a.performance
+                        )}/100
                     </td>
 
                     <td>
                         <span class="pb">
-                            ${row[4]}
+                            Current
                         </span>
                     </td>
 
                     <td>
-                        <span class="status ready">
-                            ${row[5]}
+
+                        <span
+                            class="status ready"
+                        >
+
+                            <span
+                                class="status-dot"
+                            ></span>
+
+                            Recorded
+
                         </span>
+
                     </td>
 
                 </tr>
 
-            `).join("");
+            `;
+
         }
 
 
-        /* =========================================
+        /* =====================================================
            TRAINING
-        ========================================= */
+        ===================================================== */
 
         function trainingRows(a) {
 
-            const sport = a.sport;
+            return `
 
-            let sessions = [];
+                <div
+                    style="
+                        padding:25px 0;
+                        text-align:center;
+                        color:var(--text-muted);
+                        font-size:11px;
+                        line-height:1.6;
+                    "
+                >
 
-            if (sport === "Rugby") {
+                    No training sessions have
+                    been recorded for this athlete yet.
 
-                sessions = [
-                    ["⚡", "Speed & Acceleration", "09 Sep 2026 • 52 min", "High", "8.4"],
-                    ["◈", "Strength & Power", "07 Sep 2026 • 61 min", "High", "8.1"],
-                    ["◉", "Conditioning", "05 Sep 2026 • 48 min", "Moderate", "7.3"],
-                    ["↯", "Agility & Movement", "03 Sep 2026 • 45 min", "Moderate", "6.8"]
-                ];
+                    <br>
 
-            } else {
-
-                sessions = [
-                    ["⚡", "Speed & Movement", "09 Sep 2026 • 50 min", "High", "8.2"],
-                    ["◈", "Strength Session", "07 Sep 2026 • 55 min", "Moderate", "7.7"],
-                    ["◉", "Conditioning", "05 Sep 2026 • 45 min", "High", "8.0"],
-                    ["↯", "Agility Session", "03 Sep 2026 • 42 min", "Moderate", "6.9"]
-                ];
-            }
-
-
-            return sessions.map(session => `
-
-                <div class="training-item">
-
-                    <div class="training-icon">
-                        ${session[0]}
-                    </div>
-
-                    <div class="training-info">
-
-                        <strong>
-                            ${session[1]}
-                        </strong>
-
-                        <span>
-                            ${session[2]}
-                        </span>
-
-                    </div>
-
-                    <div class="training-load">
-
-                        <strong>
-                            ${session[4]}
-                        </strong>
-
-                        <span>
-                            RPE
-                        </span>
-
-                    </div>
+                    Use
+                    <strong
+                        style="color:var(--blue);"
+                    >
+                        Assign Training
+                    </strong>
+                    to connect this athlete
+                    to a training session.
 
                 </div>
 
-            `).join("");
+            `;
+
         }
 
 
-        /* =========================================
-           PERFORMANCE LABEL
-        ========================================= */
-
-        function getPerformanceLabel(score) {
-
-            if (score >= 90) {
-                return "Elite Performance";
-            }
-
-            if (score >= 80) {
-                return "Strong Performance";
-            }
-
-            if (score >= 70) {
-                return "Developing Performance";
-            }
-
-            return "Development Required";
-        }
-
-
-        /* =========================================
+        /* =====================================================
            EDIT ATHLETE
-        ========================================= */
+        ===================================================== */
 
-        function editAthlete() {
+        function openEditModal() {
 
-            const name = prompt(
-                "Athlete name:",
-                athlete.name
+            if (!athlete) {
+                return;
+            }
+
+            const firstName =
+                athlete.firstName ||
+                getFirstName(
+                    athlete.name
+                );
+
+            const surname =
+                athlete.surname ||
+                getSurname(
+                    athlete.name
+                );
+
+            document.getElementById(
+                "editFirstName"
+            ).value =
+                firstName;
+
+            document.getElementById(
+                "editSurname"
+            ).value =
+                surname;
+
+            document.getElementById(
+                "editSport"
+            ).value =
+                athlete.sport || "";
+
+            document.getElementById(
+                "editCategory"
+            ).value =
+                athlete.category ||
+                athlete.age ||
+                "";
+
+            document.getElementById(
+                "editPosition"
+            ).value =
+                athlete.position || "";
+
+            document.getElementById(
+                "editTeam"
+            ).value =
+                athlete.team || "";
+
+            document.getElementById(
+                "editSide"
+            ).value =
+                athlete.dominantSide ||
+                athlete.side ||
+                "";
+
+            document.getElementById(
+                "editPerformance"
+            ).value =
+                normalizeScore(
+                    athlete.performance
+                );
+
+            document.getElementById(
+                "editStatus"
+            ).value =
+                athlete.status ||
+                "Ready";
+
+            document.getElementById(
+                "editLastTest"
+            ).value =
+                athlete.lastTest || "";
+
+            document.getElementById(
+                "editNotes"
+            ).value =
+                athlete.notes || "";
+
+            document.getElementById(
+                "editModal"
+            ).classList.add(
+                "show"
             );
 
-            if (name === null) {
-                return;
-            }
-
-            const trimmed = name.trim();
-
-            if (!trimmed) {
-                showToast("Athlete name cannot be empty.");
-                return;
-            }
-
-            athlete.name = trimmed;
-
-            saveAthlete();
-
-            renderProfile(athlete);
-
-            showToast("Athlete profile updated.");
         }
 
 
-        /* =========================================
-           SAVE NOTES
-        ========================================= */
+        function closeEditModal() {
 
-        function saveNotes() {
+            document.getElementById(
+                "editModal"
+            ).classList.remove(
+                "show"
+            );
 
-            const notes = document.getElementById("coachNotes").value;
-
-            athlete.notes = notes;
-
-            saveAthlete();
-
-            const status = document.getElementById("saveStatus");
-
-            status.textContent = "Saved just now";
-
-            showToast("Coach notes saved.");
-
-            setTimeout(() => {
-
-                if (status) {
-                    status.textContent = "Notes are stored locally";
-                }
-
-            }, 2500);
         }
 
 
-        /* =========================================
+        function submitEdit() {
+
+            if (!athlete) {
+                return;
+            }
+
+            const firstName =
+                document.getElementById(
+                    "editFirstName"
+                ).value.trim();
+
+            const surname =
+                document.getElementById(
+                    "editSurname"
+                ).value.trim();
+
+            if (
+                !firstName ||
+                !surname
+            ) {
+
+                showToast(
+                    "First name and surname are required."
+                );
+
+                return;
+
+            }
+
+
+            athlete.firstName =
+                firstName;
+
+            athlete.surname =
+                surname;
+
+            athlete.name =
+                `${firstName} ${surname}`;
+
+
+            athlete.sport =
+                document.getElementById(
+                    "editSport"
+                ).value.trim();
+
+
+            athlete.category =
+                document.getElementById(
+                    "editCategory"
+                ).value.trim();
+
+
+            athlete.position =
+                document.getElementById(
+                    "editPosition"
+                ).value.trim();
+
+
+            athlete.team =
+                document.getElementById(
+                    "editTeam"
+                ).value.trim();
+
+
+            athlete.dominantSide =
+                document.getElementById(
+                    "editSide"
+                ).value;
+
+
+            athlete.performance =
+                normalizeScore(
+                    document.getElementById(
+                        "editPerformance"
+                    ).value
+                );
+
+
+            athlete.status =
+                document.getElementById(
+                    "editStatus"
+                ).value;
+
+
+            athlete.lastTest =
+                document.getElementById(
+                    "editLastTest"
+                ).value;
+
+
+            athlete.notes =
+                document.getElementById(
+                    "editNotes"
+                ).value;
+
+
+            athlete.updatedAt =
+                new Date().toISOString();
+
+
+            saveAthlete();
+
+            closeEditModal();
+
+            renderProfile(
+                athlete
+            );
+
+            showToast(
+                "Athlete profile updated."
+            );
+
+        }
+
+
+        /* =====================================================
            SAVE ATHLETE
-        ========================================= */
+        ===================================================== */
 
         function saveAthlete() {
 
-            const index = athletes.findIndex(
-                item => String(item.id) === String(athlete.id)
-            );
+            if (!athlete) {
+                return;
+            }
+
+            const index =
+                athletes.findIndex(
+                    item =>
+                        String(item.id) ===
+                        String(athlete.id)
+                );
+
 
             if (index !== -1) {
 
-                athletes[index] = athlete;
+                athletes[index] =
+                    athlete;
 
             } else {
 
-                athletes.push(athlete);
+                athletes.push(
+                    athlete
+                );
 
             }
 
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(athletes)
-            );
 
             localStorage.setItem(
-                SELECTED_KEY,
-                JSON.stringify(athlete)
+                STORAGE_KEY,
+                JSON.stringify(
+                    athletes
+                )
             );
+
+
+            saveSelectedAthlete();
+
         }
 
 
-        /* =========================================
+        /* =====================================================
+           SAVE NOTES
+        ===================================================== */
+
+        function saveNotes() {
+
+            if (!athlete) {
+                return;
+            }
+
+            const textarea =
+                document.getElementById(
+                    "coachNotes"
+                );
+
+            if (!textarea) {
+                return;
+            }
+
+            athlete.notes =
+                textarea.value;
+
+            athlete.updatedAt =
+                new Date().toISOString();
+
+            saveAthlete();
+
+
+            const status =
+                document.getElementById(
+                    "saveStatus"
+                );
+
+            if (status) {
+
+                status.textContent =
+                    "Saved just now";
+
+            }
+
+
+            showToast(
+                "Coach notes saved."
+            );
+
+
+            setTimeout(
+                () => {
+
+                    if (status) {
+
+                        status.textContent =
+                            "Notes are stored locally";
+
+                    }
+
+                },
+                2500
+            );
+
+        }
+
+
+        /* =====================================================
            DELETE ATHLETE
-        ========================================= */
+        ===================================================== */
 
         function deleteAthlete() {
 
-            const confirmed = confirm(
-                `Are you sure you want to delete ${athlete.name}? This cannot be undone.`
-            );
+            if (!athlete) {
+                return;
+            }
+
+            const fullName =
+                getFullName(
+                    athlete
+                );
+
+            const confirmed =
+                confirm(
+                    `Are you sure you want to delete ${fullName}? This cannot be undone.`
+                );
+
 
             if (!confirmed) {
                 return;
             }
 
-            athletes = athletes.filter(
-                item => String(item.id) !== String(athlete.id)
-            );
+
+            athletes =
+                athletes.filter(
+                    item =>
+                        String(item.id) !==
+                        String(athlete.id)
+                );
+
 
             localStorage.setItem(
                 STORAGE_KEY,
-                JSON.stringify(athletes)
+                JSON.stringify(
+                    athletes
+                )
             );
 
-            localStorage.removeItem(SELECTED_KEY);
 
-            window.location.href = "athletes.html";
+            localStorage.removeItem(
+                SELECTED_KEY
+            );
+
+            localStorage.removeItem(
+                SELECTED_ID_KEY
+            );
+
+
+            window.location.href =
+                "athlete.html";
+
         }
 
 
-        /* =========================================
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        function goBackToAthletes() {
+
+            window.location.href =
+                "athlete.html";
+
+        }
+
+
+        function openTesting() {
+
+            if (athlete) {
+
+                localStorage.setItem(
+                    SELECTED_KEY,
+                    JSON.stringify(
+                        athlete
+                    )
+                );
+
+                localStorage.setItem(
+                    SELECTED_ID_KEY,
+                    String(
+                        athlete.id
+                    )
+                );
+
+            }
+
+            window.location.href =
+                `testing.html?athleteId=${encodeURIComponent(
+                    athlete.id
+                )}`;
+
+        }
+
+
+        function openTraining() {
+
+            if (athlete) {
+
+                localStorage.setItem(
+                    SELECTED_KEY,
+                    JSON.stringify(
+                        athlete
+                    )
+                );
+
+                localStorage.setItem(
+                    SELECTED_ID_KEY,
+                    String(
+                        athlete.id
+                    )
+                );
+
+            }
+
+            window.location.href =
+                `training.html?athleteId=${encodeURIComponent(
+                    athlete.id
+                )}`;
+
+        }
+
+
+        /* =====================================================
            EMPTY STATE
-        ========================================= */
+        ===================================================== */
 
         function showEmptyState() {
 
-            document.getElementById("pageContent").innerHTML = `
+            document.getElementById(
+                "pageContent"
+            ).innerHTML = `
 
                 <section class="card empty-state">
 
@@ -2750,14 +4653,16 @@
                         </h2>
 
                         <p>
-                            We couldn't find the athlete profile you're
-                            looking for. Return to the athlete roster
-                            and select an athlete.
+                            We couldn't find this athlete
+                            in the Athlete360 athlete database.
+                            Go back to the athlete roster and
+                            select an athlete.
                         </p>
 
                         <button
                             class="btn btn-primary"
-                            onclick="window.location.href='athletes.html'">
+                            onclick="goBackToAthletes()"
+                        >
                             Back to Athletes
                         </button>
 
@@ -2766,85 +4671,345 @@
                 </section>
 
             `;
+
         }
 
 
-        /* =========================================
+        /* =====================================================
            MOBILE MENU
-        ========================================= */
+        ===================================================== */
 
         function setupMobileMenu() {
 
-            const button = document.getElementById("mobileMenu");
-            const sidebar = document.getElementById("sidebar");
+            const button =
+                document.getElementById(
+                    "mobileMenu"
+                );
 
-            if (!button || !sidebar) {
+            const sidebar =
+                document.getElementById(
+                    "sidebar"
+                );
+
+
+            if (
+                !button ||
+                !sidebar
+            ) {
                 return;
             }
 
-            button.addEventListener("click", () => {
 
-                sidebar.classList.toggle("open");
+            button.addEventListener(
+                "click",
+                () => {
 
-            });
+                    sidebar.classList.toggle(
+                        "open"
+                    );
+
+                }
+            );
 
 
-            document.addEventListener("click", event => {
+            document.addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        window.innerWidth <= 950 &&
+                        sidebar.classList.contains(
+                            "open"
+                        ) &&
+                        !sidebar.contains(
+                            event.target
+                        ) &&
+                        event.target !== button
+                    ) {
+
+                        sidebar.classList.remove(
+                            "open"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           HELPERS
+        ===================================================== */
+
+        function getFullName(a) {
+
+            if (
+                a.firstName ||
+                a.surname
+            ) {
+
+                return [
+                    a.firstName,
+                    a.surname
+                ]
+                    .filter(Boolean)
+                    .join(" ");
+
+            }
+
+            return a.name ||
+                "Unnamed Athlete";
+
+        }
+
+
+        function getFirstName(name) {
+
+            return String(
+                name || ""
+            )
+                .trim()
+                .split(/\s+/)[0] || "";
+
+        }
+
+
+        function getSurname(name) {
+
+            const parts =
+                String(
+                    name || ""
+                )
+                    .trim()
+                    .split(/\s+/)
+                    .filter(Boolean);
+
+            if (
+                parts.length <= 1
+            ) {
+                return "";
+            }
+
+            return parts
+                .slice(1)
+                .join(" ");
+
+        }
+
+
+        function getStatusClass(
+            status
+        ) {
+
+            const value =
+                String(
+                    status || "Ready"
+                )
+                    .toLowerCase();
+
+            if (
+                value === "monitor"
+            ) {
+                return "monitor";
+            }
+
+            if (
+                value === "rest"
+            ) {
+                return "rest";
+            }
+
+            return "ready";
+
+        }
+
+
+        function getPerformanceLabel(
+            score
+        ) {
+
+            if (!score) {
+                return "No Performance Data";
+            }
+
+            if (
+                score >= 90
+            ) {
+                return "Elite Performance";
+            }
+
+            if (
+                score >= 80
+            ) {
+                return "Strong Performance";
+            }
+
+            if (
+                score >= 70
+            ) {
+                return "Developing Performance";
+            }
+
+            return "Development Required";
+
+        }
+
+
+        function formatDate(value) {
+
+            if (!value) {
+                return "—";
+            }
+
+            const date =
+                new Date(
+                    value
+                );
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+                return escapeHTML(
+                    value
+                );
+            }
+
+            return date.toLocaleDateString(
+                "en-ZA",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+        }
+
+
+        function escapeHTML(
+            value
+        ) {
+
+            return String(
+                value ?? ""
+            )
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =====================================================
+           TOAST
+        ===================================================== */
+
+        function showToast(
+            message
+        ) {
+
+            const toast =
+                document.getElementById(
+                    "toast"
+                );
+
+            if (!toast) {
+                return;
+            }
+
+            toast.textContent =
+                message;
+
+            toast.classList.add(
+                "show"
+            );
+
+            clearTimeout(
+                toastTimer
+            );
+
+            toastTimer =
+                setTimeout(
+                    () => {
+
+                        toast.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    2500
+                );
+
+        }
+
+
+        /* =====================================================
+           CLOSE MODAL WHEN CLICKING OUTSIDE
+        ===================================================== */
+
+        document
+            .getElementById(
+                "editModal"
+            )
+            .addEventListener(
+                "click",
+                event => {
+
+                    if (
+                        event.target.id ===
+                        "editModal"
+                    ) {
+
+                        closeEditModal();
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           ESC KEY
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            event => {
 
                 if (
-                    window.innerWidth <= 950 &&
-                    sidebar.classList.contains("open") &&
-                    !sidebar.contains(event.target) &&
-                    event.target !== button
+                    event.key === "Escape"
                 ) {
 
-                    sidebar.classList.remove("open");
+                    closeEditModal();
 
                 }
 
-            });
-        }
-
-
-        /* =========================================
-           TOAST
-        ========================================= */
-
-        let toastTimer;
-
-        function showToast(message) {
-
-            const toast = document.getElementById("toast");
-
-            toast.textContent = message;
-
-            toast.classList.add("show");
-
-            clearTimeout(toastTimer);
-
-            toastTimer = setTimeout(() => {
-
-                toast.classList.remove("show");
-
-            }, 2500);
-        }
-
-
-        /* =========================================
-           SECURITY / HTML ESCAPING
-        ========================================= */
-
-        function escapeHTML(value) {
-
-            return String(value ?? "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
+            }
+        );
 
     </script>
 
 </body>
 </html>
+```

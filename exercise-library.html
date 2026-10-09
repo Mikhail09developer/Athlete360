@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Athlete360 | Exercise Library</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #080b0f;
+            --sidebar: #0b0f14;
+            --card: #12181e;
+            --card-hover: #172129;
+            --border: #202a33;
+            --text: #f4f7fa;
+            --muted: #8c99a5;
+            --blue: #38bdf8;
+            --blue-dark: #0ea5e9;
+            --green: #22c55e;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .logo {
+            padding: 0 12px 28px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: var(--blue);
+        }
+
+        .logo p {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-title {
+            color: #66737f;
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 0 12px 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            color: #aab5be;
+            text-decoration: none;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: #111820;
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--blue);
+        }
+
+        .nav-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .page-title h2 {
+            font-size: 30px;
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .menu-btn {
+            display: none;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 13px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .stat-value.blue {
+            color: var(--blue);
+        }
+
+        .stat-value.green {
+            color: var(--green);
+        }
+
+        /* =========================
+           CONTROLS
+        ========================= */
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input,
+        .category-select {
+            width: 100%;
+            height: 46px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            border-radius: 10px;
+            padding: 0 15px;
+            outline: none;
+        }
+
+        .search-box input:focus,
+        .category-select:focus {
+            border-color: var(--blue);
+        }
+
+        .category-select {
+            max-width: 210px;
+            cursor: pointer;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .filter-btn {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: #aab5be;
+            border-radius: 8px;
+            padding: 9px 14px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            color: var(--text);
+            border-color: #34424d;
+        }
+
+        .filter-btn.active {
+            color: var(--blue);
+            border-color: var(--blue);
+            background: rgba(56, 189, 248, 0.08);
+        }
+
+        /* =========================
+           EXERCISE GRID
+        ========================= */
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .exercise-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.2s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            border-color: #33424e;
+            background: var(--card-hover);
+        }
+
+        .exercise-top {
+            padding: 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .exercise-icon {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .exercise-title {
+            min-width: 0;
+        }
+
+        .exercise-title h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .exercise-title p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .exercise-body {
+            padding: 18px 22px 22px;
+        }
+
+        .exercise-description {
+            color: #aab5be;
+            line-height: 1.6;
+            font-size: 13px;
+            min-height: 62px;
+            margin-bottom: 16px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 18px;
+        }
+
+        .tag {
+            font-size: 10px;
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: #0c1217;
+            border: 1px solid var(--border);
+            color: #9aa7b2;
+        }
+
+        .tag.blue {
+            color: var(--blue);
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        .tag.green {
+            color: var(--green);
+            border-color: rgba(34, 197, 94, 0.2);
+        }
+
+        .details-btn {
+            width: 100%;
+            height: 40px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.08);
+            color: var(--blue);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: 0.2s ease;
+        }
+
+        .details-btn:hover {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: var(--blue);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 70px 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.78);
+            z-index: 2000;
+            padding: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: min(700px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #0d1217;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h3 {
+            font-size: 21px;
+        }
+
+        .modal-close {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 22px;
+        }
+
+        .modal-section {
+            margin-bottom: 22px;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section h4 {
+            color: var(--blue);
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .modal-section p,
+        .modal-section li {
+            color: #aab5be;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .modal-section ol,
+        .modal-section ul {
+            padding-left: 20px;
+        }
+
+        .modal-footer {
+            padding: 18px 22px;
+            border-top: 1px solid var(--border);
+        }
+
+        .open-details-btn {
+            width: 100%;
+            height: 44px;
+            background: var(--blue);
+            color: #061018;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s ease;
+        }
+
+        .open-details-btn:hover {
+            background: #7dd3fc;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1100px) {
+            .exercise-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.25s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .category-select {
+                max-width: none;
+            }
+
+            .page-title h2 {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <h1>Athlete<span>360</span></h1>
+            <p>Train. Test. Track. Perform.</p>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Main</div>
+
+            <a href="dashboard.html" class="nav-link">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="athletes.html" class="nav-link">
+                <span class="nav-icon">♟</span>
+                Athletes
+            </a>
+
+            <a href="testing.html" class="nav-link">
+                <span class="nav-icon">◉</span>
+                Testing
+            </a>
+
+            <a href="training.html" class="nav-link">
+                <span class="nav-icon">⚡</span>
+                Training
+            </a>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Resources</div>
+
+            <a href="exercise-library.html" class="nav-link active">
+                <span class="nav-icon">◆</span>
+                Exercise Library
+            </a>
+
+            <a href="reports.html" class="nav-link">
+                <span class="nav-icon">▤</span>
+                Reports
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div class="page-title">
+                <h2>Exercise Library</h2>
+                <p>Browse and manage your performance training exercises.</p>
+            </div>
+
+            <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+
+        </div>
+
+        <!-- STATS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">Exercises</div>
+                <div class="stat-value blue" id="exerciseCount">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Categories</div>
+                <div class="stat-value" id="categoryCount">0</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Bodyweight</div>
+                <div class="stat-value green" id="bodyweightCount">0</div>
+            </div>
+
+        </section>
+
+        <!-- SEARCH / CATEGORY -->
+
+        <div class="controls">
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search exercises..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <select id="categorySelect" class="category-select">
+                <option value="all">All Categories</option>
+            </select>
+
+        </div>
+
+        <!-- FILTERS -->
+
+        <div class="filter-buttons" id="filterButtons">
+
+            <button class="filter-btn active" data-filter="all">
+                All
+            </button>
+
+            <button class="filter-btn" data-filter="strength">
+                Strength
+            </button>
+
+            <button class="filter-btn" data-filter="power">
+                Power
+            </button>
+
+            <button class="filter-btn" data-filter="speed">
+                Speed
+            </button>
+
+            <button class="filter-btn" data-filter="mobility">
+                Mobility
+            </button>
+
+            <button class="filter-btn" data-filter="conditioning">
+                Conditioning
+            </button>
+
+        </div>
+
+        <!-- EXERCISES -->
+
+        <section class="exercise-grid" id="exerciseGrid"></section>
+
+    </main>
+
+    <!-- =========================
+         MODAL
+    ========================= -->
+
+    <div class="modal" id="exerciseModal">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div>
+                    <h3 id="modalTitle">Exercise</h3>
+                </div>
+
+                <button
+                    class="modal-close"
+                    onclick="closeModal()"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="modal-section">
+                    <h4>Description</h4>
+                    <p id="modalDescription"></p>
+                </div>
+
+                <div class="modal-section">
+                    <h4>Instructions</h4>
+                    <ol id="modalInstructions"></ol>
+                </div>
+
+                <div class="modal-section">
+                    <h4>Coaching Points</h4>
+                    <ul id="modalCoaching"></ul>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    class="open-details-btn"
+                    onclick="openExerciseDetails()"
+                >
+                    Open Exercise Details
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        /* =========================================================
+           ATHLETE360 EXERCISE LIBRARY
+           ========================================================= */
+
+        const STORAGE_KEY = "athlete360_exercises";
+
+        let exercises = [];
+        let selectedExercise = null;
+        let activeFilter = "all";
+
+        /* =========================================================
+           DEFAULT EXERCISES
+           ========================================================= */
+
+        const DEFAULT_EXERCISES = [
+
+            {
+                id: "bodyweight-squat",
+                name: "Bodyweight Squat",
+                category: "Strength",
+                focus: "Lower Body",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🏋️",
+                description: "A fundamental lower-body movement for developing strength, control and movement quality.",
+                instructions: [
+                    "Stand with your feet approximately shoulder-width apart.",
+                    "Brace your core and keep your chest controlled.",
+                    "Push your hips back and bend your knees.",
+                    "Lower until your thighs are approximately parallel with the floor.",
+                    "Drive through your feet to return to the starting position."
+                ],
+                coachingPoints: [
+                    "Keep the knees tracking over the toes.",
+                    "Keep the chest controlled throughout the movement.",
+                    "Maintain a strong, braced core."
+                ]
+            },
+
+            {
+                id: "push-up",
+                name: "Push-Up",
+                category: "Strength",
+                focus: "Upper Body",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "💪",
+                description: "A classic upper-body exercise targeting the chest, shoulders, triceps and core.",
+                instructions: [
+                    "Start in a strong plank position.",
+                    "Place your hands slightly wider than shoulder width.",
+                    "Lower your body under control.",
+                    "Keep your body in a straight line.",
+                    "Push through your hands to return to the starting position."
+                ],
+                coachingPoints: [
+                    "Keep hips from dropping.",
+                    "Keep elbows controlled.",
+                    "Brace the core throughout."
+                ]
+            },
+
+            {
+                id: "forward-lunge",
+                name: "Forward Lunge",
+                category: "Strength",
+                focus: "Lower Body",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🦵",
+                description: "A unilateral lower-body movement that develops leg strength, balance and coordination.",
+                instructions: [
+                    "Stand tall with your feet together.",
+                    "Step forward with one leg.",
+                    "Lower your hips toward the floor.",
+                    "Keep the front knee controlled.",
+                    "Push through the front foot to return."
+                ],
+                coachingPoints: [
+                    "Maintain an upright torso.",
+                    "Keep the front knee stable.",
+                    "Control every repetition."
+                ]
+            },
+
+            {
+                id: "split-squat",
+                name: "Split Squat",
+                category: "Strength",
+                focus: "Lower Body",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🦵",
+                description: "A unilateral strength exercise that develops the quadriceps, glutes and lower-body stability.",
+                instructions: [
+                    "Start in a split stance.",
+                    "Lower your rear knee toward the floor.",
+                    "Keep your torso controlled.",
+                    "Drive through the front foot.",
+                    "Return to the starting position."
+                ],
+                coachingPoints: [
+                    "Keep the front foot planted.",
+                    "Control the knee position.",
+                    "Avoid collapsing inward."
+                ]
+            },
+
+            {
+                id: "glute-bridge",
+                name: "Glute Bridge",
+                category: "Strength",
+                focus: "Posterior Chain",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🍑",
+                description: "A simple posterior-chain exercise for developing glute strength and hip control.",
+                instructions: [
+                    "Lie on your back with your knees bent.",
+                    "Place your feet flat on the floor.",
+                    "Brace your core.",
+                    "Drive through your feet and lift your hips.",
+                    "Lower under control."
+                ],
+                coachingPoints: [
+                    "Squeeze the glutes at the top.",
+                    "Do not overextend the lower back.",
+                    "Keep the movement controlled."
+                ]
+            },
+
+            {
+                id: "calf-raise",
+                name: "Calf Raise",
+                category: "Strength",
+                focus: "Lower Leg",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🦶",
+                description: "Strengthens the calf muscles and supports lower-leg stiffness and running performance.",
+                instructions: [
+                    "Stand tall with your feet hip-width apart.",
+                    "Rise onto the balls of your feet.",
+                    "Pause briefly at the top.",
+                    "Lower your heels slowly."
+                ],
+                coachingPoints: [
+                    "Use a full range of motion.",
+                    "Avoid bouncing.",
+                    "Keep the ankles controlled."
+                ]
+            },
+
+            {
+                id: "plank",
+                name: "Plank",
+                category: "Strength",
+                focus: "Core",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🧱",
+                description: "An isometric core exercise that develops trunk stability and control.",
+                instructions: [
+                    "Start on your forearms and toes.",
+                    "Keep your body in a straight line.",
+                    "Brace your abdominal muscles.",
+                    "Hold the position while maintaining control."
+                ],
+                coachingPoints: [
+                    "Keep hips level.",
+                    "Do not allow the lower back to sag.",
+                    "Breathe normally."
+                ]
+            },
+
+            {
+                id: "side-plank",
+                name: "Side Plank",
+                category: "Strength",
+                focus: "Core",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "↔️",
+                description: "A lateral core stability exercise targeting the obliques and hip stabilisers.",
+                instructions: [
+                    "Lie on your side.",
+                    "Place your elbow beneath your shoulder.",
+                    "Lift your hips from the floor.",
+                    "Keep your body straight.",
+                    "Hold the position."
+                ],
+                coachingPoints: [
+                    "Keep hips elevated.",
+                    "Maintain a straight body line.",
+                    "Keep the shoulder stable."
+                ]
+            },
+
+            {
+                id: "vertical-jump",
+                name: "Vertical Jump",
+                category: "Power",
+                focus: "Explosiveness",
+                equipment: "Bodyweight",
+                difficulty: "Intermediate",
+                icon: "⬆️",
+                description: "An explosive jumping exercise for developing lower-body power.",
+                instructions: [
+                    "Start in an athletic stance.",
+                    "Quickly bend your knees and hips.",
+                    "Drive forcefully through the floor.",
+                    "Jump vertically as high as possible.",
+                    "Land softly and under control."
+                ],
+                coachingPoints: [
+                    "Use your arms aggressively.",
+                    "Land softly.",
+                    "Reset between repetitions."
+                ]
+            },
+
+            {
+                id: "broad-jump",
+                name: "Broad Jump",
+                category: "Power",
+                focus: "Horizontal Power",
+                equipment: "Bodyweight",
+                difficulty: "Intermediate",
+                icon: "➡️",
+                description: "An explosive horizontal jump used to develop lower-body power.",
+                instructions: [
+                    "Stand with your feet approximately shoulder-width apart.",
+                    "Load through the hips and knees.",
+                    "Swing the arms forward.",
+                    "Explode horizontally.",
+                    "Land under control."
+                ],
+                coachingPoints: [
+                    "Explode through the hips.",
+                    "Use the arms.",
+                    "Land with bent knees."
+                ]
+            },
+
+            {
+                id: "pogo-jumps",
+                name: "Pogo Jumps",
+                category: "Power",
+                focus: "Elasticity",
+                equipment: "Bodyweight",
+                difficulty: "Intermediate",
+                icon: "⚡",
+                description: "Quick elastic jumps that develop ankle stiffness and reactive strength.",
+                instructions: [
+                    "Stand tall with a slight bend in the knees.",
+                    "Bounce quickly through the ankles.",
+                    "Keep ground contact short.",
+                    "Maintain an upright posture."
+                ],
+                coachingPoints: [
+                    "Keep contacts quick.",
+                    "Avoid excessive knee bend.",
+                    "Stay light on the feet."
+                ]
+            },
+
+            {
+                id: "a-skip",
+                name: "A-Skip",
+                category: "Speed",
+                focus: "Running Mechanics",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🏃",
+                description: "A running-drill exercise used to improve rhythm, coordination and running mechanics.",
+                instructions: [
+                    "Stand tall and begin moving forward.",
+                    "Drive one knee upward.",
+                    "Keep the opposite leg active.",
+                    "Coordinate the arms with the legs.",
+                    "Maintain a controlled rhythm."
+                ],
+                coachingPoints: [
+                    "Stay tall.",
+                    "Drive the knee forward and upward.",
+                    "Keep a consistent rhythm."
+                ]
+            },
+
+            {
+                id: "high-knees",
+                name: "High Knees",
+                category: "Speed",
+                focus: "Running Mechanics",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🏃‍♂️",
+                description: "A dynamic running drill for coordination, rhythm and fast leg movement.",
+                instructions: [
+                    "Stand tall.",
+                    "Run on the spot or move forward.",
+                    "Drive the knees upward.",
+                    "Use the arms naturally.",
+                    "Maintain a quick rhythm."
+                ],
+                coachingPoints: [
+                    "Stay tall.",
+                    "Keep feet active.",
+                    "Move the arms with the legs."
+                ]
+            },
+
+            {
+                id: "lateral-shuffle",
+                name: "Lateral Shuffle",
+                category: "Speed",
+                focus: "Change of Direction",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "↔️",
+                description: "A lateral movement drill that develops agility and change-of-direction ability.",
+                instructions: [
+                    "Start in an athletic stance.",
+                    "Push laterally from the outside foot.",
+                    "Move quickly sideways.",
+                    "Keep the hips low.",
+                    "Change direction under control."
+                ],
+                coachingPoints: [
+                    "Stay low.",
+                    "Do not cross the feet unnecessarily.",
+                    "Push aggressively from the outside foot."
+                ]
+            },
+
+            {
+                id: "shuttle-run",
+                name: "Shuttle Run",
+                category: "Conditioning",
+                focus: "Speed & Fitness",
+                equipment: "Bodyweight",
+                difficulty: "Intermediate",
+                icon: "🔄",
+                description: "A repeated acceleration and deceleration drill used to develop speed and conditioning.",
+                instructions: [
+                    "Set two markers a suitable distance apart.",
+                    "Sprint toward the first marker.",
+                    "Change direction.",
+                    "Sprint back to the starting marker.",
+                    "Repeat according to the training prescription."
+                ],
+                coachingPoints: [
+                    "Accelerate aggressively.",
+                    "Lower the centre of mass before turning.",
+                    "Maintain good running mechanics."
+                ]
+            },
+
+            {
+                id: "mountain-climbers",
+                name: "Mountain Climbers",
+                category: "Conditioning",
+                focus: "Full Body",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🔥",
+                description: "A dynamic bodyweight exercise combining core stability with rapid leg movement.",
+                instructions: [
+                    "Start in a high plank position.",
+                    "Drive one knee toward the chest.",
+                    "Return the leg.",
+                    "Switch sides quickly.",
+                    "Maintain a stable upper body."
+                ],
+                coachingPoints: [
+                    "Keep the hips controlled.",
+                    "Brace the core.",
+                    "Maintain a steady rhythm."
+                ]
+            },
+
+            {
+                id: "hip-mobility",
+                name: "Hip Mobility",
+                category: "Mobility",
+                focus: "Hips",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🔄",
+                description: "A mobility exercise designed to improve hip movement and prepare the body for training.",
+                instructions: [
+                    "Start in a comfortable athletic position.",
+                    "Move the hips through a controlled range.",
+                    "Avoid forcing the movement.",
+                    "Repeat smoothly on both sides."
+                ],
+                coachingPoints: [
+                    "Move slowly.",
+                    "Stay within a comfortable range.",
+                    "Do not force the joint."
+                ]
+            },
+
+            {
+                id: "hamstring-mobility",
+                name: "Hamstring Mobility",
+                category: "Mobility",
+                focus: "Hamstrings",
+                equipment: "Bodyweight",
+                difficulty: "Beginner",
+                icon: "🦵",
+                description: "A controlled mobility exercise designed to improve posterior-chain movement.",
+                instructions: [
+                    "Start in a comfortable stance.",
+                    "Move slowly through the available range.",
+                    "Keep the movement controlled.",
+                    "Repeat on both sides."
+                ],
+                coachingPoints: [
+                    "Avoid bouncing.",
+                    "Keep the movement controlled.",
+                    "Do not force range of motion."
+                ]
+            },
+
+            {
+                id: "burpee",
+                name: "Burpee",
+                category: "Conditioning",
+                focus: "Full Body",
+                equipment: "Bodyweight",
+                difficulty: "Intermediate",
+                icon: "🔥",
+                description: "A full-body conditioning exercise combining a squat, plank and explosive movement.",
+                instructions: [
+                    "Start standing.",
+                    "Lower into a squat.",
+                    "Place your hands on the floor.",
+                    "Move your feet back into a plank.",
+                    "Return your feet forward.",
+                    "Stand up explosively."
+                ],
+                coachingPoints: [
+                    "Keep the core braced.",
+                    "Control the landing.",
+                    "Maintain consistent technique as fatigue increases."
+                ]
+            }
+
+        ];
+
+        /* =========================================================
+           NORMALISE EXERCISE
+           
+           This protects the library if an older version of an
+           exercise was saved in localStorage.
+        ========================================================= */
+
+        function normalizeExercise(exercise) {
+
+            if (!exercise || typeof exercise !== "object") {
+                return null;
+            }
+
+            const id = String(exercise.id || "").trim();
+
+            if (!id) {
+                return null;
+            }
+
+            return {
+                id: id,
+                name: exercise.name || "Unnamed Exercise",
+                category: exercise.category || "Other",
+                focus: exercise.focus || "General",
+                equipment: exercise.equipment || "Bodyweight",
+                difficulty: exercise.difficulty || "Beginner",
+                icon: exercise.icon || "⚡",
+                description: exercise.description || "No description available.",
+                instructions: Array.isArray(exercise.instructions)
+                    ? exercise.instructions
+                    : [],
+                coachingPoints: Array.isArray(exercise.coachingPoints)
+                    ? exercise.coachingPoints
+                    : []
+            };
+        }
+
+        /* =========================================================
+           LOAD / REPAIR EXERCISES
+           
+           IMPORTANT:
+           Stored exercises are merged with the default exercises.
+           This prevents old localStorage data from causing
+           "Exercise Not Found".
+        ========================================================= */
+
+        function loadExercises() {
+
+            let storedExercises = [];
+
+            try {
+
+                const saved = localStorage.getItem(STORAGE_KEY);
+
+                if (saved) {
+
+                    const parsed = JSON.parse(saved);
+
+                    if (Array.isArray(parsed)) {
+                        storedExercises = parsed;
+                    }
+
+                }
+
+            } catch (error) {
+
+                console.warn(
+                    "Athlete360: Could not read saved exercises.",
+                    error
+                );
+
+            }
+
+            const exerciseMap = new Map();
+
+            /* Add all defaults first */
+            DEFAULT_EXERCISES.forEach(exercise => {
+
+                const normalized = normalizeExercise(exercise);
+
+                if (normalized) {
+                    exerciseMap.set(normalized.id, normalized);
+                }
+
+            });
+
+            /* Add saved/custom data over the defaults */
+            storedExercises.forEach(exercise => {
+
+                const normalized = normalizeExercise(exercise);
+
+                if (!normalized) {
+                    return;
+                }
+
+                const existing = exerciseMap.get(normalized.id);
+
+                exerciseMap.set(
+                    normalized.id,
+                    existing
+                        ? {
+                            ...existing,
+                            ...normalized
+                        }
+                        : normalized
+                );
+
+            });
+
+            exercises = Array.from(exerciseMap.values());
+
+            /* Repair localStorage */
+            try {
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(exercises)
+                );
+
+            } catch (error) {
+
+                console.warn(
+                    "Athlete360: Could not save repaired exercise data.",
+                    error
+                );
+
+            }
+
+            updateStats();
+            populateCategories();
+            renderExercises();
+        }
+
+        /* =========================================================
+           STATS
+        ========================================================= */
+
+        function updateStats() {
+
+            const exerciseCount =
+                document.getElementById("exerciseCount");
+
+            const categoryCount =
+                document.getElementById("categoryCount");
+
+            const bodyweightCount =
+                document.getElementById("bodyweightCount");
+
+            const categories = new Set(
+                exercises.map(exercise => exercise.category)
+            );
+
+            const bodyweight = exercises.filter(
+                exercise =>
+                    String(exercise.equipment).toLowerCase() ===
+                    "bodyweight"
+            );
+
+            exerciseCount.textContent = exercises.length;
+            categoryCount.textContent = categories.size;
+            bodyweightCount.textContent = bodyweight.length;
+        }
+
+        /* =========================================================
+           CATEGORIES
+        ========================================================= */
+
+        function populateCategories() {
+
+            const select =
+                document.getElementById("categorySelect");
+
+            const categories = [
+                ...new Set(
+                    exercises.map(exercise => exercise.category)
+                )
+            ].sort();
+
+            select.innerHTML =
+                `<option value="all">All Categories</option>`;
+
+            categories.forEach(category => {
+
+                const option = document.createElement("option");
+
+                option.value = category.toLowerCase();
+                option.textContent = category;
+
+                select.appendChild(option);
+
+            });
+        }
+
+        /* =========================================================
+           RENDER
+        ========================================================= */
+
+        function renderExercises() {
+
+            const grid =
+                document.getElementById("exerciseGrid");
+
+            const search =
+                document.getElementById("searchInput")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+            const category =
+                document.getElementById("categorySelect")
+                    .value;
+
+            const filtered = exercises.filter(exercise => {
+
+                const matchesSearch =
+                    !search ||
+                    exercise.name.toLowerCase().includes(search) ||
+                    exercise.category.toLowerCase().includes(search) ||
+                    exercise.focus.toLowerCase().includes(search) ||
+                    exercise.description.toLowerCase().includes(search);
+
+                const matchesCategory =
+                    category === "all" ||
+                    exercise.category.toLowerCase() === category;
+
+                const matchesFilter =
+                    activeFilter === "all" ||
+                    exercise.category.toLowerCase() === activeFilter;
+
+                return (
+                    matchesSearch &&
+                    matchesCategory &&
+                    matchesFilter
+                );
+            });
+
+            if (!filtered.length) {
+
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No exercises found</h3>
+                        <p>
+                            Try changing your search or filter.
+                        </p>
+                    </div>
+                `;
+
+                return;
+            }
+
+            grid.innerHTML = filtered
+                .map(exercise => createExerciseCard(exercise))
+                .join("");
+        }
+
+        /* =========================================================
+           EXERCISE CARD
+        ========================================================= */
+
+        function createExerciseCard(exercise) {
+
+            const categoryClass =
+                exercise.category.toLowerCase() === "strength" ||
+                exercise.category.toLowerCase() === "power"
+                    ? "blue"
+                    : "green";
+
+            return `
+                <article class="exercise-card">
+
+                    <div class="exercise-top">
+
+                        <div class="exercise-icon">
+                            ${escapeHtml(exercise.icon)}
+                        </div>
+
+                        <div class="exercise-title">
+
+                            <h3>
+                                ${escapeHtml(exercise.name)}
+                            </h3>
+
+                            <p>
+                                ${escapeHtml(exercise.focus)}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="exercise-body">
+
+                        <p class="exercise-description">
+                            ${escapeHtml(exercise.description)}
+                        </p>
+
+                        <div class="tags">
+
+                            <span class="tag ${categoryClass}">
+                                ${escapeHtml(exercise.category)}
+                            </span>
+
+                            <span class="tag">
+                                ${escapeHtml(exercise.equipment)}
+                            </span>
+
+                            <span class="tag">
+                                ${escapeHtml(exercise.difficulty)}
+                            </span>
+
+                        </div>
+
+                        <button
+                            class="details-btn"
+                            onclick="openExercise('${escapeJs(exercise.id)}')"
+                        >
+                            View Exercise
+                        </button>
+
+                    </div>
+
+                </article>
+            `;
+        }
+
+        /* =========================================================
+           OPEN MODAL
+        ========================================================= */
+
+        function openExercise(id) {
+
+            const exercise = exercises.find(
+                item => String(item.id) === String(id)
+            );
+
+            if (!exercise) {
+
+                console.error(
+                    "Athlete360: Exercise not found:",
+                    id
+                );
+
+                return;
+            }
+
+            selectedExercise = exercise;
+
+            document.getElementById("modalTitle")
+                .textContent = exercise.name;
+
+            document.getElementById("modalDescription")
+                .textContent = exercise.description;
+
+            const instructions =
+                document.getElementById("modalInstructions");
+
+            instructions.innerHTML = "";
+
+            exercise.instructions.forEach(instruction => {
+
+                const li = document.createElement("li");
+
+                li.textContent = instruction;
+
+                instructions.appendChild(li);
+
+            });
+
+            const coaching =
+                document.getElementById("modalCoaching");
+
+            coaching.innerHTML = "";
+
+            exercise.coachingPoints.forEach(point => {
+
+                const li = document.createElement("li");
+
+                li.textContent = point;
+
+                coaching.appendChild(li);
+
+            });
+
+            document
+                .getElementById("exerciseModal")
+                .classList.add("show");
+        }
+
+        /* =========================================================
+           OPEN FULL EXERCISE DETAILS
+           
+           THIS IS THE IMPORTANT FIX.
+           
+           The details page is expected to be:
+           
+           exercise.html
+           
+           And the selected ID is passed as:
+           
+           exercise.html?exercise=bodyweight-squat
+        ========================================================= */
+
+        function openExerciseDetails() {
+
+            if (!selectedExercise) {
+                return;
+            }
+
+            const id = String(
+                selectedExercise.id || ""
+            ).trim();
+
+            if (!id) {
+
+                console.error(
+                    "Athlete360: Selected exercise has no ID."
+                );
+
+                return;
+            }
+
+            const url =
+                "exercise.html?exercise=" +
+                encodeURIComponent(id);
+
+            window.location.href = url;
+        }
+
+        /* =========================================================
+           CLOSE MODAL
+        ========================================================= */
+
+        function closeModal() {
+
+            document
+                .getElementById("exerciseModal")
+                .classList.remove("show");
+
+            selectedExercise = null;
+        }
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        function toggleSidebar() {
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
+        }
+
+        /* =========================================================
+           ESCAPE HTML
+        ========================================================= */
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        /* =========================================================
+           ESCAPE JAVASCRIPT STRING
+        ========================================================= */
+
+        function escapeJs(value) {
+
+            return String(value)
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+        }
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        document
+            .getElementById("searchInput")
+            .addEventListener("input", renderExercises);
+
+        /* =========================================================
+           CATEGORY
+        ========================================================= */
+
+        document
+            .getElementById("categorySelect")
+            .addEventListener("change", renderExercises);
+
+        /* =========================================================
+           FILTER BUTTONS
+        ========================================================= */
+
+        document
+            .getElementById("filterButtons")
+            .addEventListener("click", function(event) {
+
+                const button =
+                    event.target.closest(".filter-btn");
+
+                if (!button) {
+                    return;
+                }
+
+                document
+                    .querySelectorAll(".filter-btn")
+                    .forEach(btn => {
+                        btn.classList.remove("active");
+                    });
+
+                button.classList.add("active");
+
+                activeFilter =
+                    button.dataset.filter || "all";
+
+                renderExercises();
+            });
+
+        /* =========================================================
+           CLOSE MODAL WHEN CLICKING OUTSIDE
+        ========================================================= */
+
+        document
+            .getElementById("exerciseModal")
+            .addEventListener("click", function(event) {
+
+                if (event.target === this) {
+                    closeModal();
+                }
+
+            });
+
+        /* =========================================================
+           ESC KEY
+        ========================================================= */
+
+        document.addEventListener("keydown", function(event) {
+
+            if (event.key === "Escape") {
+                closeModal();
+            }
+
+        });
+
+        /* =========================================================
+           INITIALISE
+        ========================================================= */
+
+        loadExercises();
+
+    </script>
+
+</body>
+</html>

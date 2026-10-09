@@ -4,67 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Athlete360 | Performance Dashboard</title>
-
-    <meta
-        name="description"
-        content="Athlete360 athlete performance dashboard."
-    >
+    <title>Athlete360 | Dashboard</title>
 
     <style>
 
-        /* =========================================================
-           ATHLETE360 PERFORMANCE DASHBOARD
-           ========================================================= */
-
         :root {
-
             --black: #070a0e;
             --black-2: #0b0f14;
-
             --sidebar: #0d1218;
 
             --surface: #121820;
             --surface-2: #171e27;
             --surface-3: #1c242e;
 
-            --border: rgba(255,255,255,0.07);
+            --border: rgba(255,255,255,0.08);
             --border-light: rgba(255,255,255,0.12);
+
+            --text: #f4f7fa;
+            --muted: #8e9aa7;
+            --muted-2: #66717d;
 
             --blue: #49b8ff;
             --blue-dark: #218ed0;
-            --blue-soft: rgba(73,184,255,0.11);
 
             --green: #32d583;
             --green-dark: #1da968;
-            --green-soft: rgba(50,213,131,0.10);
 
             --orange: #ffb648;
-            --orange-soft: rgba(255,182,72,0.10);
-
             --red: #ff6675;
-            --red-soft: rgba(255,102,117,0.10);
-
             --purple: #9b8cff;
-            --purple-soft: rgba(155,140,255,0.10);
-
-            --text: #f4f7fa;
-            --text-soft: #b7c0ca;
-            --text-muted: #76818e;
 
             --sidebar-width: 250px;
 
-            --radius: 14px;
-            --radius-small: 10px;
+            --radius-sm: 10px;
+            --radius: 16px;
+            --radius-lg: 22px;
 
             --shadow:
-                0 18px 50px rgba(0,0,0,0.22);
+                0 12px 35px rgba(0,0,0,0.28);
         }
-
-
-        /* =========================================================
-           RESET
-           ========================================================= */
 
         * {
             margin: 0;
@@ -72,43 +50,24 @@
             box-sizing: border-box;
         }
 
-
         html {
             scroll-behavior: smooth;
         }
 
-
         body {
-
             min-height: 100vh;
-
-            background:
-                radial-gradient(
-                    circle at 75% 5%,
-                    rgba(73,184,255,0.045),
-                    transparent 25%
-                ),
-                var(--black);
-
+            background: var(--black);
             color: var(--text);
 
             font-family:
                 Inter,
+                ui-sans-serif,
                 system-ui,
                 -apple-system,
                 BlinkMacSystemFont,
                 "Segoe UI",
                 sans-serif;
-
-            overflow-x: hidden;
         }
-
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
 
         button,
         input,
@@ -116,80 +75,342 @@
             font: inherit;
         }
 
-
         button {
             cursor: pointer;
-            border: none;
         }
 
-
-        /* =========================================================
-           APP
-           ========================================================= */
-
-        .app {
-
-            min-height: 100vh;
-
-            display: flex;
+        a {
+            color: inherit;
         }
-
 
         /* =========================================================
            SIDEBAR
            ========================================================= */
 
         .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
 
             width: var(--sidebar-width);
+            height: 100vh;
 
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-
-            z-index: 100;
+            background: var(--sidebar);
+            border-right: 1px solid var(--border);
 
             display: flex;
             flex-direction: column;
 
-            background: var(--sidebar);
+            padding: 24px 16px;
 
-            border-right: 1px solid var(--border);
-
-            transition: transform 0.3s ease;
+            z-index: 1000;
         }
-
-
-        /* =========================================================
-           BRAND
-           ========================================================= */
-
-        .sidebar-brand {
-
-            height: 76px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 0 22px;
-
-            border-bottom: 1px solid var(--border);
-        }
-
 
         .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 4px 8px 28px;
+        }
+
+        .brand-mark {
+            width: 42px;
+            height: 42px;
 
             display: flex;
             align-items: center;
-            gap: 11px;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue),
+                    var(--green)
+                );
+
+            color: #061018;
+
+            font-size: 20px;
+            font-weight: 900;
+
+            box-shadow:
+                0 8px 25px rgba(73,184,255,0.18);
         }
 
+        .brand-text h1 {
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
 
-        .brand-mark {
+        .brand-text h1 span {
+            color: var(--blue);
+        }
 
-            width: 38px;
-            height: 38px;
+        .brand-text p {
+            margin-top: 3px;
+
+            color: var(--muted-2);
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+        }
+
+        /* =========================================================
+           NAVIGATION
+           ========================================================= */
+
+        .main-navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .nav-item {
+            width: 100%;
+            min-height: 48px;
+
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 0 13px;
+
+            border-radius: 12px;
+
+            color: var(--muted);
+
+            text-decoration: none;
+
+            font-size: 14px;
+            font-weight: 600;
+
+            border: 1px solid transparent;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.045);
+            color: var(--text);
+
+            transform: translateX(2px);
+        }
+
+        .nav-item.active {
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(73,184,255,0.13),
+                    rgba(50,213,131,0.06)
+                );
+
+            border-color: rgba(73,184,255,0.14);
+
+            color: var(--text);
+        }
+
+        .nav-icon {
+            width: 26px;
+            height: 26px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: rgba(255,255,255,0.045);
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+        .nav-item:hover .nav-icon,
+        .nav-item.active .nav-icon {
+            background: rgba(73,184,255,0.12);
+            color: var(--blue);
+        }
+
+        .sidebar-spacer {
+            flex: 1;
+        }
+
+        .sidebar-bottom {
+            margin-top: 20px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 13px;
+
+            border: 1px solid var(--border);
+            border-radius: 13px;
+
+            background: rgba(255,255,255,0.025);
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+
+            flex: 0 0 auto;
+
+            border-radius: 50%;
+
+            background: var(--green);
+
+            box-shadow:
+                0 0 0 5px rgba(50,213,131,0.08);
+        }
+
+        .system-status strong {
+            display: block;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .system-status small {
+            display: block;
+
+            margin-top: 3px;
+
+            color: var(--muted-2);
+
+            font-size: 10px;
+        }
+
+        .version {
+            margin-top: 12px;
+
+            text-align: center;
+
+            color: var(--muted-2);
+
+            font-size: 10px;
+            letter-spacing: 0.8px;
+        }
+
+        /* =========================================================
+           MAIN CONTENT
+           ========================================================= */
+
+        .main-content {
+            min-height: 100vh;
+
+            margin-left: var(--sidebar-width);
+
+            padding: 30px 34px 50px;
+
+            background:
+                radial-gradient(
+                    circle at 80% 0%,
+                    rgba(73,184,255,0.045),
+                    transparent 30%
+                ),
+                var(--black);
+        }
+
+        /* =========================================================
+           TOPBAR
+           ========================================================= */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+
+            margin-bottom: 30px;
+        }
+
+        .page-heading .eyebrow {
+            margin-bottom: 7px;
+
+            color: var(--blue);
+
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.7px;
+        }
+
+        .page-heading h2 {
+            font-size: clamp(26px, 3vw, 36px);
+            line-height: 1.05;
+
+            letter-spacing: -1.2px;
+        }
+
+        .page-heading p {
+            margin-top: 9px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-button {
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid var(--border);
+            border-radius: 12px;
+
+            background: var(--surface);
+
+            color: var(--muted);
+
+            transition: 0.2s ease;
+        }
+
+        .icon-button:hover {
+            color: var(--blue);
+            border-color: rgba(73,184,255,0.25);
+        }
+
+        .coach-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 5px 10px 5px 5px;
+
+            border: 1px solid var(--border);
+            border-radius: 13px;
+
+            background: var(--surface);
+        }
+
+        .coach-avatar {
+            width: 34px;
+            height: 34px;
 
             display: flex;
             align-items: center;
@@ -204,532 +425,60 @@
                     var(--green)
                 );
 
-            color: #061016;
+            color: #071018;
 
             font-size: 13px;
             font-weight: 900;
         }
 
-
-        .brand-name {
-
-            font-size: 17px;
-            font-weight: 850;
-
-            letter-spacing: -0.5px;
-        }
-
-
-        .brand-name span {
-            color: var(--blue);
-        }
-
-
-        /* =========================================================
-           SIDEBAR NAVIGATION
-           ========================================================= */
-
-        .sidebar-content {
-
-            flex: 1;
-
-            padding: 22px 12px;
-
-            overflow-y: auto;
-        }
-
-
-        .nav-section {
-            margin-bottom: 25px;
-        }
-
-
-        .nav-title {
-
-            padding: 0 12px;
-
-            margin-bottom: 9px;
-
-            color: var(--text-muted);
-
-            font-size: 9px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-        }
-
-
-        .nav-item {
-
-            width: 100%;
-
-            min-height: 43px;
-
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            padding: 0 12px;
-
-            margin-bottom: 3px;
-
-            border-radius: 9px;
-
-            background: transparent;
-
-            color: var(--text-muted);
-
+        .coach-info strong {
+            display: block;
             font-size: 12px;
-            font-weight: 650;
-
-            text-align: left;
-
-            transition: 0.2s ease;
         }
 
-
-        .nav-item:hover {
-
-            background: rgba(255,255,255,0.035);
-
-            color: var(--text);
-        }
-
-
-        .nav-item.active {
-
-            background: var(--blue-soft);
-
-            color: var(--blue);
-        }
-
-
-        .nav-icon {
-
-            width: 27px;
-            height: 27px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 7px;
-
-            font-size: 13px;
-
-            flex-shrink: 0;
-        }
-
-
-        .nav-item.active .nav-icon {
-
-            background: rgba(73,184,255,0.12);
-        }
-
-
-        .nav-badge {
-
-            margin-left: auto;
-
-            min-width: 19px;
-            height: 19px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            padding: 0 5px;
-
-            border-radius: 20px;
-
-            background: var(--green-soft);
-
-            color: var(--green);
-
-            font-size: 9px;
-            font-weight: 800;
-        }
-
-
-        /* =========================================================
-           SIDEBAR BOTTOM
-           ========================================================= */
-
-        .sidebar-bottom {
-
-            padding: 14px 12px;
-
-            border-top: 1px solid var(--border);
-        }
-
-
-        .profile-mini {
-
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            padding: 10px;
-
-            border-radius: 10px;
-
-            background: rgba(255,255,255,0.025);
-        }
-
-
-        .avatar {
-
-            width: 35px;
-            height: 35px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 9px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #27323d,
-                    #1a222b
-                );
-
-            border: 1px solid var(--border-light);
-
-            color: var(--blue);
-
-            font-size: 11px;
-            font-weight: 900;
-        }
-
-
-        .profile-info {
-            min-width: 0;
-            flex: 1;
-        }
-
-
-        .profile-name {
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            font-size: 11px;
-            font-weight: 750;
-        }
-
-
-        .profile-role {
-
-            margin-top: 2px;
-
-            color: var(--text-muted);
-
-            font-size: 9px;
-        }
-
-
-        .profile-more {
-
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-
-        /* =========================================================
-           MAIN CONTENT
-           ========================================================= */
-
-        .main {
-
-            width: calc(100% - var(--sidebar-width));
-
-            margin-left: var(--sidebar-width);
-
-            min-height: 100vh;
-        }
-
-
-        /* =========================================================
-           TOPBAR
-           ========================================================= */
-
-        .topbar {
-
-            height: 76px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 30px;
-
-            background: rgba(7,10,14,0.9);
-
-            border-bottom: 1px solid var(--border);
-
-            position: sticky;
-            top: 0;
-
-            z-index: 50;
-
-            backdrop-filter: blur(16px);
-        }
-
-
-        .mobile-menu {
-
-            display: none;
-
-            width: 38px;
-            height: 38px;
-
-            border-radius: 9px;
-
-            background: var(--surface);
-
-            border: 1px solid var(--border);
-
-            color: var(--text);
-        }
-
-
-        .page-title {
-
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-
-        .page-title h1 {
-
-            font-size: 18px;
-            font-weight: 800;
-
-            letter-spacing: -0.5px;
-        }
-
-
-        .page-title span {
-
-            color: var(--text-muted);
-
-            font-size: 10px;
-        }
-
-
-        .topbar-right {
-
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-
-        .top-action {
-
-            width: 37px;
-            height: 37px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 9px;
-
-            background: var(--surface);
-
-            border: 1px solid var(--border);
-
-            color: var(--text-soft);
-
-            position: relative;
-        }
-
-
-        .top-action:hover {
-            color: var(--blue);
-            border-color: rgba(73,184,255,0.25);
-        }
-
-
-        .notification-dot {
-
-            position: absolute;
-
-            top: 7px;
-            right: 7px;
-
-            width: 5px;
-            height: 5px;
-
-            border-radius: 50%;
-
-            background: var(--green);
-        }
-
-
-        .top-user {
-
-            display: flex;
-            align-items: center;
-            gap: 9px;
-
-            padding-left: 7px;
-        }
-
-
-        .top-user-avatar {
-
-            width: 35px;
-            height: 35px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 9px;
-
-            background: var(--blue-soft);
-
-            color: var(--blue);
-
-            font-size: 10px;
-            font-weight: 900;
-        }
-
-
-        .top-user-text strong {
-
-            display: block;
-
-            font-size: 10px;
-            font-weight: 750;
-        }
-
-
-        .top-user-text span {
-
+        .coach-info span {
             display: block;
 
             margin-top: 2px;
 
-            color: var(--text-muted);
-
-            font-size: 8px;
-        }
-
-
-        /* =========================================================
-           CONTENT
-           ========================================================= */
-
-        .content {
-
-            padding: 30px;
-            max-width: 1700px;
-        }
-
-
-        /* =========================================================
-           WELCOME
-           ========================================================= */
-
-        .welcome-row {
-
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-
-            margin-bottom: 25px;
-        }
-
-
-        .welcome h2 {
-
-            font-size: 25px;
-            font-weight: 800;
-
-            letter-spacing: -1px;
-
-            margin-bottom: 6px;
-        }
-
-
-        .welcome p {
-
-            color: var(--text-muted);
-
-            font-size: 11px;
-        }
-
-
-        .date-control {
-
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            height: 38px;
-
-            padding: 0 12px;
-
-            border: 1px solid var(--border);
-
-            border-radius: 9px;
-
-            background: var(--surface);
-
-            color: var(--text-soft);
+            color: var(--muted-2);
 
             font-size: 10px;
-            font-weight: 650;
         }
-
 
         /* =========================================================
            KPI GRID
            ========================================================= */
 
         .kpi-grid {
-
             display: grid;
 
             grid-template-columns:
                 repeat(4, minmax(0, 1fr));
 
-            gap: 14px;
+            gap: 16px;
 
             margin-bottom: 18px;
         }
 
-
         .kpi-card {
+            position: relative;
 
-            min-height: 145px;
+            min-height: 138px;
 
             padding: 20px;
 
-            background: var(--surface);
+            overflow: hidden;
 
             border: 1px solid var(--border);
-
             border-radius: var(--radius);
 
+            background: var(--surface);
+
             box-shadow: var(--shadow);
-
-            position: relative;
-
-            overflow: hidden;
         }
 
-
         .kpi-card::after {
-
             content: "";
 
             position: absolute;
@@ -742,49 +491,26 @@
 
             border-radius: 50%;
 
-            background: var(--blue-soft);
+            background: rgba(73,184,255,0.045);
         }
-
-
-        .kpi-card.green::after {
-            background: var(--green-soft);
-        }
-
-
-        .kpi-card.orange::after {
-            background: var(--orange-soft);
-        }
-
-
-        .kpi-card.purple::after {
-            background: var(--purple-soft);
-        }
-
 
         .kpi-top {
-
             display: flex;
-            justify-content: space-between;
             align-items: center;
-
-            margin-bottom: 22px;
+            justify-content: space-between;
         }
-
 
         .kpi-label {
+            color: var(--muted);
 
-            color: var(--text-muted);
-
-            font-size: 9px;
-            font-weight: 800;
+            font-size: 11px;
+            font-weight: 700;
 
             text-transform: uppercase;
-            letter-spacing: 0.9px;
+            letter-spacing: 0.8px;
         }
 
-
         .kpi-icon {
-
             width: 31px;
             height: 31px;
 
@@ -792,457 +518,210 @@
             align-items: center;
             justify-content: center;
 
-            border-radius: 8px;
+            border-radius: 9px;
 
-            background: var(--blue-soft);
+            background: rgba(73,184,255,0.09);
 
             color: var(--blue);
 
             font-size: 13px;
         }
 
-
-        .green .kpi-icon {
-
-            background: var(--green-soft);
-            color: var(--green);
-        }
-
-
-        .orange .kpi-icon {
-
-            background: var(--orange-soft);
-            color: var(--orange);
-        }
-
-
-        .purple .kpi-icon {
-
-            background: var(--purple-soft);
-            color: var(--purple);
-        }
-
-
         .kpi-value {
+            margin-top: 15px;
 
             font-size: 29px;
-            font-weight: 850;
+            font-weight: 800;
 
-            letter-spacing: -1.5px;
-
-            line-height: 1;
+            letter-spacing: -1px;
         }
 
+        .kpi-description {
+            margin-top: 4px;
 
-        .kpi-value small {
-
-            color: var(--text-muted);
+            color: var(--muted-2);
 
             font-size: 11px;
-            font-weight: 600;
-
-            letter-spacing: 0;
         }
 
+        /* =========================================================
+           GENERAL CARDS
+           ========================================================= */
 
-        .kpi-footer {
+        .card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
 
+            background: var(--surface);
+
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: space-between;
 
-            margin-top: 9px;
+            gap: 15px;
 
-            font-size: 9px;
-            font-weight: 700;
+            padding: 20px 20px 0;
         }
 
+        .card-title {
+            font-size: 15px;
+            font-weight: 750;
+        }
 
-        .positive {
+        .card-subtitle {
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .card-action {
+            border: 0;
+
+            background: transparent;
+
+            color: var(--blue);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            white-space: nowrap;
+        }
+
+        .card-action:hover {
             color: var(--green);
         }
 
-
-        .neutral {
-            color: var(--text-muted);
-        }
-
-
-        .warning {
-            color: var(--orange);
-        }
-
-
         /* =========================================================
-           MAIN GRID
+           MAIN DASHBOARD GRID
            ========================================================= */
 
         .dashboard-grid {
-
             display: grid;
 
             grid-template-columns:
                 minmax(0, 1.65fr)
-                minmax(300px, 0.9fr);
+                minmax(300px, 0.85fr);
 
             gap: 18px;
 
-            margin-bottom: 18px;
+            margin-top: 18px;
         }
-
 
         /* =========================================================
-           CARD
-           ========================================================= */
-
-        .card {
-
-            background: var(--surface);
-
-            border: 1px solid var(--border);
-
-            border-radius: var(--radius);
-
-            box-shadow: var(--shadow);
-
-            overflow: hidden;
-        }
-
-
-        .card-header {
-
-            min-height: 66px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            padding: 16px 19px;
-
-            border-bottom: 1px solid var(--border);
-        }
-
-
-        .card-title h3 {
-
-            font-size: 13px;
-            font-weight: 800;
-
-            margin-bottom: 4px;
-        }
-
-
-        .card-title span {
-
-            color: var(--text-muted);
-
-            font-size: 9px;
-        }
-
-
-        .card-action {
-
-            color: var(--blue);
-
-            background: transparent;
-
-            font-size: 9px;
-            font-weight: 750;
-        }
-
-
-        /* =========================================================
-           PERFORMANCE CHART
+           PERFORMANCE TREND
            ========================================================= */
 
         .chart-card {
-            min-height: 390px;
+            min-height: 355px;
         }
-
-
-        .chart-area {
-
-            height: 315px;
-
-            padding: 22px 20px 20px;
-        }
-
 
         .chart {
-
-            width: 100%;
-            height: 100%;
-
             position: relative;
 
-            border-bottom: 1px solid var(--border);
-            border-left: 1px solid var(--border);
+            height: 275px;
+
+            margin: 15px 20px 20px;
         }
 
-
-        .chart-grid-line {
-
-            position: absolute;
-            left: 0;
-            right: 0;
-
-            height: 1px;
-
-            background: rgba(255,255,255,0.045);
-        }
-
-
-        .line-1 { top: 20%; }
-        .line-2 { top: 40%; }
-        .line-3 { top: 60%; }
-        .line-4 { top: 80%; }
-
-
-        .chart-labels {
-
-            position: absolute;
-
-            left: -27px;
-
-            top: 0;
-            bottom: 0;
+        .chart-empty {
+            height: 235px;
 
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
 
-            padding-bottom: 1px;
-
-            color: var(--text-muted);
-
-            font-size: 8px;
+            text-align: center;
         }
 
+        .empty-chart-icon {
+            width: 54px;
+            height: 54px;
 
-        .chart-svg {
-
-            position: absolute;
-
-            inset: 0;
-
-            width: 100%;
-            height: 100%;
-
-            overflow: visible;
-        }
-
-
-        .chart-line {
-
-            fill: none;
-
-            stroke: var(--blue);
-
-            stroke-width: 3;
-
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-
-        .chart-area-fill {
-
-            fill: url(#blueGradient);
-
-            opacity: 0.15;
-        }
-
-
-        .chart-point {
-
-            fill: var(--surface);
-
-            stroke: var(--blue);
-
-            stroke-width: 2;
-        }
-
-
-        .chart-bottom {
-
-            position: absolute;
-
-            left: 0;
-            right: 0;
-            bottom: -23px;
+            margin: 0 auto 14px;
 
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
 
-            color: var(--text-muted);
+            border-radius: 15px;
 
-            font-size: 8px;
+            background: rgba(73,184,255,0.07);
+
+            color: var(--blue);
+
+            font-size: 20px;
         }
 
+        .empty-state h3 {
+            font-size: 13px;
+        }
+
+        .empty-state p {
+            max-width: 280px;
+
+            margin: 6px auto 0;
+
+            color: var(--muted-2);
+
+            font-size: 10px;
+            line-height: 1.5;
+        }
 
         /* =========================================================
            READINESS
            ========================================================= */
 
         .readiness-card {
-
-            min-height: 390px;
+            min-height: 355px;
         }
-
 
         .readiness-content {
-
-            padding: 25px 20px;
+            padding: 23px 20px 20px;
         }
 
-
-        .readiness-score {
-
-            display: flex;
-            justify-content: center;
-
-            margin-bottom: 25px;
-        }
-
-
-        .score-ring {
-
-            width: 175px;
-            height: 175px;
-
-            border-radius: 50%;
+        .readiness-empty {
+            min-height: 260px;
 
             display: flex;
             align-items: center;
             justify-content: center;
-
-            position: relative;
-
-            background:
-                conic-gradient(
-                    var(--green) 0deg 320deg,
-                    #26313b 320deg 360deg
-                );
-        }
-
-
-        .score-ring::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 140px;
-            height: 140px;
-
-            border-radius: 50%;
-
-            background: var(--surface);
-        }
-
-
-        .score-center {
-
-            position: relative;
 
             text-align: center;
         }
 
+        .readiness-placeholder {
+            width: 150px;
+            height: 150px;
 
-        .score-number {
+            margin: 0 auto 20px;
 
-            font-size: 38px;
-            font-weight: 900;
-
-            letter-spacing: -2px;
-        }
-
-
-        .score-number span {
-
-            font-size: 15px;
-            color: var(--text-muted);
-        }
-
-
-        .score-label {
-
-            color: var(--green);
-
-            font-size: 9px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-        }
-
-
-        .readiness-factors {
-
-            display: grid;
-            gap: 12px;
-        }
-
-
-        .factor {
-
-            display: grid;
-
-            grid-template-columns: 85px 1fr 35px;
-
+            display: flex;
             align-items: center;
+            justify-content: center;
 
-            gap: 9px;
+            border: 1px dashed rgba(255,255,255,0.14);
+
+            border-radius: 50%;
+
+            color: var(--muted-2);
+
+            font-size: 11px;
+            font-weight: 700;
+
+            letter-spacing: 0.8px;
         }
-
-
-        .factor-name {
-
-            color: var(--text-soft);
-
-            font-size: 9px;
-            font-weight: 650;
-        }
-
-
-        .factor-bar {
-
-            height: 5px;
-
-            background: #202832;
-
-            border-radius: 20px;
-
-            overflow: hidden;
-        }
-
-
-        .factor-progress {
-
-            height: 100%;
-
-            border-radius: inherit;
-
-            background: var(--green);
-        }
-
-
-        .factor-score {
-
-            color: var(--text);
-
-            font-size: 9px;
-            font-weight: 800;
-
-            text-align: right;
-        }
-
 
         /* =========================================================
            SECONDARY GRID
            ========================================================= */
 
         .secondary-grid {
-
             display: grid;
 
             grid-template-columns:
@@ -1251,495 +730,171 @@
 
             gap: 18px;
 
-            margin-bottom: 18px;
+            margin-top: 18px;
         }
 
-
-        /* =========================================================
-           ATHLETE ACTIVITY
-           ========================================================= */
+        .activity-card,
+        .load-card {
+            min-height: 260px;
+        }
 
         .activity-list {
-
-            padding: 5px 20px 15px;
+            padding: 15px 20px 20px;
         }
 
-
-        .activity-item {
-
-            display: grid;
-
-            grid-template-columns:
-                38px
-                minmax(0, 1fr)
-                auto;
-
-            align-items: center;
-
-            gap: 12px;
-
-            padding: 14px 0;
-
-            border-bottom: 1px solid var(--border);
-        }
-
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-
-        .activity-icon {
-
-            width: 35px;
-            height: 35px;
+        .activity-empty {
+            min-height: 170px;
 
             display: flex;
             align-items: center;
             justify-content: center;
 
-            border-radius: 9px;
-
-            background: var(--blue-soft);
-
-            color: var(--blue);
-
-            font-size: 12px;
+            text-align: center;
         }
 
-
-        .activity-info strong {
-
-            display: block;
-
-            font-size: 10px;
-            font-weight: 750;
-
-            margin-bottom: 3px;
-        }
-
-
-        .activity-info span {
-
-            color: var(--text-muted);
-
-            font-size: 8px;
-        }
-
-
-        .activity-result {
-
-            text-align: right;
-        }
-
-
-        .activity-result strong {
-
-            display: block;
-
-            color: var(--green);
-
-            font-size: 10px;
-        }
-
-
-        .activity-result span {
-
-            color: var(--text-muted);
-
-            font-size: 8px;
-        }
-
-
-        /* =========================================================
-           TRAINING LOAD
-           ========================================================= */
-
-        .load-content {
-
-            padding: 20px;
-        }
-
-
-        .load-summary {
-
+        .activity-item {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
+            gap: 12px;
 
-            margin-bottom: 20px;
-        }
-
-
-        .load-value {
-
-            font-size: 31px;
-            font-weight: 850;
-
-            letter-spacing: -1.5px;
-        }
-
-
-        .load-value span {
-
-            color: var(--text-muted);
-
-            font-size: 10px;
-            font-weight: 600;
-
-            letter-spacing: 0;
-        }
-
-
-        .load-status {
-
-            padding: 6px 9px;
-
-            border-radius: 7px;
-
-            background: var(--green-soft);
-
-            color: var(--green);
-
-            font-size: 8px;
-            font-weight: 800;
-        }
-
-
-        .load-bars {
-
-            height: 180px;
-
-            display: flex;
-            align-items: flex-end;
-
-            gap: 10px;
-
-            padding-bottom: 22px;
+            padding: 12px 0;
 
             border-bottom: 1px solid var(--border);
         }
 
+        .activity-item:last-child {
+            border-bottom: 0;
+        }
 
-        .load-day {
+        .activity-icon {
+            width: 35px;
+            height: 35px;
 
-            flex: 1;
-
-            height: 100%;
+            flex: 0 0 auto;
 
             display: flex;
-            align-items: flex-end;
+            align-items: center;
+            justify-content: center;
 
-            position: relative;
+            border-radius: 10px;
+
+            background: rgba(73,184,255,0.08);
+
+            color: var(--blue);
+
+            font-size: 13px;
         }
 
-
-        .load-bar {
-
-            width: 100%;
-
-            border-radius: 5px 5px 2px 2px;
-
-            background:
-                linear-gradient(
-                    to top,
-                    var(--blue-dark),
-                    var(--blue)
-                );
-
-            min-height: 10px;
-
-            transition: 0.25s ease;
+        .activity-info {
+            flex: 1;
         }
 
-
-        .load-day:nth-child(6) .load-bar {
-
-            background:
-                linear-gradient(
-                    to top,
-                    var(--green-dark),
-                    var(--green)
-                );
+        .activity-info strong {
+            display: block;
+            font-size: 11px;
         }
 
+        .activity-info span {
+            display: block;
 
-        .load-day span {
+            margin-top: 3px;
 
-            position: absolute;
+            color: var(--muted-2);
 
-            bottom: -19px;
-
-            left: 50%;
-
-            transform: translateX(-50%);
-
-            color: var(--text-muted);
-
-            font-size: 8px;
+            font-size: 10px;
         }
 
+        .activity-time {
+            color: var(--muted-2);
+            font-size: 9px;
+        }
 
         /* =========================================================
-           ATHLETE TABLE
+           TRAINING LOAD EMPTY STATE
+           ========================================================= */
+
+        .load-content {
+            min-height: 205px;
+
+            padding: 17px 20px 20px;
+        }
+
+        .load-empty {
+            height: 190px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-align: center;
+        }
+
+        /* =========================================================
+           ATHLETE OVERVIEW
            ========================================================= */
 
         .athletes-card {
+            margin-top: 18px;
 
-            margin-bottom: 18px;
+            overflow: hidden;
         }
-
 
         .table-wrapper {
+            width: 100%;
+
             overflow-x: auto;
+
+            margin-top: 12px;
         }
 
-
-        table {
-
+        .athlete-table {
             width: 100%;
 
             border-collapse: collapse;
 
-            min-width: 700px;
+            min-width: 720px;
         }
 
-
-        th {
-
-            padding: 13px 18px;
-
-            color: var(--text-muted);
-
-            font-size: 8px;
-            font-weight: 800;
+        .athlete-table th {
+            padding: 12px 20px;
 
             text-align: left;
 
-            text-transform: uppercase;
+            color: var(--muted-2);
+
+            font-size: 9px;
+            font-weight: 800;
+
             letter-spacing: 0.8px;
+            text-transform: uppercase;
 
+            border-top: 1px solid var(--border);
             border-bottom: 1px solid var(--border);
         }
 
-
-        td {
-
-            padding: 13px 18px;
+        .athlete-table td {
+            padding: 13px 20px;
 
             border-bottom: 1px solid var(--border);
 
-            font-size: 10px;
+            font-size: 11px;
         }
 
-
-        tbody tr {
-
-            transition: 0.2s ease;
+        .athlete-table tbody tr:last-child td {
+            border-bottom: 0;
         }
 
-
-        tbody tr:hover {
-
+        .athlete-table tbody tr:hover {
             background: rgba(255,255,255,0.018);
         }
 
-
-        .athlete-cell {
-
+        .athlete-name {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-
         .athlete-avatar {
-
-            width: 32px;
-            height: 32px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 8px;
-
-            background: var(--surface-3);
-
-            color: var(--blue);
-
-            font-size: 9px;
-            font-weight: 850;
-        }
-
-
-        .athlete-name strong {
-
-            display: block;
-
-            font-size: 10px;
-
-            margin-bottom: 2px;
-        }
-
-
-        .athlete-name span {
-
-            color: var(--text-muted);
-
-            font-size: 8px;
-        }
-
-
-        .sport-tag {
-
-            display: inline-flex;
-            align-items: center;
-
-            padding: 5px 8px;
-
-            border-radius: 6px;
-
-            background: var(--blue-soft);
-
-            color: var(--blue);
-
-            font-size: 8px;
-            font-weight: 750;
-        }
-
-
-        .progress-value {
-
-            font-weight: 800;
-        }
-
-
-        .progress-up {
-            color: var(--green);
-        }
-
-
-        .progress-down {
-            color: var(--red);
-        }
-
-
-        .status {
-
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-
-            font-size: 8px;
-            font-weight: 750;
-        }
-
-
-        .status::before {
-
-            content: "";
-
-            width: 5px;
-            height: 5px;
-
-            border-radius: 50%;
-        }
-
-
-        .status.ready {
-            color: var(--green);
-        }
-
-
-        .status.ready::before {
-            background: var(--green);
-        }
-
-
-        .status.monitor {
-            color: var(--orange);
-        }
-
-
-        .status.monitor::before {
-            background: var(--orange);
-        }
-
-
-        .view-button {
-
-            padding: 6px 9px;
-
-            border-radius: 6px;
-
-            background: rgba(255,255,255,0.04);
-
-            color: var(--text-soft);
-
-            font-size: 8px;
-            font-weight: 700;
-        }
-
-
-        .view-button:hover {
-
-            background: var(--blue-soft);
-
-            color: var(--blue);
-        }
-
-
-        /* =========================================================
-           QUICK ACTIONS
-           ========================================================= */
-
-        .quick-actions {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(4, minmax(0, 1fr));
-
-            gap: 12px;
-        }
-
-
-        .quick-action {
-
-            min-height: 100px;
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
-            padding: 17px;
-
-            background: var(--surface);
-
-            border: 1px solid var(--border);
-
-            border-radius: var(--radius-small);
-
-            text-align: left;
-
-            transition:
-                border-color 0.2s ease,
-                background 0.2s ease;
-        }
-
-
-        .quick-action:hover {
-
-            background: var(--surface-2);
-
-            border-color:
-                rgba(73,184,255,0.22);
-        }
-
-
-        .quick-action-icon {
-
             width: 30px;
             height: 30px;
 
@@ -1747,1993 +902,1132 @@
             align-items: center;
             justify-content: center;
 
-            border-radius: 8px;
+            border-radius: 9px;
 
-            background: var(--blue-soft);
+            background: var(--surface-3);
 
             color: var(--blue);
 
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .athlete-name strong {
+            display: block;
+        }
+
+        .athlete-name span {
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--muted-2);
+
+            font-size: 9px;
+        }
+
+        .table-empty {
+            padding: 45px 20px !important;
+
+            text-align: center;
+
+            color: var(--muted);
+        }
+
+        .table-empty strong {
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: var(--text);
+
             font-size: 12px;
-
-            margin-bottom: 12px;
         }
 
-
-        .quick-action.green .quick-action-icon {
-
-            background: var(--green-soft);
-            color: var(--green);
-        }
-
-
-        .quick-action strong {
+        .table-empty span {
+            color: var(--muted-2);
 
             font-size: 10px;
-
-            margin-bottom: 4px;
         }
 
+        /* =========================================================
+           QUICK ACTIONS
+           ========================================================= */
 
-        .quick-action span {
+        .quick-actions {
+            display: grid;
 
-            color: var(--text-muted);
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
 
-            font-size: 8px;
+            gap: 14px;
+
+            margin-top: 18px;
+        }
+
+        .quick-action {
+            min-height: 115px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            padding: 16px;
+
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+
+            background: var(--surface);
+
+            text-decoration: none;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .quick-action:hover {
+            transform: translateY(-2px);
+
+            background: var(--surface-2);
+
+            border-color: rgba(73,184,255,0.22);
+        }
+
+        .quick-action-icon {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: rgba(73,184,255,0.08);
+
+            color: var(--blue);
+
+            font-size: 14px;
+        }
+
+        .quick-action h3 {
+            margin-top: 14px;
+            font-size: 12px;
+        }
+
+        .quick-action p {
+            margin-top: 4px;
+
+            color: var(--muted-2);
+
+            font-size: 9px;
             line-height: 1.4;
         }
 
-
         /* =========================================================
-           MOBILE OVERLAY
+           MOBILE
            ========================================================= */
 
-        .overlay {
-
+        .mobile-menu-button {
             display: none;
 
-            position: fixed;
+            width: 42px;
+            height: 42px;
 
-            inset: 0;
+            border: 1px solid var(--border);
+            border-radius: 11px;
 
-            z-index: 90;
+            background: var(--surface);
 
-            background: rgba(0,0,0,0.6);
+            color: var(--text);
+
+            font-size: 18px;
         }
-
 
         /* =========================================================
            RESPONSIVE
            ========================================================= */
 
-        @media (max-width: 1250px) {
+        @media (max-width: 1200px) {
 
             .kpi-grid {
-
                 grid-template-columns:
                     repeat(2, minmax(0, 1fr));
             }
 
-
-            .dashboard-grid {
-
-                grid-template-columns: 1fr;
-            }
-
-
-            .readiness-card {
-
-                min-height: auto;
-            }
-
-
-            .readiness-content {
-
-                display: grid;
-
+            .quick-actions {
                 grid-template-columns:
-                    260px 1fr;
-
-                align-items: center;
-
-                gap: 30px;
-            }
-
-
-            .readiness-score {
-                margin-bottom: 0;
+                    repeat(2, minmax(0, 1fr));
             }
         }
-
 
         @media (max-width: 950px) {
 
             :root {
-                --sidebar-width: 235px;
+                --sidebar-width: 0px;
             }
-
-
-            .secondary-grid {
-
-                grid-template-columns: 1fr;
-            }
-
-
-            .quick-actions {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
-        }
-
-
-        @media (max-width: 750px) {
 
             .sidebar {
+                width: 250px;
 
                 transform: translateX(-100%);
+
+                transition: transform 0.25s ease;
             }
 
-
             .sidebar.open {
-
                 transform: translateX(0);
             }
 
-
-            .overlay.active {
-
-                display: block;
-            }
-
-
-            .main {
-
-                width: 100%;
-
+            .main-content {
                 margin-left: 0;
+
+                padding:
+                    25px
+                    22px
+                    40px;
             }
 
-
-            .mobile-menu {
-
-                display: block;
-            }
-
-
-            .topbar {
-
-                padding: 0 18px;
-
-                gap: 12px;
-            }
-
-
-            .topbar-left {
-
+            .mobile-menu-button {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                justify-content: center;
             }
 
-
-            .top-user-text {
-
-                display: none;
-            }
-
-
-            .content {
-
-                padding: 22px 18px 40px;
-            }
-
-
-            .welcome-row {
-
-                align-items: flex-start;
-
-                gap: 15px;
-            }
-
-
-            .date-control {
-
-                display: none;
-            }
-
-
-            .readiness-content {
-
+            .dashboard-grid {
                 grid-template-columns: 1fr;
             }
 
-
-            .readiness-score {
-
-                margin-bottom: 25px;
+            .secondary-grid {
+                grid-template-columns: 1fr;
             }
         }
 
+        @media (max-width: 650px) {
 
-        @media (max-width: 550px) {
+            .main-content {
+                padding:
+                    20px
+                    15px
+                    35px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .topbar-actions {
+                gap: 7px;
+            }
+
+            .coach-profile {
+                display: none;
+            }
+
+            .page-heading h2 {
+                font-size: 25px;
+            }
+
+            .page-heading p {
+                max-width: 240px;
+                line-height: 1.5;
+            }
 
             .kpi-grid {
-
                 grid-template-columns: 1fr;
             }
-
 
             .quick-actions {
-
                 grid-template-columns: 1fr;
-            }
-
-
-            .welcome h2 {
-
-                font-size: 21px;
-            }
-
-
-            .page-title span {
-
-                display: none;
-            }
-
-
-            .top-action:nth-child(1) {
-
-                display: none;
-            }
-
-
-            .chart-card {
-
-                min-height: 350px;
-            }
-
-
-            .chart-area {
-
-                height: 275px;
             }
         }
 
     </style>
 </head>
 
-
 <body>
 
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
 
-<div class="app">
+<aside class="sidebar" id="sidebar">
 
+    <div class="brand">
 
-    <!-- =========================================================
-         SIDEBAR
-         ========================================================= -->
-
-    <aside class="sidebar" id="sidebar">
-
-
-        <div class="sidebar-brand">
-
-            <a href="dashboard.html" class="brand">
-
-                <div class="brand-mark">
-                    A3
-                </div>
-
-                <div class="brand-name">
-                    Athlete<span>360</span>
-                </div>
-
-            </a>
-
+        <div class="brand-mark">
+            A
         </div>
 
-
-        <div class="sidebar-content">
-
-
-            <!-- OVERVIEW -->
-
-            <div class="nav-section">
-
-                <div class="nav-title">
-                    Overview
-                </div>
-
-
-                <button
-                    class="nav-item active"
-                    data-page="dashboard"
-                >
-
-                    <div class="nav-icon">
-                        ▦
-                    </div>
-
-                    Dashboard
-
-                </button>
-
-
-                <button
-                    class="nav-item"
-                    data-page="analytics"
-                >
-
-                    <div class="nav-icon">
-                        ◩
-                    </div>
-
-                    Performance Analytics
-
-                </button>
-
-
-                <button
-                    class="nav-item"
-                    data-page="calendar"
-                >
-
-                    <div class="nav-icon">
-                        ◫
-                    </div>
-
-                    Calendar
-
-                </button>
-
-            </div>
-
-
-            <!-- ATHLETES -->
-
-            <div class="nav-section">
-
-                <div class="nav-title">
-                    Athletes
-                </div>
-
-
-                <button
-                    class="nav-item"
-                    data-page="athletes"
-                >
-
-                    <div class="nav-icon">
-                        ◎
-                    </div>
-
-                    Athletes
-
-                    <span class="nav-badge">
-                        24
-                    </span>
-
-                </button>
-
-
-                <button
-                    class="nav-item"
-                    data-page="teams"
-                >
-
-                    <div class="nav-icon">
-                        ◉
-                    </div>
-
-                    Teams & Groups
-
-                </button>
-
-            </div>
-
-
-            <!-- PERFORMANCE -->
-
-            <div class="nav-section">
-
-                <div class="nav-title">
-                    Performance
-                </div>
-
-
-                <button
-                    class="nav-item"
-                    data-page="testing"
-                >
-
-                    <div class="nav-icon">
-                        ⊙
-                    </div>
-
-                    Testing
-
-                </button>
-
-
-                <button
-                    class="nav-item"
-                    data-page="training"
-                >
-
-                    <div class="nav-icon">
-                        ⚡
-                    </div>
-
-                    Training
-
-                </button>
-
-
-                <button
-                    class="nav-item"
-                    data-page="exercises"
-                >
-
-                    <div class="nav-icon">
-                        ◈
-                    </div>
-
-                    Exercise Library
-
-                </button>
-
-            </div>
-
-
-            <!-- MANAGEMENT -->
-
-            <div class="nav-section">
-
-                <div class="nav-title">
-                    Management
-                </div>
-
-
-                <button
-                    class="nav-item"
-                    data-page="reports"
-                >
-
-                    <div class="nav-icon">
-                        ▤
-                    </div>
-
-                    Reports
-
-                </button>
-
-
-                <button
-                    class="nav-item"
-                    data-page="settings"
-                >
-
-                    <div class="nav-icon">
-                        ⚙
-                    </div>
-
-                    Settings
-
-                </button>
-
-            </div>
-
-
+        <div class="brand-text">
+            <h1>
+                Athlete<span>360</span>
+            </h1>
+
+            <p>
+                Performance System
+            </p>
         </div>
 
+    </div>
 
-        <!-- SIDEBAR PROFILE -->
 
-        <div class="sidebar-bottom">
+    <nav class="main-navigation">
 
-            <div class="profile-mini">
+        <a href="dashboard.html" class="nav-item active">
+            <div class="nav-icon">⌂</div>
+            <span>Dashboard</span>
+        </a>
 
-                <div
-                    class="avatar"
-                    id="sidebarAvatar"
-                >
-                    DC
-                </div>
+        <a href="athlete.html" class="nav-item">
+            <div class="nav-icon">♙</div>
+            <span>Athletes</span>
+        </a>
 
-                <div class="profile-info">
+        <a href="teams.html" class="nav-item">
+            <div class="nav-icon">▣</div>
+            <span>Teams</span>
+        </a>
 
-                    <div
-                        class="profile-name"
-                        id="sidebarName"
-                    >
-                        Demo Coach
-                    </div>
+        <a href="exercise.html" class="nav-item">
+            <div class="nav-icon">◈</div>
+            <span>Exercise Library</span>
+        </a>
 
-                    <div
-                        class="profile-role"
-                        id="sidebarRole"
-                    >
-                        Performance Coach
-                    </div>
+        <a href="testing.html" class="nav-item">
+            <div class="nav-icon">◇</div>
+            <span>Testing</span>
+        </a>
 
-                </div>
+        <a href="training.html" class="nav-item">
+            <div class="nav-icon">▥</div>
+            <span>Training</span>
+        </a>
 
-                <div class="profile-more">
-                    ⋮
-                </div>
+        <a href="analytics.html" class="nav-item">
+            <div class="nav-icon">◒</div>
+            <span>Performance</span>
+        </a>
 
+        <a href="reports.html" class="nav-item">
+            <div class="nav-icon">▤</div>
+            <span>Reports</span>
+        </a>
+
+        <a href="settings.html" class="nav-item">
+            <div class="nav-icon">⚙</div>
+            <span>Settings</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-spacer"></div>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            <div>
+                <strong>Local Data</strong>
+                <small>Ready for athlete records</small>
             </div>
 
         </div>
 
-    </aside>
+        <div class="version">
+            Athlete360 v1.0
+        </div>
+
+    </div>
+
+</aside>
 
 
-    <!-- =========================================================
-         OVERLAY
-         ========================================================= -->
+<!-- =========================================================
+     MAIN CONTENT
+     ========================================================= -->
 
-    <div
-        class="overlay"
-        id="overlay"
-    ></div>
+<main class="main-content">
 
+    <header class="topbar">
 
-    <!-- =========================================================
-         MAIN
-         ========================================================= -->
+        <div class="page-heading">
 
-    <main class="main">
+            <div class="eyebrow">
+                PERFORMANCE SYSTEM
+            </div>
 
+            <h2>
+                Performance Dashboard
+            </h2>
 
-        <!-- =====================================================
-             TOPBAR
-             ===================================================== -->
+            <p>
+                Your real athlete and performance information will appear here.
+            </p>
 
-        <header class="topbar">
-
-
-            <div class="topbar-left">
-
-                <button
-                    class="mobile-menu"
-                    id="mobileMenu"
-                >
-                    ☰
-                </button>
+        </div>
 
 
-                <div class="page-title">
+        <div class="topbar-actions">
 
-                    <h1>
-                        Performance Dashboard
-                    </h1>
+            <button
+                class="mobile-menu-button"
+                id="mobileMenuButton"
+                aria-label="Open navigation"
+            >
+                ☰
+            </button>
+
+            <button
+                class="icon-button"
+                title="Notifications"
+                onclick="openNotifications()"
+            >
+                ♢
+            </button>
+
+
+            <div class="coach-profile">
+
+                <div class="coach-avatar" id="coachAvatar">
+                    C
+                </div>
+
+                <div class="coach-info">
+
+                    <strong id="coachName">
+                        Coach
+                    </strong>
 
                     <span>
-                        Athlete360 / Overview
+                        Athlete360
                     </span>
 
                 </div>
 
             </div>
 
+        </div>
 
-            <div class="topbar-right">
-
-
-                <button
-                    class="top-action"
-                    title="Search"
-                >
-                    ⌕
-                </button>
+    </header>
 
 
-                <button
-                    class="top-action"
-                    title="Notifications"
-                >
+    <!-- =====================================================
+         REAL DATA KPI CARDS
+         ===================================================== -->
 
-                    ♢
+    <section class="kpi-grid">
 
-                    <span
-                        class="notification-dot"
-                    ></span>
+        <div class="kpi-card">
 
-                </button>
+            <div class="kpi-top">
 
+                <span class="kpi-label">
+                    Athletes
+                </span>
 
-                <div class="top-user">
-
-                    <div
-                        class="top-user-avatar"
-                        id="topAvatar"
-                    >
-                        DC
-                    </div>
-
-                    <div class="top-user-text">
-
-                        <strong id="topUserName">
-                            Demo Coach
-                        </strong>
-
-                        <span id="topUserRole">
-                            Performance Coach
-                        </span>
-
-                    </div>
-
+                <div class="kpi-icon">
+                    ♙
                 </div>
 
             </div>
 
-        </header>
+            <div
+                class="kpi-value"
+                id="athleteCount"
+            >
+                0
+            </div>
+
+            <div
+                class="kpi-description"
+                id="athleteDescription"
+            >
+                No athletes recorded yet
+            </div>
+
+        </div>
 
 
-        <!-- =====================================================
-             CONTENT
-             ===================================================== -->
+        <div class="kpi-card">
 
-        <div class="content">
+            <div class="kpi-top">
 
+                <span class="kpi-label">
+                    Tests Recorded
+                </span>
 
-            <!-- WELCOME -->
-
-            <div class="welcome-row">
-
-                <div class="welcome">
-
-                    <h2 id="welcomeText">
-                        Good afternoon, Coach
-                    </h2>
-
-                    <p>
-                        Here's what's happening across your
-                        athletes and performance programme.
-                    </p>
-
+                <div class="kpi-icon">
+                    ◇
                 </div>
 
+            </div>
 
-                <div class="date-control">
+            <div
+                class="kpi-value"
+                id="testCount"
+            >
+                0
+            </div>
 
+            <div
+                class="kpi-description"
+                id="testDescription"
+            >
+                No testing data yet
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-top">
+
+                <span class="kpi-label">
+                    Teams
+                </span>
+
+                <div class="kpi-icon">
+                    ▣
+                </div>
+
+            </div>
+
+            <div
+                class="kpi-value"
+                id="teamCount"
+            >
+                0
+            </div>
+
+            <div
+                class="kpi-description"
+                id="teamDescription"
+            >
+                No teams recorded yet
+            </div>
+
+        </div>
+
+
+        <div class="kpi-card">
+
+            <div class="kpi-top">
+
+                <span class="kpi-label">
+                    Training Sessions
+                </span>
+
+                <div class="kpi-icon">
                     ◷
+                </div>
 
-                    <span>
-                        This week
-                    </span>
+            </div>
 
-                    ▾
+            <div
+                class="kpi-value"
+                id="sessionCount"
+            >
+                0
+            </div>
+
+            <div
+                class="kpi-description"
+                id="sessionDescription"
+            >
+                No sessions recorded yet
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PERFORMANCE + READINESS
+         ===================================================== -->
+
+    <section class="dashboard-grid">
+
+        <!-- PERFORMANCE TREND -->
+
+        <div class="card chart-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Team Performance Trend
+                    </div>
+
+                    <div class="card-subtitle">
+                        Based on recorded performance/testing data
+                    </div>
+
+                </div>
+
+                <button
+                    class="card-action"
+                    onclick="viewAnalytics()"
+                >
+                    View performance →
+                </button>
+
+            </div>
+
+
+            <div
+                class="chart"
+                id="performanceChart"
+            >
+
+                <div class="chart-empty">
+
+                    <div class="empty-state">
+
+                        <div class="empty-chart-icon">
+                            ◒
+                        </div>
+
+                        <h3>
+                            No performance data yet
+                        </h3>
+
+                        <p>
+                            Record athlete testing results to build a real
+                            performance trend.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- READINESS -->
+
+        <div class="card readiness-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Team Readiness
+                    </div>
+
+                    <div class="card-subtitle">
+                        Based on recorded wellness information
+                    </div>
 
                 </div>
 
             </div>
 
 
-            <!-- =================================================
-                 KPI CARDS
-                 ================================================= -->
+            <div class="readiness-content">
 
-            <div class="kpi-grid">
+                <div class="readiness-empty">
 
+                    <div class="empty-state">
 
-                <!-- ATHLETES -->
-
-                <div class="kpi-card">
-
-                    <div class="kpi-top">
-
-                        <span class="kpi-label">
-                            Active Athletes
-                        </span>
-
-                        <div class="kpi-icon">
-                            ◎
+                        <div class="readiness-placeholder">
+                            NO DATA
                         </div>
 
-                    </div>
+                        <h3>
+                            Readiness not recorded
+                        </h3>
 
-                    <div class="kpi-value">
-                        24
-                    </div>
+                        <p>
+                            Add wellness or readiness information before
+                            Athlete360 calculates team readiness.
+                        </p>
 
-                    <div class="kpi-footer positive">
-                        ↑ 3 this month
                     </div>
 
                 </div>
 
+            </div>
 
-                <!-- PERFORMANCE -->
+        </div>
 
-                <div class="kpi-card green">
+    </section>
 
-                    <div class="kpi-top">
 
-                        <span class="kpi-label">
-                            Avg Performance
-                        </span>
+    <!-- =====================================================
+         ACTIVITY + TRAINING
+         ===================================================== -->
 
-                        <div class="kpi-icon">
-                            ↗
-                        </div>
+    <section class="secondary-grid">
 
+        <!-- RECENT ACTIVITY -->
+
+        <div class="card activity-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Recent Activity
                     </div>
 
-                    <div class="kpi-value">
-                        84<small>/100</small>
-                    </div>
-
-                    <div class="kpi-footer positive">
-                        ↑ 6.8% vs last month
-                    </div>
-
-                </div>
-
-
-                <!-- TESTS -->
-
-                <div class="kpi-card orange">
-
-                    <div class="kpi-top">
-
-                        <span class="kpi-label">
-                            Tests Completed
-                        </span>
-
-                        <div class="kpi-icon">
-                            ⊙
-                        </div>
-
-                    </div>
-
-                    <div class="kpi-value">
-                        68
-                    </div>
-
-                    <div class="kpi-footer positive">
-                        ↑ 14 this month
+                    <div class="card-subtitle">
+                        Latest recorded Athlete360 activity
                     </div>
 
                 </div>
 
+                <button
+                    class="card-action"
+                    onclick="openActivity()"
+                >
+                    View all →
+                </button>
 
-                <!-- TRAINING -->
+            </div>
 
-                <div class="kpi-card purple">
 
-                    <div class="kpi-top">
+            <div
+                class="activity-list"
+                id="activityList"
+            >
 
-                        <span class="kpi-label">
-                            Training Sessions
-                        </span>
+                <div class="activity-empty">
 
-                        <div class="kpi-icon">
+                    <div class="empty-state">
+
+                        <div class="empty-chart-icon">
+                            +
+                        </div>
+
+                        <h3>
+                            Nothing recorded yet
+                        </h3>
+
+                        <p>
+                            Athlete additions, testing and training activity
+                            will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- TRAINING LOAD -->
+
+        <div class="card load-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Training Load
+                    </div>
+
+                    <div class="card-subtitle">
+                        Calculated from recorded training sessions
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="load-content">
+
+                <div class="load-empty">
+
+                    <div class="empty-state">
+
+                        <div class="empty-chart-icon">
                             ⚡
                         </div>
 
-                    </div>
-
-                    <div class="kpi-value">
-                        42
-                    </div>
-
-                    <div class="kpi-footer neutral">
-                        6 scheduled this week
-                    </div>
-
-                </div>
-
-
-            </div>
-
-
-            <!-- =================================================
-                 PERFORMANCE + READINESS
-                 ================================================= -->
-
-            <div class="dashboard-grid">
-
-
-                <!-- PERFORMANCE TREND -->
-
-                <section class="card chart-card">
-
-
-                    <div class="card-header">
-
-                        <div class="card-title">
-
-                            <h3>
-                                Team Performance Trend
-                            </h3>
-
-                            <span>
-                                Average performance score
-                                across your athletes
-                            </span>
-
-                        </div>
-
-
-                        <button
-                            class="card-action"
-                            onclick="openAnalytics()"
-                        >
-                            View analytics →
-                        </button>
-
-                    </div>
-
-
-                    <div class="chart-area">
-
-                        <div class="chart">
-
-                            <div class="chart-grid-line line-1"></div>
-                            <div class="chart-grid-line line-2"></div>
-                            <div class="chart-grid-line line-3"></div>
-                            <div class="chart-grid-line line-4"></div>
-
-
-                            <div class="chart-labels">
-
-                                <span>100</span>
-                                <span>80</span>
-                                <span>60</span>
-                                <span>40</span>
-                                <span>20</span>
-
-                            </div>
-
-
-                            <svg
-                                class="chart-svg"
-                                viewBox="0 0 800 270"
-                                preserveAspectRatio="none"
-                            >
-
-                                <defs>
-
-                                    <linearGradient
-                                        id="blueGradient"
-                                        x1="0"
-                                        y1="0"
-                                        x2="0"
-                                        y2="1"
-                                    >
-
-                                        <stop
-                                            offset="0%"
-                                            stop-color="#49b8ff"
-                                        />
-
-                                        <stop
-                                            offset="100%"
-                                            stop-color="#49b8ff"
-                                            stop-opacity="0"
-                                        />
-
-                                    </linearGradient>
-
-                                </defs>
-
-
-                                <path
-                                    class="chart-area-fill"
-                                    d="
-                                        M0,205
-                                        L100,190
-                                        L200,175
-                                        L300,185
-                                        L400,145
-                                        L500,125
-                                        L600,110
-                                        L700,90
-                                        L800,65
-                                        L800,270
-                                        L0,270
-                                        Z
-                                    "
-                                />
-
-
-                                <path
-                                    class="chart-line"
-                                    d="
-                                        M0,205
-                                        L100,190
-                                        L200,175
-                                        L300,185
-                                        L400,145
-                                        L500,125
-                                        L600,110
-                                        L700,90
-                                        L800,65
-                                    "
-                                />
-
-
-                                <circle
-                                    class="chart-point"
-                                    cx="0"
-                                    cy="205"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="100"
-                                    cy="190"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="200"
-                                    cy="175"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="300"
-                                    cy="185"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="400"
-                                    cy="145"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="500"
-                                    cy="125"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="600"
-                                    cy="110"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="700"
-                                    cy="90"
-                                    r="5"
-                                />
-
-                                <circle
-                                    class="chart-point"
-                                    cx="800"
-                                    cy="65"
-                                    r="5"
-                                />
-
-                            </svg>
-
-
-                            <div class="chart-bottom">
-
-                                <span>May</span>
-                                <span>Jun</span>
-                                <span>Jul</span>
-                                <span>Aug</span>
-                                <span>Sep</span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-                <!-- READINESS -->
-
-                <section class="card readiness-card">
-
-
-                    <div class="card-header">
-
-                        <div class="card-title">
-
-                            <h3>
-                                Team Readiness
-                            </h3>
-
-                            <span>
-                                Current training readiness
-                            </span>
-
-                        </div>
-
-                        <button
-                            class="card-action"
-                        >
-                            Details →
-                        </button>
-
-                    </div>
-
-
-                    <div class="readiness-content">
-
-
-                        <div class="readiness-score">
-
-                            <div class="score-ring">
-
-                                <div class="score-center">
-
-                                    <div class="score-number">
-                                        89<span>%</span>
-                                    </div>
-
-                                    <div class="score-label">
-                                        Excellent
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="readiness-factors">
-
-
-                            <div class="factor">
-
-                                <span class="factor-name">
-                                    Recovery
-                                </span>
-
-                                <div class="factor-bar">
-
-                                    <div
-                                        class="factor-progress"
-                                        style="width: 92%"
-                                    ></div>
-
-                                </div>
-
-                                <span class="factor-score">
-                                    92
-                                </span>
-
-                            </div>
-
-
-                            <div class="factor">
-
-                                <span class="factor-name">
-                                    Sleep
-                                </span>
-
-                                <div class="factor-bar">
-
-                                    <div
-                                        class="factor-progress"
-                                        style="width: 86%"
-                                    ></div>
-
-                                </div>
-
-                                <span class="factor-score">
-                                    86
-                                </span>
-
-                            </div>
-
-
-                            <div class="factor">
-
-                                <span class="factor-name">
-                                    Training Load
-                                </span>
-
-                                <div class="factor-bar">
-
-                                    <div
-                                        class="factor-progress"
-                                        style="width: 88%"
-                                    ></div>
-
-                                </div>
-
-                                <span class="factor-score">
-                                    88
-                                </span>
-
-                            </div>
-
-
-                            <div class="factor">
-
-                                <span class="factor-name">
-                                    Wellness
-                                </span>
-
-                                <div class="factor-bar">
-
-                                    <div
-                                        class="factor-progress"
-                                        style="width: 90%"
-                                    ></div>
-
-                                </div>
-
-                                <span class="factor-score">
-                                    90
-                                </span>
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-            </div>
-
-
-            <!-- =================================================
-                 ACTIVITY + TRAINING LOAD
-                 ================================================= -->
-
-            <div class="secondary-grid">
-
-
-                <!-- RECENT ACTIVITY -->
-
-                <section class="card">
-
-
-                    <div class="card-header">
-
-                        <div class="card-title">
-
-                            <h3>
-                                Recent Activity
-                            </h3>
-
-                            <span>
-                                Latest athlete updates
-                            </span>
-
-                        </div>
-
-                        <button
-                            class="card-action"
-                            onclick="openAthletes()"
-                        >
-                            View all →
-                        </button>
-
-                    </div>
-
-
-                    <div class="activity-list">
-
-
-                        <div class="activity-item">
-
-                            <div class="activity-icon">
-                                ⚡
-                            </div>
-
-                            <div class="activity-info">
-
-                                <strong>
-                                    Speed testing completed
-                                </strong>
-
-                                <span>
-                                    Charl Malgas · 10m sprint
-                                </span>
-
-                            </div>
-
-                            <div class="activity-result">
-
-                                <strong>
-                                    1.82s
-                                </strong>
-
-                                <span>
-                                    New PB
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="activity-item">
-
-                            <div class="activity-icon">
-                                ↗
-                            </div>
-
-                            <div class="activity-info">
-
-                                <strong>
-                                    Strength assessment
-                                </strong>
-
-                                <span>
-                                    Liam Adams · Lower body
-                                </span>
-
-                            </div>
-
-                            <div class="activity-result">
-
-                                <strong>
-                                    +8%
-                                </strong>
-
-                                <span>
-                                    Improvement
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="activity-item">
-
-                            <div class="activity-icon">
-                                ♥
-                            </div>
-
-                            <div class="activity-info">
-
-                                <strong>
-                                    Conditioning session
-                                </strong>
-
-                                <span>
-                                    U15 Rugby Group · Completed
-                                </span>
-
-                            </div>
-
-                            <div class="activity-result">
-
-                                <strong>
-                                    94%
-                                </strong>
-
-                                <span>
-                                    Completion
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="activity-item">
-
-                            <div class="activity-icon">
-                                ✓
-                            </div>
-
-                            <div class="activity-info">
-
-                                <strong>
-                                    Athlete profile updated
-                                </strong>
-
-                                <span>
-                                    Ethan Williams · Wellness
-                                </span>
-
-                            </div>
-
-                            <div class="activity-result">
-
-                                <strong>
-                                    Ready
-                                </strong>
-
-                                <span>
-                                    Today
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-                </section>
-
-
-                <!-- TRAINING LOAD -->
-
-                <section class="card">
-
-
-                    <div class="card-header">
-
-                        <div class="card-title">
-
-                            <h3>
-                                Weekly Training Load
-                            </h3>
-
-                            <span>
-                                Team workload overview
-                            </span>
-
-                        </div>
-
-                        <button
-                            class="card-action"
-                        >
-                            Details →
-                        </button>
-
-                    </div>
-
-
-                    <div class="load-content">
-
-
-                        <div class="load-summary">
-
-                            <div class="load-value">
-                                3,842
-                                <span>AU</span>
-                            </div>
-
-                            <div class="load-status">
-                                Optimal
-                            </div>
-
-                        </div>
-
-
-                        <div class="load-bars">
-
-
-                            <div
-                                class="load-day"
-                                title="Monday: 420 AU"
-                            >
-                                <div
-                                    class="load-bar"
-                                    style="height:42%"
-                                ></div>
-                                <span>Mon</span>
-                            </div>
-
-
-                            <div
-                                class="load-day"
-                                title="Tuesday: 620 AU"
-                            >
-                                <div
-                                    class="load-bar"
-                                    style="height:62%"
-                                ></div>
-                                <span>Tue</span>
-                            </div>
-
-
-                            <div
-                                class="load-day"
-                                title="Wednesday: 510 AU"
-                            >
-                                <div
-                                    class="load-bar"
-                                    style="height:51%"
-                                ></div>
-                                <span>Wed</span>
-                            </div>
-
-
-                            <div
-                                class="load-day"
-                                title="Thursday: 780 AU"
-                            >
-                                <div
-                                    class="load-bar"
-                                    style="height:78%"
-                                ></div>
-                                <span>Thu</span>
-                            </div>
-
-
-                            <div
-                                class="load-day"
-                                title="Friday: 590 AU"
-                            >
-                                <div
-                                    class="load-bar"
-                                    style="height:59%"
-                                ></div>
-                                <span>Fri</span>
-                            </div>
-
-
-                            <div
-                                class="load-day"
-                                title="Saturday: 850 AU"
-                            >
-                                <div
-                                    class="load-bar"
-                                    style="height:85%"
-                                ></div>
-                                <span>Sat</span>
-                            </div>
-
-
-                            <div
-                                class="load-day"
-                                title="Sunday: Rest"
-                            >
-                                <div
-                                    class="load-bar"
-                                    style="height:10%"
-                                ></div>
-                                <span>Sun</span>
-                            </div>
-
-
-                        </div>
-
-                    </div>
-
-                </section>
-
-
-            </div>
-
-
-            <!-- =================================================
-                 ATHLETES TABLE
-                 ================================================= -->
-
-            <section class="card athletes-card">
-
-
-                <div class="card-header">
-
-                    <div class="card-title">
-
                         <h3>
-                            Athlete Overview
+                            No training data yet
                         </h3>
 
-                        <span>
-                            Quick view of your current squad
-                        </span>
+                        <p>
+                            Training load will be displayed once real
+                            sessions have been recorded.
+                        </p>
 
                     </div>
-
-                    <button
-                        class="card-action"
-                        onclick="openAthletes()"
-                    >
-                        Manage athletes →
-                    </button>
 
                 </div>
-
-
-                <div class="table-wrapper">
-
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Athlete
-                                </th>
-
-                                <th>
-                                    Sport
-                                </th>
-
-                                <th>
-                                    Performance
-                                </th>
-
-                                <th>
-                                    Change
-                                </th>
-
-                                <th>
-                                    Readiness
-                                </th>
-
-                                <th>
-                                    Action
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="athlete-cell">
-
-                                        <div class="athlete-avatar">
-                                            CM
-                                        </div>
-
-                                        <div class="athlete-name">
-
-                                            <strong>
-                                                Charl Malgas
-                                            </strong>
-
-                                            <span>
-                                                U15 · Backline
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="sport-tag">
-                                        Rugby
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-                                    <strong>
-                                        91/100
-                                    </strong>
-                                </td>
-
-
-                                <td>
-
-                                    <span class="progress-value progress-up">
-                                        ↑ 9.4%
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="status ready">
-                                        Ready
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <button
-                                        class="view-button"
-                                        onclick="viewAthlete('Charl Malgas')"
-                                    >
-                                        View
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="athlete-cell">
-
-                                        <div class="athlete-avatar">
-                                            LA
-                                        </div>
-
-                                        <div class="athlete-name">
-
-                                            <strong>
-                                                Liam Adams
-                                            </strong>
-
-                                            <span>
-                                                U16 · Forward
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="sport-tag">
-                                        Rugby
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-                                    <strong>
-                                        87/100
-                                    </strong>
-                                </td>
-
-
-                                <td>
-
-                                    <span class="progress-value progress-up">
-                                        ↑ 6.1%
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="status ready">
-                                        Ready
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <button
-                                        class="view-button"
-                                        onclick="viewAthlete('Liam Adams')"
-                                    >
-                                        View
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="athlete-cell">
-
-                                        <div class="athlete-avatar">
-                                            EW
-                                        </div>
-
-                                        <div class="athlete-name">
-
-                                            <strong>
-                                                Ethan Williams
-                                            </strong>
-
-                                            <span>
-                                                U14 · Midfield
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="sport-tag">
-                                        Hockey
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-                                    <strong>
-                                        82/100
-                                    </strong>
-                                </td>
-
-
-                                <td>
-
-                                    <span class="progress-value progress-up">
-                                        ↑ 4.8%
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="status ready">
-                                        Ready
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <button
-                                        class="view-button"
-                                        onclick="viewAthlete('Ethan Williams')"
-                                    >
-                                        View
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                            <tr>
-
-                                <td>
-
-                                    <div class="athlete-cell">
-
-                                        <div class="athlete-avatar">
-                                            NS
-                                        </div>
-
-                                        <div class="athlete-name">
-
-                                            <strong>
-                                                Noah Smith
-                                            </strong>
-
-                                            <span>
-                                                U15 · Wing
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="sport-tag">
-                                        Athletics
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-                                    <strong>
-                                        76/100
-                                    </strong>
-                                </td>
-
-
-                                <td>
-
-                                    <span class="progress-value progress-down">
-                                        ↓ 2.2%
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <span class="status monitor">
-                                        Monitor
-                                    </span>
-
-                                </td>
-
-
-                                <td>
-
-                                    <button
-                                        class="view-button"
-                                        onclick="viewAthlete('Noah Smith')"
-                                    >
-                                        View
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </section>
-
-
-            <!-- =================================================
-                 QUICK ACTIONS
-                 ================================================= -->
-
-            <div class="quick-actions">
-
-
-                <button
-                    class="quick-action"
-                    onclick="createAthlete()"
-                >
-
-                    <div class="quick-action-icon">
-                        +
-                    </div>
-
-                    <strong>
-                        Add Athlete
-                    </strong>
-
-                    <span>
-                        Create a new athlete profile.
-                    </span>
-
-                </button>
-
-
-                <button
-                    class="quick-action green"
-                    onclick="startTest()"
-                >
-
-                    <div class="quick-action-icon">
-                        ⊙
-                    </div>
-
-                    <strong>
-                        Start Testing
-                    </strong>
-
-                    <span>
-                        Record a new performance test.
-                    </span>
-
-                </button>
-
-
-                <button
-                    class="quick-action"
-                    onclick="createTraining()"
-                >
-
-                    <div class="quick-action-icon">
-                        ⚡
-                    </div>
-
-                    <strong>
-                        Create Training
-                    </strong>
-
-                    <span>
-                        Build a new training session.
-                    </span>
-
-                </button>
-
-
-                <button
-                    class="quick-action green"
-                    onclick="generateReport()"
-                >
-
-                    <div class="quick-action-icon">
-                        ▤
-                    </div>
-
-                    <strong>
-                        Generate Report
-                    </strong>
-
-                    <span>
-                        Create a performance report.
-                    </span>
-
-                </button>
-
 
             </div>
-
 
         </div>
 
-    </main>
-
-</div>
+    </section>
 
 
-<!-- =============================================================
-     JAVASCRIPT
-     ============================================================= -->
+    <!-- =====================================================
+         ATHLETE OVERVIEW
+         ===================================================== -->
+
+    <section class="card athletes-card">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Athlete Overview
+                </div>
+
+                <div class="card-subtitle">
+                    Athletes currently stored in Athlete360
+                </div>
+
+            </div>
+
+            <button
+                class="card-action"
+                onclick="openAthletes()"
+            >
+                Manage athletes →
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table class="athlete-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Athlete
+                        </th>
+
+                        <th>
+                            Sport
+                        </th>
+
+                        <th>
+                            Team
+                        </th>
+
+                        <th>
+                            Position
+                        </th>
+
+                        <th>
+                            Last Test
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="athleteTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="table-empty"
+                        >
+
+                            <strong>
+                                No athletes recorded yet
+                            </strong>
+
+                            <span>
+                                Add your first athlete to start building
+                                your performance database.
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         QUICK ACTIONS
+         ===================================================== -->
+
+    <section class="quick-actions">
+
+        <a
+            href="athlete.html"
+            class="quick-action"
+        >
+
+            <div class="quick-action-icon">
+                ♙
+            </div>
+
+            <div>
+
+                <h3>
+                    Manage Athletes
+                </h3>
+
+                <p>
+                    Add, edit and manage real athlete profiles.
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <a
+            href="testing.html"
+            class="quick-action"
+        >
+
+            <div class="quick-action-icon">
+                ◇
+            </div>
+
+            <div>
+
+                <h3>
+                    Record Testing
+                </h3>
+
+                <p>
+                    Record real fitness and performance test results.
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <a
+            href="exercise.html"
+            class="quick-action"
+        >
+
+            <div class="quick-action-icon">
+                ◈
+            </div>
+
+            <div>
+
+                <h3>
+                    Exercise Library
+                </h3>
+
+                <p>
+                    Browse exercises for your training sessions.
+                </p>
+
+            </div>
+
+        </a>
+
+
+        <a
+            href="reports.html"
+            class="quick-action"
+        >
+
+            <div class="quick-action-icon">
+                ▤
+            </div>
+
+            <div>
+
+                <h3>
+                    Performance Reports
+                </h3>
+
+                <p>
+                    Review reports generated from recorded data.
+                </p>
+
+            </div>
+
+        </a>
+
+    </section>
+
+</main>
+
 
 <script>
 
-
     /* =========================================================
-       LOAD USER
+       ATHLETE360 DASHBOARD DATA
        ========================================================= */
 
-    const storedUser =
-        localStorage.getItem(
-            "athlete360_user"
-        );
+    const ATHLETE_STORAGE_KEY =
+        "athlete360_athletes_v2";
 
 
-    let currentUser = {
+    /*
+       These keys allow the dashboard to work with future
+       sections as we build them.
 
-        name: "Demo Coach",
+       We do NOT create fake records if these keys do not exist.
+    */
 
-        email: "demo@athlete360.app",
+    const TEST_STORAGE_KEYS = [
+        "athlete360_tests",
+        "athlete360_testing",
+        "athlete360_test_results"
+    ];
 
-        role: "Performance Coach"
+    const TEAM_STORAGE_KEYS = [
+        "athlete360_teams",
+        "athlete360_team_data"
+    ];
 
-    };
+    const SESSION_STORAGE_KEYS = [
+        "athlete360_sessions",
+        "athlete360_training_sessions",
+        "athlete360_training"
+    ];
 
 
-    if (storedUser) {
+    /* =========================================================
+       STORAGE HELPERS
+       ========================================================= */
+
+    function readArrayFromStorage(key) {
+
+        const raw =
+            localStorage.getItem(key);
+
+        if (!raw) {
+            return [];
+        }
 
         try {
 
-            const parsedUser =
-                JSON.parse(storedUser);
+            const parsed =
+                JSON.parse(raw);
 
-            currentUser = {
-
-                ...currentUser,
-
-                ...parsedUser
-
-            };
+            return Array.isArray(parsed)
+                ? parsed
+                : [];
 
         } catch (error) {
 
-            console.log(
-                "Using default demo user."
+            console.warn(
+                "Athlete360 could not read:",
+                key,
+                error
             );
+
+            return [];
+
+        }
+
+    }
+
+
+    function readFirstAvailableArray(keys) {
+
+        for (const key of keys) {
+
+            const data =
+                readArrayFromStorage(key);
+
+            if (data.length > 0) {
+                return data;
+            }
+
+        }
+
+        return [];
+
+    }
+
+
+    /* =========================================================
+       ATHLETES
+       ========================================================= */
+
+    function getAthletes() {
+
+        return readArrayFromStorage(
+            ATHLETE_STORAGE_KEY
+        );
+
+    }
+
+
+    function updateAthleteStats(athletes) {
+
+        const countElement =
+            document.getElementById("athleteCount");
+
+        const descriptionElement =
+            document.getElementById(
+                "athleteDescription"
+            );
+
+        if (!countElement) {
+            return;
+        }
+
+        const count =
+            athletes.length;
+
+        countElement.textContent =
+            count;
+
+
+        if (descriptionElement) {
+
+            if (count === 0) {
+
+                descriptionElement.textContent =
+                    "No athletes recorded yet";
+
+            } else if (count === 1) {
+
+                descriptionElement.textContent =
+                    "1 athlete in your database";
+
+            } else {
+
+                descriptionElement.textContent =
+                    `${count} athletes in your database`;
+
+            }
 
         }
 
@@ -3741,285 +2035,843 @@
 
 
     /* =========================================================
-       USER DISPLAY
+       TESTS
        ========================================================= */
 
-    function getInitials(name) {
+    function getTests() {
 
-        if (!name) {
-            return "A3";
-        }
-
-        return name
-            .split(" ")
-            .map(word => word.charAt(0))
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
+        return readFirstAvailableArray(
+            TEST_STORAGE_KEYS
+        );
 
     }
 
 
-    const initials =
-        getInitials(
-            currentUser.name
-        );
+    function updateTestStats(tests) {
 
+        const countElement =
+            document.getElementById("testCount");
 
-    document.getElementById(
-        "sidebarAvatar"
-    ).textContent = initials;
+        const descriptionElement =
+            document.getElementById(
+                "testDescription"
+            );
 
-
-    document.getElementById(
-        "topAvatar"
-    ).textContent = initials;
-
-
-    document.getElementById(
-        "sidebarName"
-    ).textContent =
-        currentUser.name || "Demo Coach";
-
-
-    document.getElementById(
-        "topUserName"
-    ).textContent =
-        currentUser.name || "Demo Coach";
-
-
-    document.getElementById(
-        "sidebarRole"
-    ).textContent =
-        currentUser.role || "Performance Coach";
-
-
-    document.getElementById(
-        "topUserRole"
-    ).textContent =
-        currentUser.role || "Performance Coach";
-
-
-    /* =========================================================
-       WELCOME MESSAGE
-       ========================================================= */
-
-    function getGreeting() {
-
-        const hour =
-            new Date().getHours();
-
-        if (hour < 12) {
-            return "Good morning";
+        if (!countElement) {
+            return;
         }
 
-        if (hour < 18) {
-            return "Good afternoon";
-        }
+        countElement.textContent =
+            tests.length;
 
-        return "Good evening";
+
+        if (descriptionElement) {
+
+            if (tests.length === 0) {
+
+                descriptionElement.textContent =
+                    "No testing data yet";
+
+            } else if (tests.length === 1) {
+
+                descriptionElement.textContent =
+                    "1 test result recorded";
+
+            } else {
+
+                descriptionElement.textContent =
+                    `${tests.length} test results recorded`;
+
+            }
+
+        }
 
     }
 
 
-    document.getElementById(
-        "welcomeText"
-    ).textContent =
-        getGreeting() +
-        ", " +
-        (
-            currentUser.role === "Athlete"
-                ? currentUser.name.split(" ")[0]
-                : "Coach"
+    /* =========================================================
+       TEAMS
+       ========================================================= */
+
+    function getTeams() {
+
+        return readFirstAvailableArray(
+            TEAM_STORAGE_KEYS
         );
+
+    }
+
+
+    function updateTeamStats(teams) {
+
+        const countElement =
+            document.getElementById("teamCount");
+
+        const descriptionElement =
+            document.getElementById(
+                "teamDescription"
+            );
+
+        if (!countElement) {
+            return;
+        }
+
+        countElement.textContent =
+            teams.length;
+
+
+        if (descriptionElement) {
+
+            if (teams.length === 0) {
+
+                descriptionElement.textContent =
+                    "No teams recorded yet";
+
+            } else if (teams.length === 1) {
+
+                descriptionElement.textContent =
+                    "1 team in your database";
+
+            } else {
+
+                descriptionElement.textContent =
+                    `${teams.length} teams in your database`;
+
+            }
+
+        }
+
+    }
 
 
     /* =========================================================
-       MOBILE SIDEBAR
+       TRAINING SESSIONS
        ========================================================= */
 
-    const sidebar =
-        document.getElementById(
-            "sidebar"
+    function getSessions() {
+
+        return readFirstAvailableArray(
+            SESSION_STORAGE_KEYS
         );
 
-    const overlay =
-        document.getElementById(
-            "overlay"
-        );
-
-    const mobileMenu =
-        document.getElementById(
-            "mobileMenu"
-        );
+    }
 
 
-    mobileMenu.addEventListener(
-        "click",
-        () => {
+    function updateSessionStats(sessions) {
 
-            sidebar.classList.toggle(
-                "open"
+        const countElement =
+            document.getElementById("sessionCount");
+
+        const descriptionElement =
+            document.getElementById(
+                "sessionDescription"
             );
 
-            overlay.classList.toggle(
-                "active"
-            );
+        if (!countElement) {
+            return;
+        }
+
+        countElement.textContent =
+            sessions.length;
+
+
+        if (descriptionElement) {
+
+            if (sessions.length === 0) {
+
+                descriptionElement.textContent =
+                    "No sessions recorded yet";
+
+            } else if (sessions.length === 1) {
+
+                descriptionElement.textContent =
+                    "1 session recorded";
+
+            } else {
+
+                descriptionElement.textContent =
+                    `${sessions.length} sessions recorded`;
+
+            }
 
         }
-    );
+
+    }
 
 
-    overlay.addEventListener(
-        "click",
-        () => {
+    /* =========================================================
+       ATHLETE TABLE
+       ========================================================= */
 
-            sidebar.classList.remove(
-                "open"
-            );
+    function createInitials(firstName, surname) {
 
-            overlay.classList.remove(
-                "active"
-            );
+        const first =
+            String(firstName || "")
+                .trim()
+                .charAt(0);
+
+        const last =
+            String(surname || "")
+                .trim()
+                .charAt(0);
+
+        const initials =
+            `${first}${last}`.toUpperCase();
+
+        return initials || "?";
+
+    }
+
+
+    function escapeHTML(value) {
+
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    function getAthleteName(athlete) {
+
+        const firstName =
+            athlete.firstName ||
+            athlete.name ||
+            "";
+
+        const surname =
+            athlete.surname ||
+            athlete.lastName ||
+            "";
+
+        const fullName =
+            `${firstName} ${surname}`
+                .trim();
+
+        return fullName || "Unnamed athlete";
+
+    }
+
+
+    function getAthleteSport(athlete) {
+
+        return athlete.sport ||
+            "Not recorded";
+
+    }
+
+
+    function getAthleteTeam(athlete) {
+
+        return athlete.team ||
+            athlete.teamName ||
+            "Not assigned";
+
+    }
+
+
+    function getAthletePosition(athlete) {
+
+        return athlete.position ||
+            "Not recorded";
+
+    }
+
+
+    function getLastTest(athlete) {
+
+        return athlete.lastTest ||
+            "Not recorded";
+
+    }
+
+
+    function getAthleteStatus(athlete) {
+
+        /*
+           We intentionally do NOT assume "Ready"
+           when the user has not recorded a status.
+        */
+
+        return athlete.status ||
+            "Not recorded";
+
+    }
+
+
+    function getStatusClass(status) {
+
+        const normalized =
+            String(status || "")
+                .toLowerCase();
+
+        if (
+            normalized === "ready"
+        ) {
+
+            return "status-ready";
 
         }
-    );
+
+        if (
+            normalized === "monitor"
+        ) {
+
+            return "status-monitor";
+
+        }
+
+        return "";
+
+    }
+
+
+    function renderAthleteTable(athletes) {
+
+        const tbody =
+            document.getElementById(
+                "athleteTableBody"
+            );
+
+        if (!tbody) {
+            return;
+        }
+
+
+        if (!athletes.length) {
+
+            tbody.innerHTML = `
+                <tr>
+                    <td
+                        colspan="6"
+                        class="table-empty"
+                    >
+                        <strong>
+                            No athletes recorded yet
+                        </strong>
+
+                        <span>
+                            Add your first athlete to start
+                            building your performance database.
+                        </span>
+                    </td>
+                </tr>
+            `;
+
+            return;
+
+        }
+
+
+        /*
+           Show the most recently stored athletes first.
+           We do not invent performance values.
+        */
+
+        const visibleAthletes =
+            [...athletes]
+                .slice(-8)
+                .reverse();
+
+
+        tbody.innerHTML =
+            visibleAthletes
+                .map(function (athlete) {
+
+                    const firstName =
+                        athlete.firstName ||
+                        athlete.name ||
+                        "";
+
+                    const surname =
+                        athlete.surname ||
+                        athlete.lastName ||
+                        "";
+
+                    const name =
+                        getAthleteName(athlete);
+
+                    const sport =
+                        getAthleteSport(athlete);
+
+                    const team =
+                        getAthleteTeam(athlete);
+
+                    const position =
+                        getAthletePosition(athlete);
+
+                    const lastTest =
+                        getLastTest(athlete);
+
+                    const status =
+                        getAthleteStatus(athlete);
+
+                    const initials =
+                        createInitials(
+                            firstName,
+                            surname
+                        );
+
+                    const statusClass =
+                        getStatusClass(status);
+
+
+                    return `
+                        <tr>
+
+                            <td>
+
+                                <div class="athlete-name">
+
+                                    <div class="athlete-avatar">
+                                        ${escapeHTML(initials)}
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            ${escapeHTML(name)}
+                                        </strong>
+
+                                        <span>
+                                            ${escapeHTML(
+                                                athlete.category ||
+                                                "Age group not recorded"
+                                            )}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(sport)}
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(team)}
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(position)}
+                            </td>
+
+
+                            <td>
+                                ${escapeHTML(lastTest)}
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="status-badge ${statusClass}"
+                                >
+                                    ${escapeHTML(status)}
+                                </span>
+
+                            </td>
+
+                        </tr>
+                    `;
+
+                })
+                .join("");
+
+    }
+
+
+    /* =========================================================
+       RECENT ACTIVITY
+       ========================================================= */
+
+    function renderRecentActivity(
+        athletes,
+        tests,
+        sessions
+    ) {
+
+        const container =
+            document.getElementById(
+                "activityList"
+            );
+
+        if (!container) {
+            return;
+        }
+
+
+        const activity = [];
+
+
+        /*
+           Athlete creation activity.
+        */
+
+        athletes.forEach(function (athlete) {
+
+            if (
+                athlete.createdAt ||
+                athlete.updatedAt
+            ) {
+
+                const date =
+                    athlete.updatedAt ||
+                    athlete.createdAt;
+
+                activity.push({
+
+                    type: "athlete",
+
+                    title:
+                        `${getAthleteName(athlete)} added/updated`,
+
+                    detail:
+                        "Athlete profile",
+
+                    date:
+                        new Date(date)
+
+                });
+
+            }
+
+        });
+
+
+        /*
+           Testing activity.
+        */
+
+        tests.forEach(function (test) {
+
+            const dateValue =
+                test.date ||
+                test.createdAt ||
+                test.updatedAt;
+
+            if (!dateValue) {
+                return;
+            }
+
+            activity.push({
+
+                type: "test",
+
+                title:
+                    "Testing result recorded",
+
+                detail:
+                    test.testType ||
+                    test.name ||
+                    "Performance test",
+
+                date:
+                    new Date(dateValue)
+
+            });
+
+        });
+
+
+        /*
+           Training activity.
+        */
+
+        sessions.forEach(function (session) {
+
+            const dateValue =
+                session.date ||
+                session.createdAt ||
+                session.updatedAt;
+
+            if (!dateValue) {
+                return;
+            }
+
+            activity.push({
+
+                type: "training",
+
+                title:
+                    "Training session recorded",
+
+                detail:
+                    session.name ||
+                    session.type ||
+                    "Training session",
+
+                date:
+                    new Date(dateValue)
+
+            });
+
+        });
+
+
+        const validActivity =
+            activity
+                .filter(function (item) {
+
+                    return !isNaN(
+                        item.date.getTime()
+                    );
+
+                })
+                .sort(function (a, b) {
+
+                    return b.date - a.date;
+
+                })
+                .slice(0, 5);
+
+
+        if (!validActivity.length) {
+
+            container.innerHTML = `
+                <div class="activity-empty">
+
+                    <div class="empty-state">
+
+                        <div class="empty-chart-icon">
+                            +
+                        </div>
+
+                        <h3>
+                            Nothing recorded yet
+                        </h3>
+
+                        <p>
+                            Athlete additions, testing and
+                            training activity will appear here.
+                        </p>
+
+                    </div>
+
+                </div>
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+            validActivity
+                .map(function (item) {
+
+                    let icon = "+";
+
+                    if (item.type === "test") {
+                        icon = "◇";
+                    }
+
+                    if (item.type === "training") {
+                        icon = "⚡";
+                    }
+
+
+                    return `
+                        <div class="activity-item">
+
+                            <div class="activity-icon">
+                                ${icon}
+                            </div>
+
+                            <div class="activity-info">
+
+                                <strong>
+                                    ${escapeHTML(item.title)}
+                                </strong>
+
+                                <span>
+                                    ${escapeHTML(item.detail)}
+                                </span>
+
+                            </div>
+
+                            <div class="activity-time">
+                                ${formatRelativeTime(item.date)}
+                            </div>
+
+                        </div>
+                    `;
+
+                })
+                .join("");
+
+    }
+
+
+    function formatRelativeTime(date) {
+
+        const now =
+            new Date();
+
+        const difference =
+            now.getTime() -
+            date.getTime();
+
+        const minutes =
+            Math.floor(
+                difference / 60000
+            );
+
+        if (minutes < 1) {
+            return "now";
+        }
+
+        if (minutes < 60) {
+            return `${minutes}m`;
+        }
+
+        const hours =
+            Math.floor(
+                minutes / 60
+            );
+
+        if (hours < 24) {
+            return `${hours}h`;
+        }
+
+        const days =
+            Math.floor(
+                hours / 24
+            );
+
+        if (days < 30) {
+            return `${days}d`;
+        }
+
+        return date.toLocaleDateString();
+
+    }
+
+
+    /* =========================================================
+       COACH INFORMATION
+       ========================================================= */
+
+    function loadCoachInformation() {
+
+        const coachName =
+            document.getElementById(
+                "coachName"
+            );
+
+        const coachAvatar =
+            document.getElementById(
+                "coachAvatar"
+            );
+
+        if (!coachName) {
+            return;
+        }
+
+
+        const possibleKeys = [
+            "athlete360_user",
+            "athlete360_user_name",
+            "athlete360_username",
+            "userName",
+            "username"
+        ];
+
+
+        let displayName = "";
+
+
+        for (const key of possibleKeys) {
+
+            const value =
+                localStorage.getItem(key);
+
+            if (!value) {
+                continue;
+            }
+
+
+            try {
+
+                const parsed =
+                    JSON.parse(value);
+
+                if (
+                    parsed &&
+                    parsed.name
+                ) {
+
+                    displayName =
+                        parsed.name;
+
+                    break;
+
+                }
+
+            } catch (error) {
+
+                if (
+                    value.trim() !== ""
+                ) {
+
+                    displayName =
+                        value.trim();
+
+                    break;
+
+                }
+
+            }
+
+        }
+
+
+        if (!displayName) {
+
+            displayName =
+                "Coach";
+
+        }
+
+
+        coachName.textContent =
+            displayName;
+
+
+        if (coachAvatar) {
+
+            coachAvatar.textContent =
+                displayName
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase() || "C";
+
+        }
+
+    }
 
 
     /* =========================================================
        NAVIGATION
        ========================================================= */
 
-    document
-        .querySelectorAll(".nav-item")
-        .forEach(item => {
+    function openAthletes() {
 
-            item.addEventListener(
-                "click",
-                () => {
-
-                    document
-                        .querySelectorAll(
-                            ".nav-item"
-                        )
-                        .forEach(nav => {
-
-                            nav.classList.remove(
-                                "active"
-                            );
-
-                        });
-
-
-                    item.classList.add(
-                        "active"
-                    );
-
-
-                    const page =
-                        item.dataset.page;
-
-
-                    if (page === "dashboard") {
-
-                        window.scrollTo({
-                            top: 0,
-                            behavior: "smooth"
-                        });
-
-                        return;
-
-                    }
-
-
-                    /*
-                     * These pages will be built
-                     * next.
-                     */
-
-                    const pageMap = {
-
-                        analytics:
-                            "analytics.html",
-
-                        athletes:
-                            "athletes.html",
-
-                        teams:
-                            "teams.html",
-
-                        testing:
-                            "testing.html",
-
-                        training:
-                            "training.html",
-
-                        exercises:
-                            "exercises.html",
-
-                        reports:
-                            "reports.html",
-
-                        settings:
-                            "settings.html"
-
-                    };
-
-
-                    if (pageMap[page]) {
-
-                        window.location.href =
-                            pageMap[page];
-
-                    }
-
-                }
-            );
-
-        });
-
-
-    /* =========================================================
-       QUICK ACTIONS
-       ========================================================= */
-
-    function createAthlete() {
-
-        alert(
-            "Athlete360: Athlete creation module coming next."
-        );
+        window.location.href =
+            "athlete.html";
 
     }
 
 
-    function startTest() {
-
-        alert(
-            "Athlete360: Testing module coming next."
-        );
-
-    }
-
-
-    function createTraining() {
-
-        alert(
-            "Athlete360: Training programme builder coming next."
-        );
-
-    }
-
-
-    function generateReport() {
-
-        alert(
-            "Athlete360: Performance report generator coming next."
-        );
-
-    }
-
-
-    function openAnalytics() {
+    function viewAnalytics() {
 
         window.location.href =
             "analytics.html";
@@ -4027,76 +2879,164 @@
     }
 
 
-    function openAthletes() {
-
-        window.location.href =
-            "athletes.html";
-
-    }
-
-
-    function viewAthlete(name) {
+    function openNotifications() {
 
         /*
-         * Individual athlete profiles
-         * will be connected later.
-         */
+           Notifications are not yet a real data section.
 
-        alert(
-            "Opening profile for " +
-            name +
-            " — Athlete Profile module coming next."
-        );
+           Instead of pretending there are notifications,
+           take the user to the relevant activity area.
+        */
+
+        const activity =
+            document.getElementById(
+                "activityList"
+            );
+
+        if (activity) {
+
+            activity.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
+
+    }
+
+
+    function openActivity() {
+
+        const activity =
+            document.getElementById(
+                "activityList"
+            );
+
+        if (activity) {
+
+            activity.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+
+        }
 
     }
 
 
     /* =========================================================
-       LOGOUT
+       MOBILE MENU
        ========================================================= */
 
-    function logout() {
-
-        localStorage.removeItem(
-            "athlete360_logged_in"
+    const mobileMenuButton =
+        document.getElementById(
+            "mobileMenuButton"
         );
 
-        localStorage.removeItem(
-            "athlete360_user"
+    const sidebar =
+        document.getElementById(
+            "sidebar"
         );
 
-        window.location.href =
-            "login.html";
 
-    }
+    if (
+        mobileMenuButton &&
+        sidebar
+    ) {
 
+        mobileMenuButton.addEventListener(
+            "click",
+            function () {
 
-    /* =========================================================
-       OPTIONAL KEYBOARD SHORTCUT
-       ========================================================= */
-
-    document.addEventListener(
-        "keydown",
-        event => {
-
-            if (
-                event.key === "/" &&
-                !["INPUT", "TEXTAREA"].includes(
-                    document.activeElement.tagName
-                )
-            ) {
-
-                event.preventDefault();
-
-                alert(
-                    "Athlete360 search will be connected here."
+                sidebar.classList.toggle(
+                    "open"
                 );
 
             }
+        );
+
+    }
+
+
+    /* =========================================================
+       REFRESH DASHBOARD
+       ========================================================= */
+
+    function refreshDashboard() {
+
+        const athletes =
+            getAthletes();
+
+        const tests =
+            getTests();
+
+        const teams =
+            getTeams();
+
+        const sessions =
+            getSessions();
+
+
+        updateAthleteStats(
+            athletes
+        );
+
+        updateTestStats(
+            tests
+        );
+
+        updateTeamStats(
+            teams
+        );
+
+        updateSessionStats(
+            sessions
+        );
+
+
+        renderAthleteTable(
+            athletes
+        );
+
+        renderRecentActivity(
+            athletes,
+            tests,
+            sessions
+        );
+
+    }
+
+
+    /* =========================================================
+       INITIAL LOAD
+       ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadCoachInformation();
+
+            refreshDashboard();
 
         }
     );
 
+
+    /*
+       If another Athlete360 page changes localStorage
+       while this dashboard is open, refresh when the
+       browser reports a storage change.
+    */
+
+    window.addEventListener(
+        "storage",
+        function () {
+
+            refreshDashboard();
+
+        }
+    );
 
 </script>
 

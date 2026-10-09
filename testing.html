@@ -1,1980 +1,1547 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Testing | Athlete360</title>
-
-    <style>
-        :root {
-            --bg: #0b0f14;
-            --bg-soft: #10161d;
-            --surface: #151c24;
-            --surface-2: #1b242e;
-            --surface-3: #202b36;
-
-            --border: #2a3541;
-            --border-light: #354352;
-
-            --text: #f4f7fa;
-            --text-soft: #aab5c0;
-            --text-muted: #74818e;
-
-            --blue: #42a5f5;
-            --blue-dark: #1976d2;
-            --blue-soft: rgba(66, 165, 245, 0.12);
-
-            --green: #35d07f;
-            --green-dark: #1ca85d;
-            --green-soft: rgba(53, 208, 127, 0.12);
-
-            --orange: #ffb547;
-            --orange-soft: rgba(255, 181, 71, 0.12);
-
-            --red: #ff6262;
-            --red-soft: rgba(255, 98, 98, 0.12);
-
-            --purple: #a78bfa;
-            --purple-soft: rgba(167, 139, 250, 0.12);
-
-            --sidebar-width: 255px;
-            --radius: 16px;
-
-            --shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: Inter, Arial, Helvetica, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        button,
-        input,
-        select,
-        textarea {
-            font-family: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* =========================================
-           SIDEBAR
-        ========================================= */
-
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: var(--sidebar-width);
-            height: 100vh;
-            background: #0d1218;
-            border-right: 1px solid var(--border);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .logo-area {
-            height: 78px;
-            padding: 0 22px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: linear-gradient(
-                135deg,
-                var(--blue),
-                var(--green)
-            );
-            color: #071016;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 19px;
-        }
-
-        .logo-text {
-            font-size: 18px;
-            font-weight: 800;
-        }
-
-        .logo-text span {
-            color: var(--blue);
-        }
-
-        .nav-section {
-            padding: 22px 14px 8px;
-        }
-
-        .nav-label {
-            padding: 0 10px 9px;
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1.2px;
-            text-transform: uppercase;
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 12px;
-            border-radius: 10px;
-            color: var(--text-soft);
-            font-size: 13px;
-            font-weight: 600;
-            transition: 0.2s ease;
-        }
-
-        .nav-item:hover {
-            color: var(--text);
-            background: var(--surface);
-        }
-
-        .nav-item.active {
-            color: var(--blue);
-            background: var(--blue-soft);
-            border: 1px solid rgba(66, 165, 245, 0.13);
-        }
-
-        .nav-icon {
-            width: 19px;
-            text-align: center;
-        }
-
-        .sidebar-bottom {
-            margin-top: auto;
-            padding: 14px;
-            border-top: 1px solid var(--border);
-        }
-
-        .user-mini {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 12px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-        }
-
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 10px;
-            background: linear-gradient(
-                135deg,
-                var(--blue),
-                var(--green)
-            );
-            color: #071016;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 900;
-        }
-
-        .user-details {
-            min-width: 0;
-        }
-
-        .user-name {
-            font-size: 12px;
-            font-weight: 800;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .user-role {
-            margin-top: 2px;
-            color: var(--text-muted);
-            font-size: 10px;
-        }
-
-        /* =========================================
-           MAIN
-        ========================================= */
-
-        .main {
-            margin-left: var(--sidebar-width);
-            min-height: 100vh;
-        }
-
-        .topbar {
-            height: 78px;
-            padding: 0 30px;
-            background: rgba(11, 15, 20, 0.96);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 900;
-            backdrop-filter: blur(12px);
-        }
-
-        .topbar-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .mobile-menu {
-            display: none;
-            width: 38px;
-            height: 38px;
-            border-radius: 9px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text);
-            font-size: 18px;
-        }
-
-        .page-location {
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        .page-location span {
-            color: var(--text);
-        }
-
-        .topbar-right {
-            display: flex;
-            gap: 10px;
-        }
-
-        .topbar-btn {
-            width: 39px;
-            height: 39px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-soft);
-        }
-
-        /* =========================================
-           CONTENT
-        ========================================= */
-
-        .content {
-            max-width: 1700px;
-            margin: 0 auto;
-            padding: 30px;
-        }
-
-        .page-heading {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 24px;
-        }
-
-        .eyebrow {
-            color: var(--blue);
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: 1.4px;
-            text-transform: uppercase;
-            margin-bottom: 7px;
-        }
-
-        .page-heading h1 {
-            font-size: 28px;
-            letter-spacing: -0.7px;
-        }
-
-        .page-heading p {
-            color: var(--text-muted);
-            font-size: 12px;
-            margin-top: 6px;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 9px;
-        }
-
-        /* =========================================
-           BUTTONS
-        ========================================= */
-
-        .btn {
-            padding: 10px 14px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text);
-            font-size: 12px;
-            font-weight: 800;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: 0.2s ease;
-        }
-
-        .btn:hover {
-            background: var(--surface-2);
-            border-color: var(--border-light);
-        }
-
-        .btn-primary {
-            background: var(--blue);
-            border-color: var(--blue);
-            color: #071016;
-        }
-
-        .btn-primary:hover {
-            background: #64b5f6;
-            border-color: #64b5f6;
-        }
-
-        .btn-green {
-            background: var(--green);
-            border-color: var(--green);
-            color: #06150d;
-        }
-
-        .btn-green:hover {
-            background: #55dc91;
-        }
-
-        .btn-danger {
-            color: var(--red);
-            background: var(--red-soft);
-            border-color: rgba(255, 98, 98, 0.25);
-        }
-
-        /* =========================================
-           TESTING LAYOUT
-        ========================================= */
-
-        .testing-grid {
-            display: grid;
-            grid-template-columns:
-                minmax(0, 1.4fr)
-                minmax(330px, 0.6fr);
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-
-        .card-header {
-            padding: 18px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-        }
-
-        .card-title {
-            font-size: 14px;
-            font-weight: 800;
-        }
-
-        .card-subtitle {
-            color: var(--text-muted);
-            font-size: 11px;
-            margin-top: 4px;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        /* =========================================
-           ATHLETE SELECTOR
-        ========================================= */
-
-        .selected-athlete {
-            padding: 14px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 13px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .athlete-selector-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 0;
-        }
-
-        .athlete-avatar {
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            background: linear-gradient(
-                135deg,
-                rgba(66, 165, 245, 0.2),
-                rgba(53, 208, 127, 0.15)
-            );
-            color: var(--blue);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 13px;
-            flex-shrink: 0;
-        }
-
-        .athlete-selector-name {
-            font-size: 13px;
-            font-weight: 800;
-        }
-
-        .athlete-selector-meta {
-            color: var(--text-muted);
-            font-size: 10px;
-            margin-top: 4px;
-        }
-
-        .athlete-selector select {
-            min-width: 190px;
-            padding: 10px;
-            background: #0e141a;
-            border: 1px solid var(--border);
-            color: var(--text);
-            border-radius: 9px;
-            outline: none;
-            font-size: 11px;
-        }
-
-        /* =========================================
-           TEST CATEGORIES
-        ========================================= */
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-bottom: 22px;
-        }
-
-        .category-btn {
-            min-height: 92px;
-            padding: 12px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-soft);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 7px;
-            transition: 0.2s ease;
-        }
-
-        .category-btn:hover {
-            border-color: var(--border-light);
-            color: var(--text);
-        }
-
-        .category-btn.active {
-            background: var(--blue-soft);
-            border-color: rgba(66, 165, 245, 0.45);
-            color: var(--blue);
-        }
-
-        .category-icon {
-            font-size: 20px;
-        }
-
-        .category-name {
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        /* =========================================
-           TEST FORM
-        ========================================= */
-
-        .test-info {
-            padding: 15px;
-            border-radius: 12px;
-            background: #10171e;
-            border: 1px solid var(--border);
-            margin-bottom: 18px;
-        }
-
-        .test-info h3 {
-            font-size: 15px;
-            margin-bottom: 5px;
-        }
-
-        .test-info p {
-            color: var(--text-muted);
-            font-size: 11px;
-            line-height: 1.6;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
-        }
-
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            color: var(--text-soft);
-            font-size: 10px;
-            font-weight: 800;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            background: #0e141a;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            outline: none;
-            color: var(--text);
-            font-size: 12px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--blue);
-            box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.07);
-        }
-
-        .form-group textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
-
-        .unit-input {
-            display: grid;
-            grid-template-columns: 1fr 75px;
-            gap: 8px;
-        }
-
-        .unit-display {
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 800;
-        }
-
-        .form-actions {
-            margin-top: 18px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 9px;
-        }
-
-        /* =========================================
-           SCORE PREVIEW
-        ========================================= */
-
-        .score-panel {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .score-display {
-            text-align: center;
-            padding: 20px 10px 25px;
-        }
-
-        .score-circle {
-            width: 185px;
-            height: 185px;
-            margin: 0 auto;
-            border-radius: 50%;
-            background:
-                conic-gradient(
-                    var(--green) 0deg,
-                    var(--green) calc(var(--score) * 3.6deg),
-                    #27323d calc(var(--score) * 3.6deg),
-                    #27323d 360deg
-                );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .score-circle::before {
-            content: "";
-            position: absolute;
-            width: 142px;
-            height: 142px;
-            border-radius: 50%;
-            background: var(--surface);
-        }
-
-        .score-inner {
-            position: relative;
-            text-align: center;
-        }
-
-        .score-number {
-            font-size: 46px;
-            font-weight: 900;
-            line-height: 1;
-            color: var(--green);
-        }
-
-        .score-label {
-            margin-top: 7px;
-            color: var(--text-muted);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 800;
-        }
-
-        .score-status {
-            display: inline-flex;
-            margin-top: 15px;
-            padding: 7px 11px;
-            border-radius: 999px;
-            background: var(--green-soft);
-            color: var(--green);
-            border: 1px solid rgba(53, 208, 127, 0.2);
-            font-size: 10px;
-            font-weight: 900;
-        }
-
-        .score-breakdown {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 5px;
-        }
-
-        .breakdown-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .breakdown-label {
-            color: var(--text-soft);
-            font-size: 11px;
-        }
-
-        .breakdown-value {
-            color: var(--text);
-            font-size: 11px;
-            font-weight: 900;
-        }
-
-        .breakdown-bar {
-            margin-top: 5px;
-            height: 5px;
-            border-radius: 999px;
-            background: #0b1015;
-            overflow: hidden;
-        }
-
-        .breakdown-fill {
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                var(--blue),
-                var(--green)
-            );
-            border-radius: inherit;
-            transition: width 0.3s ease;
-        }
-
-        /* =========================================
-           TEST HISTORY
-        ========================================= */
-
-        .history-card {
-            margin-bottom: 20px;
-        }
-
-        .history-controls {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .history-search {
-            width: 220px;
-            padding: 10px 12px;
-            background: #0e141a;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            color: var(--text);
-            outline: none;
-            font-size: 11px;
-        }
-
-        .history-search:focus {
-            border-color: var(--blue);
-        }
-
-        .filter-select {
-            padding: 10px;
-            background: #0e141a;
-            border: 1px solid var(--border);
-            border-radius: 9px;
-            color: var(--text);
-            outline: none;
-            font-size: 11px;
-        }
-
-        .table-wrap {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-
-        th {
-            text-align: left;
-            padding: 12px;
-            color: var(--text-muted);
-            border-bottom: 1px solid var(--border);
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            white-space: nowrap;
-        }
-
-        td {
-            padding: 13px 12px;
-            border-bottom: 1px solid rgba(42, 53, 65, 0.7);
-            color: var(--text-soft);
-            font-size: 11px;
-        }
-
-        tbody tr:hover {
-            background: rgba(255, 255, 255, 0.015);
-        }
-
-        tbody tr:last-child td {
-            border-bottom: 0;
-        }
-
-        .test-name {
-            color: var(--text);
-            font-weight: 800;
-        }
-
-        .result {
-            color: var(--blue);
-            font-weight: 900;
-        }
-
-        .score-small {
-            color: var(--green);
-            font-weight: 900;
-        }
-
-        .pb {
-            display: inline-flex;
-            padding: 4px 7px;
-            border-radius: 6px;
-            color: var(--green);
-            background: var(--green-soft);
-            font-size: 9px;
-            font-weight: 900;
-        }
-
-        .improved {
-            color: var(--green);
-        }
-
-        .monitor {
-            color: var(--orange);
-        }
-
-        .empty-history {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-
-        /* =========================================
-           QUICK INFO
-        ========================================= */
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .info-card {
-            padding: 16px;
-            border-radius: 12px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-        }
-
-        .info-label {
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-        }
-
-        .info-value {
-            margin-top: 8px;
-            font-size: 21px;
-            font-weight: 900;
-        }
-
-        .info-note {
-            margin-top: 4px;
-            color: var(--text-muted);
-            font-size: 9px;
-        }
-
-        /* =========================================
-           MODAL
-        ========================================= */
-
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            z-index: 3000;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal {
-            width: 100%;
-            max-width: 450px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-        }
-
-        .modal-header {
-            padding: 18px 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            font-size: 15px;
-        }
-
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--surface-2);
-            color: var(--text-soft);
-            font-size: 18px;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .modal-body p {
-            color: var(--text-muted);
-            font-size: 12px;
-            line-height: 1.7;
-        }
-
-        .modal-footer {
-            padding: 15px 20px;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: flex-end;
-            gap: 9px;
-        }
-
-        /* =========================================
-           TOAST
-        ========================================= */
-
-        .toast {
-            position: fixed;
-            right: 25px;
-            bottom: 25px;
-            padding: 13px 16px;
-            border-radius: 11px;
-            background: var(--surface-2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            font-size: 11px;
-            font-weight: 800;
-            box-shadow: var(--shadow);
-            transform: translateY(100px);
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s ease;
-            z-index: 4000;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            border-color: rgba(53, 208, 127, 0.3);
-        }
-
-        .toast.error {
-            border-color: rgba(255, 98, 98, 0.3);
-        }
-
-        /* =========================================
-           RESPONSIVE
-        ========================================= */
-
-        @media (max-width: 1200px) {
-
-            .category-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .info-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-        }
-
-        @media (max-width: 1050px) {
-
-            .testing-grid {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-        @media (max-width: 900px) {
-
-            :root {
-                --sidebar-width: 0px;
-            }
-
-            .sidebar {
-                width: 255px;
-                transform: translateX(-100%);
-                transition: 0.25s ease;
-                box-shadow: 20px 0 60px rgba(0, 0, 0, 0.45);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main {
-                margin-left: 0;
-            }
-
-            .mobile-menu {
-                display: block;
-            }
-
-            .content {
-                padding: 22px;
-            }
-
-        }
-
-        @media (max-width: 650px) {
-
-            .topbar {
-                padding: 0 16px;
-            }
-
-            .content {
-                padding: 16px;
-            }
-
-            .page-heading {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .header-actions {
-                width: 100%;
-            }
-
-            .header-actions .btn {
-                flex: 1;
-            }
-
-            .selected-athlete {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-
-            .athlete-selector {
-                width: 100%;
-            }
-
-            .athlete-selector select {
-                width: 100%;
-            }
-
-            .category-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-group.full {
-                grid-column: auto;
-            }
-
-            .history-controls {
-                width: 100%;
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .history-search,
-            .filter-select {
-                width: 100%;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-        }
-
-        @media (max-width: 430px) {
-
-            .category-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .form-actions .btn {
-                width: 100%;
-            }
-
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athlete360 | Performance Testing</title>
+
+<style>
+:root {
+    --bg: #0a0d10;
+    --panel: #12181e;
+    --panel-2: #161e26;
+    --border: #26313b;
+    --text: #f4f7fa;
+    --muted: #8d9aa7;
+    --blue: #38bdf8;
+    --blue-2: #42b8ff;
+    --green: #22c55e;
+    --green-2: #37d98b;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --radius: 16px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Inter, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px;
+    background: #0d1217;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+.logo {
+    padding: 25px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo h1 {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.logo h1 span {
+    color: var(--blue);
+}
+
+.logo p {
+    margin-top: 5px;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+}
+
+.nav {
+    padding: 18px 12px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.nav-section {
+    margin-bottom: 22px;
+}
+
+.nav-label {
+    font-size: 10px;
+    color: #65727e;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    margin: 0 10px 8px;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    margin-bottom: 3px;
+    border-radius: 10px;
+    color: #9ba8b4;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.nav a:hover {
+    background: #151d25;
+    color: var(--text);
+}
+
+.nav a.active {
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--blue);
+    border: 1px solid rgba(56, 189, 248, 0.18);
+}
+
+.nav-icon {
+    width: 18px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.sidebar-bottom {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.data-status {
+    background: #111820;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+}
+
+.data-status-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+}
+
+.data-status p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+.topbar {
+    height: 72px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    background: rgba(10, 13, 16, 0.92);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.page-subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: #aeb8c2;
+    transition: 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--text);
+    border-color: #3a4855;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+.content {
+    padding: 28px 30px 45px;
+    max-width: 1500px;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-page {
+    min-height: 65vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-card {
+    width: min(520px, 100%);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 42px 30px;
+    text-align: center;
+}
+
+.empty-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 18px;
+    border-radius: 16px;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.empty-card h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.empty-card p {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn {
+    border: 1px solid var(--border);
+    background: #151c23;
+    color: var(--text);
+    border-radius: 9px;
+    padding: 10px 15px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    border-color: #3b4a57;
+    background: #1a232c;
+}
+
+.btn-primary {
+    background: var(--blue);
+    color: #061018;
+    border-color: var(--blue);
+}
+
+.btn-primary:hover {
+    background: #69ccfb;
+    border-color: #69ccfb;
+}
+
+.btn-danger {
+    color: #ff8b8b;
+    border-color: rgba(239, 68, 68, 0.25);
+}
+
+.btn-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.45);
+}
+
+.btn-small {
+    padding: 7px 10px;
+    font-size: 11px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+}
+
+.stat-label {
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    margin-top: 8px;
+}
+
+.stat-note {
+    font-size: 10px;
+    color: #66737f;
+    margin-top: 4px;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.testing-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(320px, 0.8fr);
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.card-title {
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.card-description {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-size: 11px;
+    color: #aeb9c3;
+    font-weight: 700;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    background: #0d1318;
+    color: var(--text);
+    border-radius: 9px;
+    padding: 11px 12px;
+    outline: none;
+    transition: 0.2s;
+    font-size: 12px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.06);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 82px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #56636f;
+}
+
+.input-with-unit {
+    display: grid;
+    grid-template-columns: 1fr 80px;
+    gap: 8px;
+}
+
+.unit-display {
+    border: 1px solid var(--border);
+    background: #11171d;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 18px;
+}
+
+/* =========================
+   ATHLETE CARD
+========================= */
+
+.selected-athlete {
+    background: #0d141a;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 16px;
+    margin-bottom: 18px;
+}
+
+.athlete-mini {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: linear-gradient(135deg, #1c2b36, #101820);
+    border: 1px solid #33424f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    font-weight: 800;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.athlete-name {
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.athlete-meta {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.athlete-status {
+    margin-left: auto;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--green-2);
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+/* =========================
+   CATEGORY BUTTONS
+========================= */
+
+.category-buttons {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.category-btn {
+    border: 1px solid var(--border);
+    background: #10161c;
+    color: #87939e;
+    padding: 10px 5px;
+    border-radius: 9px;
+    font-size: 10px;
+    font-weight: 800;
+    transition: 0.2s;
+}
+
+.category-btn:hover {
+    color: var(--text);
+    border-color: #3a4855;
+}
+
+.category-btn.active {
+    color: var(--blue);
+    background: rgba(56, 189, 248, 0.09);
+    border-color: rgba(56, 189, 248, 0.35);
+}
+
+/* =========================
+   OVERVIEW
+========================= */
+
+.overview-card {
+    min-height: 100%;
+}
+
+.overview-athlete {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.overview-name {
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.overview-team {
+    color: var(--muted);
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.result-box {
+    margin-top: 18px;
+    border: 1px solid var(--border);
+    background: #0d1318;
+    border-radius: 13px;
+    padding: 20px;
+    text-align: center;
+}
+
+.result-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.result-value {
+    font-size: 36px;
+    font-weight: 900;
+    margin-top: 7px;
+    color: var(--blue);
+}
+
+.result-value span {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 700;
+}
+
+.overview-list {
+    margin-top: 18px;
+}
+
+.overview-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #202932;
+    font-size: 11px;
+}
+
+.overview-row:last-child {
+    border-bottom: 0;
+}
+
+.overview-row span:first-child {
+    color: var(--muted);
+}
+
+.overview-row span:last-child {
+    font-weight: 700;
+    text-align: right;
+}
+
+.pb-text {
+    color: var(--green-2) !important;
+}
+
+.recorded-text {
+    color: var(--blue) !important;
+}
+
+.no-result {
+    color: #66737f !important;
+}
+
+/* =========================
+   HISTORY
+========================= */
+
+.history-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.history-search {
+    width: 220px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 850px;
+}
+
+th {
+    padding: 12px 15px;
+    text-align: left;
+    color: #66737f;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    font-weight: 800;
+    border-bottom: 1px solid var(--border);
+}
+
+td {
+    padding: 13px 15px;
+    border-bottom: 1px solid #1c252d;
+    font-size: 11px;
+    color: #c6ced6;
+}
+
+tbody tr:hover {
+    background: rgba(255,255,255,0.015);
+}
+
+.result-cell {
+    font-weight: 800;
+    color: var(--blue);
+}
+
+.pb-badge {
+    display: inline-flex;
+    padding: 4px 7px;
+    border-radius: 5px;
+    font-size: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--green-2);
+}
+
+.recorded-badge {
+    display: inline-flex;
+    padding: 4px 7px;
+    border-radius: 5px;
+    font-size: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: rgba(56, 189, 248, 0.08);
+    color: #79cdf5;
+}
+
+.table-empty {
+    padding: 45px 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.table-empty strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: #182129;
+    border: 1px solid #33424f;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    transform: translateY(120px);
+    opacity: 0;
+    transition: 0.25s;
+    z-index: 999;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.toast.success {
+    border-color: rgba(34,197,94,0.35);
+}
+
+.toast.error {
+    border-color: rgba(239,68,68,0.35);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+    .testing-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 800px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: 0.25s;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .content {
+        padding: 20px 18px 35px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .category-buttons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .history-search {
+        width: 150px;
+    }
+}
+
+@media (max-width: 550px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .history-header-actions {
+        width: 100%;
+    }
+
+    .history-search {
+        width: 100%;
+        flex: 1;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    .athlete-status {
+        display: none;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- =========================================
-         SIDEBAR
-    ========================================== -->
+<!-- =========================
+     SIDEBAR
+========================= -->
 
-    <aside class="sidebar" id="sidebar">
+<aside class="sidebar" id="sidebar">
 
-        <div class="logo-area">
+    <div class="logo">
+        <h1>Athlete<span>360</span></h1>
+        <p>Train. Test. Track. Perform.</p>
+    </div>
 
-            <div class="logo-icon">
-                A
-            </div>
-
-            <div class="logo-text">
-                Athlete<span>360</span>
-            </div>
-
-        </div>
-
+    <nav class="nav">
 
         <div class="nav-section">
+            <div class="nav-label">Main</div>
 
-            <div class="nav-label">
-                Main
-            </div>
+            <a href="dashboard.html">
+                <span class="nav-icon">▦</span>
+                Dashboard
+            </a>
 
-            <nav class="nav-menu">
+            <a href="athlete.html">
+                <span class="nav-icon">●</span>
+                Athletes
+            </a>
 
-                <a href="dashboard.html" class="nav-item">
-                    <span class="nav-icon">▦</span>
-                    Dashboard
-                </a>
-
-                <a href="athletes.html" class="nav-item">
-                    <span class="nav-icon">♟</span>
-                    Athletes
-                </a>
-
-                <a href="teams.html" class="nav-item">
-                    <span class="nav-icon">◉</span>
-                    Teams
-                </a>
-
-                <a href="testing.html" class="nav-item active">
-                    <span class="nav-icon">⌁</span>
-                    Testing
-                </a>
-
-                <a href="training.html" class="nav-item">
-                    <span class="nav-icon">◆</span>
-                    Training
-                </a>
-
-            </nav>
-
+            <a href="teams.html">
+                <span class="nav-icon">◆</span>
+                Teams
+            </a>
         </div>
 
-
         <div class="nav-section">
+            <div class="nav-label">Performance</div>
 
-            <div class="nav-label">
+            <a href="testing.html" class="active">
+                <span class="nav-icon">◈</span>
+                Testing
+            </a>
+
+            <a href="exercises.html">
+                <span class="nav-icon">✦</span>
+                Exercises
+            </a>
+
+            <a href="training.html">
+                <span class="nav-icon">▸</span>
+                Training
+            </a>
+
+            <a href="analytics.html">
+                <span class="nav-icon">⌁</span>
                 Performance
-            </div>
+            </a>
 
-            <nav class="nav-menu">
-
-                <a href="analytics.html" class="nav-item">
-                    <span class="nav-icon">◒</span>
-                    Analytics
-                </a>
-
-                <a href="exercises.html" class="nav-item">
-                    <span class="nav-icon">⚡</span>
-                    Exercise Library
-                </a>
-
-                <a href="reports.html" class="nav-item">
-                    <span class="nav-icon">▤</span>
-                    Reports
-                </a>
-
-            </nav>
-
+            <a href="reports.html">
+                <span class="nav-icon">▤</span>
+                Reports
+            </a>
         </div>
-
 
         <div class="nav-section">
+            <div class="nav-label">System</div>
 
-            <div class="nav-label">
-                System
-            </div>
+            <a href="notifications.html">
+                <span class="nav-icon">○</span>
+                Notifications
+            </a>
 
-            <nav class="nav-menu">
-
-                <a href="settings.html" class="nav-item">
-                    <span class="nav-icon">⚙</span>
-                    Settings
-                </a>
-
-            </nav>
-
+            <a href="settings.html">
+                <span class="nav-icon">⚙</span>
+                Settings
+            </a>
         </div>
 
+    </nav>
 
-        <div class="sidebar-bottom">
-
-            <div class="user-mini">
-
-                <div class="user-avatar" id="userAvatar">
-                    MJ
-                </div>
-
-                <div class="user-details">
-
-                    <div
-                        class="user-name"
-                        id="userName"
-                    >
-                        Mikhail Jacobs
-                    </div>
-
-                    <div
-                        class="user-role"
-                        id="userRole"
-                    >
-                        Coach
-                    </div>
-
-                </div>
-
+    <div class="sidebar-bottom">
+        <div class="data-status">
+            <div class="data-status-title">
+                <span class="status-dot"></span>
+                Local Data
             </div>
+            <p>Ready for real athlete records.</p>
+        </div>
+    </div>
 
+</aside>
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div>
+            <div class="page-title">Performance Testing</div>
+            <div class="page-subtitle">
+                Record measured results and track athlete progress over time.
+            </div>
         </div>
 
-    </aside>
+        <div class="top-actions">
+            <button class="icon-btn mobile-menu" id="mobileMenuBtn" type="button">☰</button>
+        </div>
+
+    </header>
+
+    <div class="content" id="pageContent">
+
+        <!-- Content injected by JavaScript -->
+
+    </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* =========================================================
+   ATHLETE360 PERFORMANCE TESTING
+   ========================================================= */
+
+const ATHLETES_KEY = "athlete360_athletes_v2";
+const TEAMS_KEY = "athlete360_teams";
+
+/*
+ * Canonical testing storage.
+ * Dashboard also reads this key.
+ */
+const TESTS_KEY = "athlete360_tests";
+
+let athletes = [];
+let teams = [];
+let tests = [];
+
+let selectedAthleteId = "";
+let selectedCategory = "speed";
+
+/*
+ * Test definitions.
+ *
+ * IMPORTANT:
+ * There are deliberately NO assumed benchmarks here.
+ *
+ * Athlete360 records what the coach actually measures.
+ */
+const testConfig = {
+
+    speed: {
+        label: "Speed",
+        tests: [
+            {
+                name: "10m Sprint",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "20m Sprint",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "30m Sprint",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "Flying 10m",
+                unit: "sec",
+                lowerBetter: true
+            }
+        ]
+    },
+
+    strength: {
+        label: "Strength",
+        tests: [
+            {
+                name: "Push-Up Test",
+                unit: "reps",
+                lowerBetter: false
+            },
+            {
+                name: "Pull-Up Test",
+                unit: "reps",
+                lowerBetter: false
+            },
+            {
+                name: "Squat Test",
+                unit: "reps",
+                lowerBetter: false
+            },
+            {
+                name: "Plank Hold",
+                unit: "sec",
+                lowerBetter: false
+            }
+        ]
+    },
+
+    power: {
+        label: "Power",
+        tests: [
+            {
+                name: "Broad Jump",
+                unit: "m",
+                lowerBetter: false
+            },
+            {
+                name: "Vertical Jump",
+                unit: "cm",
+                lowerBetter: false
+            },
+            {
+                name: "Standing Long Jump",
+                unit: "m",
+                lowerBetter: false
+            },
+            {
+                name: "Medicine Ball Throw",
+                unit: "m",
+                lowerBetter: false
+            }
+        ]
+    },
+
+    agility: {
+        label: "Agility",
+        tests: [
+            {
+                name: "5-10-5 Agility",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "T-Test",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "Illinois Agility",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "505 Agility",
+                unit: "sec",
+                lowerBetter: true
+            }
+        ]
+    },
+
+    conditioning: {
+        label: "Conditioning",
+        tests: [
+            {
+                name: "Yo-Yo / Beep Test",
+                unit: "level",
+                lowerBetter: false
+            },
+            {
+                name: "Bronco Test",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "1.2km Time Trial",
+                unit: "sec",
+                lowerBetter: true
+            },
+            {
+                name: "Cooper 12-Min Test",
+                unit: "km",
+                lowerBetter: false
+            }
+        ]
+    }
+};
 
 
-    <!-- =========================================
-         MAIN
-    ========================================== -->
+/* =========================================================
+   START
+========================================================= */
 
-    <main class="main">
+document.addEventListener("DOMContentLoaded", init);
 
-        <header class="topbar">
+function init() {
 
-            <div class="topbar-left">
+    loadData();
 
-                <button
-                    class="mobile-menu"
-                    onclick="toggleSidebar()"
-                >
-                    ☰
-                </button>
+    const savedAthleteId =
+        localStorage.getItem("athlete360_selected_athlete_id");
 
-                <div class="page-location">
-                    Performance / <span>Testing</span>
-                </div>
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlAthleteId = urlParams.get("id");
 
-            </div>
+    if (urlAthleteId && athletes.some(a => String(a.id) === String(urlAthleteId))) {
+        selectedAthleteId = String(urlAthleteId);
+    }
+    else if (
+        savedAthleteId &&
+        athletes.some(a => String(a.id) === String(savedAthleteId))
+    ) {
+        selectedAthleteId = String(savedAthleteId);
+    }
+    else if (athletes.length) {
+        selectedAthleteId = String(athletes[0].id);
+    }
 
-
-            <div class="topbar-right">
-
-                <button
-                    class="topbar-btn"
-                    onclick="showToast('Notifications are coming soon.')"
-                >
-                    ♢
-                </button>
-
-                <button
-                    class="topbar-btn"
-                    onclick="window.location.href='settings.html'"
-                >
-                    ⚙
-                </button>
-
-            </div>
-
-        </header>
+    renderPage();
+    setupEvents();
+}
 
 
-        <div class="content">
+/* =========================================================
+   DATA
+========================================================= */
+
+function loadData() {
+
+    try {
+        const storedAthletes =
+            JSON.parse(localStorage.getItem(ATHLETES_KEY) || "[]");
+
+        const storedTeams =
+            JSON.parse(localStorage.getItem(TEAMS_KEY) || "[]");
+
+        const storedTests =
+            JSON.parse(localStorage.getItem(TESTS_KEY) || "[]");
+
+        athletes = Array.isArray(storedAthletes)
+            ? storedAthletes
+            : [];
+
+        teams = Array.isArray(storedTeams)
+            ? storedTeams
+            : [];
+
+        tests = Array.isArray(storedTests)
+            ? storedTests
+            : [];
+
+    } catch (error) {
+
+        console.error("Athlete360 data load error:", error);
+
+        athletes = [];
+        teams = [];
+        tests = [];
+    }
+}
 
 
-            <!-- PAGE HEADER -->
+function saveTests() {
 
-            <div class="page-heading">
+    localStorage.setItem(
+        TESTS_KEY,
+        JSON.stringify(tests)
+    );
+}
 
-                <div>
 
-                    <div class="eyebrow">
-                        Performance Testing
-                    </div>
+function saveAthletes() {
 
-                    <h1>
-                        Athlete Testing
-                    </h1>
+    localStorage.setItem(
+        ATHLETES_KEY,
+        JSON.stringify(athletes)
+    );
+}
+
+
+/* =========================================================
+   PAGE RENDER
+========================================================= */
+
+function renderPage() {
+
+    const container =
+        document.getElementById("pageContent");
+
+    if (!athletes.length) {
+
+        container.innerHTML = `
+            <div class="empty-page">
+                <div class="empty-card">
+
+                    <div class="empty-icon">◈</div>
+
+                    <h2>No Athletes Yet</h2>
 
                     <p>
-                        Measure, score and track athlete performance across key physical qualities.
+                        Add your first athlete before recording
+                        performance testing data.
                     </p>
 
-                </div>
-
-
-                <div class="header-actions">
-
-                    <a
-                        href="athletes.html"
-                        class="btn"
-                    >
-                        ← Athlete Roster
+                    <a class="btn btn-primary" href="athlete.html">
+                        Add Athlete
                     </a>
 
                 </div>
+            </div>
+        `;
 
+        return;
+    }
+
+    container.innerHTML = `
+
+        <!-- STATS -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-label">Tests Recorded</div>
+                <div class="stat-value" id="testsRecordedStat">0</div>
+                <div class="stat-note">Real results saved</div>
             </div>
 
+            <div class="stat-card">
+                <div class="stat-label">Personal Bests</div>
+                <div class="stat-value" id="personalBestsStat">0</div>
+                <div class="stat-note">Best recorded results</div>
+            </div>
 
-            <!-- =========================================
-                 TESTING BUILDER
-            ========================================== -->
+            <div class="stat-card">
+                <div class="stat-label">Athletes Tested</div>
+                <div class="stat-value" id="athletesTestedStat">0</div>
+                <div class="stat-note">Athletes with test records</div>
+            </div>
 
-            <div class="testing-grid">
+            <div class="stat-card">
+                <div class="stat-label">Categories Tested</div>
+                <div class="stat-value" id="categoriesTestedStat">0</div>
+                <div class="stat-note">Performance areas used</div>
+            </div>
+
+        </section>
 
 
-                <!-- TEST FORM -->
+        <!-- TESTING AREA -->
 
-                <section class="card">
+        <section class="testing-grid">
 
-                    <div class="card-header">
+            <!-- RECORD TEST -->
 
-                        <div>
+            <div class="card">
 
-                            <div class="card-title">
-                                Create Performance Test
-                            </div>
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">
+                            Record Test Result
+                        </div>
 
-                            <div class="card-subtitle">
-                                Select an athlete and enter their result
+                        <div class="card-description">
+                            Enter the result measured by the coach.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="selected-athlete" id="selectedAthleteCard"></div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group full">
+
+                            <label for="athleteSelect">
+                                Athlete
+                            </label>
+
+                            <select id="athleteSelect"></select>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>
+                                Test Category
+                            </label>
+
+                            <div class="category-buttons">
+
+                                ${Object.entries(testConfig)
+                                    .map(([key, config]) => `
+                                        <button
+                                            type="button"
+                                            class="category-btn ${key === selectedCategory ? "active" : ""}"
+                                            data-category="${key}"
+                                        >
+                                            ${config.label}
+                                        </button>
+                                    `)
+                                    .join("")
+                                }
+
                             </div>
 
                         </div>
 
-                    </div>
+
+                        <div class="form-group">
+
+                            <label for="testSelect">
+                                Test
+                            </label>
+
+                            <select id="testSelect"></select>
+
+                        </div>
 
 
-                    <div class="card-body">
+                        <div class="form-group">
+
+                            <label for="testDate">
+                                Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="testDate"
+                            >
+
+                        </div>
 
 
-                        <!-- ATHLETE SELECTOR -->
+                        <div class="form-group">
 
-                        <div class="selected-athlete">
+                            <label for="resultInput">
+                                Result
+                            </label>
 
-                            <div class="athlete-selector-left">
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="resultInput"
+                                    min="0"
+                                    step="0.01"
+                                    placeholder="Enter measured result"
+                                >
 
                                 <div
-                                    class="athlete-avatar"
-                                    id="selectedAvatar"
+                                    class="unit-display"
+                                    id="unitDisplay"
                                 >
-                                    CM
-                                </div>
-
-                                <div>
-
-                                    <div
-                                        class="athlete-selector-name"
-                                        id="selectedAthleteName"
-                                    >
-                                        Charl Malgas
-                                    </div>
-
-                                    <div
-                                        class="athlete-selector-meta"
-                                        id="selectedAthleteMeta"
-                                    >
-                                        Rugby • U15 • U15 A • Backline
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="athlete-selector">
-
-                                <select
-                                    id="athleteSelect"
-                                    onchange="selectAthlete(this.value)"
-                                >
-                                </select>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- TEST CATEGORY -->
-
-                        <div class="category-grid">
-
-
-                            <button
-                                class="category-btn active"
-                                data-category="speed"
-                                onclick="selectCategory('speed')"
-                            >
-
-                                <span class="category-icon">
-                                    ⚡
-                                </span>
-
-                                <span class="category-name">
-                                    Speed
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-category="strength"
-                                onclick="selectCategory('strength')"
-                            >
-
-                                <span class="category-icon">
-                                    💪
-                                </span>
-
-                                <span class="category-name">
-                                    Strength
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-category="power"
-                                onclick="selectCategory('power')"
-                            >
-
-                                <span class="category-icon">
-                                    ◈
-                                </span>
-
-                                <span class="category-name">
-                                    Power
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-category="agility"
-                                onclick="selectCategory('agility')"
-                            >
-
-                                <span class="category-icon">
-                                    ↗
-                                </span>
-
-                                <span class="category-name">
-                                    Agility
-                                </span>
-
-                            </button>
-
-
-                            <button
-                                class="category-btn"
-                                data-category="conditioning"
-                                onclick="selectCategory('conditioning')"
-                            >
-
-                                <span class="category-icon">
-                                    ♡
-                                </span>
-
-                                <span class="category-name">
-                                    Conditioning
-                                </span>
-
-                            </button>
-
-                        </div>
-
-
-                        <!-- TEST INFORMATION -->
-
-                        <div class="test-info">
-
-                            <h3 id="testTitle">
-                                10m Sprint
-                            </h3>
-
-                            <p id="testDescription">
-                                Measure acceleration over 10 metres from a standing start.
-                                Record the athlete's fastest valid attempt.
-                            </p>
-
-                        </div>
-
-
-                        <!-- TEST FORM -->
-
-                        <form id="testForm">
-
-                            <div class="form-grid">
-
-
-                                <div class="form-group">
-
-                                    <label>
-                                        Test Date
-                                    </label>
-
-                                    <input
-                                        type="date"
-                                        id="testDate"
-                                        required
-                                    >
-
-                                </div>
-
-
-                                <div class="form-group">
-
-                                    <label>
-                                        Test Protocol
-                                    </label>
-
-                                    <select id="testProtocol">
-                                    </select>
-
-                                </div>
-
-
-                                <div
-                                    class="form-group"
-                                    id="resultGroup"
-                                >
-
-                                    <label id="resultLabel">
-                                        Result
-                                    </label>
-
-                                    <div class="unit-input">
-
-                                        <input
-                                            type="number"
-                                            id="testResult"
-                                            step="0.01"
-                                            min="0"
-                                            placeholder="Enter result"
-                                            required
-                                        >
-
-                                        <div
-                                            class="unit-display"
-                                            id="unitDisplay"
-                                        >
-                                            seconds
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-
-                                <div class="form-group">
-
-                                    <label>
-                                        Attempts
-                                    </label>
-
-                                    <input
-                                        type="number"
-                                        id="attempts"
-                                        min="1"
-                                        max="20"
-                                        value="1"
-                                    >
-
-                                </div>
-
-
-                                <div class="form-group full">
-
-                                    <label>
-                                        Notes
-                                    </label>
-
-                                    <textarea
-                                        id="testNotes"
-                                        placeholder="Optional coaching notes about the test..."
-                                    ></textarea>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="form-actions">
-
-                                <button
-                                    type="button"
-                                    class="btn"
-                                    onclick="resetTestForm()"
-                                >
-                                    Clear
-                                </button>
-
-                                <button
-                                    type="submit"
-                                    class="btn btn-primary"
-                                >
-                                    ✓ Save Test Result
-                                </button>
-
-                            </div>
-
-                        </form>
-
-                    </div>
-
-                </section>
-
-
-                <!-- SCORE PREVIEW -->
-
-                <section class="card score-panel">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <div class="card-title">
-                                Performance Score
-                            </div>
-
-                            <div class="card-subtitle">
-                                Automatic result analysis
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="card-body">
-
-                        <div class="score-display">
-
-                            <div
-                                class="score-circle"
-                                id="scoreCircle"
-                                style="--score: 0"
-                            >
-
-                                <div class="score-inner">
-
-                                    <div
-                                        class="score-number"
-                                        id="scoreNumber"
-                                    >
-                                        --
-                                    </div>
-
-                                    <div class="score-label">
-                                        Test Score
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-
-                            <div
-                                class="score-status"
-                                id="scoreStatus"
-                            >
-                                Enter a result
-                            </div>
-
-                        </div>
-
-
-                        <div class="score-breakdown">
-
-
-                            <div>
-
-                                <div class="breakdown-row">
-
-                                    <span class="breakdown-label">
-                                        Speed
-                                    </span>
-
-                                    <span
-                                        class="breakdown-value"
-                                        id="breakSpeed"
-                                    >
-                                        --
-                                    </span>
-
-                                </div>
-
-                                <div class="breakdown-bar">
-                                    <div
-                                        class="breakdown-fill"
-                                        id="breakSpeedBar"
-                                        style="width:0%"
-                                    ></div>
-                                </div>
-
-                            </div>
-
-
-                            <div>
-
-                                <div class="breakdown-row">
-
-                                    <span class="breakdown-label">
-                                        Strength
-                                    </span>
-
-                                    <span
-                                        class="breakdown-value"
-                                        id="breakStrength"
-                                    >
-                                        --
-                                    </span>
-
-                                </div>
-
-                                <div class="breakdown-bar">
-                                    <div
-                                        class="breakdown-fill"
-                                        id="breakStrengthBar"
-                                        style="width:0%"
-                                    ></div>
-                                </div>
-
-                            </div>
-
-
-                            <div>
-
-                                <div class="breakdown-row">
-
-                                    <span class="breakdown-label">
-                                        Power
-                                    </span>
-
-                                    <span
-                                        class="breakdown-value"
-                                        id="breakPower"
-                                    >
-                                        --
-                                    </span>
-
-                                </div>
-
-                                <div class="breakdown-bar">
-                                    <div
-                                        class="breakdown-fill"
-                                        id="breakPowerBar"
-                                        style="width:0%"
-                                    ></div>
-                                </div>
-
-                            </div>
-
-
-                            <div>
-
-                                <div class="breakdown-row">
-
-                                    <span class="breakdown-label">
-                                        Agility
-                                    </span>
-
-                                    <span
-                                        class="breakdown-value"
-                                        id="breakAgility"
-                                    >
-                                        --
-                                    </span>
-
-                                </div>
-
-                                <div class="breakdown-bar">
-                                    <div
-                                        class="breakdown-fill"
-                                        id="breakAgilityBar"
-                                        style="width:0%"
-                                    ></div>
-                                </div>
-
-                            </div>
-
-
-                            <div>
-
-                                <div class="breakdown-row">
-
-                                    <span class="breakdown-label">
-                                        Conditioning
-                                    </span>
-
-                                    <span
-                                        class="breakdown-value"
-                                        id="breakConditioning"
-                                    >
-                                        --
-                                    </span>
-
-                                </div>
-
-                                <div class="breakdown-bar">
-                                    <div
-                                        class="breakdown-fill"
-                                        id="breakConditioningBar"
-                                        style="width:0%"
-                                    ></div>
+                                    —
                                 </div>
 
                             </div>
 
                         </div>
 
+
+                        <div class="form-group">
+
+                            <label for="attemptsInput">
+                                Attempts
+                            </label>
+
+                            <input
+                                type="number"
+                                id="attemptsInput"
+                                min="1"
+                                step="1"
+                                value="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="coachRating">
+                                Coach Rating
+                            </label>
+
+                            <select id="coachRating">
+
+                                <option value="">
+                                    Not rated
+                                </option>
+
+                                <option value="1">
+                                    1 — Needs Work
+                                </option>
+
+                                <option value="2">
+                                    2 — Developing
+                                </option>
+
+                                <option value="3">
+                                    3 — Solid
+                                </option>
+
+                                <option value="4">
+                                    4 — Strong
+                                </option>
+
+                                <option value="5">
+                                    5 — Excellent
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="protocol">
+                                Protocol
+                            </label>
+
+                            <input
+                                type="text"
+                                id="protocol"
+                                placeholder="e.g. Electronic timing"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label for="notes">
+                                Notes
+                            </label>
+
+                            <textarea
+                                id="notes"
+                                placeholder="Add useful testing notes..."
+                            ></textarea>
+
+                        </div>
+
                     </div>
 
-                </section>
 
-            </div>
+                    <div class="form-actions">
 
+                        <button
+                            class="btn"
+                            id="resetBtn"
+                            type="button"
+                        >
+                            Reset
+                        </button>
 
-            <!-- =========================================
-                 QUICK STATS
-            ========================================== -->
+                        <button
+                            class="btn btn-primary"
+                            id="saveBtn"
+                            type="button"
+                        >
+                            Save Test Result
+                        </button>
 
-            <div class="info-grid" style="margin-bottom:20px;">
-
-                <div class="info-card">
-
-                    <div class="info-label">
-                        Tests Recorded
-                    </div>
-
-                    <div
-                        class="info-value"
-                        id="totalTests"
-                    >
-                        0
-                    </div>
-
-                    <div class="info-note">
-                        Across your athletes
-                    </div>
-
-                </div>
-
-
-                <div class="info-card">
-
-                    <div class="info-label">
-                        Personal Bests
-                    </div>
-
-                    <div
-                        class="info-value"
-                        id="totalPBs"
-                    >
-                        0
-                    </div>
-
-                    <div class="info-note">
-                        New best performances
-                    </div>
-
-                </div>
-
-
-                <div class="info-card">
-
-                    <div class="info-label">
-                        Average Score
-                    </div>
-
-                    <div
-                        class="info-value"
-                        id="averageScore"
-                    >
-                        0
-                    </div>
-
-                    <div class="info-note">
-                        Recorded test average
-                    </div>
-
-                </div>
-
-
-                <div class="info-card">
-
-                    <div class="info-label">
-                        Athletes Tested
-                    </div>
-
-                    <div
-                        class="info-value"
-                        id="athletesTested"
-                    >
-                        0
-                    </div>
-
-                    <div class="info-note">
-                        Unique athletes
                     </div>
 
                 </div>
@@ -1982,2249 +1549,1532 @@
             </div>
 
 
-            <!-- =========================================
-                 TEST HISTORY
-            ========================================== -->
+            <!-- TEST OVERVIEW -->
 
-            <section class="card history-card">
+            <div class="card overview-card">
 
                 <div class="card-header">
 
                     <div>
-
                         <div class="card-title">
-                            Testing History
+                            Test Overview
                         </div>
 
-                        <div class="card-subtitle">
-                            All saved performance assessments
+                        <div class="card-description">
+                            Based only on recorded results.
                         </div>
-
-                    </div>
-
-
-                    <div class="history-controls">
-
-                        <input
-                            type="search"
-                            class="history-search"
-                            id="historySearch"
-                            placeholder="Search tests..."
-                            oninput="renderHistory()"
-                        >
-
-
-                        <select
-                            class="filter-select"
-                            id="historyFilter"
-                            onchange="renderHistory()"
-                        >
-
-                            <option value="all">
-                                All Categories
-                            </option>
-
-                            <option value="speed">
-                                Speed
-                            </option>
-
-                            <option value="strength">
-                                Strength
-                            </option>
-
-                            <option value="power">
-                                Power
-                            </option>
-
-                            <option value="agility">
-                                Agility
-                            </option>
-
-                            <option value="conditioning">
-                                Conditioning
-                            </option>
-
-                        </select>
-
                     </div>
 
                 </div>
 
+                <div class="card-body" id="overviewContent"></div>
 
-                <div class="table-wrap">
+            </div>
 
-                    <table>
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    Date
-                                </th>
-
-                                <th>
-                                    Athlete
-                                </th>
-
-                                <th>
-                                    Test
-                                </th>
-
-                                <th>
-                                    Category
-                                </th>
-
-                                <th>
-                                    Result
-                                </th>
-
-                                <th>
-                                    Score
-                                </th>
-
-                                <th>
-                                    Status
-                                </th>
-
-                            </tr>
-
-                        </thead>
+        </section>
 
 
-                        <tbody id="historyTable">
-                        </tbody>
+        <!-- HISTORY -->
 
-                    </table>
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+                    <div class="card-title">
+                        Testing History
+                    </div>
+
+                    <div class="card-description">
+                        Every saved test result from your athletes.
+                    </div>
+                </div>
+
+                <div class="history-header-actions">
+
+                    <input
+                        class="history-search"
+                        id="historySearch"
+                        type="search"
+                        placeholder="Search athlete or test..."
+                    >
+
+                    <button
+                        class="btn btn-danger btn-small"
+                        id="clearHistoryBtn"
+                        type="button"
+                    >
+                        Clear History
+                    </button>
 
                 </div>
 
-            </section>
+            </div>
 
-        </div>
+            <div class="table-wrap">
 
-    </main>
+                <table>
 
+                    <thead>
 
-    <!-- =========================================
-         SUCCESS MODAL
-    ========================================== -->
+                        <tr>
+                            <th>Date</th>
+                            <th>Athlete</th>
+                            <th>Test</th>
+                            <th>Category</th>
+                            <th>Result</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
 
-    <div
-        class="modal-overlay"
-        id="successModal"
-    >
+                    </thead>
 
-        <div class="modal">
+                    <tbody id="historyBody"></tbody>
 
-            <div class="modal-header">
-
-                <h3>
-                    Test Result Saved
-                </h3>
-
-                <button
-                    class="modal-close"
-                    onclick="closeSuccessModal()"
-                >
-                    ×
-                </button>
+                </table>
 
             </div>
 
+        </section>
 
-            <div class="modal-body">
+    `;
 
-                <p id="successMessage">
-                    Your test result has been saved successfully.
-                </p>
+    populateAthletes();
+    populateTests();
+    setDefaultDate();
+    renderSelectedAthlete();
+    renderOverview();
+    renderStats();
+    renderHistory();
+}
 
-            </div>
 
+/* =========================================================
+   EVENTS
+========================================================= */
 
-            <div class="modal-footer">
+function setupEvents() {
 
-                <button
-                    class="btn"
-                    onclick="closeSuccessModal()"
-                >
-                    Continue Testing
-                </button>
+    document.addEventListener("click", function(event) {
 
-                <button
-                    class="btn btn-primary"
-                    onclick="viewAthleteProfile()"
-                >
-                    View Athlete Profile
-                </button>
+        const categoryBtn =
+            event.target.closest(".category-btn");
 
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- TOAST -->
-
-    <div
-        class="toast"
-        id="toast"
-    ></div>
-
-
-    <script>
-
-        /* ==================================================
-           ATHLETE360 TESTING SYSTEM
-        ================================================== */
-
-        let athletes = [];
-
-        let testingHistory = [];
-
-        let selectedAthlete = null;
-
-        let selectedCategory = "speed";
-
-        let lastSavedAthleteId = null;
-
-
-        /* ==================================================
-           SAMPLE ATHLETES
-        ================================================== */
-
-        const sampleAthletes = [
-
-            {
-                id: 1,
-                firstName: "Charl",
-                lastName: "Malgas",
-                sport: "Rugby",
-                category: "U15",
-                position: "Backline",
-                team: "U15 A",
-                side: "Right",
-                performance: 91,
-                status: "Ready",
-                lastTest: "10m Sprint",
-                progress: 9.4
-            },
-
-            {
-                id: 2,
-                firstName: "Liam",
-                lastName: "Adams",
-                sport: "Rugby",
-                category: "U16",
-                position: "Forward",
-                team: "U16 A",
-                side: "Right",
-                performance: 87,
-                status: "Ready",
-                lastTest: "Strength Test",
-                progress: 6.1
-            },
-
-            {
-                id: 3,
-                firstName: "Ethan",
-                lastName: "Williams",
-                sport: "Hockey",
-                category: "U14",
-                position: "Midfield",
-                team: "U14 A",
-                side: "Left",
-                performance: 82,
-                status: "Ready",
-                lastTest: "Agility Test",
-                progress: 4.8
-            },
-
-            {
-                id: 4,
-                firstName: "Noah",
-                lastName: "Smith",
-                sport: "Athletics",
-                category: "U15",
-                position: "Sprinter",
-                team: "U15",
-                side: "Right",
-                performance: 76,
-                status: "Monitor",
-                lastTest: "30m Sprint",
-                progress: -2.2
-            },
-
-            {
-                id: 5,
-                firstName: "Jayden",
-                lastName: "Peters",
-                sport: "Soccer",
-                category: "U16",
-                position: "Midfielder",
-                team: "U16 A",
-                side: "Right",
-                performance: 84,
-                status: "Ready",
-                lastTest: "Yo-Yo Test",
-                progress: 5.7
-            },
-
-            {
-                id: 6,
-                firstName: "Aiden",
-                lastName: "Botha",
-                sport: "Rugby",
-                category: "U14",
-                position: "Scrumhalf",
-                team: "U14 A",
-                side: "Right",
-                performance: 79,
-                status: "Ready",
-                lastTest: "Agility Test",
-                progress: 3.5
-            },
-
-            {
-                id: 7,
-                firstName: "Mia",
-                lastName: "Jacobs",
-                sport: "Netball",
-                category: "U15",
-                position: "Centre",
-                team: "U15 A",
-                side: "Right",
-                performance: 88,
-                status: "Ready",
-                lastTest: "Beep Test",
-                progress: 7.2
-            },
-
-            {
-                id: 8,
-                firstName: "Luke",
-                lastName: "Daniels",
-                sport: "Cricket",
-                category: "U17",
-                position: "All Rounder",
-                team: "U17",
-                side: "Right",
-                performance: 74,
-                status: "Monitor",
-                lastTest: "Power Test",
-                progress: 1.3
-            }
-
-        ];
-
-
-        /* ==================================================
-           TEST CONFIGURATION
-        ================================================== */
-
-        const testConfig = {
-
-            speed: {
-
-                title: "10m Sprint",
-
-                description:
-                    "Measure acceleration over 10 metres from a standing start. Record the athlete's fastest valid attempt.",
-
-                unit: "seconds",
-
-                protocol: "10m Sprint",
-
-                protocols: [
-                    "10m Sprint",
-                    "20m Sprint",
-                    "30m Sprint",
-                    "Flying 10m"
-                ],
-
-                direction: "lower",
-
-                benchmark: 2.00
-
-            },
-
-
-            strength: {
-
-                title: "Push-Up Test",
-
-                description:
-                    "Measure upper-body muscular endurance using controlled push-ups completed with correct technique.",
-
-                unit: "reps",
-
-                protocol: "Push-Up Test",
-
-                protocols: [
-                    "Push-Up Test",
-                    "Pull-Up Test",
-                    "Squat Test",
-                    "Plank Hold"
-                ],
-
-                direction: "higher",
-
-                benchmark: 45
-
-            },
-
-
-            power: {
-
-                title: "Broad Jump",
-
-                description:
-                    "Measure explosive lower-body power using a standing broad jump. Record the best valid distance.",
-
-                unit: "metres",
-
-                protocol: "Broad Jump",
-
-                protocols: [
-                    "Broad Jump",
-                    "Vertical Jump",
-                    "Standing Long Jump",
-                    "Medicine Ball Throw"
-                ],
-
-                direction: "higher",
-
-                benchmark: 2.50
-
-            },
-
-
-            agility: {
-
-                title: "5-10-5 Agility",
-
-                description:
-                    "Measure acceleration, deceleration and change of direction using the 5-10-5 shuttle protocol.",
-
-                unit: "seconds",
-
-                protocol: "5-10-5 Agility",
-
-                protocols: [
-                    "5-10-5 Agility",
-                    "T-Test",
-                    "Illinois Agility",
-                    "505 Agility"
-                ],
-
-                direction: "lower",
-
-                benchmark: 5.00
-
-            },
-
-
-            conditioning: {
-
-                title: "Yo-Yo / Beep Test",
-
-                description:
-                    "Measure aerobic conditioning using a progressive running test. Record the final level or score.",
-
-                unit: "level",
-
-                protocol: "Yo-Yo / Beep Test",
-
-                protocols: [
-                    "Yo-Yo / Beep Test",
-                    "Bronco Test",
-                    "1.2km Time Trial",
-                    "Cooper 12-Min Test"
-                ],
-
-                direction: "higher",
-
-                benchmark: 12
-
-            }
-
-        };
-
-
-        /* ==================================================
-           INITIALISE
-        ================================================== */
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            function() {
-
-                loadUser();
-
-                loadAthletes();
-
-                loadTestingHistory();
-
-                setToday();
-
-                populateAthleteSelect();
-
-                selectAthleteFromURL();
-
-                updateTestConfiguration();
-
-                updateStatistics();
-
-                renderHistory();
-
-            }
-        );
-
-
-        /* ==================================================
-           USER
-        ================================================== */
-
-        function loadUser() {
-
-            try {
-
-                const user =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "athlete360_user"
-                        )
-                    );
-
-                if (!user) return;
-
-                const name =
-                    user.name ||
-                    "Athlete360 User";
-
-                document.getElementById(
-                    "userName"
-                ).textContent = name;
-
-                document.getElementById(
-                    "userRole"
-                ).textContent =
-                    user.role || "Coach";
-
-
-                const initials =
-                    name
-                        .split(" ")
-                        .map(
-                            word =>
-                                word.charAt(0)
-                        )
-                        .join("")
-                        .substring(0, 2)
-                        .toUpperCase();
-
-
-                document.getElementById(
-                    "userAvatar"
-                ).textContent =
-                    initials;
-
-            } catch (error) {
-
-                console.log(
-                    "User information unavailable."
-                );
-
-            }
-
-        }
-
-
-        /* ==================================================
-           ATHLETES
-        ================================================== */
-
-        function loadAthletes() {
-
-            try {
-
-                const stored =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "athlete360_athletes"
-                        )
-                    );
-
-
-                if (
-                    Array.isArray(stored) &&
-                    stored.length
-                ) {
-
-                    athletes = stored;
-
-                } else {
-
-                    athletes =
-                        [...sampleAthletes];
-
-                    localStorage.setItem(
-                        "athlete360_athletes",
-                        JSON.stringify(
-                            athletes
-                        )
-                    );
-
-                }
-
-            } catch (error) {
-
-                athletes =
-                    [...sampleAthletes];
-
-            }
-
-        }
-
-
-        /* ==================================================
-           TEST HISTORY
-        ================================================== */
-
-        function loadTestingHistory() {
-
-            try {
-
-                const stored =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "athlete360_testing_history"
-                        )
-                    );
-
-
-                if (
-                    Array.isArray(stored)
-                ) {
-
-                    testingHistory =
-                        stored;
-
-                } else {
-
-                    testingHistory =
-                        createSampleTestingHistory();
-
-                    localStorage.setItem(
-                        "athlete360_testing_history",
-                        JSON.stringify(
-                            testingHistory
-                        )
-                    );
-
-                }
-
-            } catch (error) {
-
-                testingHistory = [];
-
-            }
-
-        }
-
-
-        function createSampleTestingHistory() {
-
-            return [
-
-                {
-                    id: 1001,
-                    athleteId: 1,
-                    date: "2026-09-09",
-                    category: "speed",
-                    test: "10m Sprint",
-                    result: 1.82,
-                    unit: "seconds",
-                    score: 94,
-                    personalBest: true,
-                    notes: "Excellent acceleration."
-                },
-
-                {
-                    id: 1002,
-                    athleteId: 1,
-                    date: "2026-09-02",
-                    category: "power",
-                    test: "Broad Jump",
-                    result: 2.41,
-                    unit: "metres",
-                    score: 92,
-                    personalBest: true,
-                    notes: ""
-                },
-
-                {
-                    id: 1003,
-                    athleteId: 1,
-                    date: "2026-08-27",
-                    category: "agility",
-                    test: "5-10-5 Agility",
-                    result: 4.78,
-                    unit: "seconds",
-                    score: 90,
-                    personalBest: false,
-                    notes: ""
-                },
-
-                {
-                    id: 1004,
-                    athleteId: 2,
-                    date: "2026-09-08",
-                    category: "strength",
-                    test: "Push-Up Test",
-                    result: 42,
-                    unit: "reps",
-                    score: 89,
-                    personalBest: true,
-                    notes: ""
-                },
-
-                {
-                    id: 1005,
-                    athleteId: 3,
-                    date: "2026-09-07",
-                    category: "agility",
-                    test: "T-Test",
-                    result: 10.8,
-                    unit: "seconds",
-                    score: 84,
-                    personalBest: true,
-                    notes: ""
-                }
-
-            ];
-
-        }
-
-
-        /* ==================================================
-           ATHLETE SELECT
-        ================================================== */
-
-        function populateAthleteSelect() {
-
-            const select =
-                document.getElementById(
-                    "athleteSelect"
-                );
-
-
-            select.innerHTML = "";
-
-
-            athletes.forEach(
-                athlete => {
-
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-
-                    option.value =
-                        athlete.id;
-
-
-                    option.textContent =
-                        `${athlete.firstName} ${athlete.lastName} — ${athlete.sport} ${athlete.category}`;
-
-
-                    select.appendChild(
-                        option
-                    );
-
-                }
-            );
-
-        }
-
-
-        function selectAthleteFromURL() {
-
-            const params =
-                new URLSearchParams(
-                    window.location.search
-                );
-
-
-            const urlId =
-                params.get("id");
-
-
-            let athleteId =
-                urlId;
-
-
-            if (!athleteId) {
-
-                try {
-
-                    const selected =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "athlete360_selected_athlete"
-                            )
-                        );
-
-
-                    if (selected) {
-
-                        athleteId =
-                            selected.id;
-
-                    }
-
-                } catch (error) {}
-
-            }
-
-
-            if (!athleteId && athletes.length) {
-
-                athleteId =
-                    athletes[0].id;
-
-            }
-
-
-            if (athleteId) {
-
-                document.getElementById(
-                    "athleteSelect"
-                ).value =
-                    athleteId;
-
-                selectAthlete(
-                    athleteId
-                );
-
-            }
-
-        }
-
-
-        function selectAthlete(id) {
-
-            selectedAthlete =
-                athletes.find(
-                    athlete =>
-                        String(athlete.id)
-                        ===
-                        String(id)
-                );
-
-
-            if (!selectedAthlete) return;
-
-
-            const fullName =
-                `${selectedAthlete.firstName} ${selectedAthlete.lastName}`;
-
-
-            document.getElementById(
-                "selectedAthleteName"
-            ).textContent =
-                fullName;
-
-
-            document.getElementById(
-                "selectedAthleteMeta"
-            ).textContent =
-                `${selectedAthlete.sport || "Sport"} • ${selectedAthlete.category || "Category"} • ${selectedAthlete.team || "Team"} • ${selectedAthlete.position || "Position"}`;
-
-
-            const initials =
-                `${selectedAthlete.firstName.charAt(0)}${selectedAthlete.lastName.charAt(0)}`
-                    .toUpperCase();
-
-
-            document.getElementById(
-                "selectedAvatar"
-            ).textContent =
-                initials;
-
-
-            updateScorePreview();
-
-        }
-
-
-        /* ==================================================
-           CATEGORY
-        ================================================== */
-
-        function selectCategory(category) {
+        if (categoryBtn) {
 
             selectedCategory =
-                category;
-
+                categoryBtn.dataset.category;
 
             document
-                .querySelectorAll(
-                    ".category-btn"
-                )
-                .forEach(
-                    button => {
-
-                        button.classList.toggle(
-                            "active",
-                            button.dataset.category
-                            ===
-                            category
-                        );
-
-                    }
-                );
-
-
-            updateTestConfiguration();
-
-        }
-
-
-        /* ==================================================
-           TEST CONFIGURATION
-        ================================================== */
-
-        function updateTestConfiguration() {
-
-            const config =
-                testConfig[
-                    selectedCategory
-                ];
-
-
-            if (!config) return;
-
-
-            document.getElementById(
-                "testTitle"
-            ).textContent =
-                config.title;
-
-
-            document.getElementById(
-                "testDescription"
-            ).textContent =
-                config.description;
-
-
-            document.getElementById(
-                "unitDisplay"
-            ).textContent =
-                config.unit;
-
-
-            document.getElementById(
-                "testProtocol"
-            ).innerHTML =
-                config.protocols
-                    .map(
-                        protocol =>
-                            `<option value="${protocol}">
-                                ${protocol}
-                            </option>`
-                    )
-                    .join("");
-
-
-            document.getElementById(
-                "testResult"
-            ).value = "";
-
-
-            updateScorePreview();
-
-        }
-
-
-        /* ==================================================
-           DATE
-        ================================================== */
-
-        function setToday() {
-
-            const date =
-                new Date();
-
-
-            const year =
-                date.getFullYear();
-
-
-            const month =
-                String(
-                    date.getMonth() + 1
-                ).padStart(2, "0");
-
-
-            const day =
-                String(
-                    date.getDate()
-                ).padStart(2, "0");
-
-
-            document.getElementById(
-                "testDate"
-            ).value =
-                `${year}-${month}-${day}`;
-
-        }
-
-
-        /* ==================================================
-           SCORE CALCULATION
-        ================================================== */
-
-        function calculateScore(
-            result,
-            category
-        ) {
-
-            const config =
-                testConfig[
-                    category
-                ];
-
-
-            if (!config) return 0;
-
-
-            const value =
-                Number(result);
-
-
-            if (
-                !Number.isFinite(value) ||
-                value <= 0
-            ) {
-
-                return 0;
-
-            }
-
-
-            let ratio;
-
-
-            if (
-                config.direction
-                ===
-                "lower"
-            ) {
-
-                ratio =
-                    config.benchmark
-                    /
-                    value;
-
-            } else {
-
-                ratio =
-                    value
-                    /
-                    config.benchmark;
-
-            }
-
-
-            let score =
-                ratio * 80;
-
-
-            /*
-                The benchmark represents
-                a solid performance level.
-
-                The score is deliberately
-                capped so one unusually
-                strong result doesn't
-                produce unrealistic scores.
-            */
-
-            score =
-                Math.round(
-                    Math.max(
-                        35,
-                        Math.min(
-                            100,
-                            score
-                        )
-                    )
-                );
-
-
-            return score;
-
-        }
-
-
-        /* ==================================================
-           LIVE SCORE
-        ================================================== */
-
-        document
-            .getElementById(
-                "testResult"
-            )
-            .addEventListener(
-                "input",
-                updateScorePreview
-            );
-
-
-        document
-            .getElementById(
-                "testProtocol"
-            )
-            .addEventListener(
-                "change",
-                updateScorePreview
-            );
-
-
-        function updateScorePreview() {
-
-            const result =
-                Number(
-                    document.getElementById(
-                        "testResult"
-                    ).value
-                );
-
-
-            if (
-                !result ||
-                result <= 0
-            ) {
-
-                setScorePreview(
-                    null
-                );
-
-                return;
-
-            }
-
-
-            const score =
-                calculateScore(
-                    result,
-                    selectedCategory
-                );
-
-
-            setScorePreview(
-                score
-            );
-
-        }
-
-
-        function setScorePreview(
-            score
-        ) {
-
-            const circle =
-                document.getElementById(
-                    "scoreCircle"
-                );
-
-
-            const number =
-                document.getElementById(
-                    "scoreNumber"
-                );
-
-
-            const status =
-                document.getElementById(
-                    "scoreStatus"
-                );
-
-
-            if (score === null) {
-
-                circle.style
-                    .setProperty(
-                        "--score",
-                        0
+                .querySelectorAll(".category-btn")
+                .forEach(btn => {
+                    btn.classList.toggle(
+                        "active",
+                        btn.dataset.category === selectedCategory
                     );
+                });
 
-                number.textContent =
-                    "--";
-
-                status.textContent =
-                    "Enter a result";
-
-                return;
-
-            }
-
-
-            circle.style
-                .setProperty(
-                    "--score",
-                    score
-                );
-
-
-            number.textContent =
-                score;
-
-
-            if (score >= 90) {
-
-                status.textContent =
-                    "Excellent performance";
-
-            } else if (score >= 80) {
-
-                status.textContent =
-                    "Strong performance";
-
-            } else if (score >= 70) {
-
-                status.textContent =
-                    "Developing well";
-
-            } else {
-
-                status.textContent =
-                    "Needs attention";
-
-            }
-
+            populateTests();
+            renderOverview();
         }
 
 
-        /* ==================================================
-           FORM SUBMISSION
-        ================================================== */
-
-        document
-            .getElementById(
-                "testForm"
-            )
-            .addEventListener(
-                "submit",
-                function(event) {
-
-                    event.preventDefault();
-
-
-                    saveTestResult();
-
-                }
-            );
-
-
-        function saveTestResult() {
-
-            if (!selectedAthlete) {
-
-                showToast(
-                    "Please select an athlete first.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            const date =
-                document.getElementById(
-                    "testDate"
-                ).value;
-
-
-            const protocol =
-                document.getElementById(
-                    "testProtocol"
-                ).value;
-
-
-            const result =
-                Number(
-                    document.getElementById(
-                        "testResult"
-                    ).value
-                );
-
-
-            const attempts =
-                Number(
-                    document.getElementById(
-                        "attempts"
-                    ).value
-                ) || 1;
-
-
-            const notes =
-                document.getElementById(
-                    "testNotes"
-                ).value.trim();
-
-
-            if (!date) {
-
-                showToast(
-                    "Please select a test date.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !Number.isFinite(result) ||
-                result <= 0
-            ) {
-
-                showToast(
-                    "Please enter a valid test result.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            const score =
-                calculateScore(
-                    result,
-                    selectedCategory
-                );
-
-
-            const previousTests =
-                testingHistory.filter(
-                    test =>
-                        String(test.athleteId)
-                        ===
-                        String(selectedAthlete.id)
-                        &&
-                        test.category
-                        ===
-                        selectedCategory
-                        &&
-                        test.test
-                        ===
-                        protocol
-                );
-
-
-            const personalBest =
-                determinePersonalBest(
-                    result,
-                    previousTests,
-                    selectedCategory
-                );
-
-
-            const newTest = {
-
-                id:
-                    Date.now(),
-
-                athleteId:
-                    selectedAthlete.id,
-
-                date,
-
-                category:
-                    selectedCategory,
-
-                test:
-                    protocol,
-
-                result,
-
-                unit:
-                    testConfig[
-                        selectedCategory
-                    ].unit,
-
-                score,
-
-                attempts,
-
-                personalBest,
-
-                notes
-
-            };
-
-
-            testingHistory.unshift(
-                newTest
-            );
-
-
-            saveTestingHistory();
-
-
-            updateAthletePerformance(
-                selectedAthlete,
-                score
-            );
-
-
-            updateStatistics();
-
-            renderHistory();
-
-
-            lastSavedAthleteId =
-                selectedAthlete.id;
-
-
-            showSuccessModal(
-                newTest,
-                personalBest
-            );
-
-
-            resetResultFields();
-
+        if (event.target.closest("#saveBtn")) {
+            saveTest();
         }
 
 
-        /* ==================================================
-           PERSONAL BEST
-        ================================================== */
-
-        function determinePersonalBest(
-            result,
-            previousTests,
-            category
-        ) {
-
-            if (
-                previousTests.length === 0
-            ) {
-
-                return true;
-
-            }
-
-
-            const config =
-                testConfig[
-                    category
-                ];
-
-
-            if (
-                config.direction
-                ===
-                "lower"
-            ) {
-
-                const best =
-                    Math.min(
-                        ...previousTests.map(
-                            test =>
-                                Number(
-                                    test.result
-                                )
-                        )
-                    );
-
-
-                return result < best;
-
-            }
-
-
-            const best =
-                Math.max(
-                    ...previousTests.map(
-                        test =>
-                            Number(
-                                test.result
-                            )
-                    )
-                );
-
-
-            return result > best;
-
+        if (event.target.closest("#resetBtn")) {
+            resetForm();
         }
 
 
-        /* ==================================================
-           UPDATE ATHLETE PERFORMANCE
-        ================================================== */
-
-        function updateAthletePerformance(
-            athlete,
-            newScore
-        ) {
-
-            const oldScore =
-                Number(
-                    athlete.performance
-                ) || 0;
+        if (event.target.closest("#clearHistoryBtn")) {
+            clearHistory();
+        }
 
 
-            /*
-                Blend the new test into
-                the athlete's overall score.
+        const deleteBtn =
+            event.target.closest("[data-delete-test]");
 
-                This prevents one test from
-                completely changing the
-                athlete's profile.
-            */
+        if (deleteBtn) {
 
-            const updatedScore =
-                Math.round(
-                    (
-                        oldScore * 0.75
-                    )
-                    +
-                    (
-                        newScore * 0.25
-                    )
-                );
+            deleteTest(
+                deleteBtn.dataset.deleteTest
+            );
+        }
 
 
-            athlete.performance =
-                Math.max(
-                    0,
-                    Math.min(
-                        100,
-                        updatedScore
-                    )
-                );
+        if (event.target.closest("#mobileMenuBtn")) {
+
+            document
+                .getElementById("sidebar")
+                .classList.toggle("open");
+        }
+
+    });
 
 
-            athlete.lastTest =
-                testConfig[
-                    selectedCategory
-                ].title;
+    document.addEventListener("change", function(event) {
 
+        if (event.target.id === "athleteSelect") {
 
-            athlete.progress =
-                Number(
-                    (
-                        newScore -
-                        oldScore
-                    )
-                    .toFixed(1)
-                );
-
-
-            if (
-                newScore >= 80
-            ) {
-
-                athlete.status =
-                    "Ready";
-
-            } else {
-
-                athlete.status =
-                    "Monitor";
-
-            }
-
-
-            const index =
-                athletes.findIndex(
-                    item =>
-                        String(item.id)
-                        ===
-                        String(athlete.id)
-                );
-
-
-            if (index !== -1) {
-
-                athletes[index] =
-                    athlete;
-
-            }
-
+            selectedAthleteId =
+                String(event.target.value);
 
             localStorage.setItem(
-                "athlete360_athletes",
-                JSON.stringify(
-                    athletes
-                )
+                "athlete360_selected_athlete_id",
+                selectedAthleteId
             );
-
-
-            localStorage.setItem(
-                "athlete360_selected_athlete",
-                JSON.stringify(
-                    athlete
-                )
-            );
-
-        }
-
-
-        /* ==================================================
-           SAVE HISTORY
-        ================================================== */
-
-        function saveTestingHistory() {
-
-            localStorage.setItem(
-                "athlete360_testing_history",
-                JSON.stringify(
-                    testingHistory
-                )
-            );
-
-        }
-
-
-        /* ==================================================
-           STATISTICS
-        ================================================== */
-
-        function updateStatistics() {
-
-            const total =
-                testingHistory.length;
-
-
-            const pbs =
-                testingHistory.filter(
-                    test =>
-                        test.personalBest
-                ).length;
-
-
-            const average =
-                total
-                    ? Math.round(
-                        testingHistory.reduce(
-                            (
-                                total,
-                                test
-                            ) =>
-                                total +
-                                Number(
-                                    test.score
-                                ),
-                            0
-                        )
-                        /
-                        total
-                    )
-                    : 0;
-
-
-            const uniqueAthletes =
-                new Set(
-                    testingHistory.map(
-                        test =>
-                            test.athleteId
-                    )
-                ).size;
-
-
-            document.getElementById(
-                "totalTests"
-            ).textContent =
-                total;
-
-
-            document.getElementById(
-                "totalPBs"
-            ).textContent =
-                pbs;
-
-
-            document.getElementById(
-                "averageScore"
-            ).textContent =
-                average;
-
-
-            document.getElementById(
-                "athletesTested"
-            ).textContent =
-                uniqueAthletes;
-
-        }
-
-
-        /* ==================================================
-           HISTORY
-        ================================================== */
-
-        function renderHistory() {
-
-            const table =
-                document.getElementById(
-                    "historyTable"
-                );
-
-
-            const search =
-                document.getElementById(
-                    "historySearch"
-                )
-                .value
-                .toLowerCase()
-                .trim();
-
-
-            const filter =
-                document.getElementById(
-                    "historyFilter"
-                ).value;
-
-
-            let filtered =
-                [...testingHistory];
-
-
-            if (search) {
-
-                filtered =
-                    filtered.filter(
-                        test => {
-
-                            const athlete =
-                                getAthlete(
-                                    test.athleteId
-                                );
-
-
-                            const athleteName =
-                                athlete
-                                    ? `${athlete.firstName} ${athlete.lastName}`
-                                    : "";
-
-
-                            return (
-
-                                athleteName
-                                    .toLowerCase()
-                                    .includes(
-                                        search
-                                    )
-
-                                ||
-
-                                test.test
-                                    .toLowerCase()
-                                    .includes(
-                                        search
-                                    )
-
-                                ||
-
-                                test.category
-                                    .toLowerCase()
-                                    .includes(
-                                        search
-                                    )
-
-                            );
-
-                        }
-                    );
-
-            }
-
-
-            if (filter !== "all") {
-
-                filtered =
-                    filtered.filter(
-                        test =>
-                            test.category
-                            ===
-                            filter
-                    );
-
-            }
-
-
-            if (!filtered.length) {
-
-                table.innerHTML = `
-
-                    <tr>
-
-                        <td
-                            colspan="7"
-                            class="empty-history"
-                        >
-                            No testing results found.
-                        </td>
-
-                    </tr>
-
-                `;
-
-                return;
-
-            }
-
-
-            table.innerHTML =
-                filtered
-                    .map(
-                        test =>
-                            renderHistoryRow(
-                                test
-                            )
-                    )
-                    .join("");
-
-        }
-
-
-        function renderHistoryRow(
-            test
-        ) {
 
             const athlete =
-                getAthlete(
-                    test.athleteId
+                getSelectedAthlete();
+
+            if (athlete) {
+
+                localStorage.setItem(
+                    "athlete360_selected_athlete",
+                    JSON.stringify(athlete)
+                );
+            }
+
+            renderSelectedAthlete();
+            renderOverview();
+        }
+
+
+        if (event.target.id === "testSelect") {
+            updateUnit();
+            renderOverview();
+        }
+
+    });
+
+
+    document.addEventListener("input", function(event) {
+
+        if (
+            event.target.id === "resultInput" ||
+            event.target.id === "testSelect"
+        ) {
+            renderOverview();
+        }
+
+
+        if (event.target.id === "historySearch") {
+            renderHistory();
+        }
+
+    });
+
+
+    window.addEventListener("storage", function(event) {
+
+        if (
+            event.key === ATHLETES_KEY ||
+            event.key === TEAMS_KEY ||
+            event.key === TESTS_KEY
+        ) {
+
+            loadData();
+
+            if (
+                selectedAthleteId &&
+                !athletes.some(
+                    athlete =>
+                        String(athlete.id) ===
+                        String(selectedAthleteId)
+                )
+            ) {
+                selectedAthleteId =
+                    athletes.length
+                        ? String(athletes[0].id)
+                        : "";
+            }
+
+            renderPage();
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   ATHLETE SELECTOR
+========================================================= */
+
+function populateAthletes() {
+
+    const select =
+        document.getElementById("athleteSelect");
+
+    if (!select) return;
+
+    select.innerHTML =
+        athletes
+            .map(athlete => `
+                <option
+                    value="${escapeHtml(String(athlete.id))}"
+                    ${String(athlete.id) === String(selectedAthleteId)
+                        ? "selected"
+                        : ""}
+                >
+                    ${escapeHtml(getAthleteName(athlete))}
+                    ${athlete.sport
+                        ? ` — ${escapeHtml(athlete.sport)}`
+                        : ""}
+                </option>
+            `)
+            .join("");
+
+}
+
+
+function getSelectedAthlete() {
+
+    return athletes.find(
+        athlete =>
+            String(athlete.id) ===
+            String(selectedAthleteId)
+    ) || null;
+}
+
+
+function getAthleteName(athlete) {
+
+    const first =
+        athlete.firstName ||
+        athlete.name ||
+        "";
+
+    const surname =
+        athlete.surname ||
+        athlete.lastName ||
+        "";
+
+    return `${first} ${surname}`.trim() || "Unnamed Athlete";
+}
+
+
+/* =========================================================
+   TEAM
+========================================================= */
+
+function getTeamName(athlete) {
+
+    if (!athlete) {
+        return "";
+    }
+
+    if (athlete.teamId) {
+
+        const team =
+            teams.find(
+                item =>
+                    String(item.id) ===
+                    String(athlete.teamId)
+            );
+
+        if (team) {
+            return team.name || "";
+        }
+    }
+
+    return athlete.team || "";
+}
+
+
+/* =========================================================
+   TEST SELECTOR
+========================================================= */
+
+function populateTests() {
+
+    const select =
+        document.getElementById("testSelect");
+
+    if (!select) return;
+
+    const config =
+        testConfig[selectedCategory];
+
+    if (!config) return;
+
+    select.innerHTML =
+        config.tests
+            .map((test, index) => `
+                <option value="${escapeHtml(test.name)}">
+                    ${escapeHtml(test.name)}
+                </option>
+            `)
+            .join("");
+
+    updateUnit();
+}
+
+
+function getSelectedTest() {
+
+    const select =
+        document.getElementById("testSelect");
+
+    if (!select) return null;
+
+    const config =
+        testConfig[selectedCategory];
+
+    if (!config) return null;
+
+    return config.tests.find(
+        test =>
+            test.name === select.value
+    ) || config.tests[0];
+}
+
+
+function updateUnit() {
+
+    const unitDisplay =
+        document.getElementById("unitDisplay");
+
+    const test =
+        getSelectedTest();
+
+    if (!unitDisplay || !test) return;
+
+    unitDisplay.textContent =
+        test.unit;
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function setDefaultDate() {
+
+    const dateInput =
+        document.getElementById("testDate");
+
+    if (!dateInput) return;
+
+    if (!dateInput.value) {
+
+        const today =
+            new Date();
+
+        const localDate =
+            new Date(
+                today.getTime() -
+                today.getTimezoneOffset() * 60000
+            )
+            .toISOString()
+            .split("T")[0];
+
+        dateInput.value = localDate;
+    }
+}
+
+
+/* =========================================================
+   SELECTED ATHLETE CARD
+========================================================= */
+
+function renderSelectedAthlete() {
+
+    const container =
+        document.getElementById("selectedAthleteCard");
+
+    const athlete =
+        getSelectedAthlete();
+
+    if (!container || !athlete) return;
+
+    const name =
+        getAthleteName(athlete);
+
+    const initials =
+        getInitials(name);
+
+    const team =
+        getTeamName(athlete);
+
+    container.innerHTML = `
+
+        <div class="athlete-mini">
+
+            <div class="avatar">
+                ${escapeHtml(initials)}
+            </div>
+
+            <div>
+
+                <div class="athlete-name">
+                    ${escapeHtml(name)}
+                </div>
+
+                <div class="athlete-meta">
+                    ${escapeHtml(
+                        [
+                            athlete.sport,
+                            athlete.position,
+                            team
+                        ]
+                        .filter(Boolean)
+                        .join(" • ") ||
+                        "Athlete profile"
+                    )}
+                </div>
+
+            </div>
+
+            ${
+                athlete.status
+                    ? `
+                        <div class="athlete-status">
+                            ${escapeHtml(athlete.status)}
+                        </div>
+                    `
+                    : ""
+            }
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   OVERVIEW
+========================================================= */
+
+function renderOverview() {
+
+    const container =
+        document.getElementById("overviewContent");
+
+    const athlete =
+        getSelectedAthlete();
+
+    const test =
+        getSelectedTest();
+
+    if (!container || !athlete || !test) return;
+
+    const athleteTests =
+        tests.filter(
+            item =>
+                String(item.athleteId) ===
+                String(athlete.id) &&
+                item.category === selectedCategory &&
+                item.testName === test.name
+        );
+
+    const previousBest =
+        getPersonalBest(
+            athleteTests,
+            test
+        );
+
+    const resultInput =
+        document.getElementById("resultInput");
+
+    const currentResult =
+        resultInput &&
+        resultInput.value !== ""
+            ? Number(resultInput.value)
+            : null;
+
+    let statusText = "No result yet";
+    let statusClass = "no-result";
+    let differenceText = "—";
+
+    if (
+        currentResult !== null &&
+        Number.isFinite(currentResult)
+    ) {
+
+        if (previousBest === null) {
+
+            statusText = "First Recorded Result";
+            statusClass = "recorded-text";
+            differenceText = "No previous result";
+
+        } else {
+
+            const isBetter =
+                test.lowerBetter
+                    ? currentResult < previousBest
+                    : currentResult > previousBest;
+
+            const difference =
+                Math.abs(
+                    currentResult -
+                    previousBest
                 );
 
+            statusText =
+                isBetter
+                    ? "Personal Best"
+                    : "Recorded";
 
-            const athleteName =
-                athlete
-                    ? `${athlete.firstName} ${athlete.lastName}`
-                    : "Unknown Athlete";
+            statusClass =
+                isBetter
+                    ? "pb-text"
+                    : "recorded-text";
+
+            differenceText =
+                isBetter
+                    ? `${formatResult(difference, test.unit)} improvement`
+                    : `${formatResult(difference, test.unit)} from best`;
+        }
+
+    }
+
+    container.innerHTML = `
+
+        <div class="overview-athlete">
+
+            <div class="avatar">
+                ${escapeHtml(getInitials(getAthleteName(athlete)))}
+            </div>
+
+            <div>
+                <div class="overview-name">
+                    ${escapeHtml(getAthleteName(athlete))}
+                </div>
+
+                <div class="overview-team">
+                    ${escapeHtml(
+                        getTeamName(athlete) ||
+                        athlete.sport ||
+                        "No team assigned"
+                    )}
+                </div>
+            </div>
+
+        </div>
 
 
-            const date =
-                formatDate(
-                    test.date
+        <div class="result-box">
+
+            <div class="result-label">
+                Current Result
+            </div>
+
+            <div class="result-value">
+
+                ${
+                    currentResult !== null &&
+                    Number.isFinite(currentResult)
+                        ? formatResult(
+                            currentResult,
+                            test.unit
+                        )
+                        : "—"
+                }
+
+                ${
+                    currentResult !== null &&
+                    Number.isFinite(currentResult)
+                        ? `<span>${escapeHtml(test.unit)}</span>`
+                        : ""
+                }
+
+            </div>
+
+        </div>
+
+
+        <div class="overview-list">
+
+            <div class="overview-row">
+
+                <span>Test</span>
+
+                <span>
+                    ${escapeHtml(test.name)}
+                </span>
+
+            </div>
+
+
+            <div class="overview-row">
+
+                <span>Previous Best</span>
+
+                <span>
+                    ${
+                        previousBest !== null
+                            ? `${formatResult(previousBest, test.unit)} ${escapeHtml(test.unit)}`
+                            : "No previous result"
+                    }
+                </span>
+
+            </div>
+
+
+            <div class="overview-row">
+
+                <span>Status</span>
+
+                <span class="${statusClass}">
+                    ${escapeHtml(statusText)}
+                </span>
+
+            </div>
+
+
+            <div class="overview-row">
+
+                <span>Comparison</span>
+
+                <span>
+                    ${escapeHtml(differenceText)}
+                </span>
+
+            </div>
+
+
+            <div class="overview-row">
+
+                <span>Recorded Attempts</span>
+
+                <span>
+                    ${
+                        document.getElementById("attemptsInput")?.value ||
+                        "1"
+                    }
+                </span>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   PERSONAL BEST
+========================================================= */
+
+function getPersonalBest(records, test) {
+
+    if (!records.length) {
+        return null;
+    }
+
+    const values =
+        records
+            .map(record => Number(record.result))
+            .filter(value => Number.isFinite(value));
+
+    if (!values.length) {
+        return null;
+    }
+
+    return test.lowerBetter
+        ? Math.min(...values)
+        : Math.max(...values);
+}
+
+
+/* =========================================================
+   SAVE TEST
+========================================================= */
+
+function saveTest() {
+
+    const athlete =
+        getSelectedAthlete();
+
+    const test =
+        getSelectedTest();
+
+    if (!athlete) {
+
+        showToast(
+            "Please select an athlete.",
+            "error"
+        );
+
+        return;
+    }
+
+    if (!test) {
+
+        showToast(
+            "Please select a test.",
+            "error"
+        );
+
+        return;
+    }
+
+    const resultInput =
+        document.getElementById("resultInput");
+
+    const result =
+        Number(resultInput.value);
+
+    if (
+        resultInput.value === "" ||
+        !Number.isFinite(result) ||
+        result < 0
+    ) {
+
+        showToast(
+            "Enter a valid measured result.",
+            "error"
+        );
+
+        resultInput.focus();
+
+        return;
+    }
+
+    const date =
+        document.getElementById("testDate").value;
+
+    if (!date) {
+
+        showToast(
+            "Please select the testing date.",
+            "error"
+        );
+
+        return;
+    }
+
+    const attempts =
+        Number(
+            document.getElementById("attemptsInput").value
+        ) || 1;
+
+    const protocol =
+        document.getElementById("protocol").value.trim();
+
+    const coachRating =
+        document.getElementById("coachRating").value;
+
+    const notes =
+        document.getElementById("notes").value.trim();
+
+    /*
+     * Find previous records BEFORE saving.
+     */
+    const previousRecords =
+        tests.filter(
+            item =>
+                String(item.athleteId) ===
+                String(athlete.id) &&
+                item.category === selectedCategory &&
+                item.testName === test.name
+        );
+
+    const previousBest =
+        getPersonalBest(
+            previousRecords,
+            test
+        );
+
+    const isPersonalBest =
+        previousBest === null
+            ? true
+            : (
+                test.lowerBetter
+                    ? result < previousBest
+                    : result > previousBest
+            );
+
+    const record = {
+
+        id:
+            `test_${Date.now()}_${Math.random()
+                .toString(36)
+                .slice(2, 8)}`,
+
+        athleteId:
+            String(athlete.id),
+
+        athleteName:
+            getAthleteName(athlete),
+
+        teamId:
+            athlete.teamId || "",
+
+        teamName:
+            getTeamName(athlete),
+
+        sport:
+            athlete.sport || "",
+
+        category:
+            selectedCategory,
+
+        categoryLabel:
+            testConfig[selectedCategory].label,
+
+        testName:
+            test.name,
+
+        result:
+            result,
+
+        unit:
+            test.unit,
+
+        lowerBetter:
+            test.lowerBetter,
+
+        protocol:
+            protocol,
+
+        attempts:
+            attempts,
+
+        coachRating:
+            coachRating,
+
+        notes:
+            notes,
+
+        date:
+            date,
+
+        personalBest:
+            isPersonalBest,
+
+        previousBest:
+            previousBest,
+
+        createdAt:
+            new Date().toISOString()
+    };
+
+    tests.push(record);
+
+    saveTests();
+
+    /*
+     * Only update the athlete's actual last test date.
+     *
+     * We deliberately DO NOT create an artificial
+     * performance score or automatically change status.
+     */
+    updateAthleteLastTest(
+        athlete,
+        date
+    );
+
+    showToast(
+        isPersonalBest
+            ? "Test saved — new personal best recorded."
+            : "Test result saved successfully.",
+        "success"
+    );
+
+    resetForm(false);
+
+    renderStats();
+    renderHistory();
+    renderOverview();
+
+    window.dispatchEvent(
+        new StorageEvent(
+            "storage",
+            {
+                key: TESTS_KEY,
+                newValue: JSON.stringify(tests)
+            }
+        )
+    );
+}
+
+
+/* =========================================================
+   ATHLETE LAST TEST
+========================================================= */
+
+function updateAthleteLastTest(
+    athlete,
+    date
+) {
+
+    const index =
+        athletes.findIndex(
+            item =>
+                String(item.id) ===
+                String(athlete.id)
+        );
+
+    if (index === -1) return;
+
+    athletes[index].lastTest = date;
+    athletes[index].updatedAt =
+        new Date().toISOString();
+
+    saveAthletes();
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetForm(
+    clearAthlete = false
+) {
+
+    const result =
+        document.getElementById("resultInput");
+
+    const attempts =
+        document.getElementById("attemptsInput");
+
+    const protocol =
+        document.getElementById("protocol");
+
+    const notes =
+        document.getElementById("notes");
+
+    const rating =
+        document.getElementById("coachRating");
+
+    if (result) result.value = "";
+    if (attempts) attempts.value = "1";
+    if (protocol) protocol.value = "";
+    if (notes) notes.value = "";
+    if (rating) rating.value = "";
+
+    setDefaultDate();
+    renderOverview();
+
+    if (clearAthlete) {
+        selectedAthleteId = "";
+    }
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function renderStats() {
+
+    const testsRecorded =
+        document.getElementById("testsRecordedStat");
+
+    const personalBests =
+        document.getElementById("personalBestsStat");
+
+    const athletesTested =
+        document.getElementById("athletesTestedStat");
+
+    const categoriesTested =
+        document.getElementById("categoriesTestedStat");
+
+    if (!testsRecorded) return;
+
+    testsRecorded.textContent =
+        tests.length;
+
+    personalBests.textContent =
+        tests.filter(
+            item => item.personalBest === true
+        ).length;
+
+    athletesTested.textContent =
+        new Set(
+            tests.map(
+                item => String(item.athleteId)
+            )
+        ).size;
+
+    categoriesTested.textContent =
+        new Set(
+            tests.map(
+                item => item.category
+            )
+        ).size;
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderHistory() {
+
+    const body =
+        document.getElementById("historyBody");
+
+    if (!body) return;
+
+    const searchInput =
+        document.getElementById("historySearch");
+
+    const search =
+        (
+            searchInput?.value ||
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+    let filtered =
+        [...tests];
+
+    if (search) {
+
+        filtered =
+            filtered.filter(record => {
+
+                const haystack =
+                    [
+                        record.athleteName,
+                        record.testName,
+                        record.categoryLabel,
+                        record.teamName
+                    ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
+
+                return haystack.includes(search);
+            });
+    }
+
+    filtered.sort(
+        (a, b) => {
+
+            const dateA =
+                new Date(
+                    a.date ||
+                    a.createdAt ||
+                    0
                 );
 
-
-            const category =
-                capitalize(
-                    test.category
+            const dateB =
+                new Date(
+                    b.date ||
+                    b.createdAt ||
+                    0
                 );
 
+            return dateB - dateA;
+        }
+    );
 
-            const status =
-                test.personalBest
-                    ? `<span class="pb">NEW PB</span>`
-                    : test.score >= 80
-                        ? `<span class="improved">Improved</span>`
-                        : `<span class="monitor">Monitor</span>`;
+    if (!filtered.length) {
 
+        body.innerHTML = `
 
-            return `
+            <tr>
+
+                <td colspan="7">
+
+                    <div class="table-empty">
+
+                        <strong>
+                            No testing records
+                        </strong>
+
+                        ${
+                            search
+                                ? "No records match your search."
+                                : "Nothing has been recorded yet."
+                        }
+
+                    </div>
+
+                </td>
+
+            </tr>
+        `;
+
+        return;
+    }
+
+    body.innerHTML =
+        filtered
+            .map(record => `
 
                 <tr>
 
                     <td>
-                        ${date}
+                        ${formatDate(record.date)}
                     </td>
 
                     <td>
-                        <span class="test-name">
-                            ${escapeHTML(
-                                athleteName
+                        <strong>
+                            ${escapeHtml(
+                                record.athleteName ||
+                                "Unknown Athlete"
                             )}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.testName ||
+                            "Test"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            record.categoryLabel ||
+                            record.category ||
+                            "—"
+                        )}
+                    </td>
+
+                    <td class="result-cell">
+
+                        ${formatResult(
+                            record.result,
+                            record.unit
+                        )}
+
+                        <span style="color:#687580;font-weight:600;">
+                            ${escapeHtml(record.unit || "")}
                         </span>
+
                     </td>
 
                     <td>
-                        <span class="test-name">
-                            ${escapeHTML(
-                                test.test
-                            )}
-                        </span>
+
+                        ${
+                            record.personalBest
+                                ? `
+                                    <span class="pb-badge">
+                                        Personal Best
+                                    </span>
+                                `
+                                : `
+                                    <span class="recorded-badge">
+                                        Recorded
+                                    </span>
+                                `
+                        }
+
                     </td>
 
                     <td>
-                        ${category}
-                    </td>
 
-                    <td>
-                        <span class="result">
-                            ${formatResult(
-                                test.result,
-                                test.unit
-                            )}
-                        </span>
-                    </td>
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-small"
+                            data-delete-test="${escapeHtml(String(record.id))}"
+                        >
+                            Delete
+                        </button>
 
-                    <td>
-                        <span class="score-small">
-                            ${test.score}/100
-                        </span>
-                    </td>
-
-                    <td>
-                        ${status}
                     </td>
 
                 </tr>
 
-            `;
+            `)
+            .join("");
+}
 
-        }
 
+/* =========================================================
+   DELETE TEST
+========================================================= */
 
-        /* ==================================================
-           HELPERS
-        ================================================== */
+function deleteTest(id) {
 
-        function getAthlete(id) {
-
-            return athletes.find(
-                athlete =>
-                    String(athlete.id)
-                    ===
-                    String(id)
-            );
-
-        }
-
-
-        function formatDate(
-            dateString
-        ) {
-
-            const date =
-                new Date(
-                    `${dateString}T00:00:00`
-                );
-
-
-            if (
-                Number.isNaN(
-                    date.getTime()
-                )
-            ) {
-
-                return dateString;
-
-            }
-
-
-            return date.toLocaleDateString(
-                "en-ZA",
-                {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric"
-                }
-            );
-
-        }
-
-
-        function formatResult(
-            result,
-            unit
-        ) {
-
-            const number =
-                Number(result);
-
-
-            if (unit === "seconds") {
-
-                return `${number.toFixed(2)}s`;
-
-            }
-
-
-            if (unit === "metres") {
-
-                return `${number.toFixed(2)}m`;
-
-            }
-
-
-            if (unit === "reps") {
-
-                return `${number} reps`;
-
-            }
-
-
-            if (unit === "level") {
-
-                return `Level ${number}`;
-
-            }
-
-
-            return number;
-
-        }
-
-
-        function capitalize(
-            text
-        ) {
-
-            return text.charAt(0)
-                .toUpperCase()
-                +
-                text.slice(1);
-
-        }
-
-
-        function escapeHTML(
-            text
-        ) {
-
-            return String(text)
-                .replace(
-                    /&/g,
-                    "&amp;"
-                )
-                .replace(
-                    /</g,
-                    "&lt;"
-                )
-                .replace(
-                    />/g,
-                    "&gt;"
-                )
-                .replace(
-                    /"/g,
-                    "&quot;"
-                )
-                .replace(
-                    /'/g,
-                    "&#039;"
-                );
-
-        }
-
-
-        /* ==================================================
-           RESET
-        ================================================== */
-
-        function resetResultFields() {
-
-            document.getElementById(
-                "testResult"
-            ).value = "";
-
-
-            document.getElementById(
-                "attempts"
-            ).value = "1";
-
-
-            document.getElementById(
-                "testNotes"
-            ).value = "";
-
-
-            setScorePreview(
-                null
-            );
-
-            setToday();
-
-        }
-
-
-        function resetTestForm() {
-
-            resetResultFields();
-
-            showToast(
-                "Test fields cleared.",
-                "success"
-            );
-
-        }
-
-
-        /* ==================================================
-           SUCCESS MODAL
-        ================================================== */
-
-        function showSuccessModal(
-            test,
-            personalBest
-        ) {
-
-            const athlete =
-                selectedAthlete;
-
-
-            const athleteName =
-                `${athlete.firstName} ${athlete.lastName}`;
-
-
-            const message =
-                personalBest
-
-                    ? `Excellent! ${athleteName}'s ${test.test} result of ${formatResult(test.result, test.unit)} was saved with a score of ${test.score}/100 and recorded as a new personal best.`
-
-                    : `${athleteName}'s ${test.test} result of ${formatResult(test.result, test.unit)} was saved successfully with a score of ${test.score}/100.`;
-
-
-            document.getElementById(
-                "successMessage"
-            ).textContent =
-                message;
-
-
-            document.getElementById(
-                "successModal"
-            ).classList.add(
-                "show"
-            );
-
-        }
-
-
-        function closeSuccessModal() {
-
-            document.getElementById(
-                "successModal"
-            ).classList.remove(
-                "show"
-            );
-
-        }
-
-
-        function viewAthleteProfile() {
-
-            if (!lastSavedAthleteId) return;
-
-
-            window.location.href =
-                `athlete-profile.html?id=${lastSavedAthleteId}`;
-
-        }
-
-
-        /* ==================================================
-           SIDEBAR
-        ================================================== */
-
-        function toggleSidebar() {
-
-            document
-                .getElementById(
-                    "sidebar"
-                )
-                .classList.toggle(
-                    "open"
-                );
-
-        }
-
-
-        /* ==================================================
-           TOAST
-        ================================================== */
-
-        function showToast(
-            message,
-            type = "success"
-        ) {
-
-            const toast =
-                document.getElementById(
-                    "toast"
-                );
-
-
-            toast.textContent =
-                message;
-
-
-            toast.className =
-                `toast ${type} show`;
-
-
-            setTimeout(
-                () => {
-
-                    toast.classList.remove(
-                        "show"
-                    );
-
-                },
-                2800
-            );
-
-        }
-
-
-        /* ==================================================
-           CLOSE MODAL OUTSIDE
-        ================================================== */
-
-        document
-            .getElementById(
-                "successModal"
-            )
-            .addEventListener(
-                "click",
-                function(event) {
-
-                    if (
-                        event.target
-                        ===
-                        this
-                    ) {
-
-                        closeSuccessModal();
-
-                    }
-
-                }
-            );
-
-
-        /* ==================================================
-           ESCAPE
-        ================================================== */
-
-        document.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (
-                    event.key
-                    ===
-                    "Escape"
-                ) {
-
-                    closeSuccessModal();
-
-                }
-
-            }
+    const record =
+        tests.find(
+            item =>
+                String(item.id) ===
+                String(id)
         );
 
-    </script>
+    if (!record) return;
+
+    const confirmed =
+        window.confirm(
+            `Delete the ${record.testName} result for ${record.athleteName}?`
+        );
+
+    if (!confirmed) return;
+
+    tests =
+        tests.filter(
+            item =>
+                String(item.id) !==
+                String(id)
+        );
+
+    /*
+     * Recalculate PB status for all records of the
+     * affected athlete/test after deletion.
+     */
+    recalculatePersonalBests(
+        record.athleteId,
+        record.category,
+        record.testName
+    );
+
+    saveTests();
+
+    renderStats();
+    renderHistory();
+    renderOverview();
+
+    showToast(
+        "Testing record deleted.",
+        "success"
+    );
+}
+
+
+/* =========================================================
+   RECALCULATE PERSONAL BESTS
+========================================================= */
+
+function recalculatePersonalBests(
+    athleteId,
+    category,
+    testName
+) {
+
+    const testDefinition =
+        testConfig[category]?.tests.find(
+            item =>
+                item.name === testName
+        );
+
+    if (!testDefinition) return;
+
+    const relevant =
+        tests
+            .filter(
+                item =>
+                    String(item.athleteId) ===
+                    String(athleteId) &&
+                    item.category === category &&
+                    item.testName === testName
+            )
+            .sort(
+                (a, b) => {
+
+                    const dateA =
+                        new Date(
+                            a.date ||
+                            a.createdAt ||
+                            0
+                        );
+
+                    const dateB =
+                        new Date(
+                            b.date ||
+                            b.createdAt ||
+                            0
+                        );
+
+                    return (
+                        dateA - dateB
+                    );
+                }
+            );
+
+    let best = null;
+
+    relevant.forEach(record => {
+
+        const value =
+            Number(record.result);
+
+        const isBest =
+            best === null ||
+            (
+                testDefinition.lowerBetter
+                    ? value < best
+                    : value > best
+            );
+
+        record.personalBest =
+            isBest;
+
+        record.previousBest =
+            best;
+
+        if (isBest) {
+            best = value;
+        }
+
+    });
+}
+
+
+/* =========================================================
+   CLEAR HISTORY
+========================================================= */
+
+function clearHistory() {
+
+    if (!tests.length) {
+
+        showToast(
+            "There are no testing records to clear.",
+            "error"
+        );
+
+        return;
+    }
+
+    const confirmed =
+        window.confirm(
+            "This will permanently remove all testing records from Athlete360. Continue?"
+        );
+
+    if (!confirmed) return;
+
+    tests = [];
+
+    saveTests();
+
+    renderStats();
+    renderHistory();
+    renderOverview();
+
+    showToast(
+        "Testing history cleared.",
+        "success"
+    );
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function formatDate(dateString) {
+
+    if (!dateString) {
+        return "—";
+    }
+
+    const date =
+        new Date(
+            `${dateString}T00:00:00`
+        );
+
+    if (Number.isNaN(date.getTime())) {
+        return dateString;
+    }
+
+    return date.toLocaleDateString(
+        "en-ZA",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+}
+
+
+function formatResult(
+    value,
+    unit
+) {
+
+    const number =
+        Number(value);
+
+    if (!Number.isFinite(number)) {
+        return "—";
+    }
+
+    /*
+     * Keep whole-number tests clean.
+     */
+    if (
+        unit === "reps" ||
+        unit === "sec" && Number.isInteger(number) ||
+        unit === "level"
+    ) {
+
+        return Number.isInteger(number)
+            ? String(number)
+            : number.toFixed(2);
+    }
+
+    return number.toFixed(2);
+}
+
+
+function getInitials(name) {
+
+    const parts =
+        String(name)
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean);
+
+    if (!parts.length) {
+        return "?";
+    }
+
+    if (parts.length === 1) {
+        return parts[0]
+            .slice(0, 2)
+            .toUpperCase();
+    }
+
+    return (
+        parts[0][0] +
+        parts[parts.length - 1][0]
+    ).toUpperCase();
+}
+
+
+function escapeHtml(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+let toastTimer = null;
+
+function showToast(
+    message,
+    type = "success"
+) {
+
+    const toast =
+        document.getElementById("toast");
+
+    if (!toast) return;
+
+    toast.textContent =
+        message;
+
+    toast.className =
+        `toast show ${type}`;
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+        setTimeout(
+            () => {
+                toast.className = "toast";
+            },
+            3200
+        );
+}
+
+</script>
 
 </body>
 </html>
